@@ -101,6 +101,24 @@ def get_exchanges() -> list[dict]:
         return []
 
 
+def _fetch_all_instrument_ids_from_closing_prices() -> list[int]:
+    """
+    Doc eToro : GET /api/v1/market-data/instruments/history/closing-price
+    Retourne la liste de TOUS les instruments (avec instrumentId).
+    """
+    url = f"{BASE_URL}/market-data/instruments/history/closing-price"
+    try:
+        resp = requests.get(url, headers=_get_headers(), timeout=60)
+        if resp.status_code != 200:
+            return []
+        data = resp.json()
+        if not isinstance(data, list):
+            return []
+        return [int(item["instrumentId"]) for item in data if item.get("instrumentId") is not None]
+    except Exception:
+        return []
+
+
 def _fetch_instruments_by_exchange(exchange_id, exchange_name: str) -> list[dict]:
     """Récupère les instruments d'une place de marché."""
     url = f"{BASE_URL}/market-data/exchanges/{exchange_id}/instruments"
@@ -203,8 +221,12 @@ def _get_instruments_metadata(instrument_ids: list) -> dict:
                 or item.get("displayName")
                 or item.get("displayname")
             )
-            if sym or disp:
-                result[iid] = {"symbol": sym or "", "displayname": disp or ""}
+            result[iid] = {
+                "symbol": sym or "",
+                "displayname": disp or "",
+                "instrumentTypeId": item.get("instrumentTypeId") or item.get("instrumentTypeID"),
+                "exchangeId": item.get("exchangeId") or item.get("exchangeID"),
+            }
         return result
     except Exception:
         return {}
@@ -233,10 +255,57 @@ def _get_single_instrument_legacy(instrument_id) -> dict | None:
         return None
 
 
+# Type IDs eToro (doc) : Stocks=-5, ETF=-6. Exclure : Crypto=-10, Currencies=-1, Commodities=-2, Indices=-4
+_STOCK_ETF_TYPE_IDS = {-5, -6}
+
+
+def get_stocks_by_id_range(id_min: int, id_max: int) -> list[dict]:
+    """
+    Récupère les instruments eToro (stocks/ETF) dont l'ID est entre id_min et id_max (inclus).
+    Utile pour récupérer en plusieurs étapes (ex. 1001-1010, puis 1011-1020...).
+    """
+    stocks = []
+    ids = list(range(id_min, id_max + 1))
+    if not ids:
+        return stocks
+    try:
+        exchange_map = {e["exchangeId"]: (e.get("name") or f"Exchange {e['exchangeId']}") for e in get_exchanges()}
+        for i in range(0, len(ids), 200):
+            batch = ids[i : i + 200]
+            meta = _get_instruments_metadata(batch)
+            for iid in batch:
+                m = meta.get(iid)
+                if not m:
+                    stocks.append({"instrumentId": iid, "symbol": str(iid), "displayname": str(iid), "exchange": "N/A"})
+                    continue
+                type_id = m.get("instrumentTypeId")
+                if type_id is not None and type_id not in _STOCK_ETF_TYPE_IDS:
+                    continue
+                sym = m.get("symbol") or str(iid)
+                disp = m.get("displayname") or sym
+                ex_id = m.get("exchangeId")
+                exchange = exchange_map.get(ex_id, "N/A") if ex_id is not None else "N/A"
+                stocks.append({"instrumentId": iid, "symbol": sym, "displayname": disp, "exchange": exchange})
+        # Legacy pour symbol/nom manquants
+        for s in stocks:
+            iid = s["instrumentId"]
+            if str(s.get("symbol", "")) == str(iid) or str(s.get("displayname", "")) == str(iid):
+                m = _get_single_instrument_legacy(iid)
+                if m:
+                    if m.get("symbol"):
+                        s["symbol"] = m["symbol"]
+                    if m.get("displayname"):
+                        s["displayname"] = m["displayname"]
+                time.sleep(0.05)
+    except Exception:
+        pass
+    return stocks
+
+
 def get_all_stocks(max_pages: int = 50) -> list:
     """
     Récupère toutes les actions disponibles sur eToro.
-    Combine search API + instruments par place de marché pour maximiser le nombre.
+    Combine : closing-price (tous les instruments), search (pageSize/pageNumber), exchanges.
     Inclut stocks/equities, exclut crypto, forex, commodities.
     """
     stocks = []
@@ -253,6 +322,30 @@ def get_all_stocks(max_pages: int = 50) -> list:
             "exchange": exchange,
         })
 
+    # 0. Doc eToro : closing-price retourne TOUS les instruments → IDs >= 1001, enrichis par metadata
+    try:
+        all_ids = _fetch_all_instrument_ids_from_closing_prices()
+        ids_ge_1001 = sorted(i for i in all_ids if i >= 1001)
+        exchange_map = {e["exchangeId"]: (e.get("name") or f"Exchange {e['exchangeId']}") for e in get_exchanges()}
+        for i in range(0, len(ids_ge_1001), 200):
+            batch = ids_ge_1001[i : i + 200]
+            meta = _get_instruments_metadata(batch)
+            for iid in batch:
+                m = meta.get(iid)
+                if not m:
+                    _add_item(iid, str(iid), str(iid), "N/A")
+                    continue
+                type_id = m.get("instrumentTypeId")
+                if type_id is not None and type_id not in _STOCK_ETF_TYPE_IDS:
+                    continue
+                sym = m.get("symbol") or str(iid)
+                disp = m.get("displayname") or sym
+                ex_id = m.get("exchangeId")
+                exchange = exchange_map.get(ex_id, "N/A") if ex_id is not None else "N/A"
+                _add_item(iid, sym, disp, exchange)
+    except Exception:
+        pass
+
     # 1. Récupérer par place de marché (donne beaucoup plus d'instruments)
     try:
         exchanges = get_exchanges()
@@ -266,7 +359,7 @@ def get_all_stocks(max_pages: int = 50) -> list:
     except Exception:
         pass
 
-    # 2. Compléter avec l'API search (au cas où des instruments manquent)
+    # 2. Compléter avec l'API search (pagination jusqu'à plus de résultats)
     url = f"{BASE_URL}/market-data/search"
     exclude_keywords = ("crypto", "forex", "fx", "commodity", "commodities", "currency", "index")
     try:
@@ -323,9 +416,7 @@ def get_all_stocks(max_pages: int = 50) -> list:
                     or "N/A"
                 )
                 _add_item(iid, symbol, displayname, exchange)
-            total = data.get("totalItems") or data.get("totalitems") or 0
-            if total and page * page_size >= total:
-                break
+            # Ne pas s'arrêter sur totalItems : continuer tant qu'on reçoit des items (plus d'instruments, dont ID > 1001)
             page += 1
     except Exception:
         pass

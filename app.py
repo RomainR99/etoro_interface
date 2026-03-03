@@ -286,6 +286,7 @@ def api_all_stocks():
     """Retourne toutes les actions disponibles avec numérotation."""
     try:
         stocks = get_all_stocks(max_pages=50)
+        stocks = [s for s in stocks if (s.get("instrumentId") or 0) >= 1001]
         numbered = [dict(n=i + 1, **s) for i, s in enumerate(stocks)]
         return jsonify({"stocks": numbered})
     except Exception as e:
