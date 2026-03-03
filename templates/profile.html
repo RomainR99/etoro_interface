@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil {{ username }} | eToro</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans&display=swap" rel="stylesheet"></noscript>
     <style>
         :root {
             --bg: #0d1117;
@@ -23,7 +24,7 @@
             box-sizing: border-box;
         }
         body {
-            font-family: 'DM Sans', system-ui, sans-serif;
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
@@ -68,7 +69,7 @@
         }
         .username {
             color: var(--muted);
-            font-family: 'JetBrains Mono', monospace;
+            font-family: ui-monospace, monospace;
             font-size: 1rem;
         }
         .badge {
@@ -118,7 +119,7 @@
             border-top: 1px solid var(--border);
         }
         .stat-label { color: var(--muted); }
-        .stat-value { font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+        .stat-value { font-family: ui-monospace, monospace; font-weight: 500; }
         .stat-value.positive { color: var(--success); }
         .stat-value.negative { color: var(--danger); }
         .gain-list {

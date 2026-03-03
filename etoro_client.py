@@ -16,6 +16,7 @@ def _get_headers():
         "x-user-key": os.getenv("ETORO_USER_KEY"),
         "x-request-id": str(uuid.uuid4()),
         "Content-Type": "application/json",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
     }
 
 
