@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Récupère les instruments eToro par plage d'IDs et les exporte en CSV et JSON.
-Colonnes : n°, id, symbole.
+Colonnes : n°, id, symbole, nom.
 
 Usage (depuis la racine du projet) :
     python fetch_instruments/export_instruments.py              # 1001 à 1010 (défaut)
@@ -28,7 +28,7 @@ from etoro_client import get_stocks_by_id_range
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Export instruments eToro (n°, id, symbole) en CSV et JSON.")
+    parser = argparse.ArgumentParser(description="Export instruments eToro (n°, id, symbole, nom) en CSV et JSON.")
     parser.add_argument("id_min", type=int, nargs="?", default=1001, help="ID minimum (défaut: 1001)")
     parser.add_argument("id_max", type=int, nargs="?", default=1010, help="ID maximum (défaut: 1010)")
     args = parser.parse_args()
@@ -43,17 +43,22 @@ def main():
     print(f"Récupération des instruments eToro (ID {id_min} à {id_max})...")
     stocks = get_stocks_by_id_range(id_min, id_max)
 
-    # Format : n°, id, symbole
+    # Format : n°, id, symbole, nom
     rows = [
-        {"n": i + 1, "id": s["instrumentId"], "symbole": s.get("symbol") or str(s["instrumentId"])}
+        {
+            "n": i + 1,
+            "id": s["instrumentId"],
+            "symbole": s.get("symbol") or str(s["instrumentId"]),
+            "nom": s.get("displayname") or s.get("symbol") or str(s["instrumentId"]),
+        }
         for i, s in enumerate(stocks)
     ]
 
-    # CSV : n°, id, symbole (UTF-8 avec BOM pour Excel)
+    # CSV : n°, id, symbole, nom (UTF-8 avec BOM pour Excel)
     with open(csv_path, "w", newline="", encoding="utf-8-sig") as f:
         w = csv.writer(f)
-        w.writerow(["n°", "id", "symbole"])
-        w.writerows([[r["n"], r["id"], r["symbole"]] for r in rows])
+        w.writerow(["n°", "id", "symbole", "nom"])
+        w.writerows([[r["n"], r["id"], r["symbole"], r["nom"]] for r in rows])
 
     # JSON
     with open(json_path, "w", encoding="utf-8") as f:
