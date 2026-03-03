@@ -8,6 +8,7 @@ from etoro_client import (
     get_user_portfolio,
     get_most_copied_traders,
     get_instruments_by_exchange,
+    get_all_stocks,
 )
 
 try:
@@ -280,6 +281,17 @@ def api_instruments_by_exchange():
         return jsonify({"error": str(e)}), 500
 
 
+@app.route("/api/all-stocks")
+def api_all_stocks():
+    """Retourne toutes les actions disponibles avec numérotation."""
+    try:
+        stocks = get_all_stocks(max_pages=50)
+        numbered = [dict(n=i + 1, **s) for i, s in enumerate(stocks)]
+        return jsonify({"stocks": numbered})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 @app.route("/api/chart-data")
 def api_chart_data():
     """Retourne les données du graphique pour les traders sélectionnés."""
@@ -306,4 +318,4 @@ def health():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000, host="127.0.0.1")
+    app.run(debug=True, port=5001, host="127.0.0.1")

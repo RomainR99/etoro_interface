@@ -49,7 +49,7 @@ Les clés se génèrent dans **Paramètres > Trading > Gestion des clés API** s
 python app.py
 ```
 
-Ouvrir [http://127.0.0.1:5000](http://127.0.0.1:5000) dans le navigateur.
+Ouvrir [http://127.0.0.1:5001](http://127.0.0.1:5001) dans le navigateur.
 
 ## Structure
 
