@@ -206,19 +206,6 @@
             padding: 0 0.15rem;
         }
         .added-traders .remove:hover { opacity: 0.8; }
-        .instruments-container { max-height: 600px; overflow-y: auto; }
-        .exchange-block { margin-bottom: 0.75rem; border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 1rem; }
-        .exchange-block summary { cursor: pointer; font-weight: 600; color: var(--text); }
-        .instruments-grid { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.75rem; font-size: 0.8rem; }
-        .instrument-item { background: var(--card); padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid var(--border); }
-        .instrument-item small { color: var(--muted); margin-left: 0.25rem; }
-        .instrument-more { color: var(--muted); font-style: italic; }
-        .stocks-table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; font-size: 0.85rem; }
-        .stocks-table th, .stocks-table td { padding: 0.35rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
-        .stocks-table th { color: var(--muted); font-weight: 600; }
-        .stock-num { color: var(--muted); width: 3rem; }
-        .stock-id { color: var(--muted); font-family: ui-monospace, monospace; }
-        .stock-name { max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
         a {
             color: var(--accent);
             text-decoration: none;
@@ -447,59 +434,9 @@
             initChart();
         </script>
 
-        <div class="card" style="margin-top: 1.5rem; grid-column: 1 / -1;">
-            <h2>Actions disponibles sur eToro</h2>
-            <p class="empty-state" style="margin-bottom: 1rem;">Liste numérotée de toutes les actions par place de marché</p>
-            <button type="button" id="loadStocksBtn" style="margin-bottom: 1rem;">Charger toutes les actions</button>
-            <div id="stocksList" class="instruments-container"></div>
-        </div>
-
         <p style="margin-top: 2rem; color: var(--muted); font-size: 0.85rem;">
             Données via <a href="https://api-portal.etoro.com/" target="_blank" rel="noopener">API eToro</a>
         </p>
     </div>
-    <script>
-        (function() {
-            var btn = document.getElementById('loadStocksBtn');
-            var list = document.getElementById('stocksList');
-            if (!btn || !list) return;
-            btn.addEventListener('click', async function() {
-                btn.disabled = true;
-                btn.textContent = 'Chargement (peut prendre 30 s)...';
-                try {
-                    var r = await fetch('/api/all-stocks');
-                    var data = await r.json();
-                    if (data && data.error) throw new Error(data.error);
-                    var stocks = (data && data.stocks) ? data.stocks : [];
-                    if (stocks.length === 0) {
-                        list.innerHTML = '<p class="empty-state">Aucune action trouvée</p>';
-                    } else {
-                        var byExchange = {};
-                        stocks.forEach(function(s) {
-                            var ex = s.exchange || 'Autre';
-                            if (!byExchange[ex]) byExchange[ex] = [];
-                            byExchange[ex].push(s);
-                        });
-                        list.innerHTML = Object.keys(byExchange).sort().map(function(exchange) {
-                            var items = byExchange[exchange];
-                            var rows = items.map(function(s) {
-                                var num = s.n;
-                                var sym = s.symbol || s.displayname || s.instrumentId || '-';
-                                var name = (s.displayname || s.symbol || '').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-                                var disp = s.displayname || s.symbol || s.instrumentId || '-';
-                                return '<tr><td class="stock-num">' + num + '</td><td>' + sym + '</td><td class="stock-name" title="' + name + '">' + disp + '</td><td class="stock-id">' + (s.instrumentId || '') + '</td></tr>';
-                            }).join('');
-                            return '<details class="exchange-block" open><summary><strong>' + exchange + '</strong> (' + items.length + ' actions)</summary><table class="stocks-table"><thead><tr><th>N°</th><th>Symbole</th><th>Nom</th><th>ID</th></tr></thead><tbody>' + rows + '</tbody></table></details>';
-                        }).join('');
-                    }
-                    btn.textContent = 'Actualiser';
-                } catch (e) {
-                    list.innerHTML = '<p class="empty-state" style="color: var(--danger);">Erreur: ' + (e.message || 'Chargement impossible') + '</p>';
-                    btn.textContent = 'Réessayer';
-                }
-                btn.disabled = false;
-            });
-        })();
-    </script>
 </body>
 </html>
