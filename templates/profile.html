@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil {{ username }} | eToro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d1117;
+            --card: #161b22;
+            --border: #30363d;
+            --text: #e6edf3;
+            --muted: #8b949e;
+            --accent: #58a6ff;
+            --success: #3fb950;
+            --danger: #f85149;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'DM Sans', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--border);
+        }
+        .avatar-placeholder {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--card);
+            border: 3px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--muted);
+        }
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        .username {
+            color: var(--muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+        .badge-verified {
+            background: rgba(63, 185, 80, 0.2);
+            color: var(--success);
+        }
+        .badge-pi {
+            background: rgba(88, 166, 255, 0.2);
+            color: var(--accent);
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+        }
+        .card h2 {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            font-size: 0.95rem;
+        }
+        .stat-row + .stat-row {
+            border-top: 1px solid var(--border);
+        }
+        .stat-label { color: var(--muted); }
+        .stat-value { font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+        .stat-value.positive { color: var(--success); }
+        .stat-value.negative { color: var(--danger); }
+        .gain-list {
+            max-height: 360px;
+            overflow-y: auto;
+        }
+        .gain-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.4rem 0;
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .gain-item:last-child { border-bottom: none; }
+        .error-box {
+            background: rgba(248, 81, 73, 0.15);
+            border: 1px solid var(--danger);
+            color: #f87171;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+        .empty-state {
+            color: var(--muted);
+            font-size: 0.9rem;
+            padding: 1rem 0;
+        }
+        .chart-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .chart-controls label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+        .chart-controls select {
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.5rem 2rem 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            min-width: 220px;
+        }
+        .chart-controls input[type="checkbox"] {
+            accent-color: var(--accent);
+        }
+        .chart-controls button {
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .chart-controls button:hover { opacity: 0.9; }
+        .added-traders {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+        .added-traders span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+        .added-traders .remove {
+            cursor: pointer;
+            color: var(--danger);
+            padding: 0 0.15rem;
+        }
+        .added-traders .remove:hover { opacity: 0.8; }
+        .instruments-container { max-height: 600px; overflow-y: auto; }
+        .exchange-block { margin-bottom: 0.75rem; border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 1rem; }
+        .exchange-block summary { cursor: pointer; font-weight: 600; color: var(--text); }
+        .instruments-grid { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.75rem; font-size: 0.8rem; }
+        .instrument-item { background: var(--card); padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid var(--border); }
+        .instrument-item small { color: var(--muted); margin-left: 0.25rem; }
+        .instrument-more { color: var(--muted); font-style: italic; }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            {% if profile and profile.avatars and profile.avatars|length > 0 %}
+                {% set avatar_url = profile.avatars[-1].url if profile.avatars[-1].url else profile.avatars[0].url %}
+                <img src="{{ avatar_url }}" alt="{{ username }}" class="avatar">
+            {% else %}
+                <div class="avatar-placeholder">{{ username[0]|upper }}</div>
+            {% endif %}
+            <div>
+                <h1>{{ username }}</h1>
+                <p class="username">@{{ username }}</p>
+                {% if profile %}
+                    {% if profile.isVerified %}<span class="badge badge-verified">✓ Vérifié</span>{% endif %}
+                    {% if profile.isPi %}<span class="badge badge-pi">Pro Investor</span>{% endif %}
+                {% endif %}
+            </div>
+        </header>
+
+        {% if not profile and not gain and not portfolio %}
+            <div class="error-box">
+                Impossible de charger les données. Vérifiez vos clés API (.env) et que le trader "{{ username }}" existe.
+            </div>
+        {% endif %}
+
+        <div class="grid">
+            <div class="card">
+                <h2>Performance en % — à partir de sept. 2022</h2>
+                {% if gain %}
+                    <div class="gain-list">
+                        {% if gain.monthly and gain.monthly|length > 0 %}
+                            {% for entry in (gain.monthly | reverse) %}
+                                <div class="gain-item">
+                                    <span>{{ entry.timestamp[:7] if entry.timestamp else '-' }}</span>
+                                    <span class="stat-value {{ 'positive' if entry.gain and entry.gain >= 0 else 'negative' }}">
+                                        {{ "%.2f"|format(entry.gain) if entry.gain is not none else '-' }}%
+                                    </span>
+                                </div>
+                            {% endfor %}
+                        {% elif gain.yearly and gain.yearly|length > 0 %}
+                            {% for entry in (gain.yearly | reverse) %}
+                                <div class="gain-item">
+                                    <span>{{ entry.timestamp[:4] if entry.timestamp else '-' }}</span>
+                                    <span class="stat-value {{ 'positive' if entry.gain and entry.gain >= 0 else 'negative' }}">
+                                        {{ "%.2f"|format(entry.gain) if entry.gain is not none else '-' }}%
+                                    </span>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p class="empty-state">Aucune donnée de gain</p>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <p class="empty-state">Données de performance non disponibles</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 1.5rem; grid-column: 1 / -1;">
+            <h2>Comparaison des performances</h2>
+            <p class="empty-state" style="margin-bottom: 1rem;">Évolution en % (base 100 à la date de départ)</p>
+            <div class="chart-controls">
+                <label>
+                    Ajouter une courbe :
+                    <select id="tradersSelect" size="12">
+                        <option value="">— Choisir un trader —</option>
+                        {% for t in most_copied_traders %}
+                        <option value="{{ t.userName }}">{{ t.userName }} ({{ t.copiers }} copieurs)</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <button type="button" id="addTraderBtn">Ajouter</button>
+                <label>
+                    <input type="checkbox" id="sp500Check" checked> S&P 500
+                </label>
+                <label>
+                    <input type="checkbox" id="ndqCheck"> NASDAQ 100
+                </label>
+                <label>
+                    <input type="checkbox" id="cac40trCheck"> CAC 40 TR
+                </label>
+                <label>
+                    <input type="checkbox" id="msciCheck"> MSCI World
+                </label>
+            </div>
+            <div class="added-traders" id="addedTraders"></div>
+            <div style="position: relative; height: 320px;">
+                <canvas id="performanceChart"></canvas>
+            </div>
+        </div>
+
+        {% if dca_labels and (dca_romainroth or dca_sp500) %}
+        <div class="card" style="margin-top: 1.5rem; grid-column: 1 / -1;">
+            <h2>Simulation DCA — {{ username }} vs S&P 500</h2>
+            <p class="empty-state" style="margin-bottom: 1rem;">1 000 $ au départ + 100 $/mois à la fin de chaque mois (à partir de sept. 2022)</p>
+            <div style="position: relative; height: 320px;">
+                <canvas id="dcaChart"></canvas>
+            </div>
+        </div>
+        {% endif %}
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+        <script>
+            const initialLabels = {{ chart_labels | default([]) | tojson }};
+            const initialDatasets = {{ chart_datasets | default([]) | tojson }};
+
+            function hexToRgba(hex, a) {
+                const r = parseInt(hex.slice(1,3), 16), g = parseInt(hex.slice(3,5), 16), b = parseInt(hex.slice(5,7), 16);
+                return `rgba(${r},${g},${b},${a})`;
+            }
+            function buildDataset(d) {
+                const bg = d.color.startsWith('#') ? hexToRgba(d.color, 0.1) : d.color.replace(')', ', 0.1)').replace('rgb', 'rgba');
+                return { label: d.label, data: d.data, borderColor: d.color, backgroundColor: bg, fill: true, tension: 0.3, pointRadius: 2 };
+            }
+
+            let chart = null;
+            function initChart() {
+                const ctx = document.getElementById('performanceChart').getContext('2d');
+                chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: initialLabels,
+                        datasets: initialDatasets.map(buildDataset)
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { labels: { color: '#8b949e' } } },
+                        scales: {
+                            x: { ticks: { color: '#8b949e', maxRotation: 45 }, grid: { color: '#30363d' } },
+                            y: { ticks: { color: '#8b949e' }, grid: { color: '#30363d' } }
+                        }
+                    }
+                });
+            }
+
+            let addedTraders = [];
+
+            function renderAddedTraders() {
+                const el = document.getElementById('addedTraders');
+                el.innerHTML = addedTraders.map(name => 
+                    `<span>${name} <span class="remove" data-name="${name}">×</span></span>`
+                ).join('');
+                el.querySelectorAll('.remove').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        addedTraders = addedTraders.filter(t => t !== btn.dataset.name);
+                        renderAddedTraders();
+                        updateChart();
+                    });
+                });
+            }
+
+            function updateChart() {
+                const includeSp500 = document.getElementById('sp500Check').checked;
+                const indices = [];
+                if (document.getElementById('ndqCheck').checked) indices.push('ndq');
+                if (document.getElementById('cac40trCheck').checked) indices.push('cac40tr');
+                if (document.getElementById('msciCheck').checked) indices.push('msci');
+                const params = new URLSearchParams({
+                    traders: addedTraders.join(','),
+                    sp500: includeSp500,
+                    indices: indices.join(',')
+                });
+                fetch('/api/chart-data?' + params)
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.error) throw new Error(data.error);
+                        chart.data.labels = data.labels;
+                        chart.data.datasets = data.datasets.map(buildDataset);
+                        chart.update();
+                    })
+                    .catch(err => console.error(err));
+            }
+
+            const dcaLabels = {{ dca_labels | default([]) | tojson }};
+            const dcaRomainroth = {{ dca_romainroth | default([]) | tojson }};
+            const dcaSp500 = {{ dca_sp500 | default([]) | tojson }};
+
+            const dcaCanvas = document.getElementById('dcaChart');
+            if (dcaCanvas && dcaLabels.length > 0 && (dcaRomainroth.length > 0 || dcaSp500.length > 0)) {
+                const ctx2 = dcaCanvas.getContext('2d');
+                const dcaDatasets = [];
+                if (dcaRomainroth.length) dcaDatasets.push({ label: '{{ username }}', data: dcaRomainroth, color: '#58a6ff' });
+                if (dcaSp500.length) dcaDatasets.push({ label: 'S&P 500', data: dcaSp500, color: '#8b949e' });
+                new Chart(ctx2, {
+                    type: 'line',
+                    data: {
+                        labels: dcaLabels,
+                        datasets: dcaDatasets.map(d => ({
+                            ...buildDataset(d),
+                            borderColor: d.color,
+                            backgroundColor: d.color.startsWith('#') ? hexToRgba(d.color, 0.1) : 'rgba(139,148,158,0.1)'
+                        }))
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { labels: { color: '#8b949e' } } },
+                        scales: {
+                            x: { ticks: { color: '#8b949e', maxRotation: 45 }, grid: { color: '#30363d' } },
+                            y: { ticks: { color: '#8b949e', callback: v => typeof v === 'number' ? v.toLocaleString('fr-FR') + ' $' : v }, grid: { color: '#30363d' } }
+                        }
+                    }
+                });
+            }
+
+            document.getElementById('addTraderBtn').addEventListener('click', () => {
+                const sel = document.getElementById('tradersSelect');
+                const name = sel.value && sel.value.trim();
+                if (name && !addedTraders.includes(name)) {
+                    addedTraders.push(name);
+                    renderAddedTraders();
+                    updateChart();
+                }
+            });
+            document.getElementById('sp500Check').addEventListener('change', updateChart);
+            document.getElementById('ndqCheck').addEventListener('change', updateChart);
+            document.getElementById('cac40trCheck').addEventListener('change', updateChart);
+            document.getElementById('msciCheck').addEventListener('change', updateChart);
+            initChart();
+        </script>
+
+        <div class="card" style="margin-top: 1.5rem; grid-column: 1 / -1;">
+            <h2>Instruments par place de marché</h2>
+            <p class="empty-state" style="margin-bottom: 1rem;">Liste des actions et instruments disponibles sur eToro</p>
+            <button type="button" id="loadInstrumentsBtn" style="margin-bottom: 1rem;">Charger la liste</button>
+            <div id="instrumentsList" class="instruments-container"></div>
+        </div>
+
+        <p style="margin-top: 2rem; color: var(--muted); font-size: 0.85rem;">
+            Données via <a href="https://api-portal.etoro.com/" target="_blank" rel="noopener">API eToro</a>
+        </p>
+    </div>
+    <script>
+        (function() {
+            const btn = document.getElementById('loadInstrumentsBtn');
+            const list = document.getElementById('instrumentsList');
+            if (!btn || !list) return;
+            btn.addEventListener('click', async function() {
+                btn.disabled = true;
+                btn.textContent = 'Chargement...';
+                try {
+                    const r = await fetch('/api/instruments-by-exchange');
+                    const data = await r.json();
+                    if (data && data.error) throw new Error(data.error);
+                    if (!data || typeof data !== 'object') throw new Error('Données invalides');
+                    const entries = Object.entries(data).filter(function(e) { return Array.isArray(e[1]); });
+                    list.innerHTML = entries.map(function(entry) {
+                        var exchange = entry[0], instruments = entry[1];
+                        var items = instruments.slice(0, 200).map(function(i) {
+                            var name = (i.displayname || i.symbol || '').replace(/"/g, '&quot;');
+                            var sym = i.symbol || i.displayname || i.instrumentId || '';
+                            return '<span class="instrument-item" title="' + name + '">' + sym + ' <small>' + (i.assetClass || '') + '</small></span>';
+                        }).join('');
+                        var more = instruments.length > 200 ? '<span class="instrument-more">+ ' + (instruments.length - 200) + ' autres</span>' : '';
+                        return '<details class="exchange-block"><summary>' + exchange + ' (' + instruments.length + ' instruments)</summary><div class="instruments-grid">' + items + more + '</div></details>';
+                    }).join('');
+                    if (entries.length === 0) list.innerHTML = '<p class="empty-state">Aucun instrument trouvé</p>';
+                    btn.textContent = 'Actualiser';
+                } catch (e) {
+                    list.innerHTML = '<p class="empty-state" style="color: var(--danger);">Erreur: ' + (e.message || 'Chargement impossible') + '</p>';
+                    btn.textContent = 'Réessayer';
+                }
+                btn.disabled = false;
+            });
+        })();
+    </script>
+</body>
+</html>
