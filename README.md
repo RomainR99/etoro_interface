@@ -63,6 +63,10 @@ etoro_interface/
 └── .env                # Clés API (à créer)
 ```
 
+> **⚠️ DANGER — Backend et frontend non séparés**  
+> Ce projet est une **application monolithique** : le backend (Flask, `app.py`) et le frontend (HTML/CSS/JS dans `templates/profile.html`) sont dans le même dépôt et le même processus. Flask sert à la fois les pages et les APIs (`/api/chat`, `/api/chart-data`, etc.).  
+> Pour **séparer** backend et frontend, il faudrait : un backend qui n’expose que des routes JSON (sans `render_template` pour l’UI), et une application frontend distincte (React, Vue, Svelte ou HTML/JS) sur un autre port, qui appelle ce backend. À faire si vous visez une architecture découplée (équipes différentes, déploiements indépendants, SPA).
+
 ## Configuration du trader
 
 Par défaut, le profil affiché est **RomainRoth**. Pour modifier, éditer dans `app.py` :
@@ -93,6 +97,9 @@ Exemple d’URL d’article :
 `https://www.zonebourse.com/actualite-bourse/les-bourses-europeennes-rebondissent-apres-deux-seances-dans-le-rouge-ce7e5cd3df81f627`
 
 Le code parse le HTML de la page listing pour extraire les liens vers les 3 derniers articles, puis charge chaque page d’article pour en extraire le texte (JSON-LD `articleBody` ou sélecteurs DOM). Si la page listing ne renvoie pas de liens, des URLs d’articles de secours (fallback) sont utilisées.
+
+> **📌 Note — Limiter les requêtes Zonebourse**  
+> Pour éviter de surcharger Zonebourse et limiter les risques de blocage (rate limit, 403), le nombre d’actualités récupérées est fixé à **3** (`get_latest_news(limit=3)` dans `app.py`). Ne pas augmenter abusivement ce nombre ; en cas de besoin (ex. cache, file d’attente), mettre en place un cache côté serveur ou un délai entre les requêtes plutôt que d’enchaîner beaucoup d’appels.
 
 ### Résumé avec OpenAI
 
