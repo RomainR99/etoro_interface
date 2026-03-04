@@ -127,6 +127,8 @@ Le modèle utilisé est **gpt-4o-mini**. La réponse JSON est parsée pour affic
 
 ![Chatbot - réponse avec lien cliquable](images/answer_chatbot.png)
 
+![Avertissement sur les risques](images/risk.png)
+
 ### Quand ça marche
 
 Tu vois des titres comme « Analyse des tendances du marché financier », « Les tendances du marché financier en 2023 », « Les cryptomonnaies en pleine effervescence », avec des résumés en 5 lignes sur des thèmes boursiers / marchés / crypto. Dans ce cas, le flux a bien :
