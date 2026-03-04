@@ -598,23 +598,38 @@
     </div>
     <script>
         (function() {
-            var initialBotMessage = "Puis-je vous conseiller des vidéos YouTube, des livres et vous aider à atteindre vos objectifs financiers ?";
+            var initialBotMessage = "Besoin d'aide ? Posez une question . Ex : Où trouver des actions à dividendes élevés ? Quels secteurs ont la plus forte croissance ?";
             var messages = [{ role: "assistant", content: initialBotMessage }];
             var panel = document.getElementById("chatPanel");
             var msgsEl = document.getElementById("chatMessages");
             var inputEl = document.getElementById("chatInput");
-            function renderMessages() {
-                msgsEl.innerHTML = messages.map(function(m) {
-                    var c = m.role === "user" ? "user" : "bot";
-                    var label = m.role === "user" ? "Vous" : "Assistant";
-                    return "<div class=\"chat-msg " + c + "\"><strong>" + label + ":</strong> " + escapeHtml(m.content) + "</div>";
-                }).join("");
-                msgsEl.scrollTop = msgsEl.scrollHeight;
-            }
             function escapeHtml(s) {
                 var d = document.createElement("div");
                 d.textContent = s;
                 return d.innerHTML;
+            }
+            function formatBotContent(content) {
+                if (!content) return "";
+                var linkRe = /\[([^\]]*)\]\((https?:\/\/[^\)]+)\)/g;
+                var out = "";
+                var lastIdx = 0;
+                var match;
+                while ((match = linkRe.exec(content)) !== null) {
+                    out += escapeHtml(content.slice(lastIdx, match.index));
+                    out += "<a href=\"" + escapeHtml(match[2]) + "\" target=\"_blank\" rel=\"noopener noreferrer\">" + escapeHtml(match[1]) + "</a>";
+                    lastIdx = linkRe.lastIndex;
+                }
+                out += escapeHtml(content.slice(lastIdx));
+                return out;
+            }
+            function renderMessages() {
+                msgsEl.innerHTML = messages.map(function(m) {
+                    var c = m.role === "user" ? "user" : "bot";
+                    var label = m.role === "user" ? "Vous: " : "";
+                    var body = m.role === "user" ? escapeHtml(m.content) : formatBotContent(m.content);
+                    return "<div class=\"chat-msg " + c + "\">" + (label ? "<strong>" + label + "</strong> " : "") + body + "</div>";
+                }).join("");
+                msgsEl.scrollTop = msgsEl.scrollHeight;
             }
             function sendToApi() {
                 var text = (inputEl.value || "").trim();

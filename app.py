@@ -337,13 +337,49 @@ def api_zonebourse_debug():
         return jsonify({"error": str(e), "count": 0, "news": []}), 500
 
 
-def _load_chatbot_prompt() -> str:
-    """Charge le prompt système du chatbot depuis prompts/chatbot_system.txt."""
-    path = os.path.join(os.path.dirname(__file__), "prompts", "chatbot_system.txt")
+def _load_chatbot_resources(filename: str) -> str:
+    """Charge une liste titre|URL depuis prompts/<filename> et retourne une chaîne formatée."""
+    path = os.path.join(os.path.dirname(__file__), "prompts", filename)
     try:
-        return open(path, encoding="utf-8").read().strip()
+        lines = []
+        for line in open(path, encoding="utf-8"):
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            if "|" in line:
+                lines.append(line)
+        if lines:
+            return "\n".join(f"- {line.split('|', 1)[0].strip()} : {line.split('|', 1)[1].strip()}" for line in lines)
     except Exception:
-        return "Tu es un assistant financier. Réponds de façon concise en français."
+        pass
+    return ""
+
+
+def _load_chatbot_books() -> str:
+    """Charge la liste des livres depuis prompts/chatbot_books.txt."""
+    return _load_chatbot_resources("chatbot_books.txt")
+
+
+def _load_chatbot_videos() -> str:
+    """Charge la liste des vidéos YouTube depuis prompts/chatbot_videos.txt."""
+    return _load_chatbot_resources("chatbot_videos.txt")
+
+
+def _load_chatbot_prompt() -> str:
+    """Charge le prompt système du chatbot depuis prompts/chatbot_system.txt + livres + vidéos."""
+    base = os.path.join(os.path.dirname(__file__), "prompts")
+    try:
+        with open(os.path.join(base, "chatbot_system.txt"), encoding="utf-8") as f:
+            prompt = f.read().strip()
+    except Exception:
+        prompt = "Tu es un assistant financier. Réponds de façon concise en français."
+    books = _load_chatbot_books()
+    if books:
+        prompt += "\n\nLivres que tu peux recommander (propose le lien quand tu cites un livre) :\n" + books
+    videos = _load_chatbot_videos()
+    if videos:
+        prompt += "\n\nVidéos YouTube que tu peux recommander (propose le lien quand tu cites une vidéo) :\n" + videos
+    return prompt
 
 
 @app.route("/api/chat", methods=["POST"])

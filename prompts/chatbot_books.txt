@@ -1,0 +1,14 @@
+# Livres à recommander par le chatbot (titre | URL)
+# Une entrée par ligne : Titre | URL
+
+Principles of Corporate Finance (Brealey & Myers)|https://www.google.com/search?q=%22Principles+of+Corporate+Finance%22+Brealey+Myers&ie=UTF-8
+L'effet boule de neige (Alice Schroeder)|https://www.google.com/search?q=L%27effet+boule+de+neige+Alice+Schroeder&ie=UTF-8
+10 livres pour les investisseurs aguerris (Zonebourse)|https://www.zonebourse.com/actualite-bourse/10-livres-pour-les-investisseurs-aguerris-45624090/
+Common Stocks and Uncommon Profits (Philip Fisher)|https://www.google.com/search?q=Philip+Fisher+Common+Stocks+and+Uncommon+Profits&ie=UTF-8
+Des lions menés par des ânes (Charles Gave)|https://www.amazon.fr/lions-men%C3%A9s-par-%C3%A2nes-particulier/dp/2221099109
+Devil Take the Hindmost (Edward Chancellor)|https://www.amazon.fr/Devil-Take-Hindmost-Financial-Speculation/dp/0452281806
+A Short History of Financial Euphoria (J.K. Galbraith)|https://www.google.com/search?q=a+short+history+of+financial+euphoria&ie=UTF-8
+Winning the Loser's Game (Charles D. Ellis)|https://www.google.com/search?q=charlie+ellis+winning+the+loser%27s+game&ie=UTF-8
+Moins de gagnant, moins de perdant (Howard Marks)|https://www.google.com/search?q=moins+de+gagnant+moins+de+perdant+howard+marks&ie=UTF-8
+La route vers la performance (Howard Marks)|https://www.google.com/search?q=la+route+vers+la+performance+howard+marks&ie=UTF-8
+Simple But Not Easy (Richard Oldfield)|https://www.google.com/search?q=richard+oldfield+simple+but+not+easy&ie=UTF-8

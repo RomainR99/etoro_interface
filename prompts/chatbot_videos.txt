@@ -1,0 +1,35 @@
+# Vidéos YouTube à recommander par le chatbot (titre | URL)
+# Une entrée par ligne : Titre | URL
+
+Elite & Elite-Pro Popular Investor Education Courses in 4 Steps|https://www.youtube.com/watch?v=qE3Y0rBYPqA
+CashFlow Investor 3M AUM|https://www.youtube.com/@cashflowinvestor888/videos
+Warren Buffett ~ Diversification|https://www.youtube.com/watch?v=wbjPiYE-F4Y
+Charlie Munger - You Only Need Three Stocks To Get Rich|https://www.youtube.com/watch?v=z85iiX2QWqU
+Howard Marks|https://www.youtube.com/watch?v=V44vd4sJcPs
+Mohnish Pabrai when to buy when to sell|https://www.youtube.com/watch?v=sOaww-Z3i80
+Outperform 99% Of Investors - Peter Lynch|https://www.youtube.com/watch?v=Jf0nMO_2OAE
+Go from $10,000 to $1M in just 3 years|https://www.youtube.com/watch?v=TN5aKByr3Rs
+Les secrets du PER|https://www.youtube.com/watch?v=6-0VIVUAfds
+Warren Buffett: 10 Mistakes Every Investor Makes|https://www.youtube.com/watch?v=JultAiOdhvk
+Warren Buffett: You Only Need To Know These 7 Rules|https://www.youtube.com/watch?v=63oF8BOMMB8
+Investing in AI - is it too late? (eToro)|https://www.youtube.com/watch?v=860cQy_60Fk
+JPY/EUR - analyse|https://www.youtube.com/watch?v=MFpfOAgrO0A
+Warren Buffett: How to Invest with Little Money|https://www.youtube.com/watch?v=HaqIgdZi_h8
+Dumb Money (chaîne)|https://www.youtube.com/dumbmoney
+Web3 Blockchain Fundamentals MOOC|https://www.youtube.com/playlist?list=PLxVihxZC42nF_MCN9PTvZMIifRjx9cZ2J
+Software is Eating the World - How to Invest|https://www.youtube.com/watch?v=GQaEOedKF1A
+Les 10 règles du succès - Bill Ackman|https://www.youtube.com/watch?v=eiA7IGfkchE
+Bill Ackman - Buffett et Munger (analyse financière)|https://www.youtube.com/watch?v=H9pmFe1vpu8
+20 ans, TCAC 40% - Joel Greenblatt|https://www.youtube.com/watch?v=9o5KZ5lsqAQ
+ETF : Trop populaires pour être sans danger ?|https://www.youtube.com/watch?v=PuJrCOUACnA
+Compounding works - Mohnish Pabrai|https://www.youtube.com/watch?v=CFq4NRRdggI
+Peter Lynch : Quand vendre|https://www.youtube.com/watch?v=-SwdUw7Xrks
+18 Minutes for the NEXT 18 Years - Warren Buffett|https://www.youtube.com/watch?v=xXZpTWR6Gfw
+Warren Buffett 50%/an possible ac 1M$|https://www.youtube.com/watch?v=v4T1oknATGU
+Bill Ackman|https://www.youtube.com/watch?v=TnoV1oabYx8
+Peter Lynch: How to Achieve a 30% Return Per Year|https://www.youtube.com/watch?v=ZQMAEFMZb5c
+Bourse: Combien de temps avant d'être sûr de gagner ?|https://www.youtube.com/watch?v=rs_hyDU024E
+Steve Eisman - Financial Literacy Masterclass|https://www.youtube.com/watch?v=u8chA7LC8lU
+How Time and Patience Build Generational Wealth - Mohnish Pabrai|https://www.youtube.com/watch?v=dcPMU4MZvy4
+How I Know When to Add More Shares - Mohnish Pabrai|https://www.youtube.com/watch?v=PyHlw_xUs8c
+Charlie Munger: 2 Secret To Successful investing|https://www.youtube.com/shorts/KrkQwYnXP9s
