@@ -211,6 +211,125 @@
             text-decoration: none;
         }
         a:hover { text-decoration: underline; }
+        .risk-warning {
+            margin-top: 2rem;
+            padding: 0.75rem 0;
+            font-size: 0.75rem;
+            line-height: 1.5;
+            color: var(--muted);
+        }
+        .risk-warning .risk-text { font-style: italic; }
+        /* Chatbot bas-droite */
+        .chat-toggle {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+        .chat-toggle:hover { opacity: 0.9; }
+        .chat-panel {
+            display: none;
+            position: fixed;
+            bottom: 5rem;
+            right: 1.5rem;
+            width: 340px;
+            max-width: calc(100vw - 2rem);
+            max-height: 420px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            z-index: 1001;
+            flex-direction: column;
+        }
+        .chat-panel.open { display: flex; }
+        .chat-panel-header {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chat-panel-close {
+            background: none;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 1.25rem;
+            line-height: 1;
+        }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            min-height: 200px;
+            max-height: 280px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        .chat-msg { margin-bottom: 0.75rem; }
+        .chat-msg.bot { color: var(--muted); }
+        .chat-msg.user { text-align: right; color: var(--accent); }
+        .chat-input-wrap {
+            padding: 0.75rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 0.5rem;
+        }
+        .chat-input-wrap input {
+            flex: 1;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+        .chat-input-wrap button {
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .news-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .news-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .news-item:last-child { border-bottom: none; }
+        .news-title {
+            font-weight: 600;
+            font-size: 1rem;
+            display: block;
+            margin-bottom: 0.35rem;
+            color: var(--text);
+        }
+        .news-summary {
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre-line;
+        }
     </style>
 </head>
 <body>
@@ -313,6 +432,26 @@
             </div>
         </div>
         {% endif %}
+
+        <div class="card" style="margin-top: 1.5rem; grid-column: 1 / -1;">
+            <h2>Dernières actualités Zonebourse</h2>
+            <p class="empty-state" style="margin-bottom: 1rem;">Résumés en 5 lignes générés par IA à partir des articles.</p>
+            {% if zonebourse_news and zonebourse_news|length > 0 %}
+                <ul class="news-list">
+                    {% for item in zonebourse_news %}
+                    <li class="news-item">
+                        <span class="news-title">{{ item.title }}</span>
+                        {% if item.summary %}
+                        <p class="news-summary">{{ item.summary }}</p>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="empty-state">Aucune actualité chargée pour le moment.</p>
+            {% endif %}
+        </div>
+
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
         <script>
             const initialLabels = {{ chart_labels | default([]) | tojson }};
@@ -434,9 +573,79 @@
             initChart();
         </script>
 
-        <p style="margin-top: 2rem; color: var(--muted); font-size: 0.85rem;">
+        <p class="risk-warning">
+            ⚠️ Avertissement sur les risques :<br>
+            <span class="risk-text">C’est une stratégie personnelle, non un conseil. L’appliquer ou non reste votre choix. Les performances passées ne garantissent pas les résultats futurs.</span><br>
+            ⚠️ Risk Warning: <span class="risk-text">This is a personal strategy, not financial advice. Whether you apply it or not is your choice. Past performance does not guarantee future results.</span>
+        </p>
+        <p style="margin-top: 1rem; color: var(--muted); font-size: 0.85rem;">
             Données via <a href="https://api-portal.etoro.com/" target="_blank" rel="noopener">API eToro</a>
         </p>
     </div>
+
+    <!-- Chatbot bas-droite -->
+    <button type="button" class="chat-toggle" id="chatToggle" title="Ouvrir l’assistant">💬</button>
+    <div class="chat-panel" id="chatPanel">
+        <div class="chat-panel-header">
+            Assistant financier
+            <button type="button" class="chat-panel-close" id="chatClose" aria-label="Fermer">×</button>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input-wrap">
+            <input type="text" id="chatInput" placeholder="Votre message…" maxlength="500" />
+            <button type="button" id="chatSend">Envoyer</button>
+        </div>
+    </div>
+    <script>
+        (function() {
+            var initialBotMessage = "Puis-je vous conseiller des vidéos YouTube, des livres et vous aider à atteindre vos objectifs financiers ?";
+            var messages = [{ role: "assistant", content: initialBotMessage }];
+            var panel = document.getElementById("chatPanel");
+            var msgsEl = document.getElementById("chatMessages");
+            var inputEl = document.getElementById("chatInput");
+            function renderMessages() {
+                msgsEl.innerHTML = messages.map(function(m) {
+                    var c = m.role === "user" ? "user" : "bot";
+                    var label = m.role === "user" ? "Vous" : "Assistant";
+                    return "<div class=\"chat-msg " + c + "\"><strong>" + label + ":</strong> " + escapeHtml(m.content) + "</div>";
+                }).join("");
+                msgsEl.scrollTop = msgsEl.scrollHeight;
+            }
+            function escapeHtml(s) {
+                var d = document.createElement("div");
+                d.textContent = s;
+                return d.innerHTML;
+            }
+            function sendToApi() {
+                var text = (inputEl.value || "").trim();
+                if (!text) return;
+                messages.push({ role: "user", content: text });
+                inputEl.value = "";
+                renderMessages();
+                fetch("/api/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ messages: messages })
+                }).then(function(r) { return r.json(); })
+                  .then(function(data) {
+                      if (data.error) {
+                          messages.push({ role: "assistant", content: "Erreur: " + data.error });
+                      } else {
+                          messages.push({ role: "assistant", content: data.reply || "" });
+                      }
+                      renderMessages();
+                  })
+                  .catch(function(e) {
+                      messages.push({ role: "assistant", content: "Erreur de connexion." });
+                      renderMessages();
+                  });
+            }
+            document.getElementById("chatToggle").onclick = function() { panel.classList.add("open"); };
+            document.getElementById("chatClose").onclick = function() { panel.classList.remove("open"); };
+            document.getElementById("chatSend").onclick = sendToApi;
+            inputEl.addEventListener("keydown", function(e) { if (e.key === "Enter") sendToApi(); });
+            renderMessages();
+        })();
+    </script>
 </body>
 </html>

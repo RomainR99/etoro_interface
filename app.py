@@ -1,5 +1,6 @@
 """Application Flask pour visualiser le profil des traders eToro."""
 
+import os
 from datetime import datetime
 from flask import Flask, jsonify, render_template, request
 from etoro_client import (
@@ -10,6 +11,7 @@ from etoro_client import (
     get_instruments_by_exchange,
     get_all_stocks,
 )
+from zone_bourse.news_fetcher import get_latest_news
 
 try:
     import yfinance as yf
@@ -246,6 +248,11 @@ def index():
     except Exception:
         most_copied = []
 
+    try:
+        zonebourse_news = get_latest_news(limit=3)
+    except Exception:
+        zonebourse_news = []
+
     return render_template(
         "profile.html",
         profile=profile,
@@ -258,6 +265,7 @@ def index():
         dca_labels=dca_labels,
         dca_romainroth=dca_romainroth,
         dca_sp500=dca_sp500,
+        zonebourse_news=zonebourse_news,
     )
 
 
@@ -316,6 +324,55 @@ def api_chart_data():
 def health():
     """Route de diagnostic sans appel API externe."""
     return "OK", 200
+
+
+@app.route("/api/zonebourse-news-debug")
+def api_zonebourse_debug():
+    """Debug : retourne le résultat de get_latest_news pour diagnostiquer les actualités Zonebourse."""
+    try:
+        from zone_bourse.news_fetcher import get_latest_news
+        news = get_latest_news(limit=3)
+        return jsonify({"count": len(news), "news": news})
+    except Exception as e:
+        return jsonify({"error": str(e), "count": 0, "news": []}), 500
+
+
+def _load_chatbot_prompt() -> str:
+    """Charge le prompt système du chatbot depuis prompts/chatbot_system.txt."""
+    path = os.path.join(os.path.dirname(__file__), "prompts", "chatbot_system.txt")
+    try:
+        return open(path, encoding="utf-8").read().strip()
+    except Exception:
+        return "Tu es un assistant financier. Réponds de façon concise en français."
+
+
+@app.route("/api/chat", methods=["POST"])
+def api_chat():
+    """Chatbot OpenAI : envoie les messages et retourne la réponse du modèle."""
+    from openai import OpenAI
+    key = os.getenv("OPENAI_API_KEY")
+    if not key:
+        return jsonify({"error": "OPENAI_API_KEY manquante"}), 500
+    data = request.get_json() or {}
+    messages = data.get("messages") or []
+    if not messages:
+        return jsonify({"error": "messages requis"}), 400
+    system_prompt = _load_chatbot_prompt()
+    try:
+        client = OpenAI(api_key=key)
+        api_messages = [{"role": "system", "content": system_prompt}] + [
+            {"role": m.get("role", "user"), "content": m.get("content", "")}
+            for m in messages
+        ]
+        r = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=api_messages,
+            temperature=0.7,
+        )
+        reply = (r.choices[0].message.content or "").strip()
+        return jsonify({"reply": reply})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == "__main__":

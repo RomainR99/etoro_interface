@@ -76,6 +76,70 @@ TRADER_USERNAME = "NomDuTrader"
 - [Documentation officielle](https://api-portal.etoro.com/)
 - Base URL : `https://public-api.etoro.com/api/v1/`
 
+## Actualités Zonebourse
+
+L’interface affiche les **3 dernières actualités Zonebourse** : le texte des articles est récupéré (BeautifulSoup), puis OpenAI génère un **titre** et un **résumé en 5 lignes** pour chaque article.
+
+### Source des données (URLs)
+
+Les actualités sont récupérées depuis Zonebourse via les URLs suivantes (définies dans `zone_bourse/news_fetcher.py`) :
+
+| Usage | URL |
+|-------|-----|
+| **Page listing** (liste des derniers articles) | `https://www.zonebourse.com/actualite-bourse/` |
+| **Un article** (format) | `https://www.zonebourse.com/actualite-bourse/{slug-titre}-{id}` |
+
+Exemple d’URL d’article :  
+`https://www.zonebourse.com/actualite-bourse/les-bourses-europeennes-rebondissent-apres-deux-seances-dans-le-rouge-ce7e5cd3df81f627`
+
+Le code parse le HTML de la page listing pour extraire les liens vers les 3 derniers articles, puis charge chaque page d’article pour en extraire le texte (JSON-LD `articleBody` ou sélecteurs DOM). Si la page listing ne renvoie pas de liens, des URLs d’articles de secours (fallback) sont utilisées.
+
+### Résumé avec OpenAI
+
+Une fois le texte de l’article extrait, il est envoyé à l’API OpenAI avec un **prompt** pour générer un titre et un résumé en 5 lignes. Le prompt utilisé est la constante `SUMMARY_PROMPT` dans `zone_bourse/news_fetcher.py`, **lignes 21-29** :
+
+```python
+SUMMARY_PROMPT = """Tu es un rédacteur financier. Voici le texte d'un article boursier.
+
+Réponds UNIQUEMENT en JSON valide avec exactement deux clés :
+- "titre" : un titre court et percutant (une phrase).
+- "resume" : un résumé en exactement 5 lignes (5 phrases courtes, une par ligne, séparées par des retours à la ligne).
+
+Article :
+
+"""
+```
+
+Le modèle utilisé est **gpt-4o-mini**. La réponse JSON est parsée pour afficher le titre et le résumé dans l’interface. La clé API est lue depuis la variable d’environnement `OPENAI_API_KEY` (fichier `.env`).
+
+![Capture des actualités Zonebourse](images/actualité.png)
+
+### Quand ça marche
+
+Tu vois des titres comme « Analyse des tendances du marché financier », « Les tendances du marché financier en 2023 », « Les cryptomonnaies en pleine effervescence », avec des résumés en 5 lignes sur des thèmes boursiers / marchés / crypto. Dans ce cas, le flux a bien :
+
+1. Récupéré 3 pages Zonebourse (ou les URLs de secours)
+2. Extrait le texte avec BeautifulSoup
+3. Envoyé le texte à OpenAI avec le prompt configuré
+4. Affiché les titres et résumés en 5 lignes renvoyés par l’API
+
+Si le contenu te paraît un peu générique, c’est soit parce que les articles scrapés étaient courts / peu détaillés, soit parce que le modèle a un peu « lissé » le texte.
+
+### Quand ça échoue (message par défaut)
+
+Les textes **par défaut** (quand tout échoue) sont :
+
+- **Titres** : « Actualité 1 (exemple) », « Actualité 2 (exemple) », « Actualité 3 (exemple) »
+- **Résumés** : des phrases du type « Le chargement des articles Zonebourse a échoué… », « Vous pouvez tester avec des fichiers HTML locaux… », etc.
+
+### Vérifier la source
+
+Pour vérifier que les données viennent bien de l’API (et non des placeholders), ouvre :
+
+**http://127.0.0.1:5001/api/zonebourse-news-debug**
+
+et regarde si les champs `title` / `summary` correspondent à ce que tu vois sur la page (et qu’il n’y a pas « (exemple) » dans les titres).
+
 ---
 
 ## 1️⃣ À quoi sert Werkzeug
