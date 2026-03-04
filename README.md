@@ -114,6 +114,8 @@ Le modèle utilisé est **gpt-4o-mini**. La réponse JSON est parsée pour affic
 
 ![Capture des actualités Zonebourse](images/actualité.png)
 
+![Capture des actualités Zonebourse 2](images/actualité2.png)
+
 ### Quand ça marche
 
 Tu vois des titres comme « Analyse des tendances du marché financier », « Les tendances du marché financier en 2023 », « Les cryptomonnaies en pleine effervescence », avec des résumés en 5 lignes sur des thèmes boursiers / marchés / crypto. Dans ce cas, le flux a bien :
