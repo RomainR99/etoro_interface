@@ -29,6 +29,6 @@ Récupération des instruments eToro (ID 9601 à 9800)...
 ## Fichiers générés
 
 - **instruments_{id_min}_{id_max}.csv** : colonnes `n°`, `id`, `symbole`, `nom` (UTF-8 avec BOM).
-- **instruments_{id_min}_{id_max}.json** : tableau d’objets `{ "n", "id", "symbole", "nom" }`.
+- **instruments_{id_min}_{id_max}.json** : tableau d'objets `{ "n", "id", "symbole", "nom" }`.
 
 Les fichiers sont créés dans le dossier `fetch_instruments/`.

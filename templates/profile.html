@@ -352,7 +352,7 @@
 
             function renderAddedTraders() {
                 const el = document.getElementById('addedTraders');
-                el.innerHTML = addedTraders.map(name => 
+                el.innerHTML = addedTraders.map(name =>
                     `<span>${name} <span class="remove" data-name="${name}">×</span></span>`
                 ).join('');
                 el.querySelectorAll('.remove').forEach(btn => {

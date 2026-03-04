@@ -75,3 +75,115 @@ TRADER_USERNAME = "NomDuTrader"
 
 - [Documentation officielle](https://api-portal.etoro.com/)
 - Base URL : `https://public-api.etoro.com/api/v1/`
+
+---
+
+## 1️⃣ À quoi sert Werkzeug
+
+Werkzeug fournit les briques techniques bas niveau pour un serveur web Python.
+
+Par exemple :
+
+- gérer les requêtes HTTP
+- gérer les réponses HTTP
+- gérer les cookies
+- parser les formulaires
+- router les URLs
+- gérer les headers
+
+En résumé :
+
+```
+navigateur
+     ↓
+requête HTTP
+     ↓
+Werkzeug analyse la requête
+     ↓
+ton application Python
+     ↓
+Werkzeug renvoie la réponse HTTP
+```
+
+## 2️⃣ Exemple simple avec Werkzeug
+
+```python
+from werkzeug.wrappers import Request, Response
+from werkzeug.serving import run_simple
+
+@Request.application
+def application(request):
+    return Response("Hello World")
+
+run_simple("localhost", 5000, application)
+```
+
+Quand tu vas sur `http://localhost:5000`, le navigateur reçoit : **Hello World**.
+
+## 3️⃣ Pourquoi Flask utilise Werkzeug
+
+Flask est construit au-dessus de Werkzeug.
+
+Structure simplifiée :
+
+```
+Flask
+   ↓
+Werkzeug
+   ↓
+WSGI
+   ↓
+serveur web
+```
+
+Donc Flask utilise Werkzeug pour :
+
+- analyser les requêtes
+- gérer les routes
+- créer les réponses HTTP
+
+## 4️⃣ Ce que contient Werkzeug
+
+| Module      | Fonction                    |
+|------------|-----------------------------|
+| routing    | gestion des routes          |
+| wrappers   | objets Request / Response   |
+| serving    | serveur de développement    |
+| exceptions | erreurs HTTP                |
+| utils      | fonctions utiles            |
+
+## 5️⃣ Werkzeug et WSGI
+
+Werkzeug implémente WSGI. WSGI est une norme qui relie un serveur web et une application Python.
+
+Architecture :
+
+```
+Nginx / Apache
+       ↓
+WSGI
+       ↓
+Werkzeug
+       ↓
+Application Python
+```
+
+## 6️⃣ Pourquoi utiliser Werkzeug directement
+
+Les développeurs l’utilisent quand ils veulent :
+
+- créer leur propre framework web
+- comprendre comment fonctionne Flask
+- faire des outils HTTP personnalisés
+
+## ✅ Résumé
+
+| Question            | Réponse                    |
+|---------------------|----------------------------|
+| Qu'est-ce que Werkzeug | bibliothèque web Python  |
+| À quoi ça sert      | gérer requêtes et réponses HTTP |
+| Framework complet   | non                        |
+| Utilisé par         | Flask                      |
+| Niveau              | bas niveau                 |
+
+*Si tu veux, on peut aussi voir pourquoi Flask + Werkzeug + Jinja2 est l’architecture utilisée par beaucoup de startups, et comment créer ton propre mini-framework web en 40 lignes.*
