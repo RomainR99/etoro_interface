@@ -226,13 +226,14 @@ FALLBACK_ARTICLE_URLS = [
 ]
 
 
-def _fetch_article_links(limit: int = 3) -> list[str]:
-    """Récupère les URLs des N derniers articles depuis la page actualités."""
+def _fetch_article_links(limit: int = 3) -> tuple[list[str], bool]:
+    """Récupère les URLs des N derniers articles depuis la page actualités.
+    Retourne (urls, used_fallback) où used_fallback=True si la page listing n'a pas fourni de liens."""
     urls: list[str] = []
     try:
         resp = requests.get(ACTUALITES_URL, headers=_get_headers(), timeout=REQUEST_TIMEOUT)
         if resp.status_code != 200:
-            return FALLBACK_ARTICLE_URLS[:limit]
+            return (FALLBACK_ARTICLE_URLS[:limit], True)
         soup = BeautifulSoup(resp.text, "lxml")
         seen: set[str] = set()
         for a in soup.find_all("a", href=True):
@@ -246,16 +247,18 @@ def _fetch_article_links(limit: int = 3) -> list[str]:
         pass
     if not urls:
         urls = FALLBACK_ARTICLE_URLS[:limit]
-    return urls[:limit]
+        return (urls[:limit], True)
+    return (urls[:limit], False)
 
 
-def get_latest_news(limit: int = 3) -> list[dict[str, Any]]:
+def get_latest_news(limit: int = 3) -> dict[str, Any]:
     """
     Récupère les N dernières actualités Zonebourse (HTML + BeautifulSoup),
     puis génère pour chacune un titre et un résumé en 5 lignes via OpenAI.
-    Retourne une liste de dicts : title, summary (pas de lien).
+    Retourne {"items": [{"title", "summary"}], "used_fallback": bool}.
+    used_fallback=True si la page listing n'a pas fourni de liens (URLs de secours utilisées).
     """
-    urls = _fetch_article_links(limit=limit)
+    urls, used_fallback = _fetch_article_links(limit=limit)
     results: list[dict[str, Any]] = []
     for url in urls:
         try:
@@ -295,4 +298,4 @@ def get_latest_news(limit: int = 3) -> list[dict[str, Any]]:
             {"title": "Actualité 2 (exemple)", "summary": "Vous pouvez tester avec des fichiers HTML locaux ou vérifier OPENAI_API_KEY dans .env pour les résumés."},
             {"title": "Actualité 3 (exemple)", "summary": "Consultez les logs du serveur (python app.py) pour voir les erreurs éventuelles."},
         ]
-    return results
+    return {"items": results, "used_fallback": used_fallback}

@@ -249,9 +249,12 @@ def index():
         most_copied = []
 
     try:
-        zonebourse_news = get_latest_news(limit=3)
+        zonebourse_result = get_latest_news(limit=3)
+        zonebourse_news = zonebourse_result.get("items", [])
+        zonebourse_used_fallback = zonebourse_result.get("used_fallback", False)
     except Exception:
         zonebourse_news = []
+        zonebourse_used_fallback = False
 
     return render_template(
         "profile.html",
@@ -266,6 +269,7 @@ def index():
         dca_romainroth=dca_romainroth,
         dca_sp500=dca_sp500,
         zonebourse_news=zonebourse_news,
+        zonebourse_used_fallback=zonebourse_used_fallback,
     )
 
 
@@ -331,8 +335,9 @@ def api_zonebourse_debug():
     """Debug : retourne le résultat de get_latest_news pour diagnostiquer les actualités Zonebourse."""
     try:
         from zone_bourse.news_fetcher import get_latest_news
-        news = get_latest_news(limit=3)
-        return jsonify({"count": len(news), "news": news})
+        result = get_latest_news(limit=3)
+        items = result.get("items", [])
+        return jsonify({"count": len(items), "news": items, "used_fallback": result.get("used_fallback", False)})
     except Exception as e:
         return jsonify({"error": str(e), "count": 0, "news": []}), 500
 

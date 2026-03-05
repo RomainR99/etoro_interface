@@ -436,6 +436,9 @@
         <div class="card" style="margin-top: 1.5rem; grid-column: 1 / -1;">
             <h2>Dernières actualités Zonebourse</h2>
             <p class="empty-state" style="margin-bottom: 1rem;">Résumés en 5 lignes générés par IA à partir des articles.</p>
+            {% if zonebourse_used_fallback %}
+            <p class="news-fallback-notice" style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">Utilisation des URLs de secours</p>
+            {% endif %}
             {% if zonebourse_news and zonebourse_news|length > 0 %}
                 <ul class="news-list">
                     {% for item in zonebourse_news %}
