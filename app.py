@@ -11,6 +11,7 @@ from etoro_client import (
     get_instruments_by_exchange,
     get_all_stocks,
     get_posts_per_month,
+    get_copiers_evolution,
 )
 from zone_bourse.news_fetcher import get_latest_news
 
@@ -355,6 +356,47 @@ def api_posts_chart_data():
         traders = [TRADER_USERNAME] + traders
     try:
         labels, datasets = _compute_posts_chart_data(traders, years=1)
+        return jsonify({"labels": labels, "datasets": datasets})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+def _compute_copiers_chart_data(traders: list[str]) -> tuple[list[str], list[dict]]:
+    """Calcule l'évolution du nombre de copieurs par trader (snapshots par période)."""
+    from etoro_client import COPIERS_PERIODS
+
+    labels = [label for _, label in COPIERS_PERIODS]
+    evolution = get_copiers_evolution(traders)
+
+    colors = [
+        "#58a6ff", "#3fb950", "#f0883e", "#a371f7", "#ff7b72",
+        "#79c0ff", "#7ee787", "#d2a8ff", "#ffa657", "#56d4dd",
+    ]
+    datasets = []
+    for i, username in enumerate(traders):
+        if not username:
+            continue
+        by_period = evolution.get(username, {})
+        values = [by_period.get(lbl, 0) for lbl in labels]
+        datasets.append({
+            "label": username,
+            "data": values,
+            "color": colors[i % len(colors)],
+        })
+    return labels, datasets
+
+
+@app.route("/api/copiers-chart-data")
+def api_copiers_chart_data():
+    """Retourne l'évolution du nombre de copieurs. Même logique que chart-data."""
+    traders = request.args.get("traders", "").strip().split(",")
+    traders = [t.strip() for t in traders if t.strip()]
+    if not traders:
+        traders = [TRADER_USERNAME]
+    if TRADER_USERNAME not in traders:
+        traders = [TRADER_USERNAME] + traders
+    try:
+        labels, datasets = _compute_copiers_chart_data(traders)
         return jsonify({"labels": labels, "datasets": datasets})
     except Exception as e:
         return jsonify({"error": str(e)}), 500

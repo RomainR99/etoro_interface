@@ -10,7 +10,9 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
 - **Simulation DCA** : 1 000 $ au départ + 100 $/mois, comparaison avec le S&P 500
 - **Posts par mois** (graphique 3) : comparaison du nombre de posts — *seuls les posts avec les instruments NSDQ100 et SPX500 sont pris en compte* (à améliorer)
 - **Évolution des copieurs** (graphique 4) : snapshots par période — *à revoir* (l'API ne fournit pas d'historique mensuel sur 10 ans)
-- **Instruments par place de marché** : liste des actions et instruments disponibles sur eToro
+- **Actualités Zonebourse** : résumés des articles générés par IA (5 lignes par article)
+- **Chatbot agent IA** : assistant conversationnel pour poser des questions sur les données eToro et Zonebourse
+
 
 ## Prérequis
 

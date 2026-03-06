@@ -443,6 +443,15 @@
         </div>
 
         <div class="card" style="margin-top: 1.5rem; grid-column: 1 / -1;">
+            <h2>Évolution du nombre de copieurs (dernières périodes)</h2>
+            <p class="empty-state" style="margin-bottom: 1rem;">Nombre de copieurs par trader. Mêmes traders que le graphique de performance. L'API eToro fournit des snapshots par période (pas d'historique mensuel sur 10 ans).</p>
+            <div id="copiersChartContainer" style="position: relative; height: 320px;">
+                <canvas id="copiersChart"></canvas>
+                <p id="copiersChartLoading" class="empty-state" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);margin:0;z-index:1;">Chargement…</p>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 1.5rem; grid-column: 1 / -1;">
             <h2>Dernières actualités Zonebourse</h2>
             <p class="empty-state" style="margin-bottom: 1rem;">Résumés en 5 lignes générés par IA à partir des articles.</p>
             {% if zonebourse_used_fallback %}
@@ -539,6 +548,70 @@
                     })
                     .catch(err => console.error(err));
                 updatePostsChart();
+                updateCopiersChart();
+            }
+
+            let copiersChart = null;
+            function initCopiersChart() {
+                try {
+                    const canvas = document.getElementById('copiersChart');
+                    if (!canvas) return;
+                    setTimeout(updateCopiersChart, 800);
+                } catch (e) { console.error('initCopiersChart:', e); }
+            }
+            function updateCopiersChart() {
+                const canvas = document.getElementById('copiersChart');
+                const container = document.getElementById('copiersChartContainer');
+                if (!canvas) return;
+                const traders = ['{{ username }}', ...addedTraders].filter(Boolean);
+                const params = new URLSearchParams({ traders: traders.join(',') });
+                fetch('/api/copiers-chart-data?' + params)
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.error) throw new Error(data.error);
+                        const rawDatasets = data.datasets || [];
+                        const datasets = rawDatasets.map(d => ({
+                            ...buildDataset(d),
+                            borderColor: d.color,
+                            backgroundColor: d.color && d.color.startsWith('#') ? hexToRgba(d.color, 0.1) : 'rgba(139,148,158,0.1)'
+                        }));
+                        if (container) {
+                            const loading = document.getElementById('copiersChartLoading');
+                            if (loading) loading.style.display = 'none';
+                        }
+                        if (!copiersChart) {
+                            const ctx = canvas.getContext('2d');
+                            copiersChart = new Chart(ctx, {
+                                type: 'line',
+                                data: { labels: data.labels || [], datasets },
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    plugins: {
+                                        legend: { labels: { color: '#8b949e' } },
+                                        tooltip: {
+                                            callbacks: {
+                                                label: function(ctx) { return ctx.dataset.label + ': ' + ctx.parsed.y + ' copieur(s)'; }
+                                            }
+                                        }
+                                    },
+                                    scales: {
+                                        x: { ticks: { color: '#8b949e', maxRotation: 45 }, grid: { color: '#30363d' } },
+                                        y: { ticks: { color: '#8b949e', stepSize: 1 }, grid: { color: '#30363d' }, suggestedMin: 0 }
+                                    }
+                                }
+                            });
+                        } else {
+                            copiersChart.data.labels = data.labels || [];
+                            copiersChart.data.datasets = datasets;
+                            copiersChart.update();
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Copiers chart:', err);
+                        const loading = document.getElementById('copiersChartLoading');
+                        if (loading) loading.style.display = 'none';
+                    });
             }
 
             let postsChart = null;
@@ -681,6 +754,7 @@
             document.getElementById('msciCheck').addEventListener('change', updateChart);
             try { initChart(); } catch (e) { console.error('initChart:', e); }
             try { initPostsChart(); } catch (e) { console.error('initPostsChart:', e); }
+            try { initCopiersChart(); } catch (e) { console.error('initCopiersChart:', e); }
         </script>
 
         <p class="risk-warning">

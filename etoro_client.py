@@ -248,6 +248,51 @@ def get_most_copied_traders(limit: int = 10) -> list[dict]:
     return FALLBACK_TRADERS[:limit]
 
 
+# Périodes pour l'évolution des copieurs (snapshots)
+# L'API ne fournit pas d'historique mensuel sur 10 ans, seulement ces périodes
+COPIERS_PERIODS = [
+    ("LastTwoYears", "2 ans"),
+    ("LastYear", "1 an"),
+    ("SixMonthsAgo", "6 mois"),
+    ("ThreeMonthsAgo", "3 mois"),
+    ("OneMonthAgo", "1 mois"),
+    ("CurrMonth", "Actuel"),
+]
+
+
+def get_copiers_by_period(period: str, page_size: int = 500) -> dict[str, int]:
+    """
+    Récupère le nombre de copieurs par trader pour une période donnée.
+    Retourne {userName: copiers}.
+    """
+    url = f"{BASE_URL}/user-info/people/search"
+    params = {"period": period, "sort": "-copiers", "pageSize": page_size}
+    try:
+        resp = requests.get(url, headers=_get_headers(), params=params, timeout=15)
+        if resp.status_code != 200:
+            return {}
+        data = resp.json()
+        items = data.get("items") or data.get("Items") or []
+        return {item["userName"]: item.get("copiers", 0) for item in items if item.get("userName")}
+    except Exception:
+        return {}
+
+
+def get_copiers_evolution(traders: list[str]) -> dict[str, dict[str, int]]:
+    """
+    Récupère l'évolution du nombre de copieurs pour chaque trader.
+    Retourne {userName: {period_label: copiers}}.
+    """
+    result: dict[str, dict[str, int]] = {u: {} for u in traders if u}
+    for period, label in COPIERS_PERIODS:
+        by_user = get_copiers_by_period(period)
+        for username in traders:
+            if username:
+                result.setdefault(username, {})[label] = by_user.get(username, 0)
+        time.sleep(0.2)
+    return result
+
+
 def get_exchanges() -> list[dict]:
     """Récupère la liste des places de marché supportées."""
     url = f"{BASE_URL}/market-data/exchanges"
