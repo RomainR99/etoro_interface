@@ -42,11 +42,15 @@ def get_user_gain(username: str) -> dict | None:
     return resp.json()
 
 
-# Instruments pour le feed — l'API user feed renvoie 0, on utilise instrument feed
-# (symbole pour recherche, label affiché)
+# Instruments pour le feed — utilisés en fallback quand l'API user feed renvoie 0
+# (symbole pour recherche API, label affiché)
 FEED_INSTRUMENTS = [
     ("NSDQ100", "NSDQ100"),
     ("SPX500", "SPX500"),
+    ("CAC40", "CAC40"),
+    ("XAUUSD", "Or"),
+    ("BTC", "Bitcoin"),
+    ("ETH", "Ethereum"),
 ]
 
 
@@ -89,9 +93,34 @@ def get_instrument_feed_posts(
         return None
 
 
-def get_posts_per_month_by_instrument(instrument_id: int, years: int = 5) -> dict[str, int]:
+def _extract_posts_from_feed_response(data: dict) -> list[dict]:
+    """Extrait les posts d'une réponse feed (discussions ou posts)."""
+    posts = []
+    # Format discussions (user feed, parfois instrument feed)
+    for d in data.get("discussions") or []:
+        p = d.get("post") if isinstance(d.get("post"), dict) else {}
+        if p:
+            posts.append(p)
+    # Format posts direct (instrument feed)
+    for p in data.get("posts") or []:
+        if isinstance(p, dict):
+            posts.append(p)
+    return posts
+
+
+def _post_matches_user(post: dict, username: str) -> bool:
+    """Vérifie si le post appartient au trader."""
+    owner = post.get("owner") if isinstance(post.get("owner"), dict) else {}
+    post_username = (owner.get("username") or owner.get("userName") or "").strip()
+    return post_username.lower() == (username or "").lower()
+
+
+def get_posts_per_month_by_instrument(
+    instrument_id: int, years: int = 5, username: str | None = None
+) -> dict[str, int]:
     """
-    Récupère les posts du feed d'un instrument et les agrège par mois sur les N dernières années.
+    Récupère les posts du feed d'un instrument et les agrège par mois.
+    Si username fourni, ne compte que les posts de ce trader.
     Retourne {"YYYY-MM": count, ...}.
     """
     from datetime import datetime, timedelta
@@ -101,18 +130,19 @@ def get_posts_per_month_by_instrument(instrument_id: int, years: int = 5) -> dic
     offset = 0
     take = 100
     stop_old = False
-    max_pages = 15  # limite pour éviter timeout (~30 s max)
+    max_pages = 15
 
     while offset < max_pages * take:
         data = get_instrument_feed_posts(instrument_id, take=take, offset=offset)
         if not data:
             break
-        discussions = data.get("discussions") or []
-        if not discussions:
+        posts = _extract_posts_from_feed_response(data)
+        if not posts:
             break
 
-        for d in discussions:
-            post = d.get("post") if isinstance(d.get("post"), dict) else {}
+        for post in posts:
+            if username and not _post_matches_user(post, username):
+                continue
             created = post.get("created")
             if not created or len(str(created)) < 7:
                 continue
@@ -122,10 +152,64 @@ def get_posts_per_month_by_instrument(instrument_id: int, years: int = 5) -> dic
                 continue
             by_month[key] = by_month.get(key, 0) + 1
 
-        if stop_old or len(discussions) < take:
+        if stop_old or len(posts) < take:
             break
         offset += take
         time.sleep(0.15)
+
+    return dict(sorted(by_month.items()))
+
+
+def get_posts_per_month_from_instruments(username: str, years: int = 1) -> dict[str, int]:
+    """
+    Fallback : agrège les posts du trader depuis plusieurs instruments (NSDQ, SPX, CAC, Or, etc.).
+    Déduplique par post id (même post peut apparaître dans plusieurs feeds).
+    """
+    from datetime import datetime, timedelta
+    from collections import defaultdict
+
+    cutoff_str = (datetime.utcnow() - timedelta(days=years * 365)).strftime("%Y-%m")
+    seen_ids: set[str] = set()
+    by_month: dict[str, int] = defaultdict(int)
+
+    for symbol, _ in FEED_INSTRUMENTS:
+        iid = _search_instrument_id(symbol)
+        if iid is None:
+            continue
+        offset = 0
+        take = 100
+        max_pages = 8
+        stop_old = False
+
+        while offset < max_pages * take:
+            data = get_instrument_feed_posts(iid, take=take, offset=offset)
+            if not data:
+                break
+            posts = _extract_posts_from_feed_response(data)
+            if not posts:
+                break
+
+            for post in posts:
+                if not _post_matches_user(post, username):
+                    continue
+                post_id = post.get("id") or post.get("obsoleteId") or ""
+                if post_id and post_id in seen_ids:
+                    continue
+                if post_id:
+                    seen_ids.add(post_id)
+                created = post.get("created")
+                if not created or len(str(created)) < 7:
+                    continue
+                key = str(created)[:7]
+                if key < cutoff_str:
+                    stop_old = True
+                    continue
+                by_month[key] += 1
+
+            if stop_old or len(posts) < take:
+                break
+            offset += take
+            time.sleep(0.15)
 
     return dict(sorted(by_month.items()))
 
@@ -153,15 +237,16 @@ def get_user_feed_posts(
 def get_posts_per_month(username: str, years: int = 1, max_pages: int = 10) -> dict[str, int]:
     """
     Récupère les posts d'un trader et les agrège par mois sur les N dernières années.
+    Utilise l'API user feed en priorité (tous les posts). Si vide, fallback sur
+    plusieurs instruments (NSDQ100, SPX500, CAC40, Or, BTC, ETH) en filtrant par auteur.
     Retourne {"YYYY-MM": count, ...}.
-    max_pages limite le nombre de requêtes (l'API user feed peut renvoyer 0).
     """
     from datetime import datetime, timedelta
 
     profile = get_user_profile(username)
     if not profile:
         return {}
-    # Pour l'API Feeds, gcid renvoie des posts (realCID/demoCID renvoient 0)
+
     user_id = (
         profile.get("gcid")
         or profile.get("UserID")
@@ -170,9 +255,9 @@ def get_posts_per_month(username: str, years: int = 1, max_pages: int = 10) -> d
         or profile.get("realCID")
         or profile.get("demoCID")
     )
-    if user_id is None:
-        return {}
-    user_id = str(user_id)
+    user_id = str(user_id) if user_id is not None else None
+    if not user_id:
+        return get_posts_per_month_from_instruments(username, years)
 
     cutoff_str = (datetime.utcnow() - timedelta(days=years * 365)).strftime("%Y-%m")
     by_month: dict[str, int] = {}
@@ -204,7 +289,13 @@ def get_posts_per_month(username: str, years: int = 1, max_pages: int = 10) -> d
         offset += take
         time.sleep(0.2)
 
-    return dict(sorted(by_month.items()))
+    result = dict(sorted(by_month.items()))
+
+    # Fallback : si user feed vide, utiliser les feeds instruments filtrés par auteur
+    if not result or sum(result.values()) < 2:
+        result = get_posts_per_month_from_instruments(username, years)
+
+    return result
 
 
 # Traders populaires eToro en repli si l'API search ne retourne rien
