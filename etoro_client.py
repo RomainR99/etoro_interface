@@ -42,6 +42,171 @@ def get_user_gain(username: str) -> dict | None:
     return resp.json()
 
 
+# Instruments pour le feed — l'API user feed renvoie 0, on utilise instrument feed
+# (symbole pour recherche, label affiché)
+FEED_INSTRUMENTS = [
+    ("NSDQ100", "NSDQ100"),
+    ("SPX500", "SPX500"),
+]
+
+
+def _search_instrument_id(symbol: str) -> int | None:
+    """Recherche l'ID d'un instrument par symbole (ex: AAPL, TSLA)."""
+    url = f"{BASE_URL}/market-data/search"
+    params = {"internalSymbolFull": symbol, "pageSize": 5}
+    try:
+        resp = requests.get(url, headers=_get_headers(), params=params, timeout=10)
+        if resp.status_code != 200:
+            return None
+        data = resp.json()
+        items = data.get("items") or data.get("Items") or []
+        for item in items:
+            if (item.get("internalSymbolFull") or item.get("symbol") or "").upper() == symbol.upper():
+                iid = item.get("instrumentId") or item.get("InstrumentID")
+                if iid is not None:
+                    return int(iid)
+        if items:
+            return int(items[0].get("instrumentId") or items[0].get("InstrumentID") or 0)
+    except Exception:
+        pass
+    return None
+
+
+def get_instrument_feed_posts(
+    market_id: str | int, take: int = 100, offset: int = 0
+) -> dict | None:
+    """Récupère les posts du feed d'un instrument (API Feeds).
+    market_id : ID de l'instrument (ex: 100000 pour BTC).
+    Retourne {"discussions": [...], "paging": {...}} ou None."""
+    url = f"{BASE_URL}/feeds/instrument/{market_id}"
+    params = {"take": min(take, 100), "offset": offset}
+    try:
+        resp = requests.get(url, headers=_get_headers(), params=params, timeout=30)
+        if resp.status_code != 200:
+            return None
+        return resp.json()
+    except Exception:
+        return None
+
+
+def get_posts_per_month_by_instrument(instrument_id: int, years: int = 5) -> dict[str, int]:
+    """
+    Récupère les posts du feed d'un instrument et les agrège par mois sur les N dernières années.
+    Retourne {"YYYY-MM": count, ...}.
+    """
+    from datetime import datetime, timedelta
+
+    cutoff_str = (datetime.utcnow() - timedelta(days=years * 365)).strftime("%Y-%m")
+    by_month: dict[str, int] = {}
+    offset = 0
+    take = 100
+    stop_old = False
+    max_pages = 15  # limite pour éviter timeout (~30 s max)
+
+    while offset < max_pages * take:
+        data = get_instrument_feed_posts(instrument_id, take=take, offset=offset)
+        if not data:
+            break
+        discussions = data.get("discussions") or []
+        if not discussions:
+            break
+
+        for d in discussions:
+            post = d.get("post") if isinstance(d.get("post"), dict) else {}
+            created = post.get("created")
+            if not created or len(str(created)) < 7:
+                continue
+            key = str(created)[:7]
+            if key < cutoff_str:
+                stop_old = True
+                continue
+            by_month[key] = by_month.get(key, 0) + 1
+
+        if stop_old or len(discussions) < take:
+            break
+        offset += take
+        time.sleep(0.15)
+
+    return dict(sorted(by_month.items()))
+
+
+def get_user_feed_posts(
+    user_id: str | int, take: int = 100, offset: int = 0, requester_user_id: str | int | None = None
+) -> dict | None:
+    """Récupère les posts du feed d'un utilisateur (API Feeds).
+    user_id : ID numérique du user (pas le username).
+    requester_user_id : optionnel, ID du demandeur (pour personnalisation).
+    Retourne {"discussions": [...], "paging": {...}} ou None."""
+    url = f"{BASE_URL}/feeds/user/{user_id}"
+    params = {"take": min(take, 100), "offset": offset}
+    if requester_user_id is not None:
+        params["requesterUserId"] = str(requester_user_id)
+    try:
+        resp = requests.get(url, headers=_get_headers(), params=params, timeout=30)
+        if resp.status_code != 200:
+            return None
+        return resp.json()
+    except Exception:
+        return None
+
+
+def get_posts_per_month(username: str, years: int = 1, max_pages: int = 10) -> dict[str, int]:
+    """
+    Récupère les posts d'un trader et les agrège par mois sur les N dernières années.
+    Retourne {"YYYY-MM": count, ...}.
+    max_pages limite le nombre de requêtes (l'API user feed peut renvoyer 0).
+    """
+    from datetime import datetime, timedelta
+
+    profile = get_user_profile(username)
+    if not profile:
+        return {}
+    # Pour l'API Feeds, gcid renvoie des posts (realCID/demoCID renvoient 0)
+    user_id = (
+        profile.get("gcid")
+        or profile.get("UserID")
+        or profile.get("userID")
+        or profile.get("id")
+        or profile.get("realCID")
+        or profile.get("demoCID")
+    )
+    if user_id is None:
+        return {}
+    user_id = str(user_id)
+
+    cutoff_str = (datetime.utcnow() - timedelta(days=years * 365)).strftime("%Y-%m")
+    by_month: dict[str, int] = {}
+    offset = 0
+    take = 100
+    stop_old = False
+
+    while offset < max_pages * take:
+        data = get_user_feed_posts(user_id, take=take, offset=offset, requester_user_id=user_id)
+        if not data:
+            break
+        discussions = data.get("discussions") or []
+        if not discussions:
+            break
+
+        for d in discussions:
+            post = d.get("post") if isinstance(d.get("post"), dict) else {}
+            created = post.get("created")
+            if not created or len(str(created)) < 7:
+                continue
+            key = str(created)[:7]
+            if key < cutoff_str:
+                stop_old = True
+                continue
+            by_month[key] = by_month.get(key, 0) + 1
+
+        if stop_old or len(discussions) < take:
+            break
+        offset += take
+        time.sleep(0.2)
+
+    return dict(sorted(by_month.items()))
+
+
 # Traders populaires eToro en repli si l'API search ne retourne rien
 FALLBACK_TRADERS = [
     {"userName": "jaynemesis", "copiers": 0, "gain": None},

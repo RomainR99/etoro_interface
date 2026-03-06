@@ -10,6 +10,7 @@ from etoro_client import (
     get_most_copied_traders,
     get_instruments_by_exchange,
     get_all_stocks,
+    get_posts_per_month,
 )
 from zone_bourse.news_fetcher import get_latest_news
 
@@ -301,6 +302,60 @@ def api_all_stocks():
         stocks = [s for s in stocks if (s.get("instrumentId") or 0) >= 1001]
         numbered = [dict(n=i + 1, **s) for i, s in enumerate(stocks)]
         return jsonify({"stocks": numbered})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+def _compute_posts_chart_data(traders: list[str], years: int = 1) -> tuple[list[str], list[dict]]:
+    """Calcule les posts par mois par trader (dernière année). Même logique que _compute_chart_data."""
+    from datetime import datetime, timedelta
+
+    cutoff = (datetime.utcnow() - timedelta(days=years * 365)).strftime("%Y-%m")
+    now_str = datetime.utcnow().strftime("%Y-%m")
+    all_months = []
+    m = cutoff
+    while m <= now_str:
+        all_months.append(m)
+        y, mo = int(m[:4]), int(m[5:7])
+        mo += 1
+        if mo > 12:
+            mo, y = 1, y + 1
+        m = f"{y:04d}-{mo:02d}"
+
+    traders_data: dict[str, dict[str, int]] = {}
+    for username in traders:
+        if not username or username in traders_data:
+            continue
+        by_month = get_posts_per_month(username, years=years, max_pages=20)
+        traders_data[username] = by_month
+
+    colors = [
+        "#58a6ff", "#3fb950", "#f0883e", "#a371f7", "#ff7b72",
+        "#79c0ff", "#7ee787", "#d2a8ff", "#ffa657", "#56d4dd",
+    ]
+    datasets = []
+    for i, (name, by_month) in enumerate(traders_data.items()):
+        values = [by_month.get(m, 0) for m in all_months]
+        datasets.append({
+            "label": name,
+            "data": values,
+            "color": colors[i % len(colors)],
+        })
+    return all_months, datasets
+
+
+@app.route("/api/posts-chart-data")
+def api_posts_chart_data():
+    """Retourne les posts par mois par trader. Même logique que chart-data (RomainRoth + traders ajoutés)."""
+    traders = request.args.get("traders", "").strip().split(",")
+    traders = [t.strip() for t in traders if t.strip()]
+    if not traders:
+        traders = [TRADER_USERNAME]
+    if TRADER_USERNAME not in traders:
+        traders = [TRADER_USERNAME] + traders
+    try:
+        labels, datasets = _compute_posts_chart_data(traders, years=1)
+        return jsonify({"labels": labels, "datasets": datasets})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

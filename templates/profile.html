@@ -434,6 +434,15 @@
         {% endif %}
 
         <div class="card" style="margin-top: 1.5rem; grid-column: 1 / -1;">
+            <h2>Posts par mois — comparaison (dernière année)</h2>
+            <p class="empty-state" style="margin-bottom: 1rem;">Nombre de posts par trader. Mêmes traders que le graphique de performance ({{ username }} + traders ajoutés). via l’API eToro Feeds. </p>
+            <div id="postsChartContainer" style="position: relative; height: 320px;">
+                <canvas id="postsChart"></canvas>
+                <p id="postsChartLoading" class="empty-state" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);margin:0;z-index:1;">Chargement des posts…</p>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 1.5rem; grid-column: 1 / -1;">
             <h2>Dernières actualités Zonebourse</h2>
             <p class="empty-state" style="margin-bottom: 1rem;">Résumés en 5 lignes générés par IA à partir des articles.</p>
             {% if zonebourse_used_fallback %}
@@ -465,18 +474,21 @@
                 return `rgba(${r},${g},${b},${a})`;
             }
             function buildDataset(d) {
-                const bg = d.color.startsWith('#') ? hexToRgba(d.color, 0.1) : d.color.replace(')', ', 0.1)').replace('rgb', 'rgba');
-                return { label: d.label, data: d.data, borderColor: d.color, backgroundColor: bg, fill: true, tension: 0.3, pointRadius: 2 };
+                const c = d.color || '#8b949e';
+                const bg = (typeof c === 'string' && c.startsWith('#')) ? hexToRgba(c, 0.1) : (c.replace ? c.replace(')', ', 0.1)').replace('rgb', 'rgba') : 'rgba(139,148,158,0.1)');
+                return { label: d.label || '', data: d.data || [], borderColor: c, backgroundColor: bg, fill: true, tension: 0.3, pointRadius: 2 };
             }
 
             let chart = null;
             function initChart() {
-                const ctx = document.getElementById('performanceChart').getContext('2d');
+                const el = document.getElementById('performanceChart');
+                if (!el) return;
+                const ctx = el.getContext('2d');
                 chart = new Chart(ctx, {
                     type: 'line',
                     data: {
                         labels: initialLabels,
-                        datasets: initialDatasets.map(buildDataset)
+                        datasets: (initialDatasets || []).map(buildDataset)
                     },
                     options: {
                         responsive: true,
@@ -526,6 +538,100 @@
                         chart.update();
                     })
                     .catch(err => console.error(err));
+                updatePostsChart();
+            }
+
+            let postsChart = null;
+            function initPostsChart() {
+                try {
+                    const canvas = document.getElementById('postsChart');
+                    if (!canvas) return;
+                    // Chargement différé pour ne pas bloquer le reste (l'API peut prendre 1-2 min)
+                    setTimeout(updatePostsChart, 500);
+                } catch (e) { console.error('initPostsChart:', e); }
+            }
+            function updatePostsChart() {
+                const canvas = document.getElementById('postsChart');
+                const container = document.getElementById('postsChartContainer');
+                if (!canvas) return;
+                const traders = ['{{ username }}', ...addedTraders].filter(Boolean);
+                const params = new URLSearchParams({ traders: traders.join(',') });
+                fetch('/api/posts-chart-data?' + params)
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.error) throw new Error(data.error);
+                        const rawDatasets = data.datasets || [];
+                        const hasData = rawDatasets.some(d => (d.data || []).some(v => v > 0));
+                        if (container) {
+                            const loading = document.getElementById('postsChartLoading');
+                            if (loading) loading.style.display = 'none';
+                            const msg = container.querySelector('.posts-chart-msg');
+                            if (msg) msg.remove();
+                            if (!hasData) {
+                                const el = document.createElement('p');
+                                el.className = 'empty-state posts-chart-msg';
+                                el.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);margin:0;z-index:2;';
+                                el.textContent = 'Aucun post récupéré pour ces traders.';
+                                container.style.position = 'relative';
+                                container.appendChild(el);
+                            }
+                        }
+                        const datasets = rawDatasets.map(d => ({
+                            ...buildDataset(d),
+                            borderColor: d.color,
+                            backgroundColor: d.color && d.color.startsWith('#') ? hexToRgba(d.color, 0.1) : 'rgba(139,148,158,0.1)'
+                        }));
+                        const yOptions = {
+                            ticks: { color: '#8b949e', stepSize: 1, precision: 0 },
+                            grid: { color: '#30363d' },
+                            suggestedMin: 0,
+                            suggestedMax: hasData ? undefined : 5
+                        };
+                        if (!postsChart) {
+                            const ctx = canvas.getContext('2d');
+                            postsChart = new Chart(ctx, {
+                                type: 'line',
+                                data: { labels: data.labels || [], datasets },
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    plugins: {
+                                        legend: { labels: { color: '#8b949e' } },
+                                        tooltip: {
+                                            callbacks: {
+                                                label: function(ctx) { return ctx.dataset.label + ': ' + ctx.parsed.y + ' post(s)'; }
+                                            }
+                                        }
+                                    },
+                                    scales: {
+                                        x: { ticks: { color: '#8b949e', maxRotation: 45 }, grid: { color: '#30363d' } },
+                                        y: yOptions
+                                    }
+                                }
+                            });
+                        } else {
+                            postsChart.data.labels = data.labels || [];
+                            postsChart.data.datasets = datasets;
+                            postsChart.options.scales.y = { ...postsChart.options.scales.y, ...yOptions };
+                            postsChart.update();
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Posts chart:', err);
+                        const container = document.getElementById('postsChartContainer');
+                        const loading = document.getElementById('postsChartLoading');
+                        if (loading) loading.style.display = 'none';
+                        if (container) {
+                            const existing = container.querySelector('.posts-chart-msg');
+                            if (existing) existing.remove();
+                            const el = document.createElement('p');
+                            el.className = 'empty-state posts-chart-msg';
+                            el.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);margin:0;color:var(--danger);';
+                            el.textContent = 'Erreur chargement des posts: ' + (err.message || 'réessayez plus tard');
+                            container.style.position = 'relative';
+                            container.appendChild(el);
+                        }
+                    });
             }
 
             const dcaLabels = {{ dca_labels | default([]) | tojson }};
@@ -573,7 +679,8 @@
             document.getElementById('ndqCheck').addEventListener('change', updateChart);
             document.getElementById('cac40trCheck').addEventListener('change', updateChart);
             document.getElementById('msciCheck').addEventListener('change', updateChart);
-            initChart();
+            try { initChart(); } catch (e) { console.error('initChart:', e); }
+            try { initPostsChart(); } catch (e) { console.error('initPostsChart:', e); }
         </script>
 
         <p class="risk-warning">
