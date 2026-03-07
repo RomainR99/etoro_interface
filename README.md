@@ -11,6 +11,7 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
 - **Posts par mois** (graphique 3) : comparaison du nombre de posts. Priorité au feed utilisateur (tous les posts) ; si vide, fallback sur plusieurs instruments (NSDQ100, SPX500, CAC40, Or, BTC, ETH) en filtrant par auteur
 - **Performance vs copieurs** (graphique 5) : nuage de points pour les 2000 traders les plus copiés (abscisse = copieurs, ordonnée = performance % sur 2 ans)
 - **Actualités Zonebourse** : résumés des articles générés par IA (5 lignes par article) et illustration sous chaque actualité (génération d’image via OpenAI DALL·E 3, même clé `OPENAI_API_KEY`)
+- **Actualités par instrument** : sous les posts Zonebourse, les 3 dernières actualités Mediastack pour les instruments du portefeuille du trader (RomainRoth). Traduction automatique en français via OpenAI.
 - **Chatbot agent IA** : assistant pédagogique en éducation financière pour poser des questions sur les données eToro et Zonebourse. Elle ajoute :
   - conformité AMF / régulation financière
   - prévention promesses de rendement
@@ -129,12 +130,13 @@ OPENAI_API_KEY=sk-...          # Résumés des actualités + génération d’im
 TWELVEDATA_API_KEY=...        # Optionnel
 RECAPTCHA_SITE_KEY=...        # Optionnel : CAPTCHA anti-bots (voir section ci-dessus)
 RECAPTCHA_SECRET_KEY=...      # Optionnel : clé secrète reCAPTCHA v2
-MEDIASTACK_ACCESS_KEY=...     # Optionnel : API Mediastack (actualités en temps réel)
+MEDIASTACK_ACCESS_KEY=...     # Optionnel : actualités par instrument (plan gratuit : 100 req/mois)
 ```
 
 - Les clés eToro se génèrent dans **Paramètres > Trading > Gestion des clés API** sur eToro.
 - **OPENAI_API_KEY** : résumés Zonebourse, illustrations, chatbot.
 - **RECAPTCHA_*** : optionnel. Si absent, le CAPTCHA est désactivé.
+- **MEDIASTACK_ACCESS_KEY** : actualités par instrument. Si absent, la section affiche « Aucune actualité chargée ».
 
 ## Lancement
 
@@ -213,6 +215,19 @@ Article :
 Le modèle utilisé est **gpt-4o-mini**. La réponse JSON est parsée pour afficher le titre et le résumé dans l’interface. La clé API est lue depuis la variable d’environnement `OPENAI_API_KEY` (fichier `.env`).
 
 > **📌 Cache** — Les posts et images sont mis en cache dans `data/zonebourse_posts.json` (métadonnées) et `data/zonebourse_images/*.png` (images). Gain de place et de mémoire par rapport au stockage base64 en JSON.
+
+### Actualités par instrument (Mediastack)
+
+Juste **sous les 3 posts Zonebourse**, une section affiche les **3 dernières actualités** liées aux instruments en portefeuille du trader (RomainRoth). Les actualités proviennent de l’[API Mediastack](https://mediastack.com/documentation) et sont **traduites en français** via OpenAI (gpt-4o-mini).
+
+| Élément | Description |
+|--------|-------------|
+| **Source** | Mediastack (paramètre `MEDIASTACK_ACCESS_KEY` dans `.env`) |
+| **Mots-clés** | Symboles/noms des instruments du portefeuille |
+| **Fallback** | Si aucun résultat : catégorie `business`, puis sans filtre |
+| **Traduction** | Titre et description traduits en français via `OPENAI_API_KEY` |
+
+Sans `MEDIASTACK_ACCESS_KEY`, la section affiche « Aucune actualité chargée ». Le plan gratuit Mediastack limite à 100 requêtes/mois.
 
 ![Capture des actualités Zonebourse](images/actualité.png)
 

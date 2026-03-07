@@ -238,15 +238,56 @@ def _fetch_mediastack_instrument_news(instruments: list[dict], limit: int = 3) -
             keywords = " ".join(parts[:3])
             items = _do_request({**base_params, "keywords": keywords})
             if items:
-                return items
+                return _translate_instrument_news_to_french(items)
 
     # Essai 2 : catégorie business (actualités financières)
     items = _do_request({**base_params, "categories": "business"})
     if items:
-        return items
+        return _translate_instrument_news_to_french(items)
 
     # Essai 3 : sans filtre
-    return _do_request(base_params)
+    items = _do_request(base_params)
+    if items:
+        return _translate_instrument_news_to_french(items)
+    return []
+
+
+def _translate_instrument_news_to_french(items: list[dict]) -> list[dict]:
+    """Traduit titre et description des actualités en français via OpenAI."""
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key or not items:
+        return items
+    try:
+        from openai import OpenAI
+        client = OpenAI(api_key=api_key)
+        texts = []
+        for a in items:
+            texts.append((a.get("title") or "").strip())
+            texts.append((a.get("description") or "").strip()[:500])
+        sep = "\n|||\n"
+        batch = sep.join(texts)
+        r = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "Tu traduis en français. Réponds uniquement par les traductions, dans le même ordre, séparées par ||| sur une ligne. Pas de numérotation ni commentaire."},
+                {"role": "user", "content": batch},
+            ],
+            temperature=0.2,
+        )
+        out = (r.choices[0].message.content or "").strip()
+        parts = [p.strip() for p in out.split("|||")]
+        if len(parts) >= len(texts):
+            for i, a in enumerate(items):
+                updated = dict(a)
+                idx = i * 2
+                if idx < len(parts):
+                    updated["title"] = parts[idx]
+                if idx + 1 < len(parts):
+                    updated["description"] = parts[idx + 1]
+                items[i] = updated
+    except Exception:
+        pass
+    return items
 
 
 def _get_index_monthly_returns(ticker_symbol: str) -> dict[str, float]:
