@@ -227,22 +227,42 @@ FALLBACK_ARTICLE_URLS = [
 
 
 def _fetch_article_links(limit: int = 3) -> tuple[list[str], bool]:
-    """Récupère les URLs des N derniers articles depuis la page actualités.
-    Retourne (urls, used_fallback) où used_fallback=True si la page listing n'a pas fourni de liens."""
+    """Récupère les URLs des N derniers articles depuis la section Hot News de la page actualités.
+    Zonebourse n'a pas d'API : on utilise BeautifulSoup pour extraire les liens Hot News.
+    Retourne (urls, used_fallback) où used_fallback=True si la section Hot News n'a pas fourni de liens."""
     urls: list[str] = []
     try:
         resp = requests.get(ACTUALITES_URL, headers=_get_headers(), timeout=REQUEST_TIMEOUT)
         if resp.status_code != 200:
             return (FALLBACK_ARTICLE_URLS[:limit], True)
         soup = BeautifulSoup(resp.text, "lxml")
-        seen: set[str] = set()
-        for a in soup.find_all("a", href=True):
-            if len(urls) >= limit:
-                break
-            url = _normalize_article_url(a["href"])
-            if url and url not in seen:
-                seen.add(url)
-                urls.append(url)
+        # Trouver l'élément contenant "Hot News" puis le tableau suivant
+        hot_news_table = None
+        for elem in soup.find_all(string=re.compile(r"Hot\s*News", re.I)):
+            tag = elem.parent
+            if tag:
+                hot_news_table = tag.find_next("table")
+                if hot_news_table:
+                    break
+        if hot_news_table:
+            seen: set[str] = set()
+            for a in hot_news_table.find_all("a", href=True):
+                if len(urls) >= limit:
+                    break
+                url = _normalize_article_url(a["href"])
+                if url and url not in seen:
+                    seen.add(url)
+                    urls.append(url)
+        # Fallback : chercher tous les liens actualite-bourse dans la page (ordre d'apparition)
+        if not urls:
+            seen = set()
+            for a in soup.find_all("a", href=True):
+                if len(urls) >= limit:
+                    break
+                url = _normalize_article_url(a["href"])
+                if url and url not in seen:
+                    seen.add(url)
+                    urls.append(url)
     except Exception:
         pass
     if not urls:
