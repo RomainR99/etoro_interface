@@ -545,8 +545,8 @@ OPENAI_IMAGE_MODEL = "dall-e-3"
 
 
 def _load_image_news_prompt(style_index: int = 0) -> str:
-    """Charge le template du prompt image. style_index 0=éditorial, 1=fintech/data, 2=réaliste presse."""
-    style_index = max(0, min(2, int(style_index)))
+    """Charge le template du prompt image. style_index 0-5 : 6 styles (éditorial, fintech, réaliste, Bloomberg, Economist, cartoon)."""
+    style_index = max(0, min(5, int(style_index)))
     filename = f"image_news_style{style_index + 1}.txt"
     path = os.path.join(os.path.dirname(__file__), "prompts", filename)
     try:
@@ -588,7 +588,7 @@ def _generate_image_openai(prompt: str, style_index: int = 0) -> tuple[str | Non
 
 @app.route("/api/generate-news-image", methods=["POST"])
 def api_generate_news_image():
-    """Génère une image à partir d'un prompt (actualité) via OpenAI DALL·E. style_index 0/1/2 = style 1/2/3."""
+    """Génère une image à partir d'un prompt (actualité) via OpenAI DALL·E. style_index 0-5 = 6 styles (choix aléatoire côté client)."""
     data = request.get_json(silent=True) or {}
     prompt = (data.get("prompt") or "").strip()
     style_index = data.get("style_index", 0)

@@ -883,8 +883,7 @@
                 Array.prototype.forEach.call(containers, function(div) {
                     var title = div.getAttribute('data-title') || '';
                     var summary = div.getAttribute('data-summary') || '';
-                    var styleIndex = parseInt(div.getAttribute('data-style-index'), 10);
-                    if (isNaN(styleIndex)) styleIndex = 0;
+                    var styleIndex = Math.floor(Math.random() * 6);
                     var prompt = buildImagePrompt(title, summary);
                     if (!prompt) { div.innerHTML = ''; div.classList.remove('news-item-image-loading'); return; }
                     fetch('/api/generate-news-image', {
