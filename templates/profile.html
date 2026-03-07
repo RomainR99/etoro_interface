@@ -348,6 +348,7 @@
                     {% if profile.isVerified %}<span class="badge badge-verified">✓ Vérifié</span>{% endif %}
                     {% if profile.isPi %}<span class="badge badge-pi">Pro Investor</span>{% endif %}
                 {% endif %}
+                {% if current_copiers is not none %}<span class="badge" style="background: rgba(139,148,158,0.2); color: var(--muted);">{{ current_copiers }} copieur{% if current_copiers > 1 %}s{% endif %} (aujourd'hui)</span>{% endif %}
             </div>
         </header>
 
@@ -443,11 +444,19 @@
         </div>
 
         <div class="card" style="margin-top: 1.5rem; grid-column: 1 / -1;">
-            <h2>Évolution du nombre de copieurs (dernières périodes)</h2>
-            <p class="empty-state" style="margin-bottom: 1rem;">Nombre de copieurs par trader. Mêmes traders que le graphique de performance. L'API eToro fournit des snapshots par période (pas d'historique mensuel sur 10 ans).</p>
+            <h2>Évolution du nombre de copieurs</h2>
+            <p class="empty-state" style="margin-bottom: 1rem;">Nombre de copieurs par trader sur 7 périodes (2 ans → actuel). Courbes en paliers = snapshots API (pas d'historique mensuel).</p>
             <div id="copiersChartContainer" style="position: relative; height: 320px;">
                 <canvas id="copiersChart"></canvas>
                 <p id="copiersChartLoading" class="empty-state" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);margin:0;z-index:1;">Chargement…</p>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 1.5rem; grid-column: 1 / -1;">
+            <h2>Performance vs nombre de copieurs (top 100) — depuis sept. 22</h2>
+            <div id="scatterChartContainer" style="position: relative; height: 400px;">
+                <canvas id="scatterChart"></canvas>
+                <p id="scatterChartLoading" class="empty-state" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);margin:0;z-index:1;">Chargement…</p>
             </div>
         </div>
 
@@ -570,11 +579,22 @@
                     .then(data => {
                         if (data.error) throw new Error(data.error);
                         const rawDatasets = data.datasets || [];
-                        const datasets = rawDatasets.map(d => ({
-                            ...buildDataset(d),
-                            borderColor: d.color,
-                            backgroundColor: d.color && d.color.startsWith('#') ? hexToRgba(d.color, 0.1) : 'rgba(139,148,158,0.1)'
-                        }));
+                        const labels = data.labels || [];
+                        const datasets = rawDatasets.map((d, di) => {
+                            const arr = d.data || [];
+                            return {
+                                ...buildDataset(d),
+                                borderColor: d.color,
+                                backgroundColor: d.color && d.color.startsWith('#') ? hexToRgba(d.color, 0.15) : 'rgba(139,148,158,0.1)',
+                                fill: true,
+                                tension: 0,
+                                stepped: 'before',
+                                pointRadius: 4,
+                                pointHoverRadius: 6
+                            };
+                        });
+                        const maxVal = Math.max(...datasets.flatMap(d => d.data || []), 1);
+                        const yStep = maxVal <= 10 ? 1 : maxVal <= 50 ? 5 : maxVal <= 200 ? 20 : Math.max(50, Math.ceil(maxVal / 10));
                         if (container) {
                             const loading = document.getElementById('copiersChartLoading');
                             if (loading) loading.style.display = 'none';
@@ -583,34 +603,124 @@
                             const ctx = canvas.getContext('2d');
                             copiersChart = new Chart(ctx, {
                                 type: 'line',
-                                data: { labels: data.labels || [], datasets },
+                                data: { labels, datasets },
                                 options: {
                                     responsive: true,
                                     maintainAspectRatio: false,
+                                    interaction: { mode: 'index', intersect: false },
                                     plugins: {
-                                        legend: { labels: { color: '#8b949e' } },
+                                        legend: { labels: { color: '#8b949e', usePointStyle: true } },
                                         tooltip: {
                                             callbacks: {
-                                                label: function(ctx) { return ctx.dataset.label + ': ' + ctx.parsed.y + ' copieur(s)'; }
+                                                label: function(ctx) {
+                                                    const v = ctx.parsed.y;
+                                                    const idx = ctx.dataIndex;
+                                                    const prev = idx > 0 ? ctx.dataset.data[idx - 1] : null;
+                                                    let s = ctx.dataset.label + ': ' + v + ' copieur(s)';
+                                                    if (prev != null && prev !== v) {
+                                                        const diff = v - prev;
+                                                        s += ' (' + (diff >= 0 ? '+' : '') + diff + ')';
+                                                    }
+                                                    return s;
+                                                }
                                             }
                                         }
                                     },
                                     scales: {
-                                        x: { ticks: { color: '#8b949e', maxRotation: 45 }, grid: { color: '#30363d' } },
-                                        y: { ticks: { color: '#8b949e', stepSize: 1 }, grid: { color: '#30363d' }, suggestedMin: 0 }
+                                        x: { ticks: { color: '#8b949e', maxRotation: 40, font: { size: 11 } }, grid: { color: '#30363d' } },
+                                        y: { ticks: { color: '#8b949e', stepSize: yStep }, grid: { color: '#30363d' }, suggestedMin: 0, suggestedMax: Math.ceil((maxVal * 1.1) / yStep) * yStep }
                                     }
                                 }
                             });
                         } else {
-                            copiersChart.data.labels = data.labels || [];
+                            copiersChart.data.labels = labels;
                             copiersChart.data.datasets = datasets;
+                            copiersChart.options.scales.y.ticks.stepSize = yStep;
+                            copiersChart.options.scales.y.suggestedMax = Math.ceil((maxVal * 1.1) / yStep) * yStep;
                             copiersChart.update();
                         }
                     })
                     .catch(err => {
                         console.error('Copiers chart:', err);
                         const loading = document.getElementById('copiersChartLoading');
+                        const cont = document.getElementById('copiersChartContainer');
                         if (loading) loading.style.display = 'none';
+                        if (cont) {
+                            const el = document.createElement('p');
+                            el.className = 'empty-state';
+                            el.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);margin:0;color:var(--danger,#f85149);';
+                            el.textContent = 'Erreur chargement des copieurs: ' + (err.message || 'réessayez');
+                            cont.style.position = 'relative';
+                            cont.appendChild(el);
+                        }
+                    });
+            }
+
+            let scatterChart = null;
+            function initScatterChart() {
+                const canvas = document.getElementById('scatterChart');
+                const container = document.getElementById('scatterChartContainer');
+                if (!canvas) return;
+                fetch('/api/copiers-vs-performance')
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.error) throw new Error(data.error);
+                        const loading = document.getElementById('scatterChartLoading');
+                        if (loading) loading.style.display = 'none';
+                        const points = (data.points || []).filter(p => p.gain != null && p.copiers != null && p.copiers > 0 && p.gain > 0);
+                        const xVals = points.map(p => p.copiers).filter(x => x > 0);
+                        const xMin = xVals.length ? Math.min(...xVals) * 0.9 : 1;
+                        const xMax = xVals.length ? Math.max(...xVals) * 1.1 : 100000;
+                        const romainrothIndex = data.romainroth_index;
+                        const sp500Index = data.sp500_index;
+                        const datasets = [
+                            { type: 'scatter', label: 'Traders', data: points.map(p => ({ x: p.copiers, y: p.gain, userName: p.userName })), backgroundColor: 'rgba(88,166,255,0.4)', borderColor: 'rgba(88,166,255,0.8)', pointRadius: 4, pointHoverRadius: 8 },
+                            ...(romainrothIndex != null && romainrothIndex > 0 ? [{ type: 'line', label: '{{ username }}', data: [{ x: xMin, y: romainrothIndex }, { x: xMax, y: romainrothIndex }], borderColor: '#f85149', backgroundColor: 'transparent', fill: false, pointRadius: 0, tension: 0 }] : []),
+                            ...(sp500Index != null && sp500Index > 0 ? [{ type: 'line', label: 'S&P 500', data: [{ x: xMin, y: sp500Index }, { x: xMax, y: sp500Index }], borderColor: '#484f58', backgroundColor: 'transparent', fill: false, pointRadius: 0, tension: 0 }] : [])
+                        ];
+                        if (!scatterChart) {
+                            const ctx = canvas.getContext('2d');
+                            scatterChart = new Chart(ctx, {
+                                type: 'scatter',
+                                data: { datasets },
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    plugins: {
+                                        legend: { display: true, labels: { color: '#8b949e' } },
+                                        tooltip: {
+                                            callbacks: {
+                                                label: function(ctx) {
+                                                    const p = ctx.raw;
+                                                    if (p.userName) return p.userName + ': ' + p.x + ' copieurs, indice ' + (p.y != null ? p.y.toFixed(1) : '-');
+                                                    return (ctx.dataset.label || '') + ': indice ' + (p.y != null ? p.y.toFixed(1) : '-');
+                                                }
+                                            }
+                                        }
+                                    },
+                                    scales: {
+                                        x: { type: 'logarithmic', title: { display: true, text: 'Nombre de copieurs', color: '#8b949e' }, ticks: { color: '#8b949e' }, grid: { color: '#30363d' } },
+                                        y: { type: 'logarithmic', title: { display: true, text: 'Indice cumulé base 100 (comme graphique 1)', color: '#8b949e' }, ticks: { color: '#8b949e' }, grid: { color: '#30363d' } }
+                                    }
+                                }
+                            });
+                        } else {
+                            scatterChart.data.datasets = datasets;
+                            scatterChart.update();
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Scatter chart:', err);
+                        const loading = document.getElementById('scatterChartLoading');
+                        if (loading) loading.style.display = 'none';
+                        if (container) {
+                            const el = document.createElement('p');
+                            el.className = 'empty-state';
+                            el.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);margin:0;color:var(--danger,#f85149);';
+                            el.textContent = 'Erreur: ' + (err.message || 'réessayez');
+                            container.style.position = 'relative';
+                            container.appendChild(el);
+                        }
                     });
             }
 
@@ -755,6 +865,7 @@
             try { initChart(); } catch (e) { console.error('initChart:', e); }
             try { initPostsChart(); } catch (e) { console.error('initPostsChart:', e); }
             try { initCopiersChart(); } catch (e) { console.error('initCopiersChart:', e); }
+            try { initScatterChart(); } catch (e) { console.error('initScatterChart:', e); }
         </script>
 
         <p class="risk-warning">

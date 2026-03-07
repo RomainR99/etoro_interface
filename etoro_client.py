@@ -339,14 +339,15 @@ def get_most_copied_traders(limit: int = 10) -> list[dict]:
     return FALLBACK_TRADERS[:limit]
 
 
-# Périodes pour l'évolution des copieurs (snapshots)
-# L'API ne fournit pas d'historique mensuel sur 10 ans, seulement ces périodes
+# Périodes pour l'évolution des copieurs (snapshots API)
+# Ordre chronologique : passé → présent. L'API ne fournit pas d'historique mensuel.
 COPIERS_PERIODS = [
-    ("LastTwoYears", "2 ans"),
-    ("LastYear", "1 an"),
-    ("SixMonthsAgo", "6 mois"),
-    ("ThreeMonthsAgo", "3 mois"),
-    ("OneMonthAgo", "1 mois"),
+    ("LastTwoYears", "Il y a 2 ans"),
+    ("OneYearAgo", "Il y a 1 an"),
+    ("SixMonthsAgo", "Il y a 6 mois"),
+    ("ThreeMonthsAgo", "Il y a 3 mois"),
+    ("TwoMonthsAgo", "Il y a 2 mois"),
+    ("OneMonthAgo", "Il y a 1 mois"),
     ("CurrMonth", "Actuel"),
 ]
 
@@ -367,6 +368,43 @@ def get_copiers_by_period(period: str, page_size: int = 500) -> dict[str, int]:
         return {item["userName"]: item.get("copiers", 0) for item in items if item.get("userName")}
     except Exception:
         return {}
+
+
+def get_copiers_vs_performance(limit: int = 2000, period: str = "LastTwoYears") -> list[dict]:
+    """
+    Retourne les N traders les plus copiés avec copiers et gain (performance).
+    Pour le graphique : abscisse = copiers, ordonnée = gain (gain %).
+    period=LastTwoYears = performance sur 2 ans (max disponible via search).
+    """
+    url = f"{BASE_URL}/user-info/people/search"
+    params = {"period": period, "sort": "-copiers", "pageSize": min(limit, 2000)}
+    try:
+        resp = requests.get(url, headers=_get_headers(), params=params, timeout=30)
+        if resp.status_code != 200:
+            return []
+        data = resp.json()
+        items = data.get("items") or data.get("Items") or []
+        result = [
+            {
+                "userName": item.get("userName"),
+                "copiers": item.get("copiers", 0) or 0,
+                "gain": item.get("gain") if item.get("gain") is not None else None,
+            }
+            for item in items
+            if item.get("userName")
+        ]
+        return [p for p in result if p["gain"] is None or p["gain"] <= 500]
+    except Exception:
+        return []
+
+
+def get_current_copiers(username: str) -> int | None:
+    """
+    Retourne le nombre de copieurs actuels du trader (période CurrMonth).
+    Retourne None si le trader n'est pas dans le top 1000.
+    """
+    by_user = get_copiers_by_period("CurrMonth", page_size=1000)
+    return by_user.get(username)
 
 
 def get_copiers_evolution(traders: list[str]) -> dict[str, dict[str, int]]:

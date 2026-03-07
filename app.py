@@ -1,6 +1,8 @@
 """Application Flask pour visualiser le profil des traders eToro."""
 
+import json
 import os
+import time
 from datetime import datetime
 from flask import Flask, jsonify, render_template, request
 from etoro_client import (
@@ -12,6 +14,8 @@ from etoro_client import (
     get_all_stocks,
     get_posts_per_month,
     get_copiers_evolution,
+    get_current_copiers,
+    get_copiers_vs_performance,
 )
 from zone_bourse.news_fetcher import get_latest_news
 
@@ -24,6 +28,7 @@ except ImportError:
 app = Flask(__name__)
 TRADER_USERNAME = "RomainRoth"
 DATE_FROM = "2022-09"  # Données à partir de septembre 2022
+COPIERS_VS_PERF_CACHE = os.path.join(os.path.dirname(__file__), "data", "copiers_vs_performance.json")
 
 
 INDEX_CONFIG = {
@@ -202,6 +207,78 @@ def _compute_dca_simulation(
     return labels, romainroth_vals, sp500_vals
 
 
+def _get_reference_months() -> list[str]:
+    """Mois de référence = DATE_FROM jusqu'à ce mois (même plage que graphique 1)."""
+    from datetime import datetime
+    out = []
+    start = datetime.strptime(DATE_FROM + "-01", "%Y-%m-%d")
+    end = datetime.utcnow()
+    m = start
+    while m <= end:
+        out.append(m.strftime("%Y-%m"))
+        if m.month == 12:
+            m = m.replace(year=m.year + 1, month=1)
+        else:
+            m = m.replace(month=m.month + 1)
+    return out
+
+
+def _compute_cumulative_index(by_month: dict[str, float], all_months: list[str] | None = None) -> float | None:
+    """
+    Calcule l'indice cumulé (base 100) comme le graphique 1.
+    Retourne la valeur finale (ex: 266 = +166% de gain).
+    """
+    if all_months is None:
+        all_months = _get_reference_months()
+    if not all_months:
+        return None
+    cum = 100.0
+    for month in all_months:
+        if month in by_month:
+            g = by_month.get(month) or 0
+            cum *= 1 + float(g) / 100
+    return round(cum, 2)
+
+
+def _build_copiers_vs_performance_real(limit: int = 50) -> list[dict]:
+    """
+    Récupère les N traders les plus copiés (>25 copieurs, gain<=500%),
+    calcule la performance réelle via get_user_gain (données mensuelles),
+    sauvegarde dans un fichier JSON.
+    """
+    raw = get_copiers_vs_performance(limit=200)
+    traders = [p["userName"] for p in raw[:limit]]
+    all_months = _get_reference_months()
+    points = []
+    for username in traders:
+        try:
+            gain = get_user_gain(username)
+            by_month = _gain_to_by_month(_filter_gain_from_date(gain))
+            perf = _compute_cumulative_index(by_month, all_months=all_months)
+            copiers = next((p["copiers"] for p in raw if p["userName"] == username), 0)
+            if perf is not None and copiers and perf <= 600:
+                points.append({"userName": username, "copiers": copiers, "gain": perf})
+        except Exception:
+            pass
+        time.sleep(0.25)
+    os.makedirs(os.path.dirname(COPIERS_VS_PERF_CACHE), exist_ok=True)
+    with open(COPIERS_VS_PERF_CACHE, "w", encoding="utf-8") as f:
+        json.dump({"points": points, "updated": datetime.utcnow().isoformat()}, f, ensure_ascii=False)
+    return points
+
+
+def _load_copiers_vs_performance_cached(refresh: bool = False) -> list[dict]:
+    """Charge depuis le cache JSON, ou recalcule et sauvegarde si absent ou refresh."""
+    if not refresh and os.path.exists(COPIERS_VS_PERF_CACHE):
+        try:
+            with open(COPIERS_VS_PERF_CACHE, encoding="utf-8") as f:
+                data = json.load(f)
+                return data.get("points", [])
+        except Exception:
+            pass
+    return _build_copiers_vs_performance_real(limit=100)
+
+
 def _filter_gain_from_date(gain_data: dict | None) -> dict | None:
     """Filtre les gains pour ne garder que les entrées à partir de septembre 2022."""
     if not gain_data:
@@ -258,6 +335,11 @@ def index():
         zonebourse_news = []
         zonebourse_used_fallback = False
 
+    try:
+        current_copiers = get_current_copiers(TRADER_USERNAME)
+    except Exception:
+        current_copiers = None
+
     return render_template(
         "profile.html",
         profile=profile,
@@ -272,6 +354,7 @@ def index():
         dca_sp500=dca_sp500,
         zonebourse_news=zonebourse_news,
         zonebourse_used_fallback=zonebourse_used_fallback,
+        current_copiers=current_copiers,
     )
 
 
@@ -398,6 +481,44 @@ def api_copiers_chart_data():
     try:
         labels, datasets = _compute_copiers_chart_data(traders)
         return jsonify({"labels": labels, "datasets": datasets})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+def _ensure_romainroth_in_points(points: list[dict]) -> list[dict]:
+    """Ajoute RomainRoth aux points si absent."""
+    if any(p.get("userName") == TRADER_USERNAME for p in points):
+        return points
+    try:
+        from etoro_client import get_current_copiers
+        copiers = get_current_copiers(TRADER_USERNAME) or 0
+        gain = get_user_gain(TRADER_USERNAME)
+        by_month = _gain_to_by_month(_filter_gain_from_date(gain))
+        perf = _compute_cumulative_index(by_month)
+        if perf is not None and copiers is not None:
+            return [{"userName": TRADER_USERNAME, "copiers": copiers, "gain": perf}] + points
+    except Exception:
+        pass
+    return points
+
+
+@app.route("/api/copiers-vs-performance")
+def api_copiers_vs_performance():
+    """Retourne les points (copiers, gain), romainroth_index et sp500_index pour les lignes de référence."""
+    try:
+        refresh = request.args.get("refresh", "").lower() in ("1", "true")
+        points = _load_copiers_vs_performance_cached(refresh=refresh)
+        points = _ensure_romainroth_in_points(points)
+        romainroth_point = next((p for p in points if p.get("userName") == TRADER_USERNAME), None)
+        romainroth_index = romainroth_point["gain"] if romainroth_point and romainroth_point.get("gain") else None
+        sp500_returns = _get_sp500_monthly_returns()
+        sp500_index = _compute_cumulative_index(sp500_returns) if sp500_returns else None
+        points_no_main = [p for p in points if p.get("userName") != TRADER_USERNAME]
+        return jsonify({
+            "points": points_no_main,
+            "romainroth_index": romainroth_index,
+            "sp500_index": sp500_index,
+        })
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
