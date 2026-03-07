@@ -1,8 +1,7 @@
 # Vidéos YouTube à recommander par le chatbot (titre | URL)
 # Une entrée par ligne : Titre | URL
 
-Elite & Elite-Pro Popular Investor Education Courses in 4 Steps|https://www.youtube.com/watch?v=qE3Y0rBYPqA
-CashFlow Investor 3M AUM|https://www.youtube.com/@cashflowinvestor888/videos
+
 Warren Buffett ~ Diversification|https://www.youtube.com/watch?v=wbjPiYE-F4Y
 Charlie Munger - You Only Need Three Stocks To Get Rich|https://www.youtube.com/watch?v=z85iiX2QWqU
 Howard Marks|https://www.youtube.com/watch?v=V44vd4sJcPs
@@ -10,13 +9,10 @@ Mohnish Pabrai when to buy when to sell|https://www.youtube.com/watch?v=sOaww-Z3
 Outperform 99% Of Investors - Peter Lynch|https://www.youtube.com/watch?v=Jf0nMO_2OAE
 Go from $10,000 to $1M in just 3 years|https://www.youtube.com/watch?v=TN5aKByr3Rs
 Les secrets du PER|https://www.youtube.com/watch?v=6-0VIVUAfds
-Warren Buffett: 10 Mistakes Every Investor Makes|https://www.youtube.com/watch?v=JultAiOdhvk
+Warren Buffett: 12 Mistakes Every Investor Makes|https://www.youtube.com/watch?v=nUucyfWpL0A
 Warren Buffett: You Only Need To Know These 7 Rules|https://www.youtube.com/watch?v=63oF8BOMMB8
-Investing in AI - is it too late? (eToro)|https://www.youtube.com/watch?v=860cQy_60Fk
-JPY/EUR - analyse|https://www.youtube.com/watch?v=MFpfOAgrO0A
 Warren Buffett: How to Invest with Little Money|https://www.youtube.com/watch?v=HaqIgdZi_h8
 Dumb Money (chaîne)|https://www.youtube.com/dumbmoney
-Web3 Blockchain Fundamentals MOOC|https://www.youtube.com/playlist?list=PLxVihxZC42nF_MCN9PTvZMIifRjx9cZ2J
 Software is Eating the World - How to Invest|https://www.youtube.com/watch?v=GQaEOedKF1A
 Les 10 règles du succès - Bill Ackman|https://www.youtube.com/watch?v=eiA7IGfkchE
 Bill Ackman - Buffett et Munger (analyse financière)|https://www.youtube.com/watch?v=H9pmFe1vpu8
