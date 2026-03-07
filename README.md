@@ -5,7 +5,7 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
 ## Fonctionnalités
 
 - **Profil trader** : affichage du profil, des gains mensuels/annuels et du portefeuille
-- **Comparaison des performances** : courbes comparatives (base 100) avec possibilité d'ajouter les 100 traders les plus copiés
+- **Comparaison des performances** : courbes comparatives (base 100) avec possibilité d'ajouter les 100 traders les plus copiés. La liste déroulante est fermée par défaut (affichage « — Choisir un trader — ») ; après sélection et ajout, `blur()` est appliqué pour refermer la liste.
 - **Indices** : S&P 500, NASDAQ 100, CAC 40 TR, MSCI World
 - **Simulation DCA** : 1 000 $ au départ + 100 $/mois, comparaison avec le S&P 500
 - **Posts par mois** (graphique 3) : comparaison du nombre de posts. Priorité au feed utilisateur (tous les posts) ; si vide, fallback sur plusieurs instruments (NSDQ100, SPX500, CAC40, Or, BTC, ETH) en filtrant par auteur

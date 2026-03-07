@@ -437,7 +437,7 @@
             <div class="chart-controls">
                 <label>
                     Ajouter une courbe :
-                    <select id="tradersSelect" size="12">
+                    <select id="tradersSelect" title="Choisir un trader à ajouter à la courbe">
                         <option value="">— Choisir un trader —</option>
                         {% for t in most_copied_traders %}
                         <option value="{{ t.userName }}">{{ t.userName }} ({{ t.copiers }} copieurs)</option>
@@ -799,6 +799,8 @@
                     addedTraders.push(name);
                     renderAddedTraders();
                     updateChart();
+                    sel.selectedIndex = 0;
+                    sel.blur();
                 }
             });
             document.getElementById('sp500Check').addEventListener('change', updateChart);
