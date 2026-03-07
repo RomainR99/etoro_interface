@@ -493,10 +493,9 @@
 
         <div class="card" style="margin-top: 1.5rem; grid-column: 1 / -1;">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
-                <h2 style="margin: 0;">Dernières actualités Zonebourse</h2>
+                <h2 style="margin: 0;">Dernières actualités</h2>
                 <button type="button" id="refreshZonebourseBtn" class="chart-controls button" style="padding: 0.4rem 0.9rem; font-size: 0.85rem; background: var(--accent); color: var(--bg); border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">Rafraîchir les actualités</button>
             </div>
-            <p class="empty-state" style="margin-bottom: 1rem;">Résumés en 5 lignes générés par IA à partir des articles.</p>
             <div id="zonebourseNewsContainer">
                 {% if zonebourse_used_fallback %}
                 <p id="zonebourseFallbackNotice" class="news-fallback-notice" style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">Utilisation des URLs de secours</p>
