@@ -63,6 +63,8 @@ Sans ces clés, le CAPTCHA n'est pas activé. Obtenir les clés : [Google reCAPT
 > - `MAX_ESTIMATED_TOKENS = 12000`
 > - `SUSPICIOUS_UA_SUBSTRINGS = ("curl", "python", "wget", "httpie", "bot", "scrapy", "requests/")`
 
+> **Limiter la taille des messages** : `MAX_USER_MESSAGE_CHARS` (message utilisateur), `MAX_REPLY_CHARS` (troncature réponse), `MAX_HISTORY_MESSAGES` (historique envoyé au modèle), `MAX_COMPLETION_TOKENS` (max_tokens API).
+
 ### Récupérer les données du chatbot
 
 Chaque question posée et chaque réponse sont enregistrées dans `data/chat_questions.jsonl` (format JSONL : une ligne par échange, avec `timestamp`, `question`, `reply`).

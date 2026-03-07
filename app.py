@@ -51,6 +51,11 @@ MAX_USER_MESSAGE_CHARS = 2000  # prompts énormes (copier-coller)
 MAX_ESTIMATED_TOKENS = 12000  # ~4 chars/token, limite pour coût
 SUSPICIOUS_UA_SUBSTRINGS = ("curl", "python", "wget", "httpie", "bot", "scrapy", "requests/")
 
+# Taille des messages
+MAX_REPLY_CHARS = 4000  # tronque la réponse IA si plus long
+MAX_HISTORY_MESSAGES = 20  # nb max de messages (hors system) envoyés au modèle
+MAX_COMPLETION_TOKENS = 1024  # max_tokens pour la réponse OpenAI
+
 
 def _detect_abnormal_behavior(messages: list, current_message: str) -> str | None:
     """
@@ -883,16 +888,20 @@ def api_chat():
     system_prompt = _load_chatbot_prompt()
     try:
         client = OpenAI(api_key=key)
+        history = messages[-MAX_HISTORY_MESSAGES:] if len(messages) > MAX_HISTORY_MESSAGES else messages
         api_messages = [{"role": "system", "content": system_prompt}] + [
             {"role": m.get("role", "user"), "content": m.get("content", "")}
-            for m in messages
+            for m in history
         ]
         r = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=api_messages,
             temperature=0.7,
+            max_tokens=MAX_COMPLETION_TOKENS,
         )
         reply = (r.choices[0].message.content or "").strip()
+        if len(reply) > MAX_REPLY_CHARS:
+            reply = reply[: MAX_REPLY_CHARS - 3].rstrip() + "…"
         if user_msgs:
             _append_chat_question(user_msgs[-1], reply)
             if visitor_id not in _visitor_recent_messages:
