@@ -1,10 +1,12 @@
 """Application Flask pour visualiser le profil des traders eToro."""
 
+import csv
+import io
 import json
 import os
 import time
 from datetime import datetime
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, Response, jsonify, render_template, request
 from etoro_client import (
     get_user_profile,
     get_user_gain,
@@ -13,7 +15,6 @@ from etoro_client import (
     get_instruments_by_exchange,
     get_all_stocks,
     get_posts_per_month,
-    get_copiers_evolution,
     get_current_copiers,
     get_copiers_vs_performance,
 )
@@ -29,6 +30,7 @@ app = Flask(__name__)
 TRADER_USERNAME = "RomainRoth"
 DATE_FROM = "2022-09"  # Données à partir de septembre 2022
 COPIERS_VS_PERF_CACHE = os.path.join(os.path.dirname(__file__), "data", "copiers_vs_performance.json")
+CHAT_QUESTIONS_LOG = os.path.join(os.path.dirname(__file__), "data", "chat_questions.jsonl")
 
 
 INDEX_CONFIG = {
@@ -444,47 +446,6 @@ def api_posts_chart_data():
         return jsonify({"error": str(e)}), 500
 
 
-def _compute_copiers_chart_data(traders: list[str]) -> tuple[list[str], list[dict]]:
-    """Calcule l'évolution du nombre de copieurs par trader (snapshots par période)."""
-    from etoro_client import COPIERS_PERIODS
-
-    labels = [label for _, label in COPIERS_PERIODS]
-    evolution = get_copiers_evolution(traders)
-
-    colors = [
-        "#58a6ff", "#3fb950", "#f0883e", "#a371f7", "#ff7b72",
-        "#79c0ff", "#7ee787", "#d2a8ff", "#ffa657", "#56d4dd",
-    ]
-    datasets = []
-    for i, username in enumerate(traders):
-        if not username:
-            continue
-        by_period = evolution.get(username, {})
-        values = [by_period.get(lbl, 0) for lbl in labels]
-        datasets.append({
-            "label": username,
-            "data": values,
-            "color": colors[i % len(colors)],
-        })
-    return labels, datasets
-
-
-@app.route("/api/copiers-chart-data")
-def api_copiers_chart_data():
-    """Retourne l'évolution du nombre de copieurs. Même logique que chart-data."""
-    traders = request.args.get("traders", "").strip().split(",")
-    traders = [t.strip() for t in traders if t.strip()]
-    if not traders:
-        traders = [TRADER_USERNAME]
-    if TRADER_USERNAME not in traders:
-        traders = [TRADER_USERNAME] + traders
-    try:
-        labels, datasets = _compute_copiers_chart_data(traders)
-        return jsonify({"labels": labels, "datasets": datasets})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-
 def _ensure_romainroth_in_points(points: list[dict]) -> list[dict]:
     """Ajoute RomainRoth aux points si absent."""
     if any(p.get("userName") == TRADER_USERNAME for p in points):
@@ -560,6 +521,43 @@ def api_zonebourse_debug():
         return jsonify({"error": str(e), "count": 0, "news": []}), 500
 
 
+def _append_chat_question(question: str, reply: str) -> None:
+    """Enregistre une question utilisateur et la réponse dans le log JSONL."""
+    if not question.strip():
+        return
+    try:
+        os.makedirs(os.path.dirname(CHAT_QUESTIONS_LOG), exist_ok=True)
+        entry = {
+            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "question": question.strip(),
+            "reply": (reply or "").strip(),
+        }
+        with open(CHAT_QUESTIONS_LOG, "a", encoding="utf-8") as f:
+            f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
+
+
+def _load_chat_questions() -> list[dict]:
+    """Charge la liste des questions/réponses depuis le log JSONL."""
+    rows: list[dict] = []
+    if not os.path.exists(CHAT_QUESTIONS_LOG):
+        return rows
+    try:
+        with open(CHAT_QUESTIONS_LOG, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    rows.append(json.loads(line))
+                except json.JSONDecodeError:
+                    pass
+    except Exception:
+        pass
+    return rows
+
+
 def _load_chatbot_resources(filename: str) -> str:
     """Charge une liste titre|URL depuis prompts/<filename> et retourne une chaîne formatée."""
     path = os.path.join(os.path.dirname(__file__), "prompts", filename)
@@ -629,9 +627,36 @@ def api_chat():
             temperature=0.7,
         )
         reply = (r.choices[0].message.content or "").strip()
+        # Enregistrer la dernière question utilisateur + réponse
+        user_messages = [m.get("content", "") for m in messages if m.get("role") == "user"]
+        if user_messages:
+            _append_chat_question(user_messages[-1], reply)
         return jsonify({"reply": reply})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/chat-questions")
+def api_chat_questions():
+    """Exporte les questions du chatbot en JSON ou CSV."""
+    fmt = (request.args.get("format") or "json").strip().lower()
+    rows = _load_chat_questions()
+    if fmt == "csv":
+        buf = io.StringIO()
+        writer = csv.writer(buf)
+        writer.writerow(["timestamp", "question", "reply"])
+        for r in rows:
+            writer.writerow([
+                r.get("timestamp", ""),
+                r.get("question", ""),
+                r.get("reply", ""),
+            ])
+        return Response(
+            buf.getvalue(),
+            mimetype="text/csv",
+            headers={"Content-Disposition": "attachment; filename=chat_questions.csv"},
+        )
+    return jsonify(rows)
 
 
 if __name__ == "__main__":

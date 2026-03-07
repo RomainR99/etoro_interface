@@ -9,15 +9,18 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
 - **Indices** : S&P 500, NASDAQ 100, CAC 40 TR, MSCI World
 - **Simulation DCA** : 1 000 $ au départ + 100 $/mois, comparaison avec le S&P 500
 - **Posts par mois** (graphique 3) : comparaison du nombre de posts. Priorité au feed utilisateur (tous les posts) ; si vide, fallback sur plusieurs instruments (NSDQ100, SPX500, CAC40, Or, BTC, ETH) en filtrant par auteur
-- **Évolution des copieurs** (graphique 4) : 7 périodes (2 ans → actuel), courbes en paliers
 - **Performance vs copieurs** (graphique 5) : nuage de points pour les 2000 traders les plus copiés (abscisse = copieurs, ordonnée = performance % sur 2 ans)
 - **Actualités Zonebourse** : résumés des articles générés par IA (5 lignes par article)
-- **Chatbot agent IA** : assistant conversationnel pour poser des questions sur les données eToro et Zonebourse
+- **Chatbot agent IA** : assistant pédagogique en éducation financière pour poser des questions sur les données eToro et Zonebourse. Elle ajoute :
+  - conformité AMF / régulation financière
+  - prévention promesses de rendement
+  - interdiction fraude / évasion fiscale
+  - gestion risques utilisateurs
+  - positionnement éducation financière plutôt que conseil
 
 ## Corrections à apporter
 
-- **Graphique 4** : à améliorer
-- **Chatbot** : respect du RGPD, de l'éthique, de la morale et des bonnes mœurs
+- **Graphique 4** : à améliorer (supprimé dans la version actuelle)
 
 
 ## Prérequis
