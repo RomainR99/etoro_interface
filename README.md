@@ -14,6 +14,11 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
 - **Actualités Zonebourse** : résumés des articles générés par IA (5 lignes par article)
 - **Chatbot agent IA** : assistant conversationnel pour poser des questions sur les données eToro et Zonebourse
 
+## Corrections à apporter
+
+- **Graphique 4** : à améliorer
+- **Chatbot** : respect du RGPD, de l'éthique, de la morale et des bonnes mœurs
+
 
 ## Prérequis
 
