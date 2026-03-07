@@ -532,6 +532,28 @@
             </div>
         </div>
 
+        {% if portfolio_instruments and portfolio_instruments|length > 0 %}
+        <div class="card" style="margin-top: 1.5rem; grid-column: 1 / -1;">
+            <h2 style="margin: 0 0 1rem 0;">Actualités par instrument ({{ portfolio_instruments|length }} en portefeuille)</h2>
+            <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">Dernières actualités pour les instruments de RomainRoth, via Mediastack.</p>
+            {% if instrument_news and instrument_news|length > 0 %}
+            <ul class="news-list" style="list-style: none; padding: 0; margin: 0;">
+                {% for item in instrument_news %}
+                <li class="news-item" style="margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border);">
+                    <a href="{{ item.url }}" target="_blank" rel="noopener noreferrer" style="font-weight: 600; color: var(--accent);">{{ item.title }}</a>
+                    {% if item.description %}
+                    <p class="news-summary" style="margin: 0.35rem 0 0 0; font-size: 0.9rem; color: var(--muted);">{{ item.description[:200] }}{% if item.description|length > 200 %}…{% endif %}</p>
+                    {% endif %}
+                    <span style="font-size: 0.8rem; color: var(--muted);">{{ item.source }} · {{ item.published_at[:10] if item.published_at else '' }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p class="empty-state">Aucune actualité chargée. Vérifiez MEDIASTACK_ACCESS_KEY dans .env.</p>
+            {% endif %}
+        </div>
+        {% endif %}
+
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
         <script>
             const initialLabels = {{ chart_labels | default([]) | tojson }};

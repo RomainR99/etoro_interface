@@ -186,6 +186,69 @@ INDEX_CONFIG = {
 }
 
 
+def _fetch_mediastack_instrument_news(instruments: list[dict], limit: int = 3) -> list[dict]:
+    """
+    Récupère les N dernières actualités Mediastack pour les instruments du portefeuille.
+    Retourne une liste de {title, description, url, source, published_at}.
+    """
+    key = os.getenv("MEDIASTACK_ACCESS_KEY")
+    if not key:
+        return []
+
+    def _do_request(params: dict, use_https: bool = True) -> list[dict]:
+        try:
+            base = "https://api.mediastack.com" if use_https else "http://api.mediastack.com"
+            r = requests.get(f"{base}/v1/news", params=params, timeout=10)
+            if r.status_code != 200:
+                return []
+            data = r.json()
+            err = data.get("error")
+            if err:
+                code = err.get("code", "") if isinstance(err, dict) else str(err)
+                if use_https and code == "https_access_restricted":
+                    return _do_request(params, use_https=False)
+                return []
+            items = data.get("data") or []
+            return [
+                {
+                    "title": a.get("title") or "",
+                    "description": a.get("description") or "",
+                    "url": a.get("url") or "",
+                    "source": a.get("source") or "",
+                    "published_at": a.get("published_at") or "",
+                }
+                for a in items
+            ]
+        except Exception:
+            return []
+
+    base_params = {"access_key": key, "limit": limit, "sort": "published_desc"}
+
+    # Essai 1 : avec mots-clés des instruments (displayname souvent plus explicite)
+    if instruments:
+        parts = []
+        for i in instruments[:6]:
+            disp = (i.get("displayname") or "").strip()
+            sym = (i.get("symbol") or "").strip()
+            if disp and len(disp) < 30:
+                parts.append(disp)
+            elif sym and len(sym) < 15:
+                parts.append(sym)
+        if parts:
+            keywords = " ".join(parts[:3])
+            items = _do_request({**base_params, "keywords": keywords})
+            if items:
+                return items
+
+    # Essai 2 : catégorie business (actualités financières)
+    items = _do_request({**base_params, "categories": "business"})
+    if items:
+        return items
+
+    # Essai 3 : sans filtre
+    return _do_request(base_params)
+
+
 def _get_index_monthly_returns(ticker_symbol: str) -> dict[str, float]:
     """Récupère les rendements mensuels d'un indice depuis DATE_FROM."""
     if not HAS_YFINANCE:
@@ -491,6 +554,11 @@ def index():
         zonebourse_used_fallback = False
 
     try:
+        instrument_news = _fetch_mediastack_instrument_news(portfolio_instruments or [], limit=3)
+    except Exception:
+        instrument_news = []
+
+    try:
         current_copiers = get_current_copiers(TRADER_USERNAME)
     except Exception:
         current_copiers = None
@@ -510,6 +578,7 @@ def index():
         dca_sp500=dca_sp500,
         zonebourse_news=zonebourse_news,
         zonebourse_used_fallback=zonebourse_used_fallback,
+        instrument_news=instrument_news,
         current_copiers=current_copiers,
         recaptcha_site_key=os.getenv("RECAPTCHA_SITE_KEY", ""),
     ))
