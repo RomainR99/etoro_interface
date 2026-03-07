@@ -20,6 +20,19 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
 
 Avec ce prompt ton chatbot devient : **conforme fintech**, **compatible AMF / MiFID II**, **safe juridiquement**, **utilisable dans un produit SaaS**.
 
+### Récupérer les données du chatbot
+
+Chaque question posée et chaque réponse sont enregistrées dans `data/chat_questions.jsonl` (format JSONL : une ligne par échange, avec `timestamp`, `question`, `reply`).
+
+**API :**
+
+| URL | Format | Description |
+|-----|--------|-------------|
+| `GET /api/chat-questions` | JSON | Retourne la liste des échanges (tableau d'objets `{timestamp, question, reply}`) |
+| `GET /api/chat-questions?format=csv` | CSV | Télécharge un fichier CSV `chat_questions.csv` (colonnes : timestamp, question, reply) |
+
+Exemple : `curl http://127.0.0.1:5001/api/chat-questions` ou ouvrir l’URL dans le navigateur pour le JSON. Pour l’export CSV : `http://127.0.0.1:5001/api/chat-questions?format=csv`.
+
 ## Corrections à apporter
 
 - **Graphique 4** : à améliorer (supprimé dans la version actuelle)
