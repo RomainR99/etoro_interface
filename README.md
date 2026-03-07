@@ -32,6 +32,10 @@ Les appels à `/api/chat` sont limités par **visiteur anonyme** (identifiant st
 
 Si la limite est dépassée, l'API renvoie `429 Too Many Requests`. Les limites sont configurables dans `app.py` (`CHAT_RATE_LIMIT`).
 
+> **Pas de cooldown** : le temps de réponse de l’IA est déjà suffisant pour espacer naturellement les requêtes.
+
+> **Possibilité : limiter par session courte** — Par exemple : 10 messages gratuits par session, puis blocage temporaire pendant 1 heure. C'est simple pour un chatbot public.
+
 **Identifiant visiteur** : à la première visite, le backend génère un `visitor_id` aléatoire (UUID) et le stocke dans un **cookie HTTP-only** (durée 1 an). Le rate limit s'applique par `visitor_id`. Un visiteur derrière un NAT a son propre quota, distinct des autres. Supprimer le cookie ou utiliser un autre navigateur/onglet privé réinitialise le compteur.
 
 ### CAPTCHA (anti-bots)
@@ -53,6 +57,11 @@ Un CAPTCHA (reCAPTCHA v2) est demandé **uniquement au moment opportun** pour ne
 Sans ces clés, le CAPTCHA n'est pas activé. Obtenir les clés : [Google reCAPTCHA Admin](https://www.google.com/recaptcha/admin).
 
 > **Note** : La clé actuelle est configurée pour le domaine **romainroth.com**. Pour un autre domaine, créer de nouvelles clés reCAPTCHA.
+
+> **Détecter les comportements anormaux** — Vous pouvez refuser ou ralentir les requêtes si : requêtes trop rapides, copier-coller de prompts énormes, mêmes messages répétés, user-agent étrange, ou trop de tokens demandés. Constantes dans `app.py` :
+> - `MAX_USER_MESSAGE_CHARS = 2000`
+> - `MAX_ESTIMATED_TOKENS = 12000`
+> - `SUSPICIOUS_UA_SUBSTRINGS = ("curl", "python", "wget", "httpie", "bot", "scrapy", "requests/")`
 
 ### Récupérer les données du chatbot
 

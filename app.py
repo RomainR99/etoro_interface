@@ -46,6 +46,35 @@ VISITOR_COOKIE_MAX_AGE = 365 * 24 * 3600  # 1 an
 CAPTCHA_AFTER_MESSAGES = 5  # demander CAPTCHA après N messages (24h)
 CAPTCHA_FAST_RATE_THRESHOLD = 3  # demander CAPTCHA si >= N messages en 1 min
 
+# Comportements anormaux
+MAX_USER_MESSAGE_CHARS = 2000  # prompts énormes (copier-coller)
+MAX_ESTIMATED_TOKENS = 12000  # ~4 chars/token, limite pour coût
+SUSPICIOUS_UA_SUBSTRINGS = ("curl", "python", "wget", "httpie", "bot", "scrapy", "requests/")
+
+
+def _detect_abnormal_behavior(messages: list, current_message: str) -> str | None:
+    """
+    Détecte les comportements anormaux. Retourne un message d'erreur si anormal, None sinon.
+    - Requêtes trop rapides : géré par rate limit
+    - Prompts énormes (copier-coller)
+    - Mêmes messages répétés : géré par CAPTCHA
+    - User-agent étrange
+    - Trop de tokens demandés
+    """
+    if len(current_message) > MAX_USER_MESSAGE_CHARS:
+        return f"Message trop long (max {MAX_USER_MESSAGE_CHARS} caractères)."
+    total_chars = sum(len(str(m.get("content", ""))) for m in messages)
+    est_tokens = total_chars // 4
+    if est_tokens > MAX_ESTIMATED_TOKENS:
+        return "Requête trop volumineuse."
+    ua = (request.headers.get("User-Agent") or "").strip().lower()
+    if not ua or len(ua) < 10:
+        return "User-Agent invalide ou absent."
+    for sub in SUSPICIOUS_UA_SUBSTRINGS:
+        if sub in ua:
+            return "Requête refusée (client non autorisé)."
+    return None
+
 
 def _get_or_set_visitor_id(response: Response | None = None) -> str:
     """
@@ -824,6 +853,12 @@ def api_chat():
         return jsonify({"error": "messages requis"}), 400
     user_msgs = [m.get("content", "") for m in messages if m.get("role") == "user"]
     current_message = (user_msgs[-1] or "").strip() if user_msgs else ""
+
+    abnormal = _detect_abnormal_behavior(messages, current_message)
+    if abnormal:
+        r = jsonify({"error": abnormal})
+        _get_or_set_visitor_id(r)
+        return r, 429
 
     if _should_require_captcha(visitor_id, current_message):
         secret = os.getenv("RECAPTCHA_SECRET_KEY")
