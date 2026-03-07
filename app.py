@@ -544,9 +544,11 @@ def api_zonebourse_debug():
 OPENAI_IMAGE_MODEL = "dall-e-3"
 
 
-def _load_image_news_prompt() -> str:
-    """Charge le template du prompt image depuis prompts/image_news.txt."""
-    path = os.path.join(os.path.dirname(__file__), "prompts", "image_news.txt")
+def _load_image_news_prompt(style_index: int = 0) -> str:
+    """Charge le template du prompt image. style_index 0=éditorial, 1=fintech/data, 2=réaliste presse."""
+    style_index = max(0, min(2, int(style_index)))
+    filename = f"image_news_style{style_index + 1}.txt"
+    path = os.path.join(os.path.dirname(__file__), "prompts", filename)
     try:
         with open(path, encoding="utf-8") as f:
             return f.read().strip()
@@ -554,14 +556,14 @@ def _load_image_news_prompt() -> str:
         return "Professional financial news illustration, clean and modern style:"
 
 
-def _generate_image_openai(prompt: str) -> tuple[str | None, str | None]:
+def _generate_image_openai(prompt: str, style_index: int = 0) -> tuple[str | None, str | None]:
     """Génère une image via l'API Images OpenAI (DALL·E). Retourne (data_url_base64, None) ou (None, erreur)."""
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
         return None, "OPENAI_API_KEY manquant dans .env"
     if not (prompt or "").strip():
         return None, "Prompt vide"
-    template = _load_image_news_prompt()
+    template = _load_image_news_prompt(style_index)
     full_prompt = f"{template} {prompt.strip()}".strip()[:4000]
     try:
         from openai import OpenAI
@@ -586,12 +588,13 @@ def _generate_image_openai(prompt: str) -> tuple[str | None, str | None]:
 
 @app.route("/api/generate-news-image", methods=["POST"])
 def api_generate_news_image():
-    """Génère une image à partir d'un prompt (actualité) via OpenAI DALL·E. Retourne data URL base64."""
+    """Génère une image à partir d'un prompt (actualité) via OpenAI DALL·E. style_index 0/1/2 = style 1/2/3."""
     data = request.get_json(silent=True) or {}
     prompt = (data.get("prompt") or "").strip()
+    style_index = data.get("style_index", 0)
     if not prompt:
         return jsonify({"error": "prompt manquant"}), 400
-    data_url, err = _generate_image_openai(prompt)
+    data_url, err = _generate_image_openai(prompt, style_index=style_index)
     if not data_url:
         return jsonify({"error": err or "Génération d'image impossible"}), 502
     return jsonify({"image_data_url": data_url})

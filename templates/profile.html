@@ -511,7 +511,7 @@
                         {% if item.summary %}
                         <p class="news-summary">{{ item.summary }}</p>
                         {% endif %}
-                        <div class="news-item-image news-item-image-loading" data-title="{{ item.title|e }}" data-summary="{{ item.summary|e }}">
+                        <div class="news-item-image news-item-image-loading" data-title="{{ item.title|e }}" data-summary="{{ item.summary|e }}" data-style-index="{{ loop.index0 }}">
                             <span>Génération de l'image…</span>
                         </div>
                     </li>
@@ -841,14 +841,14 @@
                               ul.className = 'news-list';
                               if (container) container.appendChild(ul);
                           }
-                          ul.innerHTML = news.map(function(item) {
+                          ul.innerHTML = news.map(function(item, idx) {
                               var title = (item.title || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
                               var summary = (item.summary || '').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
                               var titleAttr = (item.title || '').replace(/"/g, '&quot;');
                               var summaryAttr = (item.summary || '').replace(/"/g, '&quot;');
                               return '<li class="news-item"><span class="news-title">' + title + '</span>' +
                                   (item.summary ? '<p class="news-summary">' + summary + '</p>' : '') +
-                                  '<div class="news-item-image news-item-image-loading" data-title="' + titleAttr + '" data-summary="' + summaryAttr + '"><span>Génération de l\'image…</span></div></li>';
+                                  '<div class="news-item-image news-item-image-loading" data-title="' + titleAttr + '" data-summary="' + summaryAttr + '" data-style-index="' + idx + '"><span>Génération de l\'image…</span></div></li>';
                           }).join('');
                           ul.style.display = 'block';
                           if (typeof generateNewsImages === 'function') generateNewsImages();
@@ -878,12 +878,14 @@
                 Array.prototype.forEach.call(containers, function(div) {
                     var title = div.getAttribute('data-title') || '';
                     var summary = div.getAttribute('data-summary') || '';
+                    var styleIndex = parseInt(div.getAttribute('data-style-index'), 10);
+                    if (isNaN(styleIndex)) styleIndex = 0;
                     var prompt = buildImagePrompt(title, summary);
                     if (!prompt) { div.innerHTML = ''; div.classList.remove('news-item-image-loading'); return; }
                     fetch('/api/generate-news-image', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ prompt: prompt })
+                        body: JSON.stringify({ prompt: prompt, style_index: styleIndex })
                     }).then(function(r) { return r.json().then(function(data) { return { ok: r.ok, data: data }; }); })
                       .then(function(res) {
                           div.classList.remove('news-item-image-loading');
