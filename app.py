@@ -515,6 +515,17 @@ def health():
     return "OK", 200
 
 
+@app.route("/api/zonebourse-news")
+def api_zonebourse_news():
+    """Retourne les dernières actualités Zonebourse (pour rafraîchissement dynamique)."""
+    try:
+        result = get_latest_news(limit=3)
+        items = result.get("items", [])
+        return jsonify({"count": len(items), "news": items, "used_fallback": result.get("used_fallback", False)})
+    except Exception as e:
+        return jsonify({"error": str(e), "count": 0, "news": []}), 500
+
+
 @app.route("/api/zonebourse-news-debug")
 def api_zonebourse_debug():
     """Debug : retourne le résultat de get_latest_news pour diagnostiquer les actualités Zonebourse."""

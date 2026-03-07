@@ -472,13 +472,19 @@
         </div>
 
         <div class="card" style="margin-top: 1.5rem; grid-column: 1 / -1;">
-            <h2>Dernières actualités Zonebourse</h2>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
+                <h2 style="margin: 0;">Dernières actualités Zonebourse</h2>
+                <button type="button" id="refreshZonebourseBtn" class="chart-controls button" style="padding: 0.4rem 0.9rem; font-size: 0.85rem; background: var(--accent); color: var(--bg); border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">Rafraîchir les actualités</button>
+            </div>
             <p class="empty-state" style="margin-bottom: 1rem;">Résumés en 5 lignes générés par IA à partir des articles.</p>
-            {% if zonebourse_used_fallback %}
-            <p class="news-fallback-notice" style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">Utilisation des URLs de secours</p>
-            {% endif %}
-            {% if zonebourse_news and zonebourse_news|length > 0 %}
-                <ul class="news-list">
+            <div id="zonebourseNewsContainer">
+                {% if zonebourse_used_fallback %}
+                <p id="zonebourseFallbackNotice" class="news-fallback-notice" style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">Utilisation des URLs de secours</p>
+                {% else %}
+                <p id="zonebourseFallbackNotice" class="news-fallback-notice" style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem; display: none;"></p>
+                {% endif %}
+                {% if zonebourse_news and zonebourse_news|length > 0 %}
+                <ul class="news-list" id="zonebourseNewsList">
                     {% for item in zonebourse_news %}
                     <li class="news-item">
                         <span class="news-title">{{ item.title }}</span>
@@ -488,9 +494,10 @@
                     </li>
                     {% endfor %}
                 </ul>
-            {% else %}
-                <p class="empty-state">Aucune actualité chargée pour le moment.</p>
-            {% endif %}
+                {% else %}
+                <p class="empty-state" id="zonebourseEmpty">Aucune actualité chargée pour le moment.</p>
+                {% endif %}
+            </div>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -776,6 +783,64 @@
             document.getElementById('ndqCheck').addEventListener('change', updateChart);
             document.getElementById('cac40trCheck').addEventListener('change', updateChart);
             document.getElementById('msciCheck').addEventListener('change', updateChart);
+            function refreshZonebourseNews() {
+                var btn = document.getElementById('refreshZonebourseBtn');
+                var list = document.getElementById('zonebourseNewsList');
+                var empty = document.getElementById('zonebourseEmpty');
+                var fallbackNotice = document.getElementById('zonebourseFallbackNotice');
+                if (btn) btn.disabled = true;
+                var loading = document.createElement('p');
+                loading.className = 'empty-state';
+                loading.textContent = 'Chargement des actualités…';
+                if (list) { list.style.display = 'none'; }
+                if (empty) { empty.style.display = 'none'; }
+                var container = document.getElementById('zonebourseNewsContainer');
+                if (container) {
+                    var oldLoading = container.querySelector('.zonebourse-loading');
+                    if (oldLoading) oldLoading.remove();
+                    loading.classList.add('zonebourse-loading');
+                    container.appendChild(loading);
+                }
+                fetch('/api/zonebourse-news').then(function(r) { return r.json(); })
+                  .then(function(data) {
+                      if (loading.parentNode) loading.remove();
+                      if (btn) btn.disabled = false;
+                      if (fallbackNotice) {
+                          fallbackNotice.textContent = data.used_fallback ? 'Utilisation des URLs de secours' : '';
+                          fallbackNotice.style.display = data.used_fallback ? 'block' : 'none';
+                      }
+                      var news = data.news || [];
+                      if (news.length > 0) {
+                          var ul = document.getElementById('zonebourseNewsList');
+                          if (!ul) {
+                              ul = document.createElement('ul');
+                              ul.id = 'zonebourseNewsList';
+                              ul.className = 'news-list';
+                              if (container) container.appendChild(ul);
+                          }
+                          ul.innerHTML = news.map(function(item) {
+                              return '<li class="news-item"><span class="news-title">' + (item.title || '').replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span>' +
+                                  (item.summary ? '<p class="news-summary">' + (item.summary || '').replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</p>' : '') + '</li>';
+                          }).join('');
+                          ul.style.display = 'block';
+                          if (empty) empty.style.display = 'none';
+                      } else {
+                          var e = document.getElementById('zonebourseEmpty');
+                          if (e) { e.textContent = data.error ? 'Erreur: ' + data.error : 'Aucune actualité chargée.'; e.style.display = 'block'; }
+                          if (list) list.style.display = 'none';
+                      }
+                  })
+                  .catch(function(err) {
+                      if (loading.parentNode) loading.remove();
+                      if (btn) btn.disabled = false;
+                      var e = document.getElementById('zonebourseEmpty');
+                      if (e) { e.textContent = 'Erreur de connexion.'; e.style.display = 'block'; }
+                      if (list) list.style.display = 'none';
+                  });
+            }
+            var refreshBtn = document.getElementById('refreshZonebourseBtn');
+            if (refreshBtn) refreshBtn.addEventListener('click', refreshZonebourseNews);
+
             try { initChart(); } catch (e) { console.error('initChart:', e); }
             try { initPostsChart(); } catch (e) { console.error('initPostsChart:', e); }
             try { initScatterChart(); } catch (e) { console.error('initScatterChart:', e); }
