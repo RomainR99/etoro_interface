@@ -883,9 +883,11 @@ def get_portfolio_instruments(username: str) -> list[dict]:
                 disp = fallback.get("displayname", "") or fallback.get("displayName", "")
         if not sym and not disp:
             sym = str(iid)
+        url = f"https://www.etoro.com/markets/{sym.lower().replace('/', '')}" if sym else None
         result.append({
             "instrumentId": iid,
             "symbol": sym,
             "displayname": disp or sym,
+            "url": url,
         })
     return sorted(result, key=lambda x: (x.get("displayname") or x.get("symbol") or "").lower())

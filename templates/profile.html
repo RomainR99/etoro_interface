@@ -388,10 +388,14 @@
             <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem;">
                 {% for item in portfolio_instruments %}
                 <span style="display: inline-flex; flex-direction: column; align-items: flex-start; gap: 0.15rem; background: rgba(88,166,255,0.1); border: 1px solid var(--border); padding: 0.5rem 0.75rem; border-radius: 8px; font-size: 0.9rem;">
+                    {% if item.url %}
+                    <a href="{{ item.url }}" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">
+                    {% endif %}
                     <span style="font-family: ui-monospace, monospace; color: var(--accent); font-weight: 600;">{{ item.symbol }}</span>
                     {% if item.displayname and item.displayname != item.symbol %}
                     <span style="color: var(--muted); font-size: 0.8rem; line-height: 1.2;">{{ item.displayname }}</span>
                     {% endif %}
+                    {% if item.url %}</a>{% endif %}
                 </span>
                 {% endfor %}
             </div>
