@@ -36,6 +36,38 @@ DATE_FROM = "2022-09"  # Données à partir de septembre 2022
 COPIERS_VS_PERF_CACHE = os.path.join(os.path.dirname(__file__), "data", "copiers_vs_performance.json")
 CHAT_QUESTIONS_LOG = os.path.join(os.path.dirname(__file__), "data", "chat_questions.jsonl")
 
+# Rate limit par IP : 5/min, 30/h, 100/j
+CHAT_RATE_LIMIT = {"per_min": 5, "per_hour": 30, "per_day": 100}
+_chat_rate_store: dict[str, list[float]] = {}
+
+
+def _get_client_ip() -> str:
+    """Retourne l'IP du client (X-Forwarded-For si proxy)."""
+    forwarded = request.headers.get("X-Forwarded-For")
+    if forwarded:
+        return forwarded.split(",")[0].strip()
+    return request.remote_addr or "unknown"
+
+
+def _check_chat_rate_limit(ip: str) -> bool:
+    """Vérifie et enregistre la requête. Retourne True si autorisée, False si limite dépassée."""
+    now = time.time()
+    if ip not in _chat_rate_store:
+        _chat_rate_store[ip] = []
+    ts_list = _chat_rate_store[ip]
+    # Garder uniquement les timestamps des 24 dernières heures
+    cutoff = now - 86400
+    ts_list[:] = [t for t in ts_list if t > cutoff]
+    # Vérifier les 3 limites
+    if len([t for t in ts_list if t > now - 60]) >= CHAT_RATE_LIMIT["per_min"]:
+        return False
+    if len([t for t in ts_list if t > now - 3600]) >= CHAT_RATE_LIMIT["per_hour"]:
+        return False
+    if len(ts_list) >= CHAT_RATE_LIMIT["per_day"]:
+        return False
+    ts_list.append(now)
+    return True
+
 
 INDEX_CONFIG = {
     "sp500": ("^GSPC", "S&P 500", "#8b949e"),
@@ -338,7 +370,11 @@ def index():
         most_copied = []
 
     try:
-        zonebourse_result = get_latest_news(limit=3)
+        zonebourse_result = get_latest_news(
+            limit=3,
+            cache_path=os.path.join(os.path.dirname(__file__), "data", "zonebourse_posts.json"),
+            generate_image_fn=_gen_zonebourse_image,
+        )
         zonebourse_news = zonebourse_result.get("items", [])
         zonebourse_used_fallback = zonebourse_result.get("used_fallback", False)
     except Exception:
@@ -522,7 +558,11 @@ def health():
 def api_zonebourse_news():
     """Retourne les dernières actualités Zonebourse (pour rafraîchissement dynamique)."""
     try:
-        result = get_latest_news(limit=3)
+        result = get_latest_news(
+            limit=3,
+            cache_path=os.path.join(os.path.dirname(__file__), "data", "zonebourse_posts.json"),
+            generate_image_fn=_gen_zonebourse_image,
+        )
         items = result.get("items", [])
         return jsonify({"count": len(items), "news": items, "used_fallback": result.get("used_fallback", False)})
     except Exception as e:
@@ -584,6 +624,12 @@ def _generate_image_openai(prompt: str, style_index: int = 0) -> tuple[str | Non
         return f"data:image/png;base64,{b64}", None
     except Exception as e:
         return None, str(e).strip()[:300] or "Génération impossible"
+
+
+def _gen_zonebourse_image(prompt: str, style_index: int) -> str | None:
+    """Wrapper pour générer une image Zonebourse (retourne data_url ou None)."""
+    data_url, _ = _generate_image_openai(prompt, style_index=style_index)
+    return data_url
 
 
 @app.route("/api/generate-news-image", methods=["POST"])
@@ -684,7 +730,10 @@ def _load_chatbot_prompt() -> str:
 
 @app.route("/api/chat", methods=["POST"])
 def api_chat():
-    """Chatbot OpenAI : envoie les messages et retourne la réponse du modèle."""
+    """Chatbot OpenAI : envoie les messages et retourne la réponse du modèle. Rate limit par IP."""
+    ip = _get_client_ip()
+    if not _check_chat_rate_limit(ip):
+        return jsonify({"error": "Trop de requêtes. Limites : 5/min, 30/h, 100/j par IP."}), 429
     from openai import OpenAI
     key = os.getenv("OPENAI_API_KEY")
     if not key:

@@ -4,9 +4,11 @@ from __future__ import annotations
 
 import json
 import os
+import random
 import re
+from datetime import datetime, timezone
 from html import unescape
-from typing import Any
+from typing import Any, Callable
 
 import requests
 from bs4 import BeautifulSoup
@@ -282,16 +284,58 @@ def _fetch_article_links(limit: int = 3) -> tuple[list[str], bool]:
     return (urls[:limit], False)
 
 
-def get_latest_news(limit: int = 3) -> dict[str, Any]:
+_CACHE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
+ZONEBOURSE_CACHE_PATH = os.path.join(_CACHE_DIR, "zonebourse_posts.json")
+
+
+def _load_zonebourse_cache(cache_path: str) -> dict[str, dict[str, Any]]:
+    """Charge le cache posts + images depuis data/zonebourse_posts.json."""
+    if not os.path.exists(cache_path):
+        return {}
+    try:
+        with open(cache_path, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def _save_zonebourse_cache(cache_path: str, cache: dict[str, dict[str, Any]]) -> None:
+    """Sauvegarde le cache posts + images."""
+    try:
+        os.makedirs(os.path.dirname(cache_path), exist_ok=True)
+        with open(cache_path, "w", encoding="utf-8") as f:
+            json.dump(cache, f, ensure_ascii=False, indent=None)
+    except Exception:
+        pass
+
+
+def _build_image_prompt(title: str, summary: str) -> str:
+    """Construit le prompt pour la génération d'image."""
+    t = (title or "").strip()
+    s = (summary or "").strip()
+    first_line = s.split("\n")[0] if s else ""
+    return (t + " " + first_line).strip()[:400]
+
+
+def get_latest_news(
+    limit: int = 3,
+    cache_path: str | None = ZONEBOURSE_CACHE_PATH,
+    generate_image_fn: Callable[[str, int], str | None] | None = None,
+) -> dict[str, Any]:
     """
     Récupère les N dernières actualités Zonebourse (HTML + BeautifulSoup),
     puis génère pour chacune un titre et un résumé en 5 lignes via OpenAI.
-    Retourne {"items": [{"title", "summary"}], "used_fallback": bool}.
-    used_fallback=True si la page listing n'a pas fourni de liens (URLs de secours utilisées).
+    Si cache_path et generate_image_fn fournis, utilise le cache (url -> {title, summary, image_data_url}).
+    Retourne {"items": [{"title", "summary", "image_data_url"?}], "used_fallback": bool}.
     """
     urls, used_fallback = _fetch_article_links(limit=limit)
+    cache = _load_zonebourse_cache(cache_path) if cache_path else {}
+    use_cache = bool(cache_path and generate_image_fn)
     results: list[dict[str, Any]] = []
     for url in urls:
+        if use_cache and url in cache:
+            results.append(cache[url].copy())
+            continue
         try:
             resp = requests.get(url, headers=_get_headers(referer=ACTUALITES_URL), timeout=REQUEST_TIMEOUT)
             if resp.status_code != 200:
@@ -302,27 +346,36 @@ def get_latest_news(limit: int = 3) -> dict[str, Any]:
             except RuntimeError:
                 body = _extract_any_text(soup)
             title = extract_article_title(soup)
-            # Toujours ajouter une entrée : avec résumé IA ou extrait texte ou message
+            summary = ""
             if body and len(body.strip()) >= 50:
                 summarized = _summarize_with_openai(body)
                 if summarized:
-                    results.append({
-                        "title": summarized["titre"],
-                        "summary": summarized["resume"],
-                    })
+                    title = summarized["titre"]
+                    summary = summarized["resume"]
                 else:
-                    results.append({
-                        "title": title,
-                        "summary": body.strip()[:500] + ("…" if len(body) > 500 else ""),
-                    })
+                    summary = body.strip()[:500] + ("…" if len(body) > 500 else "")
             else:
-                results.append({
-                    "title": title,
-                    "summary": "Résumé non disponible (article inaccessible ou structure de page modifiée).",
-                })
+                summary = "Résumé non disponible (article inaccessible ou structure de page modifiée)."
+            item: dict[str, Any] = {"title": title, "summary": summary}
+            image_data_url: str | None = None
+            if generate_image_fn:
+                prompt = _build_image_prompt(title, summary)
+                style_index = random.randint(0, 5)
+                image_data_url = generate_image_fn(prompt, style_index)
+                if image_data_url:
+                    item["image_data_url"] = image_data_url
+            if use_cache:
+                cache[url] = {
+                    "title": item["title"],
+                    "summary": item["summary"],
+                    "image_data_url": item.get("image_data_url"),
+                    "cached_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+                }
+            results.append(item)
         except Exception:
             continue
-    # Si aucune actualité récupérée (réseau bloqué, 403, etc.), afficher des placeholders
+    if use_cache and cache_path:
+        _save_zonebourse_cache(cache_path, cache)
     if not results:
         results = [
             {"title": "Actualité 1 (exemple)", "summary": "Le chargement des articles Zonebourse a échoué (vérifier la connexion ou que zonebourse.com autorise les requêtes)."},
