@@ -42,6 +42,10 @@
             padding-bottom: 2rem;
             border-bottom: 1px solid var(--border);
             margin-bottom: 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--bg);
         }
         .avatar {
             width: 100px;
@@ -348,7 +352,7 @@
                     {% if profile.isVerified %}<span class="badge badge-verified">✓ Vérifié</span>{% endif %}
                     {% if profile.isPi %}<span class="badge badge-pi">Pro Investor</span>{% endif %}
                 {% endif %}
-                {% if current_copiers is not none %}<span class="badge" style="background: rgba(139,148,158,0.2); color: var(--muted);">{{ current_copiers }} copieur{% if current_copiers > 1 %}s{% endif %} (aujourd'hui)</span>{% endif %}
+                {% if current_copiers is not none %}<span class="badge" style="background: rgba(139,148,158,0.2); color: var(--muted);">{{ current_copiers }} copieur{% if current_copiers > 1 %}s{% endif %}</span>{% endif %}
             </div>
         </header>
 
@@ -356,6 +360,22 @@
             <div class="error-box">
                 Impossible de charger les données. Vérifiez vos clés API (.env) et que le trader "{{ username }}" existe.
             </div>
+        {% endif %}
+
+        {% if portfolio_instruments and portfolio_instruments|length > 0 %}
+        <div class="card" style="margin-bottom: 1.5rem;">
+            <h2>Instruments en portefeuille ({{ portfolio_instruments|length }})</h2>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem;">
+                {% for item in portfolio_instruments %}
+                <span style="display: inline-flex; flex-direction: column; align-items: flex-start; gap: 0.15rem; background: rgba(88,166,255,0.1); border: 1px solid var(--border); padding: 0.5rem 0.75rem; border-radius: 8px; font-size: 0.9rem;">
+                    <span style="font-family: ui-monospace, monospace; color: var(--accent); font-weight: 600;">{{ item.symbol }}</span>
+                    {% if item.displayname and item.displayname != item.symbol %}
+                    <span style="color: var(--muted); font-size: 0.8rem; line-height: 1.2;">{{ item.displayname }}</span>
+                    {% endif %}
+                </span>
+                {% endfor %}
+            </div>
+        </div>
         {% endif %}
 
         <div class="grid">
@@ -440,15 +460,6 @@
             <div id="postsChartContainer" style="position: relative; height: 320px;">
                 <canvas id="postsChart"></canvas>
                 <p id="postsChartLoading" class="empty-state" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);margin:0;z-index:1;">Chargement des posts…</p>
-            </div>
-        </div>
-
-        <div class="card" style="margin-top: 1.5rem; grid-column: 1 / -1;">
-            <h2>Évolution du nombre de copieurs</h2>
-            <p class="empty-state" style="margin-bottom: 1rem;">Nombre de copieurs par trader sur 7 périodes (2 ans → actuel). Courbes en paliers = snapshots API (pas d'historique mensuel).</p>
-            <div id="copiersChartContainer" style="position: relative; height: 320px;">
-                <canvas id="copiersChart"></canvas>
-                <p id="copiersChartLoading" class="empty-state" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);margin:0;z-index:1;">Chargement…</p>
             </div>
         </div>
 
@@ -557,103 +568,6 @@
                     })
                     .catch(err => console.error(err));
                 updatePostsChart();
-                updateCopiersChart();
-            }
-
-            let copiersChart = null;
-            function initCopiersChart() {
-                try {
-                    const canvas = document.getElementById('copiersChart');
-                    if (!canvas) return;
-                    setTimeout(updateCopiersChart, 800);
-                } catch (e) { console.error('initCopiersChart:', e); }
-            }
-            function updateCopiersChart() {
-                const canvas = document.getElementById('copiersChart');
-                const container = document.getElementById('copiersChartContainer');
-                if (!canvas) return;
-                const traders = ['{{ username }}', ...addedTraders].filter(Boolean);
-                const params = new URLSearchParams({ traders: traders.join(',') });
-                fetch('/api/copiers-chart-data?' + params)
-                    .then(r => r.json())
-                    .then(data => {
-                        if (data.error) throw new Error(data.error);
-                        const rawDatasets = data.datasets || [];
-                        const labels = data.labels || [];
-                        const datasets = rawDatasets.map((d, di) => {
-                            const arr = d.data || [];
-                            return {
-                                ...buildDataset(d),
-                                borderColor: d.color,
-                                backgroundColor: d.color && d.color.startsWith('#') ? hexToRgba(d.color, 0.15) : 'rgba(139,148,158,0.1)',
-                                fill: true,
-                                tension: 0,
-                                stepped: 'before',
-                                pointRadius: 4,
-                                pointHoverRadius: 6
-                            };
-                        });
-                        const maxVal = Math.max(...datasets.flatMap(d => d.data || []), 1);
-                        const yStep = maxVal <= 10 ? 1 : maxVal <= 50 ? 5 : maxVal <= 200 ? 20 : Math.max(50, Math.ceil(maxVal / 10));
-                        if (container) {
-                            const loading = document.getElementById('copiersChartLoading');
-                            if (loading) loading.style.display = 'none';
-                        }
-                        if (!copiersChart) {
-                            const ctx = canvas.getContext('2d');
-                            copiersChart = new Chart(ctx, {
-                                type: 'line',
-                                data: { labels, datasets },
-                                options: {
-                                    responsive: true,
-                                    maintainAspectRatio: false,
-                                    interaction: { mode: 'index', intersect: false },
-                                    plugins: {
-                                        legend: { labels: { color: '#8b949e', usePointStyle: true } },
-                                        tooltip: {
-                                            callbacks: {
-                                                label: function(ctx) {
-                                                    const v = ctx.parsed.y;
-                                                    const idx = ctx.dataIndex;
-                                                    const prev = idx > 0 ? ctx.dataset.data[idx - 1] : null;
-                                                    let s = ctx.dataset.label + ': ' + v + ' copieur(s)';
-                                                    if (prev != null && prev !== v) {
-                                                        const diff = v - prev;
-                                                        s += ' (' + (diff >= 0 ? '+' : '') + diff + ')';
-                                                    }
-                                                    return s;
-                                                }
-                                            }
-                                        }
-                                    },
-                                    scales: {
-                                        x: { ticks: { color: '#8b949e', maxRotation: 40, font: { size: 11 } }, grid: { color: '#30363d' } },
-                                        y: { ticks: { color: '#8b949e', stepSize: yStep }, grid: { color: '#30363d' }, suggestedMin: 0, suggestedMax: Math.ceil((maxVal * 1.1) / yStep) * yStep }
-                                    }
-                                }
-                            });
-                        } else {
-                            copiersChart.data.labels = labels;
-                            copiersChart.data.datasets = datasets;
-                            copiersChart.options.scales.y.ticks.stepSize = yStep;
-                            copiersChart.options.scales.y.suggestedMax = Math.ceil((maxVal * 1.1) / yStep) * yStep;
-                            copiersChart.update();
-                        }
-                    })
-                    .catch(err => {
-                        console.error('Copiers chart:', err);
-                        const loading = document.getElementById('copiersChartLoading');
-                        const cont = document.getElementById('copiersChartContainer');
-                        if (loading) loading.style.display = 'none';
-                        if (cont) {
-                            const el = document.createElement('p');
-                            el.className = 'empty-state';
-                            el.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);margin:0;color:var(--danger,#f85149);';
-                            el.textContent = 'Erreur chargement des copieurs: ' + (err.message || 'réessayez');
-                            cont.style.position = 'relative';
-                            cont.appendChild(el);
-                        }
-                    });
             }
 
             let scatterChart = null;
@@ -864,7 +778,6 @@
             document.getElementById('msciCheck').addEventListener('change', updateChart);
             try { initChart(); } catch (e) { console.error('initChart:', e); }
             try { initPostsChart(); } catch (e) { console.error('initPostsChart:', e); }
-            try { initCopiersChart(); } catch (e) { console.error('initCopiersChart:', e); }
             try { initScatterChart(); } catch (e) { console.error('initScatterChart:', e); }
         </script>
 

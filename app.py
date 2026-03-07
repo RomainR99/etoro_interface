@@ -11,6 +11,7 @@ from etoro_client import (
     get_user_profile,
     get_user_gain,
     get_user_portfolio,
+    get_portfolio_instruments,
     get_most_copied_traders,
     get_instruments_by_exchange,
     get_all_stocks,
@@ -315,6 +316,10 @@ def index():
     except Exception:
         portfolio = None
     try:
+        portfolio_instruments = get_portfolio_instruments(TRADER_USERNAME)
+    except Exception:
+        portfolio_instruments = []
+    try:
         chart_labels, chart_datasets = _compute_chart_data(gain, [], include_sp500=True)
     except Exception:
         chart_labels, chart_datasets = [], []
@@ -347,6 +352,7 @@ def index():
         profile=profile,
         gain=gain,
         portfolio=portfolio,
+        portfolio_instruments=portfolio_instruments,
         username=TRADER_USERNAME,
         chart_labels=chart_labels,
         chart_datasets=chart_datasets,

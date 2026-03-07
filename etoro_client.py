@@ -352,7 +352,7 @@ COPIERS_PERIODS = [
 ]
 
 
-def get_copiers_by_period(period: str, page_size: int = 500) -> dict[str, int]:
+def get_copiers_by_period(period: str, page_size: int = 2000) -> dict[str, int]:
     """
     Récupère le nombre de copieurs par trader pour une période donnée.
     Retourne {userName: copiers}.
@@ -401,9 +401,9 @@ def get_copiers_vs_performance(limit: int = 2000, period: str = "LastTwoYears") 
 def get_current_copiers(username: str) -> int | None:
     """
     Retourne le nombre de copieurs actuels du trader (période CurrMonth).
-    Retourne None si le trader n'est pas dans le top 1000.
+    Retourne None si le trader n'est pas dans le top 2000.
     """
-    by_user = get_copiers_by_period("CurrMonth", page_size=1000)
+    by_user = get_copiers_by_period("CurrMonth", page_size=2000)
     return by_user.get(username)
 
 
@@ -848,3 +848,44 @@ def get_user_portfolio(username: str) -> dict | None:
     if resp.status_code != 200:
         return None
     return resp.json()
+
+
+def get_portfolio_instruments(username: str) -> list[dict]:
+    """
+    Retourne la liste des instruments en portefeuille du trader (positions directes),
+    enrichis avec symbole et nom d'affichage.
+    """
+    portfolio = get_user_portfolio(username)
+    if not portfolio:
+        return []
+    positions = portfolio.get("positions") or portfolio.get("Positions") or []
+    ids_seen: set[int] = set()
+    instrument_ids: list[int] = []
+    for p in positions:
+        if not isinstance(p, dict):
+            continue
+        iid = p.get("instrumentId") or p.get("InstrumentID")
+        if iid is not None and iid not in ids_seen:
+            ids_seen.add(iid)
+            instrument_ids.append(iid)
+    if not instrument_ids:
+        return []
+    meta = _get_instruments_metadata(instrument_ids)
+    result: list[dict] = []
+    for iid in instrument_ids:
+        m = meta.get(iid) or {}
+        sym = m.get("symbol") or ""
+        disp = m.get("displayname") or ""
+        if not sym and not disp:
+            fallback = _get_single_instrument_legacy(iid)
+            if fallback:
+                sym = fallback.get("symbol", "") or fallback.get("symbolFull", "")
+                disp = fallback.get("displayname", "") or fallback.get("displayName", "")
+        if not sym and not disp:
+            sym = str(iid)
+        result.append({
+            "instrumentId": iid,
+            "symbol": sym,
+            "displayname": disp or sym,
+        })
+    return sorted(result, key=lambda x: (x.get("displayname") or x.get("symbol") or "").lower())

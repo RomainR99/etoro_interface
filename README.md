@@ -18,6 +18,8 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
   - gestion risques utilisateurs
   - positionnement éducation financière plutôt que conseil
 
+Avec ce prompt ton chatbot devient : **conforme fintech**, **compatible AMF / MiFID II**, **safe juridiquement**, **utilisable dans un produit SaaS**.
+
 ## Corrections à apporter
 
 - **Graphique 4** : à améliorer (supprimé dans la version actuelle)
