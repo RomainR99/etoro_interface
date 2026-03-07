@@ -20,9 +20,9 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
 
 Avec ce prompt ton chatbot devient : **conforme fintech**, **compatible AMF / MiFID II**, **safe juridiquement**, **utilisable dans un produit SaaS**.
 
-### Limiter les requêtes (rate limit par IP)
+### Limiter les requêtes (rate limit par visiteur)
 
-Les appels à `/api/chat` sont limités par adresse IP :
+Les appels à `/api/chat` sont limités par **visiteur anonyme** (identifiant stocké côté navigateur) :
 
 | Fenêtre | Limite |
 |---------|--------|
@@ -32,7 +32,25 @@ Les appels à `/api/chat` sont limités par adresse IP :
 
 Si la limite est dépassée, l'API renvoie `429 Too Many Requests`. Les limites sont configurables dans `app.py` (`CHAT_RATE_LIMIT`).
 
-*Limite* : plusieurs utilisateurs derrière la même IP (NAT) partagent le quota ; un utilisateur changeant d'IP réinitialise le compteur.
+**Identifiant visiteur** : à la première visite, le backend génère un `visitor_id` aléatoire (UUID) et le stocke dans un **cookie HTTP-only** (durée 1 an). Le rate limit s'applique par `visitor_id`. Un visiteur derrière un NAT a son propre quota, distinct des autres. Supprimer le cookie ou utiliser un autre navigateur/onglet privé réinitialise le compteur.
+
+### CAPTCHA (anti-bots)
+
+Un CAPTCHA (reCAPTCHA v2) est demandé **uniquement au moment opportun** pour ne pas gêner les vrais utilisateurs :
+
+| Condition | Déclenchement |
+|-----------|---------------|
+| Après 5 messages | Une fois 5 messages envoyés (fenêtre 24 h), le CAPTCHA est demandé pour le suivant |
+| Rythme trop rapide | Si 3 messages ou plus en 1 minute |
+| Requêtes similaires | Si le message est identique ou très proche d'un des 2 derniers |
+
+*C'est très efficace contre les bots* : les utilisateurs légitimes ne voient généralement pas de CAPTCHA sur leurs premiers échanges ; les scripts automatisés qui envoient des messages en rafale ou répétés sont bloqués.
+
+**Configuration** : ajouter dans `.env` les clés reCAPTCHA v2 (checkbox) :
+- `RECAPTCHA_SITE_KEY` – clé publique
+- `RECAPTCHA_SECRET_KEY` – clé secrète
+
+Sans ces clés, le CAPTCHA n'est pas activé. Obtenir les clés : [Google reCAPTCHA Admin](https://www.google.com/recaptcha/admin).
 
 ### Récupérer les données du chatbot
 
@@ -96,10 +114,13 @@ ETORO_API_KEY=ta_clé_api_publique
 ETORO_USER_KEY=ta_clé_utilisateur
 OPENAI_API_KEY=sk-...          # Résumés des actualités + génération d’images (DALL·E 3) sous chaque actualité
 TWELVEDATA_API_KEY=...        # Optionnel
+RECAPTCHA_SITE_KEY=...        # Optionnel : CAPTCHA anti-bots (voir section ci-dessus)
+RECAPTCHA_SECRET_KEY=...      # Optionnel : clé secrète reCAPTCHA v2
 ```
 
 - Les clés eToro se génèrent dans **Paramètres > Trading > Gestion des clés API** sur eToro.
-- **OPENAI_API_KEY** : utilisée pour les résumés des articles Zonebourse (gpt-4o-mini) et pour les illustrations sous chaque actualité (DALL·E 3).
+- **OPENAI_API_KEY** : résumés Zonebourse, illustrations, chatbot.
+- **RECAPTCHA_*** : optionnel. Si absent, le CAPTCHA est désactivé.
 
 ## Lancement
 
