@@ -129,6 +129,7 @@ OPENAI_API_KEY=sk-...          # Résumés des actualités + génération d’im
 TWELVEDATA_API_KEY=...        # Optionnel
 RECAPTCHA_SITE_KEY=...        # Optionnel : CAPTCHA anti-bots (voir section ci-dessus)
 RECAPTCHA_SECRET_KEY=...      # Optionnel : clé secrète reCAPTCHA v2
+MEDIASTACK_ACCESS_KEY=...     # Optionnel : API Mediastack (actualités en temps réel)
 ```
 
 - Les clés eToro se génèrent dans **Paramètres > Trading > Gestion des clés API** sur eToro.
