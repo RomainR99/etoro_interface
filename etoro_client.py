@@ -123,9 +123,9 @@ def get_posts_per_month_by_instrument(
     Si username fourni, ne compte que les posts de ce trader.
     Retourne {"YYYY-MM": count, ...}.
     """
-    from datetime import datetime, timedelta
+    from datetime import datetime, timedelta, timezone, timezone
 
-    cutoff_str = (datetime.utcnow() - timedelta(days=years * 365)).strftime("%Y-%m")
+    cutoff_str = (datetime.now(timezone.utc) - timedelta(days=years * 365)).strftime("%Y-%m")
     by_month: dict[str, int] = {}
     offset = 0
     take = 100
@@ -165,10 +165,10 @@ def get_posts_per_month_from_instruments(username: str, years: int = 1) -> dict[
     Fallback : agrège les posts du trader depuis plusieurs instruments (NSDQ, SPX, CAC, Or, etc.).
     Déduplique par post id (même post peut apparaître dans plusieurs feeds).
     """
-    from datetime import datetime, timedelta
+    from datetime import datetime, timedelta, timezone
     from collections import defaultdict
 
-    cutoff_str = (datetime.utcnow() - timedelta(days=years * 365)).strftime("%Y-%m")
+    cutoff_str = (datetime.now(timezone.utc) - timedelta(days=years * 365)).strftime("%Y-%m")
     seen_ids: set[str] = set()
     by_month: dict[str, int] = defaultdict(int)
 
@@ -241,7 +241,7 @@ def get_posts_per_month(username: str, years: int = 1, max_pages: int = 10) -> d
     plusieurs instruments (NSDQ100, SPX500, CAC40, Or, BTC, ETH) en filtrant par auteur.
     Retourne {"YYYY-MM": count, ...}.
     """
-    from datetime import datetime, timedelta
+    from datetime import datetime, timedelta, timezone
 
     profile = get_user_profile(username)
     if not profile:
@@ -259,7 +259,7 @@ def get_posts_per_month(username: str, years: int = 1, max_pages: int = 10) -> d
     if not user_id:
         return get_posts_per_month_from_instruments(username, years)
 
-    cutoff_str = (datetime.utcnow() - timedelta(days=years * 365)).strftime("%Y-%m")
+    cutoff_str = (datetime.now(timezone.utc) - timedelta(days=years * 365)).strftime("%Y-%m")
     by_month: dict[str, int] = {}
     offset = 0
     take = 100

@@ -5,7 +5,7 @@ import io
 import json
 import os
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from flask import Flask, Response, jsonify, render_template, request
 from etoro_client import (
     get_user_profile,
@@ -212,10 +212,10 @@ def _compute_dca_simulation(
 
 def _get_reference_months() -> list[str]:
     """Mois de référence = DATE_FROM jusqu'à ce mois (même plage que graphique 1)."""
-    from datetime import datetime
+    from datetime import datetime, timezone
     out = []
-    start = datetime.strptime(DATE_FROM + "-01", "%Y-%m-%d")
-    end = datetime.utcnow()
+    start = datetime.strptime(DATE_FROM + "-01", "%Y-%m-%d").replace(tzinfo=timezone.utc)
+    end = datetime.now(timezone.utc)
     m = start
     while m <= end:
         out.append(m.strftime("%Y-%m"))
@@ -266,7 +266,7 @@ def _build_copiers_vs_performance_real(limit: int = 50) -> list[dict]:
         time.sleep(0.25)
     os.makedirs(os.path.dirname(COPIERS_VS_PERF_CACHE), exist_ok=True)
     with open(COPIERS_VS_PERF_CACHE, "w", encoding="utf-8") as f:
-        json.dump({"points": points, "updated": datetime.utcnow().isoformat()}, f, ensure_ascii=False)
+        json.dump({"points": points, "updated": datetime.now(timezone.utc).isoformat()}, f, ensure_ascii=False)
     return points
 
 
@@ -400,10 +400,10 @@ def api_all_stocks():
 
 def _compute_posts_chart_data(traders: list[str], years: int = 1) -> tuple[list[str], list[dict]]:
     """Calcule les posts par mois par trader (dernière année). Même logique que _compute_chart_data."""
-    from datetime import datetime, timedelta
+    from datetime import datetime, timezone, timedelta
 
-    cutoff = (datetime.utcnow() - timedelta(days=years * 365)).strftime("%Y-%m")
-    now_str = datetime.utcnow().strftime("%Y-%m")
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=years * 365)).strftime("%Y-%m")
+    now_str = datetime.now(timezone.utc).strftime("%Y-%m")
     all_months = []
     m = cutoff
     while m <= now_str:
@@ -534,7 +534,7 @@ def _append_chat_question(question: str, reply: str) -> None:
     try:
         os.makedirs(os.path.dirname(CHAT_QUESTIONS_LOG), exist_ok=True)
         entry = {
-            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
             "question": question.strip(),
             "reply": (reply or "").strip(),
         }
