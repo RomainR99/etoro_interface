@@ -52,6 +52,8 @@ Un CAPTCHA (reCAPTCHA v2) est demandé **uniquement au moment opportun** pour ne
 
 Sans ces clés, le CAPTCHA n'est pas activé. Obtenir les clés : [Google reCAPTCHA Admin](https://www.google.com/recaptcha/admin).
 
+> **Note** : La clé actuelle est configurée pour le domaine **romainroth.com**. Pour un autre domaine, créer de nouvelles clés reCAPTCHA.
+
 ### Récupérer les données du chatbot
 
 Chaque question posée et chaque réponse sont enregistrées dans `data/chat_questions.jsonl` (format JSONL : une ligne par échange, avec `timestamp`, `question`, `reply`).
