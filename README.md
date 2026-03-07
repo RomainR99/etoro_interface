@@ -20,6 +20,20 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
 
 Avec ce prompt ton chatbot devient : **conforme fintech**, **compatible AMF / MiFID II**, **safe juridiquement**, **utilisable dans un produit SaaS**.
 
+### Limiter les requêtes (rate limit par IP)
+
+Les appels à `/api/chat` sont limités par adresse IP :
+
+| Fenêtre | Limite |
+|---------|--------|
+| 1 minute | 5 messages |
+| 1 heure | 30 messages |
+| 24 heures | 100 messages |
+
+Si la limite est dépassée, l'API renvoie `429 Too Many Requests`. Les limites sont configurables dans `app.py` (`CHAT_RATE_LIMIT`).
+
+*Limite* : plusieurs utilisateurs derrière la même IP (NAT) partagent le quota ; un utilisateur changeant d'IP réinitialise le compteur.
+
 ### Récupérer les données du chatbot
 
 Chaque question posée et chaque réponse sont enregistrées dans `data/chat_questions.jsonl` (format JSONL : une ligne par échange, avec `timestamp`, `question`, `reply`).
@@ -309,4 +323,4 @@ Les développeurs l’utilisent quand ils veulent :
 | Utilisé par         | Flask                      |
 | Niveau              | bas niveau                 |
 
-*Si tu veux, on peut aussi voir pourquoi Flask + Werkzeug + Jinja2 est l’architecture utilisée par beaucoup de startups, et comment créer ton propre mini-framework web en 40 lignes.*
+
