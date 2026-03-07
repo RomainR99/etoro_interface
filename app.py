@@ -6,10 +6,11 @@ import io
 import json
 import os
 import time
+import uuid
 from datetime import datetime, timezone
 
 import requests
-from flask import Flask, Response, jsonify, render_template, request
+from flask import Flask, Response, g, make_response, jsonify, render_template, request, send_from_directory
 from etoro_client import (
     get_user_profile,
     get_user_gain,
@@ -22,7 +23,7 @@ from etoro_client import (
     get_current_copiers,
     get_copiers_vs_performance,
 )
-from zone_bourse.news_fetcher import get_latest_news
+from zone_bourse.news_fetcher import ZONEBOURSE_IMAGES_DIR, get_latest_news
 
 try:
     import yfinance as yf
@@ -36,9 +37,40 @@ DATE_FROM = "2022-09"  # Données à partir de septembre 2022
 COPIERS_VS_PERF_CACHE = os.path.join(os.path.dirname(__file__), "data", "copiers_vs_performance.json")
 CHAT_QUESTIONS_LOG = os.path.join(os.path.dirname(__file__), "data", "chat_questions.jsonl")
 
-# Rate limit par IP : 5/min, 30/h, 100/j
+# Rate limit par visitor_id : 5/min, 30/h, 100/j
 CHAT_RATE_LIMIT = {"per_min": 5, "per_hour": 30, "per_day": 100}
-_chat_rate_store: dict[str, list[float]] = {}
+_chat_rate_store: dict[str, list[float]] = {}  # visitor_id -> timestamps
+_visitor_recent_messages: dict[str, list[str]] = {}  # visitor_id -> last 3 user messages (similarity)
+VISITOR_COOKIE_NAME = "visitor_id"
+VISITOR_COOKIE_MAX_AGE = 365 * 24 * 3600  # 1 an
+CAPTCHA_AFTER_MESSAGES = 5  # demander CAPTCHA après N messages (24h)
+CAPTCHA_FAST_RATE_THRESHOLD = 3  # demander CAPTCHA si >= N messages en 1 min
+
+
+def _get_or_set_visitor_id(response: Response | None = None) -> str:
+    """
+    Récupère le visitor_id du cookie (ou en génère un). Stocke dans g pour la requête.
+    Si response fourni et cookie absent, définit le cookie dessus.
+    Retourne visitor_id.
+    """
+    if not hasattr(g, "visitor_id"):
+        vid = request.cookies.get(VISITOR_COOKIE_NAME)
+        if not vid or len(vid) != 36:
+            vid = str(uuid.uuid4())
+            g.visitor_id_new = True
+        else:
+            g.visitor_id_new = False
+        g.visitor_id = vid
+    vid = g.visitor_id
+    if response is not None and getattr(g, "visitor_id_new", False):
+        response.set_cookie(
+            VISITOR_COOKIE_NAME,
+            vid,
+            max_age=VISITOR_COOKIE_MAX_AGE,
+            httponly=True,
+            samesite="Lax",
+        )
+    return vid
 
 
 def _get_client_ip() -> str:
@@ -49,12 +81,12 @@ def _get_client_ip() -> str:
     return request.remote_addr or "unknown"
 
 
-def _check_chat_rate_limit(ip: str) -> bool:
-    """Vérifie et enregistre la requête. Retourne True si autorisée, False si limite dépassée."""
+def _check_chat_rate_limit(visitor_id: str) -> bool:
+    """Vérifie et enregistre la requête par visitor_id. Retourne True si autorisée, False si limite dépassée."""
     now = time.time()
-    if ip not in _chat_rate_store:
-        _chat_rate_store[ip] = []
-    ts_list = _chat_rate_store[ip]
+    if visitor_id not in _chat_rate_store:
+        _chat_rate_store[visitor_id] = []
+    ts_list = _chat_rate_store[visitor_id]
     # Garder uniquement les timestamps des 24 dernières heures
     cutoff = now - 86400
     ts_list[:] = [t for t in ts_list if t > cutoff]
@@ -67,6 +99,49 @@ def _check_chat_rate_limit(ip: str) -> bool:
         return False
     ts_list.append(now)
     return True
+
+
+def _should_require_captcha(visitor_id: str, current_message: str) -> bool:
+    """
+    Retourne True si un CAPTCHA doit être demandé :
+    - après 5 messages (sur les 24h glissantes),
+    - ou si rythme trop rapide (>= 3 messages en 1 min),
+    - ou si requêtes similaires (message identique à l'un des 2 derniers).
+    """
+    now = time.time()
+    ts_list = _chat_rate_store.get(visitor_id, [])
+    ts_list = [t for t in ts_list if t > now - 86400]
+    recent = _visitor_recent_messages.get(visitor_id, [])
+    norm = (current_message or "").strip().lower()
+    # Après 5 messages
+    if len(ts_list) >= CAPTCHA_AFTER_MESSAGES:
+        return True
+    # Rythme trop rapide
+    if len([t for t in ts_list if t > now - 60]) >= CAPTCHA_FAST_RATE_THRESHOLD:
+        return True
+    # Requêtes similaires (message identique ou quasi-identique)
+    if norm and recent:
+        for r in recent[-2:]:
+            if r and (norm == r.strip().lower() or norm in r.strip().lower() or r.strip().lower() in norm):
+                return True
+    return False
+
+
+def _verify_recaptcha(token: str) -> bool:
+    """Vérifie le token reCAPTCHA v2 côté serveur. Retourne True si valide."""
+    secret = os.getenv("RECAPTCHA_SECRET_KEY")
+    if not secret or not (token or "").strip():
+        return False
+    try:
+        r = requests.post(
+            "https://www.google.com/recaptcha/api/siteverify",
+            data={"secret": secret, "response": token},
+            timeout=5,
+        )
+        data = r.json()
+        return bool(data.get("success"))
+    except Exception:
+        return False
 
 
 INDEX_CONFIG = {
@@ -386,7 +461,7 @@ def index():
     except Exception:
         current_copiers = None
 
-    return render_template(
+    resp = make_response(render_template(
         "profile.html",
         profile=profile,
         gain=gain,
@@ -402,7 +477,10 @@ def index():
         zonebourse_news=zonebourse_news,
         zonebourse_used_fallback=zonebourse_used_fallback,
         current_copiers=current_copiers,
-    )
+        recaptcha_site_key=os.getenv("RECAPTCHA_SITE_KEY", ""),
+    ))
+    _get_or_set_visitor_id(resp)
+    return resp
 
 
 @app.route("/api/most-copied-traders")
@@ -552,6 +630,14 @@ def api_chart_data():
 def health():
     """Route de diagnostic sans appel API externe."""
     return "OK", 200
+
+
+@app.route("/api/zonebourse-image/<filename>")
+def api_zonebourse_image(filename: str):
+    """Sert une image cachée Zonebourse (PNG)."""
+    if not filename.endswith(".png") or ".." in filename or "/" in filename:
+        return jsonify({"error": "invalid"}), 400
+    return send_from_directory(ZONEBOURSE_IMAGES_DIR, filename, mimetype="image/png")
 
 
 @app.route("/api/zonebourse-news")
@@ -730,18 +816,35 @@ def _load_chatbot_prompt() -> str:
 
 @app.route("/api/chat", methods=["POST"])
 def api_chat():
-    """Chatbot OpenAI : envoie les messages et retourne la réponse du modèle. Rate limit par IP."""
-    ip = _get_client_ip()
-    if not _check_chat_rate_limit(ip):
-        return jsonify({"error": "Trop de requêtes. Limites : 5/min, 30/h, 100/j par IP."}), 429
-    from openai import OpenAI
-    key = os.getenv("OPENAI_API_KEY")
-    if not key:
-        return jsonify({"error": "OPENAI_API_KEY manquante"}), 500
+    """Chatbot OpenAI : envoie les messages et retourne la réponse. Rate limit par visitor_id. CAPTCHA si requis."""
+    visitor_id = _get_or_set_visitor_id()
     data = request.get_json() or {}
     messages = data.get("messages") or []
     if not messages:
         return jsonify({"error": "messages requis"}), 400
+    user_msgs = [m.get("content", "") for m in messages if m.get("role") == "user"]
+    current_message = (user_msgs[-1] or "").strip() if user_msgs else ""
+
+    if _should_require_captcha(visitor_id, current_message):
+        secret = os.getenv("RECAPTCHA_SECRET_KEY")
+        if secret:
+            token = (data.get("captcha_token") or "").strip()
+            if not _verify_recaptcha(token):
+                r = jsonify({
+                    "error": "Veuillez valider le CAPTCHA pour continuer.",
+                    "require_captcha": True,
+                })
+                _get_or_set_visitor_id(r)
+                return r, 429
+
+    if not _check_chat_rate_limit(visitor_id):
+        r = jsonify({"error": "Trop de requêtes. Limites : 5/min, 30/h, 100/j par visiteur."})
+        _get_or_set_visitor_id(r)
+        return r, 429
+    from openai import OpenAI
+    key = os.getenv("OPENAI_API_KEY")
+    if not key:
+        return jsonify({"error": "OPENAI_API_KEY manquante"}), 500
     system_prompt = _load_chatbot_prompt()
     try:
         client = OpenAI(api_key=key)
@@ -755,11 +858,16 @@ def api_chat():
             temperature=0.7,
         )
         reply = (r.choices[0].message.content or "").strip()
-        # Enregistrer la dernière question utilisateur + réponse
-        user_messages = [m.get("content", "") for m in messages if m.get("role") == "user"]
-        if user_messages:
-            _append_chat_question(user_messages[-1], reply)
-        return jsonify({"reply": reply})
+        if user_msgs:
+            _append_chat_question(user_msgs[-1], reply)
+            if visitor_id not in _visitor_recent_messages:
+                _visitor_recent_messages[visitor_id] = []
+            _visitor_recent_messages[visitor_id] = (
+                _visitor_recent_messages[visitor_id][-2:] + [current_message]
+            )[:3]
+        resp = jsonify({"reply": reply})
+        _get_or_set_visitor_id(resp)
+        return resp
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

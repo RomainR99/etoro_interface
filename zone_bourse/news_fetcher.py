@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import base64
+import hashlib
 import json
 import os
 import random
@@ -286,6 +288,7 @@ def _fetch_article_links(limit: int = 3) -> tuple[list[str], bool]:
 
 _CACHE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
 ZONEBOURSE_CACHE_PATH = os.path.join(_CACHE_DIR, "zonebourse_posts.json")
+ZONEBOURSE_IMAGES_DIR = os.path.join(_CACHE_DIR, "zonebourse_images")
 
 
 def _load_zonebourse_cache(cache_path: str) -> dict[str, dict[str, Any]]:
@@ -309,6 +312,27 @@ def _save_zonebourse_cache(cache_path: str, cache: dict[str, dict[str, Any]]) ->
         pass
 
 
+def _url_to_image_filename(url: str) -> str:
+    """Génère un nom de fichier unique pour une URL (hash)."""
+    h = hashlib.sha256(url.encode("utf-8")).hexdigest()[:16]
+    return f"{h}.png"
+
+
+def _save_image_from_data_url(data_url: str, filepath: str) -> bool:
+    """Extrait le base64 d'un data URL et sauvegarde en PNG. Retourne True si succès."""
+    if not data_url or not data_url.startswith("data:image"):
+        return False
+    try:
+        _, b64 = data_url.split(",", 1)
+        raw = base64.b64decode(b64)
+        os.makedirs(os.path.dirname(filepath), exist_ok=True)
+        with open(filepath, "wb") as f:
+            f.write(raw)
+        return True
+    except Exception:
+        return False
+
+
 def _build_image_prompt(title: str, summary: str) -> str:
     """Construit le prompt pour la génération d'image."""
     t = (title or "").strip()
@@ -325,8 +349,8 @@ def get_latest_news(
     """
     Récupère les N dernières actualités Zonebourse (HTML + BeautifulSoup),
     puis génère pour chacune un titre et un résumé en 5 lignes via OpenAI.
-    Si cache_path et generate_image_fn fournis, utilise le cache (url -> {title, summary, image_data_url}).
-    Retourne {"items": [{"title", "summary", "image_data_url"?}], "used_fallback": bool}.
+    Si cache_path et generate_image_fn fournis, utilise le cache (url -> {title, summary, image_file}).
+    Les images sont stockées en PNG dans data/zonebourse_images/. Retourne image_url (ou image_data_url en fallback).
     """
     urls, used_fallback = _fetch_article_links(limit=limit)
     cache = _load_zonebourse_cache(cache_path) if cache_path else {}
@@ -334,7 +358,11 @@ def get_latest_news(
     results: list[dict[str, Any]] = []
     for url in urls:
         if use_cache and url in cache:
-            results.append(cache[url].copy())
+            entry = cache[url].copy()
+            if entry.get("image_file"):
+                entry["image_url"] = f"/api/zonebourse-image/{entry['image_file']}"
+                entry.pop("image_data_url", None)
+            results.append(entry)
             continue
         try:
             resp = requests.get(url, headers=_get_headers(referer=ACTUALITES_URL), timeout=REQUEST_TIMEOUT)
@@ -358,17 +386,26 @@ def get_latest_news(
                 summary = "Résumé non disponible (article inaccessible ou structure de page modifiée)."
             item: dict[str, Any] = {"title": title, "summary": summary}
             image_data_url: str | None = None
+            image_file: str | None = None
             if generate_image_fn:
                 prompt = _build_image_prompt(title, summary)
                 style_index = random.randint(0, 5)
                 image_data_url = generate_image_fn(prompt, style_index)
-                if image_data_url:
+                if image_data_url and use_cache:
+                    image_file = _url_to_image_filename(url)
+                    img_path = os.path.join(ZONEBOURSE_IMAGES_DIR, image_file)
+                    if _save_image_from_data_url(image_data_url, img_path):
+                        item["image_url"] = f"/api/zonebourse-image/{image_file}"
+                    else:
+                        image_file = None
+                        item["image_data_url"] = image_data_url
+                elif image_data_url:
                     item["image_data_url"] = image_data_url
             if use_cache:
                 cache[url] = {
                     "title": item["title"],
                     "summary": item["summary"],
-                    "image_data_url": item.get("image_data_url"),
+                    "image_file": image_file,
                     "cached_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
                 }
             results.append(item)

@@ -514,9 +514,9 @@
                         {% if item.summary %}
                         <p class="news-summary">{{ item.summary }}</p>
                         {% endif %}
-                        {% if item.image_data_url %}
+                        {% if item.image_url or item.image_data_url %}
                         <div class="news-item-image">
-                            <img src="{{ item.image_data_url }}" alt="">
+                            <img src="{{ item.image_url or item.image_data_url }}" alt="">
                         </div>
                         {% else %}
                         <div class="news-item-image news-item-image-loading" data-title="{{ item.title|e }}" data-summary="{{ item.summary|e }}" data-style-index="{{ loop.index0 }}">
@@ -858,8 +858,9 @@
                               var titleAttr = (item.title || '').replace(/"/g, '&quot;');
                               var summaryAttr = (item.summary || '').replace(/"/g, '&quot;');
                               var imgHtml;
-                              if (item.image_data_url) {
-                                  imgHtml = '<div class="news-item-image"><img src="' + (item.image_data_url || '').replace(/"/g, '&quot;') + '" alt=""></div>';
+                              var imgSrc = item.image_url || item.image_data_url;
+                              if (imgSrc) {
+                                  imgHtml = '<div class="news-item-image"><img src="' + (imgSrc || '').replace(/"/g, '&quot;') + '" alt=""></div>';
                               } else {
                                   imgHtml = '<div class="news-item-image news-item-image-loading" data-title="' + titleAttr + '" data-summary="' + summaryAttr + '" data-style-index="' + idx + '"><span>Génération de l\'image…</span></div>';
                               }
@@ -904,9 +905,10 @@
                     }).then(function(r) { return r.json().then(function(data) { return { ok: r.ok, data: data }; }); })
                       .then(function(res) {
                           div.classList.remove('news-item-image-loading');
-                          if (res.ok && res.data.image_data_url) {
+                          var imgSrc = (res.data && (res.data.image_url || res.data.image_data_url));
+                          if (res.ok && imgSrc) {
                               var img = document.createElement('img');
-                              img.src = res.data.image_data_url;
+                              img.src = imgSrc;
                               img.alt = '';
                               div.innerHTML = '';
                               div.appendChild(img);
@@ -953,14 +955,35 @@
             <input type="text" id="chatInput" placeholder="Votre message…" maxlength="500" />
             <button type="button" id="chatSend">Envoyer</button>
         </div>
+        <div id="chatCaptchaWrap" style="display:none; margin-top:0.5rem; padding:0.5rem; background:var(--card-bg); border-radius:6px;">
+            <p style="font-size:0.85rem; color:var(--muted); margin-bottom:0.5rem;">Veuillez valider le CAPTCHA puis cliquer sur Renvoyer.</p>
+            <div id="chatCaptchaWidget"></div>
+            <button type="button" id="chatCaptchaResend" class="chart-controls button" style="margin-top:0.5rem; padding:0.4rem 0.8rem; font-size:0.85rem;">Renvoyer</button>
+        </div>
     </div>
+    {% if recaptcha_site_key %}
+    <script>
+    window.chatRecaptchaReady = false;
+    window.chatRenderCaptcha = null;
+    function onRecaptchaLoad() {
+        window.chatRecaptchaReady = true;
+        if (window.chatRenderCaptcha) window.chatRenderCaptcha();
+    }
+    </script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad&render=explicit" async defer></script>
+    {% endif %}
     <script>
         (function() {
+            var recaptchaSiteKey = {{ recaptcha_site_key | default('') | tojson }};
             var initialBotMessage = "Besoin d'aide ? Posez une question . Ex : Où trouver des actions à dividendes élevés ? Quels secteurs ont la plus forte croissance ?";
             var messages = [{ role: "assistant", content: initialBotMessage }];
             var panel = document.getElementById("chatPanel");
             var msgsEl = document.getElementById("chatMessages");
             var inputEl = document.getElementById("chatInput");
+            var captchaWrap = document.getElementById("chatCaptchaWrap");
+            var captchaWidget = document.getElementById("chatCaptchaWidget");
+            var captchaResendBtn = document.getElementById("chatCaptchaResend");
+            var pendingForCaptcha = null;
             function escapeHtml(s) {
                 var d = document.createElement("div");
                 d.textContent = s;
@@ -989,29 +1012,65 @@
                 }).join("");
                 msgsEl.scrollTop = msgsEl.scrollHeight;
             }
-            function sendToApi() {
-                var text = (inputEl.value || "").trim();
-                if (!text) return;
-                messages.push({ role: "user", content: text });
-                inputEl.value = "";
-                renderMessages();
-                fetch("/api/chat", {
+            function doFetch(msgs, captchaToken) {
+                var payload = { messages: msgs };
+                if (captchaToken) payload.captcha_token = captchaToken;
+                return fetch("/api/chat", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ messages: messages })
-                }).then(function(r) { return r.json(); })
-                  .then(function(data) {
-                      if (data.error) {
-                          messages.push({ role: "assistant", content: "Erreur: " + data.error });
-                      } else {
-                          messages.push({ role: "assistant", content: data.reply || "" });
-                      }
-                      renderMessages();
-                  })
-                  .catch(function(e) {
-                      messages.push({ role: "assistant", content: "Erreur de connexion." });
-                      renderMessages();
-                  });
+                    body: JSON.stringify(payload)
+                }).then(function(r) { return r.json().then(function(data) { return { ok: r.ok, status: r.status, data: data }; }); });
+            }
+            function sendToApi(optCaptchaToken) {
+                var text = (inputEl.value || "").trim();
+                if (pendingForCaptcha) text = pendingForCaptcha.text;
+                if (!text) return;
+                var msgsToSend = messages;
+                if (!pendingForCaptcha) {
+                    messages.push({ role: "user", content: text });
+                    inputEl.value = "";
+                } else {
+                    msgsToSend = messages.concat([{ role: "user", content: text }]);
+                }
+                renderMessages();
+                if (captchaWrap) captchaWrap.style.display = "none";
+                pendingForCaptcha = null;
+                doFetch(msgsToSend, optCaptchaToken).then(function(res) {
+                    if (!res.ok && res.status === 429 && res.data.require_captcha && recaptchaSiteKey) {
+                        if (!pendingForCaptcha) {
+                            messages.pop();
+                            pendingForCaptcha = { messages: messages.slice(), text: text };
+                            messages.push({ role: "assistant", content: "Veuillez valider le CAPTCHA pour continuer." });
+                            function renderCaptcha() {
+                                if (!captchaWidget || !recaptchaSiteKey) return;
+                                captchaWidget.innerHTML = "";
+                                if (typeof grecaptcha !== "undefined" && grecaptcha.render) {
+                                    grecaptcha.render(captchaWidget, { sitekey: recaptchaSiteKey });
+                                }
+                            }
+                            window.chatRenderCaptcha = renderCaptcha;
+                            if (window.chatRecaptchaReady) renderCaptcha();
+                            if (captchaWrap) captchaWrap.style.display = "block";
+                            if (captchaResendBtn) captchaResendBtn.onclick = function() {
+                                var token = (typeof grecaptcha !== "undefined" && grecaptcha.getResponse) ? grecaptcha.getResponse() : "";
+                                if (!token) return;
+                                sendToApi(token);
+                            };
+                        }
+                        renderMessages();
+                        return;
+                    }
+                    if (res.data.error) {
+                        messages.push({ role: "assistant", content: "Erreur: " + res.data.error });
+                    } else {
+                        messages.push({ role: "assistant", content: res.data.reply || "" });
+                    }
+                    renderMessages();
+                }).catch(function(e) {
+                    if (!pendingForCaptcha) messages.pop();
+                    messages.push({ role: "assistant", content: "Erreur de connexion." });
+                    renderMessages();
+                });
             }
             document.getElementById("chatToggle").onclick = function() { panel.classList.add("open"); };
             document.getElementById("chatClose").onclick = function() { panel.classList.remove("open"); };

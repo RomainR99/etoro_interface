@@ -198,6 +198,8 @@ Article :
 
 Le modèle utilisé est **gpt-4o-mini**. La réponse JSON est parsée pour afficher le titre et le résumé dans l’interface. La clé API est lue depuis la variable d’environnement `OPENAI_API_KEY` (fichier `.env`).
 
+> **📌 Cache** — Les posts et images sont mis en cache dans `data/zonebourse_posts.json` (métadonnées) et `data/zonebourse_images/*.png` (images). Gain de place et de mémoire par rapport au stockage base64 en JSON.
+
 ![Capture des actualités Zonebourse](images/actualité.png)
 
 ![Capture des actualités Zonebourse 2](images/actualité2.png)
