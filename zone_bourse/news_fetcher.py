@@ -18,15 +18,26 @@ BASE_URL = "https://www.zonebourse.com"
 ACTUALITES_URL = f"{BASE_URL}/actualite-bourse/"
 REQUEST_TIMEOUT = 15
 OPENAI_MODEL = "gpt-4o-mini"
-SUMMARY_PROMPT = """Tu es un rédacteur financier. Voici le texte d'un article boursier.
 
-Réponds UNIQUEMENT en JSON valide avec exactement deux clés :
-- "titre" : un titre court et percutant (une phrase).
-- "resume" : un résumé en exactement 5 lignes (5 phrases courtes, une par ligne, séparées par des retours à la ligne).
+_PROMPTS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "prompts")
 
-Article :
 
-"""
+def _load_summary_prompt() -> str:
+    """Charge le prompt de résumé depuis prompts/zonebourse_summary.txt."""
+    path = os.path.join(_PROMPTS_DIR, "zonebourse_summary.txt")
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return f.read()
+    except OSError:
+        return (
+            "Tu es un rédacteur financier. Voici le texte d'un article boursier.\n\n"
+            "Réponds UNIQUEMENT en JSON valide avec exactement deux clés :\n"
+            '- "titre" : un titre court et percutant (une phrase).\n'
+            '- "resume" : un résumé en exactement 5 lignes (5 phrases courtes, une par ligne, séparées par les retours à la ligne).\n\n'
+            "Article :\n\n"
+        )
+
+
 USER_AGENT = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -176,7 +187,7 @@ def _summarize_with_openai(article_text: str) -> dict[str, str] | None:
             model=OPENAI_MODEL,
             messages=[
                 {"role": "system", "content": "Tu réponds uniquement en JSON valide, sans markdown ni commentaire."},
-                {"role": "user", "content": SUMMARY_PROMPT + text},
+                {"role": "user", "content": _load_summary_prompt() + text},
             ],
             temperature=0.3,
         )

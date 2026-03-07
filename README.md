@@ -10,7 +10,7 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
 - **Simulation DCA** : 1 000 $ au départ + 100 $/mois, comparaison avec le S&P 500
 - **Posts par mois** (graphique 3) : comparaison du nombre de posts. Priorité au feed utilisateur (tous les posts) ; si vide, fallback sur plusieurs instruments (NSDQ100, SPX500, CAC40, Or, BTC, ETH) en filtrant par auteur
 - **Performance vs copieurs** (graphique 5) : nuage de points pour les 2000 traders les plus copiés (abscisse = copieurs, ordonnée = performance % sur 2 ans)
-- **Actualités Zonebourse** : résumés des articles générés par IA (5 lignes par article)
+- **Actualités Zonebourse** : résumés des articles générés par IA (5 lignes par article) et illustration sous chaque actualité (génération d’image via OpenAI DALL·E 3, même clé `OPENAI_API_KEY`)
 - **Chatbot agent IA** : assistant pédagogique en éducation financière pour poser des questions sur les données eToro et Zonebourse. Elle ajoute :
   - conformité AMF / régulation financière
   - prévention promesses de rendement
@@ -29,6 +29,19 @@ Avec ce prompt ton chatbot devient : **conforme fintech**, **compatible AMF / Mi
 
 - Python 3.10+
 - Compte eToro vérifié avec clés API
+
+## Dépendances principales
+
+| Package | Usage |
+|---------|--------|
+| `flask`, `werkzeug` | Application web |
+| `requests` | Appels API (eToro, Zonebourse, etc.) |
+| `beautifulsoup4`, `lxml` | Parsing HTML Zonebourse |
+| `openai` | Résumés des actualités (titre + 5 lignes) et génération d’images (DALL·E 3) |
+| `python-dotenv` | Chargement du fichier `.env` |
+| `yfinance` | Données indices (S&P 500, CAC 40, etc.) |
+
+Toutes les dépendances sont listées dans `requirements.txt`.
 
 ## Installation
 
@@ -54,9 +67,12 @@ Créer un fichier `.env` à la racine :
 ```env
 ETORO_API_KEY=ta_clé_api_publique
 ETORO_USER_KEY=ta_clé_utilisateur
+OPENAI_API_KEY=sk-...          # Résumés des actualités + génération d’images (DALL·E 3) sous chaque actualité
+TWELVEDATA_API_KEY=...        # Optionnel
 ```
 
-Les clés se génèrent dans **Paramètres > Trading > Gestion des clés API** sur eToro.
+- Les clés eToro se génèrent dans **Paramètres > Trading > Gestion des clés API** sur eToro.
+- **OPENAI_API_KEY** : utilisée pour les résumés des articles Zonebourse (gpt-4o-mini) et pour les illustrations sous chaque actualité (DALL·E 3).
 
 ## Lancement
 

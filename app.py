@@ -1,11 +1,14 @@
 """Application Flask pour visualiser le profil des traders eToro."""
 
+import base64
 import csv
 import io
 import json
 import os
 import time
 from datetime import datetime, timezone
+
+import requests
 from flask import Flask, Response, jsonify, render_template, request
 from etoro_client import (
     get_user_profile,
@@ -536,6 +539,62 @@ def api_zonebourse_debug():
         return jsonify({"count": len(items), "news": items, "used_fallback": result.get("used_fallback", False)})
     except Exception as e:
         return jsonify({"error": str(e), "count": 0, "news": []}), 500
+
+
+OPENAI_IMAGE_MODEL = "dall-e-3"
+
+
+def _load_image_news_prompt() -> str:
+    """Charge le template du prompt image depuis prompts/image_news.txt."""
+    path = os.path.join(os.path.dirname(__file__), "prompts", "image_news.txt")
+    try:
+        with open(path, encoding="utf-8") as f:
+            return f.read().strip()
+    except OSError:
+        return "Professional financial news illustration, clean and modern style:"
+
+
+def _generate_image_openai(prompt: str) -> tuple[str | None, str | None]:
+    """Génère une image via l'API Images OpenAI (DALL·E). Retourne (data_url_base64, None) ou (None, erreur)."""
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        return None, "OPENAI_API_KEY manquant dans .env"
+    if not (prompt or "").strip():
+        return None, "Prompt vide"
+    template = _load_image_news_prompt()
+    full_prompt = f"{template} {prompt.strip()}".strip()[:4000]
+    try:
+        from openai import OpenAI
+        client = OpenAI(api_key=api_key)
+        r = client.images.generate(
+            model=OPENAI_IMAGE_MODEL,
+            prompt=full_prompt,
+            n=1,
+            size="1024x1024",
+            response_format="b64_json",
+            quality="standard",
+        )
+        if not r.data or len(r.data) == 0:
+            return None, "Réponse OpenAI vide"
+        b64 = getattr(r.data[0], "b64_json", None)
+        if not b64:
+            return None, "Image non renvoyée en base64"
+        return f"data:image/png;base64,{b64}", None
+    except Exception as e:
+        return None, str(e).strip()[:300] or "Génération impossible"
+
+
+@app.route("/api/generate-news-image", methods=["POST"])
+def api_generate_news_image():
+    """Génère une image à partir d'un prompt (actualité) via OpenAI DALL·E. Retourne data URL base64."""
+    data = request.get_json(silent=True) or {}
+    prompt = (data.get("prompt") or "").strip()
+    if not prompt:
+        return jsonify({"error": "prompt manquant"}), 400
+    data_url, err = _generate_image_openai(prompt)
+    if not data_url:
+        return jsonify({"error": err or "Génération d'image impossible"}), 502
+    return jsonify({"image_data_url": data_url})
 
 
 def _append_chat_question(question: str, reply: str) -> None:
