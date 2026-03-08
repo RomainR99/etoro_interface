@@ -354,6 +354,14 @@
             color: var(--muted);
             font-size: 0.85rem;
         }
+        .mediastack-filters select {
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.4rem 1.5rem 0.4rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
@@ -532,27 +540,102 @@
             </div>
         </div>
 
-        {% if portfolio_instruments and portfolio_instruments|length > 0 %}
         <div class="card" style="margin-top: 1.5rem; grid-column: 1 / -1;">
-            <h2 style="margin: 0 0 1rem 0;">Actualités par instrument ({{ portfolio_instruments|length }} en portefeuille)</h2>
-            <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">Dernières actualités pour les instruments de RomainRoth, via Mediastack.</p>
-            {% if instrument_news and instrument_news|length > 0 %}
-            <ul class="news-list" style="list-style: none; padding: 0; margin: 0;">
-                {% for item in instrument_news %}
-                <li class="news-item" style="margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border);">
-                    <a href="{{ item.url }}" target="_blank" rel="noopener noreferrer" style="font-weight: 600; color: var(--accent);">{{ item.title }}</a>
-                    {% if item.description %}
-                    <p class="news-summary" style="margin: 0.35rem 0 0 0; font-size: 0.9rem; color: var(--muted);">{{ item.description[:200] }}{% if item.description|length > 200 %}…{% endif %}</p>
-                    {% endif %}
-                    <span style="font-size: 0.8rem; color: var(--muted);">{{ item.source }} · {{ item.published_at[:10] if item.published_at else '' }}</span>
-                </li>
-                {% endfor %}
-            </ul>
-            {% else %}
-            <p class="empty-state">Aucune actualité chargée. Vérifiez MEDIASTACK_ACCESS_KEY dans .env.</p>
-            {% endif %}
+            <h2 style="margin: 0 0 1rem 0;">Actualités Mediastack</h2>
+            <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">Choisissez vos filtres et chargez les 5 dernières actualités (aujourd'hui et hier).</p>
+            <div class="mediastack-filters" style="display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: flex-end; margin-bottom: 1rem;">
+                <label style="display: flex; flex-direction: column; gap: 0.25rem;">
+                    <span style="font-size: 0.8rem; color: var(--muted);">Catégorie</span>
+                    <select id="mediastackCategory" style="min-width: 140px;">
+                        <option value="">Toutes</option>
+                        <option value="business">Business</option>
+                        <option value="technology">Technology</option>
+                        <option value="general">General</option>
+                        <option value="science">Science</option>
+                        <option value="health">Health</option>
+                        <option value="sports">Sports</option>
+                        <option value="entertainment">Entertainment</option>
+                    </select>
+                </label>
+                <label style="display: flex; flex-direction: column; gap: 0.25rem;">
+                    <span style="font-size: 0.8rem; color: var(--muted);">Thème</span>
+                    <select id="mediastackTheme" style="min-width: 180px;">
+                        <option value="">Aucun</option>
+                        {% if portfolio_instruments and portfolio_instruments|length > 0 %}
+                        <optgroup label="Portefeuille RomainRoth">
+                        {% for item in portfolio_instruments %}
+                        <option value="{{ (item.symbol or item.displayname or '')|e }}">{{ (item.symbol or '-') }} — {{ (item.displayname or item.symbol or '')|e }}</option>
+                        {% endfor %}
+                        </optgroup>
+                        {% endif %}
+                        <optgroup label="Thèmes">
+                        <option value="stock market">Bourse</option>
+                        <option value="crypto">Crypto</option>
+                        <option value="earnings">Résultats</option>
+                        <option value="AI">IA</option>
+                        <option value="Fed">Fed</option>
+                        <option value="inflation">Inflation</option>
+                        <option value="oil">Pétrole</option>
+                        <option value="Apple">Apple</option>
+                        <option value="Tesla">Tesla</option>
+                        <option value="Nvidia">Nvidia</option>
+                        </optgroup>
+                    </select>
+                </label>
+                <label style="display: flex; flex-direction: column; gap: 0.25rem;">
+                    <span style="font-size: 0.8rem; color: var(--muted);">Pays</span>
+                    <select id="mediastackCountries" style="min-width: 120px;">
+                        <option value="">Tous</option>
+                        <option value="us">États-Unis</option>
+                        <option value="gb">Royaume-Uni</option>
+                        <option value="fr">France</option>
+                        <option value="de">Allemagne</option>
+                        <option value="us,gb">US + UK</option>
+                        <option value="us,gb,fr">US + UK + FR</option>
+                    </select>
+                </label>
+                <label style="display: flex; flex-direction: column; gap: 0.25rem;">
+                    <span style="font-size: 0.8rem; color: var(--muted);">Langue</span>
+                    <select id="mediastackLanguages" style="min-width: 120px;">
+                        <option value="">Toutes</option>
+                        <option value="en">Anglais</option>
+                        <option value="fr">Français</option>
+                        <option value="en,fr">Anglais + Français</option>
+                    </select>
+                </label>
+                <label style="display: flex; flex-direction: column; gap: 0.25rem;">
+                    <span style="font-size: 0.8rem; color: var(--muted);">Source</span>
+                    <select id="mediastackSources" style="min-width: 120px;">
+                        <option value="">Toutes</option>
+                        <option value="cnn">CNN</option>
+                        <option value="bbc">BBC</option>
+                        <option value="reuters">Reuters</option>
+                        <option value="bloomberg">Bloomberg</option>
+                        <option value="cnn,bbc">CNN + BBC</option>
+                    </select>
+                </label>
+                <label style="display: flex; flex-direction: column; gap: 0.25rem;">
+                    <span style="font-size: 0.8rem; color: var(--muted);">Date</span>
+                    <select id="mediastackDate" style="min-width: 140px;">
+                        <option value="today_and_yesterday">Aujourd'hui et hier</option>
+                        <option value="today">Aujourd'hui</option>
+                        <option value="yesterday">Hier</option>
+                    </select>
+                </label>
+                <button type="button" id="mediastackFetchBtn" style="background: var(--accent); color: var(--bg); border: none; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.9rem; font-weight: 600; cursor: pointer; height: 2rem;">Charger</button>
+                <button type="button" id="mediastackSaveBtn" style="background: var(--success); color: var(--bg); border: none; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.9rem; font-weight: 600; cursor: pointer; height: 2rem;" title="Garder ces actualités en mémoire">Garder en mémoire</button>
+            </div>
+            <div id="mediastackNewsContainer">
+                <p id="mediastackLoading" class="empty-state" style="display: none;">Chargement…</p>
+                <p id="mediastackEmpty" class="empty-state">Sélectionnez des filtres et cliquez sur Charger.</p>
+                <ul class="news-list" id="mediastackNewsList" style="list-style: none; padding: 0; margin: 0; display: none;"></ul>
+            </div>
+            <div id="mediastackSavedSection" style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border); display: none;">
+                <h3 style="font-size: 0.9rem; color: var(--muted); margin-bottom: 0.75rem;">Actualités mémorisées</h3>
+                <ul class="news-list" id="mediastackSavedList" style="list-style: none; padding: 0; margin: 0;"></ul>
+                <button type="button" id="mediastackClearSavedBtn" style="margin-top: 0.5rem; background: transparent; color: var(--danger); border: 1px solid var(--danger); padding: 0.35rem 0.75rem; border-radius: 6px; font-size: 0.85rem; cursor: pointer;">Effacer les mémorisées</button>
+            </div>
         </div>
-        {% endif %}
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
         <script>
@@ -948,6 +1031,115 @@
             var refreshBtn = document.getElementById('refreshZonebourseBtn');
             if (refreshBtn) refreshBtn.addEventListener('click', refreshZonebourseNews);
             if (document.getElementById('zonebourseNewsList')) generateNewsImages();
+
+            (function mediastackSection() {
+                var container = document.getElementById('mediastackNewsContainer');
+                var listEl = document.getElementById('mediastackNewsList');
+                var emptyEl = document.getElementById('mediastackEmpty');
+                var loadingEl = document.getElementById('mediastackLoading');
+                var savedSection = document.getElementById('mediastackSavedSection');
+                var savedList = document.getElementById('mediastackSavedList');
+
+                function renderNewsList(items, targetEl) {
+                    if (!targetEl || !items || items.length === 0) return;
+                    targetEl.innerHTML = items.map(function(item) {
+                        var title = (item.title || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                        var desc = (item.description || '').substring(0, 200);
+                        if (item.description && item.description.length > 200) desc += '…';
+                        desc = desc.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                        var url = (item.url || '').replace(/"/g, '&quot;');
+                        var source = (item.source || '');
+                        var date = item.published_at ? item.published_at.substring(0, 10) : '';
+                        return '<li class="news-item" style="margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border);">' +
+                            '<a href="' + url + '" target="_blank" rel="noopener noreferrer" style="font-weight: 600; color: var(--accent);">' + title + '</a>' +
+                            (desc ? '<p class="news-summary" style="margin: 0.35rem 0 0 0; font-size: 0.9rem; color: var(--muted);">' + desc + '</p>' : '') +
+                            '<span style="font-size: 0.8rem; color: var(--muted);">' + source + ' · ' + date + '</span></li>';
+                    }).join('');
+                }
+
+                function fetchMediastackNews() {
+                    var category = (document.getElementById('mediastackCategory') || {}).value || '';
+                    var theme = (document.getElementById('mediastackTheme') || {}).value || '';
+                    var countries = (document.getElementById('mediastackCountries') || {}).value || '';
+                    var languages = (document.getElementById('mediastackLanguages') || {}).value || '';
+                    var sources = (document.getElementById('mediastackSources') || {}).value || '';
+                    var date = (document.getElementById('mediastackDate') || {}).value || 'today_and_yesterday';
+                    var params = new URLSearchParams({ limit: 5, date: date });
+                    if (category) params.set('category', category);
+                    if (theme) params.set('theme', theme);
+                    if (countries) params.set('countries', countries);
+                    if (languages) params.set('languages', languages);
+                    if (sources) params.set('sources', sources);
+                    if (loadingEl) loadingEl.style.display = 'block';
+                    if (emptyEl) emptyEl.style.display = 'none';
+                    if (listEl) listEl.style.display = 'none';
+                    var btn = document.getElementById('mediastackFetchBtn');
+                    if (btn) btn.disabled = true;
+                    fetch('/api/mediastack-news?' + params).then(function(r) { return r.json(); })
+                        .then(function(data) {
+                            if (loadingEl) loadingEl.style.display = 'none';
+                            if (btn) btn.disabled = false;
+                            window._lastMediastackNews = data.news || [];
+                            if (window._lastMediastackNews.length > 0) {
+                                renderNewsList(window._lastMediastackNews, listEl);
+                                if (listEl) { listEl.style.display = 'block'; }
+                                if (emptyEl) emptyEl.style.display = 'none';
+                            } else {
+                                if (emptyEl) { emptyEl.textContent = data.error ? 'Erreur: ' + data.error : 'Aucune actualité trouvée.'; emptyEl.style.display = 'block'; }
+                            }
+                        })
+                        .catch(function(err) {
+                            if (loadingEl) loadingEl.style.display = 'none';
+                            if (btn) btn.disabled = false;
+                            if (emptyEl) { emptyEl.textContent = 'Erreur de connexion.'; emptyEl.style.display = 'block'; }
+                        });
+                }
+
+                function saveToMemory() {
+                    var news = window._lastMediastackNews || [];
+                    if (news.length === 0) { alert('Chargez d\'abord des actualités.'); return; }
+                    fetch('/api/mediastack-saved', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ news: news })
+                    }).then(function(r) { return r.json(); })
+                        .then(function(data) {
+                            if (data.error) { alert('Erreur: ' + data.error); return; }
+                            renderSavedNews();
+                            if (savedSection) savedSection.style.display = 'block';
+                        })
+                        .catch(function() { alert('Impossible de sauvegarder.'); });
+                }
+
+                function renderSavedNews() {
+                    fetch('/api/mediastack-saved').then(function(r) { return r.json(); })
+                        .then(function(data) {
+                            var saved = data.news || [];
+                            if (savedList && saved.length > 0) {
+                                renderNewsList(saved, savedList);
+                                if (savedSection) savedSection.style.display = 'block';
+                            }
+                        })
+                        .catch(function() {});
+                }
+
+                function clearSaved() {
+                    fetch('/api/mediastack-saved', { method: 'DELETE' }).then(function(r) { return r.json(); })
+                        .then(function() {
+                            if (savedList) savedList.innerHTML = '';
+                            if (savedSection) savedSection.style.display = 'none';
+                        })
+                        .catch(function() {});
+                }
+
+                var fetchBtn = document.getElementById('mediastackFetchBtn');
+                var saveBtn = document.getElementById('mediastackSaveBtn');
+                var clearBtn = document.getElementById('mediastackClearSavedBtn');
+                if (fetchBtn) fetchBtn.addEventListener('click', fetchMediastackNews);
+                if (saveBtn) saveBtn.addEventListener('click', saveToMemory);
+                if (clearBtn) clearBtn.addEventListener('click', clearSaved);
+                renderSavedNews();
+            })();
 
             try { initChart(); } catch (e) { console.error('initChart:', e); }
             try { initPostsChart(); } catch (e) { console.error('initPostsChart:', e); }

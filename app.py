@@ -36,6 +36,7 @@ TRADER_USERNAME = "RomainRoth"
 DATE_FROM = "2022-09"  # Données à partir de septembre 2022
 COPIERS_VS_PERF_CACHE = os.path.join(os.path.dirname(__file__), "data", "copiers_vs_performance.json")
 CHAT_QUESTIONS_LOG = os.path.join(os.path.dirname(__file__), "data", "chat_questions.jsonl")
+NEWS_MEDIASTACK_PATH = os.path.join(os.path.dirname(__file__), "data", "news_mediastack.json")
 
 # Rate limit par visitor_id : 5/min, 30/h, 100/j
 CHAT_RATE_LIMIT = {"per_min": 5, "per_hour": 30, "per_day": 100}
@@ -186,9 +187,24 @@ INDEX_CONFIG = {
 }
 
 
+def _best_keyword_for_instrument(instr: dict) -> str | None:
+    """Retourne le meilleur mot-clé pour chercher des actualités sur cet instrument."""
+    sym = (instr.get("symbol") or "").strip().upper()
+    disp = (instr.get("displayname") or "").strip()
+    # Priorité au symbole pour les actions (AAPL, TSLA, NVDA, SPY) — très fréquent dans les titres
+    if sym and 2 <= len(sym) <= 6 and sym.isalpha():
+        return sym
+    # Fallback : premier mot significatif du displayname (ex. "Apple Inc" -> "Apple")
+    if disp:
+        words = [w for w in disp.split() if len(w) > 1 and w.lower() not in ("inc", "plc", "corp", "sa", "nv")]
+        return words[0] if words else disp.split()[0] if disp.split() else None
+    return None
+
+
 def _fetch_mediastack_instrument_news(instruments: list[dict], limit: int = 3) -> list[dict]:
     """
     Récupère les N dernières actualités Mediastack pour les instruments du portefeuille.
+    Priorité maximale : une requête par instrument (symbol ou displayname) pour des news ciblées.
     Retourne une liste de {title, description, url, source, published_at}.
     """
     key = os.getenv("MEDIASTACK_ACCESS_KEY")
@@ -222,31 +238,41 @@ def _fetch_mediastack_instrument_news(instruments: list[dict], limit: int = 3) -
         except Exception:
             return []
 
-    base_params = {"access_key": key, "limit": limit, "sort": "published_desc"}
+    base_params = {"access_key": key, "sort": "published_desc"}
+    seen_urls: set[str] = set()
+    collected: list[dict] = []
 
-    # Essai 1 : avec mots-clés des instruments (displayname souvent plus explicite)
+    # Priorité : une requête par instrument avec son meilleur mot-clé (symbol > displayname)
     if instruments:
-        parts = []
-        for i in instruments[:6]:
-            disp = (i.get("displayname") or "").strip()
-            sym = (i.get("symbol") or "").strip()
-            if disp and len(disp) < 30:
-                parts.append(disp)
-            elif sym and len(sym) < 15:
-                parts.append(sym)
-        if parts:
-            keywords = " ".join(parts[:3])
-            items = _do_request({**base_params, "keywords": keywords})
-            if items:
-                return _translate_instrument_news_to_french(items)
+        for instr in instruments[:5]:  # max 5 instruments
+            kw = _best_keyword_for_instrument(instr)
+            if not kw or len(collected) >= limit:
+                continue
+            items = _do_request({**base_params, "keywords": kw, "limit": 2})
+            for a in items:
+                url = (a.get("url") or "").strip()
+                if url and url not in seen_urls:
+                    seen_urls.add(url)
+                    collected.append(a)
+                    if len(collected) >= limit:
+                        break
 
-    # Essai 2 : catégorie business (actualités financières)
-    items = _do_request({**base_params, "categories": "business"})
-    if items:
-        return _translate_instrument_news_to_french(items)
+    if collected:
+        return _translate_instrument_news_to_french(collected[:limit])
 
-    # Essai 3 : sans filtre
-    items = _do_request(base_params)
+    # Fallback : mots-clés combinés (displayname/symbol des 3 premiers)
+    parts = []
+    for i in instruments[:4]:
+        kw = _best_keyword_for_instrument(i)
+        if kw:
+            parts.append(kw)
+    if parts:
+        items = _do_request({**base_params, "keywords": parts[0], "limit": limit})
+        if items:
+            return _translate_instrument_news_to_french(items)
+
+    # Dernier recours : business
+    items = _do_request({**base_params, "categories": "business", "limit": limit})
     if items:
         return _translate_instrument_news_to_french(items)
     return []
@@ -595,11 +621,6 @@ def index():
         zonebourse_used_fallback = False
 
     try:
-        instrument_news = _fetch_mediastack_instrument_news(portfolio_instruments or [], limit=3)
-    except Exception:
-        instrument_news = []
-
-    try:
         current_copiers = get_current_copiers(TRADER_USERNAME)
     except Exception:
         current_copiers = None
@@ -619,7 +640,6 @@ def index():
         dca_sp500=dca_sp500,
         zonebourse_news=zonebourse_news,
         zonebourse_used_fallback=zonebourse_used_fallback,
-        instrument_news=instrument_news,
         current_copiers=current_copiers,
         recaptcha_site_key=os.getenv("RECAPTCHA_SITE_KEY", ""),
     ))
@@ -797,6 +817,227 @@ def api_zonebourse_news():
         return jsonify({"count": len(items), "news": items, "used_fallback": result.get("used_fallback", False)})
     except Exception as e:
         return jsonify({"error": str(e), "count": 0, "news": []}), 500
+
+
+def _fetch_mediastack_filtered(
+    category: str | None = None,
+    keywords: str | None = None,
+    countries: str | None = None,
+    languages: str | None = None,
+    sources: str | None = None,
+    date_str: str | None = None,
+    limit: int = 5,
+    translate: bool = True,
+) -> list[dict]:
+    """
+    Récupère les actualités Mediastack avec les filtres choisis.
+    Retourne une liste de {title, description, url, source, published_at}.
+    """
+    key = os.getenv("MEDIASTACK_ACCESS_KEY")
+    if not key:
+        return []
+
+    def _do_request(params: dict, use_https: bool = True) -> list[dict]:
+        try:
+            base = "https://api.mediastack.com" if use_https else "http://api.mediastack.com"
+            r = requests.get(f"{base}/v1/news", params=params, timeout=10)
+            if r.status_code != 200:
+                return []
+            data = r.json()
+            err = data.get("error")
+            if err:
+                code = err.get("code", "") if isinstance(err, dict) else str(err)
+                if use_https and code == "https_access_restricted":
+                    return _do_request(params, use_https=False)
+                return []
+            items = data.get("data") or []
+            return [
+                {
+                    "title": a.get("title") or "",
+                    "description": a.get("description") or "",
+                    "url": a.get("url") or "",
+                    "source": a.get("source") or "",
+                    "published_at": a.get("published_at") or "",
+                }
+                for a in items
+            ]
+        except Exception:
+            return []
+
+    base_params: dict = {"access_key": key, "limit": limit, "sort": "published_desc"}
+    if category:
+        base_params["categories"] = category
+    if keywords:
+        base_params["keywords"] = keywords
+    if countries:
+        base_params["countries"] = countries
+    if languages:
+        base_params["languages"] = languages
+    if sources:
+        base_params["sources"] = sources
+
+    from datetime import date, timedelta
+
+    dates_to_try: list[str | None] = []
+    if date_str == "today":
+        dates_to_try = [date.today().strftime("%Y-%m-%d")]
+    elif date_str == "yesterday":
+        dates_to_try = [(date.today() - timedelta(days=1)).strftime("%Y-%m-%d")]
+    elif date_str == "today_and_yesterday":
+        dates_to_try = [
+            date.today().strftime("%Y-%m-%d"),
+            (date.today() - timedelta(days=1)).strftime("%Y-%m-%d"),
+        ]
+    else:
+        dates_to_try = [None]
+
+    seen_urls: set[str] = set()
+    collected: list[dict] = []
+    for d in dates_to_try:
+        params = dict(base_params)
+        if d:
+            params["date"] = d
+            params["limit"] = 5
+        items = _do_request(params)
+        for a in items:
+            url = (a.get("url") or "").strip()
+            if url and url not in seen_urls:
+                seen_urls.add(url)
+                collected.append(a)
+        if len(collected) >= limit:
+            break
+
+    if not collected and dates_to_try != [None]:
+        params = dict(base_params)
+        params["limit"] = limit
+        items = _do_request(params)
+        for a in items:
+            url = (a.get("url") or "").strip()
+            if url and url not in seen_urls:
+                seen_urls.add(url)
+                collected.append(a)
+                if len(collected) >= limit:
+                    break
+
+    collected = collected[:limit]
+    if translate and collected:
+        collected = _translate_instrument_news_to_french(collected)
+    return collected
+
+
+@app.route("/api/mediastack-news")
+def api_mediastack_news():
+    """
+    Actualités Mediastack avec filtres (catégorie, thème, pays, langue, sources).
+    Paramètres: category, theme, countries, languages, sources, date, limit (max 5).
+    """
+    category = request.args.get("category", "").strip() or None
+    theme = request.args.get("theme", "").strip() or None
+    countries = request.args.get("countries", "").strip() or None
+    languages = request.args.get("languages", "").strip() or None
+    sources = request.args.get("sources", "").strip() or None
+    date_str = request.args.get("date", "today_and_yesterday").strip() or None
+    limit = min(5, max(1, int(request.args.get("limit", 5) or 5)))
+    try:
+        items = _fetch_mediastack_filtered(
+            category=category,
+            keywords=theme,
+            countries=countries,
+            languages=languages,
+            sources=sources,
+            date_str=date_str,
+            limit=limit,
+            translate=True,
+        )
+        return jsonify({"news": items, "count": len(items)})
+    except Exception as e:
+        return jsonify({"error": str(e), "news": [], "count": 0}), 500
+
+
+@app.route("/api/mediastack-saved", methods=["GET"])
+def api_mediastack_saved_get():
+    """Retourne les actualités Mediastack mémorisées (fichier data/news_mediastack.json)."""
+    try:
+        if not os.path.exists(NEWS_MEDIASTACK_PATH):
+            return jsonify({"news": [], "count": 0})
+        with open(NEWS_MEDIASTACK_PATH, encoding="utf-8") as f:
+            data = json.load(f)
+        news = data.get("news", data) if isinstance(data, dict) else (data if isinstance(data, list) else [])
+        if not isinstance(news, list):
+            news = []
+        return jsonify({"news": news, "count": len(news)})
+    except Exception as e:
+        return jsonify({"error": str(e), "news": [], "count": 0}), 500
+
+
+@app.route("/api/mediastack-saved", methods=["POST"])
+def api_mediastack_saved_post():
+    """Ajoute des actualités aux mémorisées (fichier data/news_mediastack.json)."""
+    try:
+        payload = request.get_json(silent=True) or {}
+        to_add = payload.get("news", [])
+        if not isinstance(to_add, list) or not to_add:
+            return jsonify({"error": "news requis (tableau non vide)"}), 400
+        existing: list[dict] = []
+        if os.path.exists(NEWS_MEDIASTACK_PATH):
+            try:
+                with open(NEWS_MEDIASTACK_PATH, encoding="utf-8") as f:
+                    data = json.load(f)
+                existing = data.get("news", data) if isinstance(data, dict) else (data if isinstance(data, list) else [])
+                if not isinstance(existing, list):
+                    existing = []
+            except Exception:
+                existing = []
+        seen: set[str] = {a.get("url") or "" for a in existing}
+        for a in to_add:
+            if isinstance(a, dict):
+                url = (a.get("url") or "").strip()
+                if url and url not in seen:
+                    seen.add(url)
+                    existing.append(a)
+        if len(existing) > 100:
+            existing = existing[-100:]
+        os.makedirs(os.path.dirname(NEWS_MEDIASTACK_PATH), exist_ok=True)
+        with open(NEWS_MEDIASTACK_PATH, "w", encoding="utf-8") as f:
+            json.dump({"news": existing, "updated": datetime.now(timezone.utc).isoformat()}, f, ensure_ascii=False, indent=2)
+        return jsonify({"news": existing, "count": len(existing)})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/mediastack-saved", methods=["DELETE"])
+def api_mediastack_saved_delete():
+    """Efface les actualités Mediastack mémorisées (vide le fichier data/news_mediastack.json)."""
+    try:
+        if os.path.exists(NEWS_MEDIASTACK_PATH):
+            os.remove(NEWS_MEDIASTACK_PATH)
+        return jsonify({"news": [], "count": 0})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/mediastack-debug")
+def api_mediastack_debug():
+    """Debug : test direct de l'API Mediastack. Retourne la réponse brute."""
+    key = os.getenv("MEDIASTACK_ACCESS_KEY")
+    if not key:
+        return jsonify({"error": "MEDIASTACK_ACCESS_KEY absente", "key_loaded": False}), 200
+    try:
+        r = requests.get(
+            "http://api.mediastack.com/v1/news",
+            params={"access_key": key, "limit": 3, "sort": "published_desc"},
+            timeout=10,
+        )
+        data = r.json() if r.headers.get("content-type", "").startswith("application/json") else {"raw": r.text[:500]}
+        return jsonify({
+            "status_code": r.status_code,
+            "key_loaded": True,
+            "response": data,
+            "data_count": len(data.get("data") or []),
+            "error": data.get("error"),
+        })
+    except Exception as e:
+        return jsonify({"error": str(e), "key_loaded": True}), 500
 
 
 @app.route("/api/zonebourse-news-debug")
