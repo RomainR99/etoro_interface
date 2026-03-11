@@ -126,6 +126,11 @@
         .stat-value { font-family: ui-monospace, monospace; font-weight: 500; }
         .stat-value.positive { color: var(--success); }
         .stat-value.negative { color: var(--danger); }
+        .perf-table .perf-year-positive { color: var(--success); font-weight: 600; }
+        .perf-table .perf-year-negative { color: var(--danger); font-weight: 600; }
+        .perf-table .perf-bg-positive { background-color: rgba(63, 185, 80, 0.08); }
+        .perf-table .perf-bg-negative { background-color: rgba(248, 81, 73, 0.08); }
+        .perf-table .perf-bg-neutral { background-color: rgba(139, 148, 158, 0.06); }
         .gain-list {
             max-height: 360px;
             overflow-y: auto;
@@ -442,11 +447,11 @@
                     <tbody>
                         {% for row in performance_yearly|reverse %}
                         <tr style="border-bottom: 1px solid var(--border);">
-                            <td style="padding: 0.4rem 0.5rem;">{{ row.year }}</td>
+                            <td style="padding: 0.4rem 0.5rem;" class="{% if row.trader_pct is not none %}{% if row.trader_pct >= 0 %}perf-year-positive{% else %}perf-year-negative{% endif %}{% endif %}">{{ row.year }}</td>
                             {% for pct in row.trader_months %}
                             <td style="padding: 0.4rem 0.5rem; font-family: ui-monospace, monospace; min-width: 2.5rem;" class="stat-value{% if pct is not none %} {{ 'positive' if pct >= 0 else 'negative' }}{% endif %}">{% if pct is not none %}{{ "%.2f"|format(pct) }}%{% endif %}</td>
                             {% endfor %}
-                            <td style="padding: 0.4rem 0.5rem; font-family: ui-monospace, monospace;" class="stat-value{% if row.trader_pct is not none %} {{ 'positive' if row.trader_pct >= 0 else 'negative' }}{% endif %}">{% if row.trader_pct is not none %}{{ "%.2f"|format(row.trader_pct) }}%{% endif %}</td>
+                            <td style="padding: 0.4rem 0.5rem; font-family: ui-monospace, monospace;" class="stat-value{% if row.trader_pct is not none %} {{ 'positive' if row.trader_pct >= 0 else 'negative' }} {% if row.trader_pct > 0 %}perf-bg-positive{% elif row.trader_pct < 0 %}perf-bg-negative{% else %}perf-bg-neutral{% endif %}{% endif %}">{% if row.trader_pct is not none %}{{ "%.2f"|format(row.trader_pct) }}%{% endif %}</td>
                             <td style="padding: 0.4rem 0.5rem; font-family: ui-monospace, monospace;" class="stat-value{% if row.sp500_pct is not none %} {{ 'positive' if row.sp500_pct >= 0 else 'negative' }}{% endif %}">{% if row.sp500_pct is not none %}{{ "%.2f"|format(row.sp500_pct) }}%{% endif %}</td>
                             <td style="padding: 0.4rem 0.5rem; font-family: ui-monospace, monospace;" class="stat-value{% if row.ecart is not none %} {{ 'positive' if row.ecart >= 0 else 'negative' }}{% endif %}">{% if row.ecart is not none %}{{ "%.2f"|format(row.ecart) }}%{% endif %}</td>
                         </tr>
@@ -455,7 +460,7 @@
                         <tr style="border-top: 2px solid var(--border); font-weight: 600;">
                             <td style="padding: 0.5rem 0.5rem;">Total</td>
                             <td colspan="12" style="padding: 0.5rem 0.5rem; color: var(--muted); font-size: 0.8rem;">—</td>
-                            <td style="padding: 0.5rem 0.5rem; font-family: ui-monospace, monospace;" class="stat-value {{ 'positive' if performance_total.trader_pct is not none and performance_total.trader_pct >= 0 else 'negative' }}">{{ "%.2f"|format(performance_total.trader_pct) if performance_total.trader_pct is not none else "—" }}%</td>
+                            <td style="padding: 0.5rem 0.5rem; font-family: ui-monospace, monospace;" class="stat-value {{ 'positive' if performance_total.trader_pct is not none and performance_total.trader_pct >= 0 else 'negative' }} {{ 'perf-bg-positive' if performance_total.trader_pct is not none and performance_total.trader_pct > 0 else 'perf-bg-negative' if performance_total.trader_pct is not none and performance_total.trader_pct < 0 else 'perf-bg-neutral' if performance_total.trader_pct is not none else '' }}">{{ "%.2f"|format(performance_total.trader_pct) if performance_total.trader_pct is not none else "—" }}%</td>
                             <td style="padding: 0.5rem 0.5rem; font-family: ui-monospace, monospace;" class="stat-value {{ 'positive' if performance_total.sp500_pct is not none and performance_total.sp500_pct >= 0 else 'negative' }}">{{ "%.2f"|format(performance_total.sp500_pct) if performance_total.sp500_pct is not none else "—" }}%</td>
                             <td style="padding: 0.5rem 0.5rem; font-family: ui-monospace, monospace;" class="stat-value {{ 'positive' if performance_total.ecart is not none and performance_total.ecart >= 0 else 'negative' }}">{{ "%.2f"|format(performance_total.ecart) if performance_total.ecart is not none else "—" }}%</td>
                         </tr>
@@ -468,42 +473,6 @@
             {% endif %}
         </div>
 
-        <div class="card" style="margin-top: 1.5rem; grid-column: 1 / -1;">
-            <h2>Comparaison des performances</h2>
-            <p class="empty-state" style="margin-bottom: 1rem;">Évolution en % (base 100 à la date de départ)</p>
-            <div class="chart-controls">
-                <label>
-                    Ajouter une courbe :
-                    <select id="tradersSelect" title="Choisir un trader à ajouter à la courbe">
-                        <option value="">— Choisir un trader —</option>
-                        {% for t in most_copied_traders %}
-                        <option value="{{ t.userName }}">{{ t.userName }} ({{ t.copiers }} copieurs)</option>
-                        {% endfor %}
-                    </select>
-                </label>
-                <button type="button" id="addTraderBtn">Ajouter</button>
-                <label>
-                    <input type="checkbox" id="sp500Check" checked> S&P 500
-                </label>
-                <label>
-                    <input type="checkbox" id="ndqCheck"> NASDAQ 100
-                </label>
-                <label>
-                    <input type="checkbox" id="cac40trCheck"> CAC 40 TR
-                </label>
-                <label>
-                    <input type="checkbox" id="msciCheck"> MSCI World
-                </label>
-                <label>
-                    <input type="checkbox" id="filterLessPerfCheck" title="Ne proposer que les traders dont la performance (indice cumulé) est inférieure à la vôtre"> Comparer uniquement avec les traders moins performants que RomainRoth
-                </label>
-            </div>
-            <div class="added-traders" id="addedTraders"></div>
-            <div style="position: relative; height: 320px;">
-                <canvas id="performanceChart"></canvas>
-            </div>
-        </div>
-
         {% if dca_labels and (dca_romainroth or dca_sp500) %}
         <div class="card" style="margin-top: 1.5rem; grid-column: 1 / -1;">
             <h2>Simulation DCA — {{ "%.0f"|format(dca_total_invested) if dca_total_invested else "—" }} $ investis au total — {{ username }} vs S&P 500</h2>
@@ -513,23 +482,6 @@
             </div>
         </div>
         {% endif %}
-
-        <div class="card" style="margin-top: 1.5rem; grid-column: 1 / -1;">
-            <h2>Posts par mois — comparaison (dernière année)</h2>
-            <p class="empty-state" style="margin-bottom: 1rem;">Nombre de posts par trader. Mêmes traders que le graphique de performance ({{ username }} + traders ajoutés). via l’API eToro Feeds. </p>
-            <div id="postsChartContainer" style="position: relative; height: 320px;">
-                <canvas id="postsChart"></canvas>
-                <p id="postsChartLoading" class="empty-state" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);margin:0;z-index:1;">Chargement des posts…</p>
-            </div>
-        </div>
-
-        <div class="card" style="margin-top: 1.5rem; grid-column: 1 / -1;">
-            <h2>Performance vs nombre de copieurs (top 100) — depuis sept. 22</h2>
-            <div id="scatterChartContainer" style="position: relative; height: 400px;">
-                <canvas id="scatterChart"></canvas>
-                <p id="scatterChartLoading" class="empty-state" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);margin:0;z-index:1;">Chargement…</p>
-            </div>
-        </div>
 
         <div class="card" style="margin-top: 1.5rem; grid-column: 1 / -1;">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
@@ -707,6 +659,7 @@
 
             function renderAddedTraders() {
                 const el = document.getElementById('addedTraders');
+                if (!el) return;
                 el.innerHTML = addedTraders.map(name =>
                     `<span>${name} <span class="remove" data-name="${name}">×</span></span>`
                 ).join('');
@@ -720,6 +673,7 @@
             }
 
             function updateChart() {
+                if (!chart || !document.getElementById('sp500Check')) return;
                 const includeSp500 = document.getElementById('sp500Check').checked;
                 const indices = [];
                 if (document.getElementById('ndqCheck').checked) indices.push('ndq');
@@ -739,75 +693,7 @@
                         chart.update();
                     })
                     .catch(err => console.error(err));
-                updatePostsChart();
-            }
-
-            let scatterChart = null;
-            function initScatterChart() {
-                const canvas = document.getElementById('scatterChart');
-                const container = document.getElementById('scatterChartContainer');
-                if (!canvas) return;
-                fetch('/api/copiers-vs-performance')
-                    .then(r => r.json())
-                    .then(data => {
-                        if (data.error) throw new Error(data.error);
-                        const loading = document.getElementById('scatterChartLoading');
-                        if (loading) loading.style.display = 'none';
-                        const points = (data.points || []).filter(p => p.gain != null && p.copiers != null && p.copiers > 0 && p.gain > 0);
-                        const xVals = points.map(p => p.copiers).filter(x => x > 0);
-                        const xMin = xVals.length ? Math.min(...xVals) * 0.9 : 1;
-                        const xMax = xVals.length ? Math.max(...xVals) * 1.1 : 100000;
-                        const romainrothIndex = data.romainroth_index;
-                        const sp500Index = data.sp500_index;
-                        const datasets = [
-                            { type: 'scatter', label: 'Traders', data: points.map(p => ({ x: p.copiers, y: p.gain, userName: p.userName })), backgroundColor: 'rgba(88,166,255,0.4)', borderColor: 'rgba(88,166,255,0.8)', pointRadius: 4, pointHoverRadius: 8 },
-                            ...(romainrothIndex != null && romainrothIndex > 0 ? [{ type: 'line', label: '{{ username }}', data: [{ x: xMin, y: romainrothIndex }, { x: xMax, y: romainrothIndex }], borderColor: '#f85149', backgroundColor: 'transparent', fill: false, pointRadius: 0, tension: 0 }] : []),
-                            ...(sp500Index != null && sp500Index > 0 ? [{ type: 'line', label: 'S&P 500', data: [{ x: xMin, y: sp500Index }, { x: xMax, y: sp500Index }], borderColor: '#484f58', backgroundColor: 'transparent', fill: false, pointRadius: 0, tension: 0 }] : [])
-                        ];
-                        if (!scatterChart) {
-                            const ctx = canvas.getContext('2d');
-                            scatterChart = new Chart(ctx, {
-                                type: 'scatter',
-                                data: { datasets },
-                                options: {
-                                    responsive: true,
-                                    maintainAspectRatio: false,
-                                    plugins: {
-                                        legend: { display: true, labels: { color: '#8b949e' } },
-                                        tooltip: {
-                                            callbacks: {
-                                                label: function(ctx) {
-                                                    const p = ctx.raw;
-                                                    if (p.userName) return p.userName + ': ' + p.x + ' copieurs, indice ' + (p.y != null ? p.y.toFixed(1) : '-');
-                                                    return (ctx.dataset.label || '') + ': indice ' + (p.y != null ? p.y.toFixed(1) : '-');
-                                                }
-                                            }
-                                        }
-                                    },
-                                    scales: {
-                                        x: { type: 'logarithmic', title: { display: true, text: 'Nombre de copieurs', color: '#8b949e' }, ticks: { color: '#8b949e' }, grid: { color: '#30363d' } },
-                                        y: { type: 'logarithmic', title: { display: true, text: 'Indice cumulé base 100 (comme graphique 1)', color: '#8b949e' }, ticks: { color: '#8b949e' }, grid: { color: '#30363d' } }
-                                    }
-                                }
-                            });
-                        } else {
-                            scatterChart.data.datasets = datasets;
-                            scatterChart.update();
-                        }
-                    })
-                    .catch(err => {
-                        console.error('Scatter chart:', err);
-                        const loading = document.getElementById('scatterChartLoading');
-                        if (loading) loading.style.display = 'none';
-                        if (container) {
-                            const el = document.createElement('p');
-                            el.className = 'empty-state';
-                            el.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);margin:0;color:var(--danger,#f85149);';
-                            el.textContent = 'Erreur: ' + (err.message || 'réessayez');
-                            container.style.position = 'relative';
-                            container.appendChild(el);
-                        }
-                    });
+                if (typeof updatePostsChart === 'function') updatePostsChart();
             }
 
             let postsChart = null;
@@ -955,25 +841,27 @@
                     sel.innerHTML = originalTraderSelectHtml;
                 }
             }
-            document.getElementById('addTraderBtn').addEventListener('click', () => {
+            const addTraderBtn = document.getElementById('addTraderBtn');
+            if (addTraderBtn) addTraderBtn.addEventListener('click', () => {
                 const sel = document.getElementById('tradersSelect');
-                const name = sel.value && sel.value.trim();
+                const name = sel && sel.value && sel.value.trim();
                 if (name && !addedTraders.includes(name)) {
                     addedTraders.push(name);
                     renderAddedTraders();
                     updateChart();
-                    sel.selectedIndex = 0;
-                    sel.blur();
+                    if (sel) { sel.selectedIndex = 0; sel.blur(); }
                 }
             });
             const filterLessPerfEl = document.getElementById('filterLessPerfCheck');
-            if (filterLessPerfEl) {
-                filterLessPerfEl.addEventListener('change', applyTraderFilter);
-            }
-            document.getElementById('sp500Check').addEventListener('change', updateChart);
-            document.getElementById('ndqCheck').addEventListener('change', updateChart);
-            document.getElementById('cac40trCheck').addEventListener('change', updateChart);
-            document.getElementById('msciCheck').addEventListener('change', updateChart);
+            if (filterLessPerfEl) filterLessPerfEl.addEventListener('change', applyTraderFilter);
+            const sp500El = document.getElementById('sp500Check');
+            if (sp500El) sp500El.addEventListener('change', updateChart);
+            const ndqEl = document.getElementById('ndqCheck');
+            if (ndqEl) ndqEl.addEventListener('change', updateChart);
+            const cac40El = document.getElementById('cac40trCheck');
+            if (cac40El) cac40El.addEventListener('change', updateChart);
+            const msciEl = document.getElementById('msciCheck');
+            if (msciEl) msciEl.addEventListener('change', updateChart);
             function refreshZonebourseNews() {
                 var btn = document.getElementById('refreshZonebourseBtn');
                 var list = document.getElementById('zonebourseNewsList');
@@ -1195,7 +1083,6 @@
 
             try { initChart(); } catch (e) { console.error('initChart:', e); }
             try { initPostsChart(); } catch (e) { console.error('initPostsChart:', e); }
-            try { initScatterChart(); } catch (e) { console.error('initScatterChart:', e); }
         </script>
 
         <p class="risk-warning">
