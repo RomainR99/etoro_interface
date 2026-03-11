@@ -871,6 +871,17 @@ def health():
     return "OK", 200
 
 
+IMAGES_DIR = os.path.join(os.path.dirname(__file__), "images")
+
+
+@app.route("/images/<path:filename>")
+def serve_image(filename: str):
+    """Sert une image du dossier images/ (ex: chatbot.png)."""
+    if ".." in filename or "/" in filename:
+        return jsonify({"error": "invalid"}), 400
+    return send_from_directory(IMAGES_DIR, filename)
+
+
 @app.route("/api/zonebourse-image/<filename>")
 def api_zonebourse_image(filename: str):
     """Sert une image cachée Zonebourse (PNG)."""

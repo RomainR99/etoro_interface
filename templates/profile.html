@@ -229,20 +229,32 @@
         }
         .risk-warning .risk-text { font-style: italic; }
         /* Chatbot bas-droite */
-        .chat-toggle {
+        .chat-toggle-wrap {
             position: fixed;
             bottom: 1.5rem;
             right: 1.5rem;
-            width: 56px;
-            height: 56px;
+            width: 150px;
+            height: 150px;
+            border-radius: 16px;
+            background: url('/images/chatbot.png') center / cover no-repeat;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+            padding: 0 0 2px 2px;
+        }
+        .chat-toggle-wrap:hover { opacity: 0.95; }
+        .chat-toggle {
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             background: var(--accent);
             color: var(--bg);
             border: none;
             cursor: pointer;
-            font-size: 1.5rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            z-index: 1000;
+            font-size: 1.25rem;
+            flex-shrink: 0;
         }
         .chat-toggle:hover { opacity: 0.9; }
         .chat-panel {
@@ -343,7 +355,9 @@
             margin-top: 0.75rem;
             border-radius: 8px;
             overflow: hidden;
+            width: 630px;
             max-width: 100%;
+            height: 315px;
             background: var(--border);
             display: flex;
             justify-content: center;
@@ -351,8 +365,10 @@
         }
         .news-item-image img {
             display: block;
+            width: 630px;
+            height: 315px;
             max-width: 100%;
-            height: auto;
+            object-fit: cover;
             margin: 0 auto;
         }
         .news-item-image-loading {
@@ -550,6 +566,9 @@
                         {% endif %}
                         <optgroup label="Thèmes">
                         <option value="stock market">Bourse</option>
+                        <option value="NASDAQ 100">NASDAQ 100</option>
+                        <option value="CAC 40">CAC 40</option>
+                        <option value="S&P 500">S&P 500</option>
                         <option value="crypto">Crypto</option>
                         <option value="earnings">Résultats</option>
                         <option value="AI">IA</option>
@@ -610,7 +629,7 @@
                 <p id="mediastackEmpty" class="empty-state">Sélectionnez des filtres et cliquez sur Charger.</p>
                 <ul class="news-list" id="mediastackNewsList" style="list-style: none; padding: 0; margin: 0; display: none;"></ul>
             </div>
-            <div id="mediastackSavedSection" style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border); display: none;">
+            <div id="mediastackSavedSection" style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border);">
                 <h3 style="font-size: 0.9rem; color: var(--muted); margin-bottom: 0.75rem;">Actualités mémorisées</h3>
                 <ul class="news-list" id="mediastackSavedList" style="list-style: none; padding: 0; margin: 0;"></ul>
                 <button type="button" id="mediastackClearSavedBtn" style="margin-top: 0.5rem; background: transparent; color: var(--danger); border: 1px solid var(--danger); padding: 0.35rem 0.75rem; border-radius: 6px; font-size: 0.85rem; cursor: pointer;">Effacer les mémorisées</button>
@@ -984,8 +1003,7 @@
                     if (!targetEl || !items || items.length === 0) return;
                     targetEl.innerHTML = items.map(function(item) {
                         var title = (item.title || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                        var desc = (item.description || '').substring(0, 200);
-                        if (item.description && item.description.length > 200) desc += '…';
+                        var desc = (item.description || '');
                         desc = desc.replace(/</g, '&lt;').replace(/>/g, '&gt;');
                         var url = (item.url || '').replace(/"/g, '&quot;');
                         var source = (item.source || '');
@@ -1046,7 +1064,6 @@
                         .then(function(data) {
                             if (data.error) { alert('Erreur: ' + data.error); return; }
                             renderSavedNews();
-                            if (savedSection) savedSection.style.display = 'block';
                         })
                         .catch(function() { alert('Impossible de sauvegarder.'); });
                 }
@@ -1055,9 +1072,9 @@
                     fetch('/api/mediastack-saved').then(function(r) { return r.json(); })
                         .then(function(data) {
                             var saved = data.news || [];
-                            if (savedList && saved.length > 0) {
-                                renderNewsList(saved, savedList);
-                                if (savedSection) savedSection.style.display = 'block';
+                            if (savedList) {
+                                savedList.innerHTML = '';
+                                if (saved.length > 0) renderNewsList(saved, savedList);
                             }
                         })
                         .catch(function() {});
@@ -1067,7 +1084,6 @@
                     fetch('/api/mediastack-saved', { method: 'DELETE' }).then(function(r) { return r.json(); })
                         .then(function() {
                             if (savedList) savedList.innerHTML = '';
-                            if (savedSection) savedSection.style.display = 'none';
                         })
                         .catch(function() {});
                 }
@@ -1097,7 +1113,9 @@
     </div>
 
     <!-- Chatbot bas-droite -->
-    <button type="button" class="chat-toggle" id="chatToggle" title="Ouvrir l’assistant">💬</button>
+    <div class="chat-toggle-wrap">
+        <button type="button" class="chat-toggle" id="chatToggle" title="Ouvrir l'assistant">💬</button>
+    </div>
     <div class="chat-panel" id="chatPanel">
         <div class="chat-panel-header">
             Assistant financier
