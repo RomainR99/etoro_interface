@@ -1113,8 +1113,8 @@
     </div>
 
     <!-- Chatbot bas-droite -->
-    <div class="chat-toggle-wrap">
-        <button type="button" class="chat-toggle" id="chatToggle" title="Ouvrir l'assistant">💬</button>
+    <div class="chat-toggle-wrap" id="chatToggleWrap" title="Ouvrir l'assistant">
+        <button type="button" class="chat-toggle" id="chatToggle">💬</button>
     </div>
     <div class="chat-panel" id="chatPanel">
         <div class="chat-panel-header">
@@ -1243,7 +1243,7 @@
                     renderMessages();
                 });
             }
-            document.getElementById("chatToggle").onclick = function() { panel.classList.add("open"); };
+            document.getElementById("chatToggleWrap").onclick = function() { panel.classList.add("open"); };
             document.getElementById("chatClose").onclick = function() { panel.classList.remove("open"); };
             document.getElementById("chatSend").onclick = sendToApi;
             inputEl.addEventListener("keydown", function(e) { if (e.key === "Enter") sendToApi(); });
