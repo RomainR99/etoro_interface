@@ -360,6 +360,71 @@ def _gain_to_by_month(gain: dict | None) -> dict[str, float]:
     return out
 
 
+def _monthly_to_yearly_returns(by_month: dict[str, float]) -> dict[str, float]:
+    """Calcule le rendement annuel composé à partir des rendements mensuels. Retourne {année: pct}."""
+    years: dict[str, list[float]] = {}
+    for month, pct in by_month.items():
+        if len(month) >= 4:
+            y = month[:4]
+            years.setdefault(y, []).append(pct)
+    out: dict[str, float] = {}
+    for y, pcts in years.items():
+        cum = 1.0
+        for p in pcts:
+            cum *= 1.0 + p / 100.0
+        out[y] = (cum - 1.0) * 100.0
+    return out
+
+
+def _total_cumulative_return(by_month: dict[str, float]) -> float | None:
+    """Rendement cumulé total sur toute la période (composé)."""
+    if not by_month:
+        return None
+    cum = 1.0
+    for month in sorted(by_month.keys()):
+        cum *= 1.0 + by_month[month] / 100.0
+    return (cum - 1.0) * 100.0
+
+
+def _build_performance_table(gain: dict | None) -> tuple[list[dict], dict | None]:
+    """
+    Construit les données pour le tableau performance par année.
+    Pour chaque année : détail mensuel du trader (RomainRoth) uniquement, pas de comparaison mensuelle au S&P 500.
+    Retourne (rows, total) où rows = [{year, trader_months: [pct_jan..pct_dec], trader_pct, sp500_pct, ecart}, ...].
+    """
+    trader_monthly = _gain_to_by_month(gain)
+    if not trader_monthly:
+        return [], None
+    sp500_monthly = _get_sp500_monthly_returns()
+    trader_yearly = _monthly_to_yearly_returns(trader_monthly)
+    sp500_yearly = _monthly_to_yearly_returns(sp500_monthly)
+    all_years = sorted(set(trader_yearly.keys()) | set(sp500_yearly.keys()))
+    rows: list[dict] = []
+    for y in all_years:
+        trader_months: list[float | None] = [None] * 12
+        for m in range(1, 13):
+            key = f"{y}-{m:02d}"
+            if key in trader_monthly:
+                trader_months[m - 1] = trader_monthly[key]
+        t_pct = trader_yearly.get(y)
+        s_pct = sp500_yearly.get(y)
+        t_val = t_pct if t_pct is not None else None
+        s_val = s_pct if s_pct is not None else None
+        ecart = (t_val - s_val) if (t_val is not None and s_val is not None) else None
+        rows.append({
+            "year": y,
+            "trader_months": trader_months,
+            "trader_pct": t_val,
+            "sp500_pct": s_val,
+            "ecart": ecart,
+        })
+    total_t = _total_cumulative_return(trader_monthly)
+    total_s = _total_cumulative_return(sp500_monthly)
+    total_ecart = (total_t - total_s) if (total_t is not None and total_s is not None) else None
+    total = {"trader_pct": total_t, "sp500_pct": total_s, "ecart": total_ecart} if (total_t is not None or total_s is not None) else None
+    return rows, total
+
+
 def _compute_chart_data(
     main_gain: dict | None,
     extra_traders: list[str] | None = None,
@@ -599,9 +664,16 @@ def index():
         chart_labels, chart_datasets = [], []
 
     try:
+        performance_yearly, performance_total = _build_performance_table(gain)
+    except Exception:
+        performance_yearly, performance_total = [], None
+
+    try:
         dca_labels, dca_romainroth, dca_sp500 = _compute_dca_simulation(gain)
+        dca_total_invested = 1000.0 + len(dca_labels) * 100.0 if dca_labels else None
     except Exception:
         dca_labels, dca_romainroth, dca_sp500 = [], [], []
+        dca_total_invested = None
 
     try:
         most_copied = get_most_copied_traders(100)
@@ -634,10 +706,13 @@ def index():
         username=TRADER_USERNAME,
         chart_labels=chart_labels,
         chart_datasets=chart_datasets,
+        performance_yearly=performance_yearly,
+        performance_total=performance_total,
         most_copied_traders=most_copied,
         dca_labels=dca_labels,
         dca_romainroth=dca_romainroth,
         dca_sp500=dca_sp500,
+        dca_total_invested=dca_total_invested,
         zonebourse_news=zonebourse_news,
         zonebourse_used_fallback=zonebourse_used_fallback,
         current_copiers=current_copiers,
