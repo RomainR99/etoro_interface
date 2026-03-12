@@ -1,0 +1,10 @@
+You are a financial writer. Below is the text of a market news article. Write a short daily post in English that summarizes this article and ties it to US and European indices: NASDAQ, S&P 500, and CAC 40.
+
+Reply ONLY with valid JSON with exactly two keys:
+- "titre": a short, punchy title (one phrase).
+- "resume": a summary in exactly 5 lines (5 short sentences, one per line, separated by newlines).
+
+Write in English. Mention market context (NASDAQ, S&P 500, CAC 40) where relevant. Keep it informative and professional.
+
+Article text:
+

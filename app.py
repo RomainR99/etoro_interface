@@ -682,9 +682,10 @@ def index():
 
     try:
         zonebourse_result = get_latest_news(
-            limit=3,
+            limit=2,
             cache_path=os.path.join(os.path.dirname(__file__), "data", "zonebourse_posts.json"),
             generate_image_fn=_gen_zonebourse_image,
+            portfolio_instruments=portfolio_instruments,
         )
         zonebourse_news = zonebourse_result.get("items", [])
         zonebourse_used_fallback = zonebourse_result.get("used_fallback", False)
@@ -892,12 +893,18 @@ def api_zonebourse_image(filename: str):
 
 @app.route("/api/zonebourse-news")
 def api_zonebourse_news():
-    """Retourne les dernières actualités Zonebourse (pour rafraîchissement dynamique)."""
+    """Retourne les 2 posts du jour : instruments + actualité marché (rafraîchissement dynamique)."""
     try:
+        portfolio_instruments = []
+        try:
+            portfolio_instruments = get_portfolio_instruments(TRADER_USERNAME)
+        except Exception:
+            pass
         result = get_latest_news(
-            limit=3,
+            limit=2,
             cache_path=os.path.join(os.path.dirname(__file__), "data", "zonebourse_posts.json"),
             generate_image_fn=_gen_zonebourse_image,
+            portfolio_instruments=portfolio_instruments,
         )
         items = result.get("items", [])
         return jsonify({"count": len(items), "news": items, "used_fallback": result.get("used_fallback", False)})
@@ -1141,26 +1148,25 @@ def api_zonebourse_debug():
 OPENAI_IMAGE_MODEL = "dall-e-3"
 
 
-def _load_image_news_prompt(style_index: int = 0) -> str:
-    """Charge le template du prompt image. style_index 0-5 : 6 styles (éditorial, fintech, réaliste, Bloomberg, Economist, cartoon)."""
-    style_index = max(0, min(5, int(style_index)))
-    filename = f"image_news_style{style_index + 1}.txt"
+def _load_image_prompt(kind: str) -> str:
+    """Charge le template du prompt image. kind = 'news' (actualité) ou 'instruments' (trader + écrans + logos)."""
+    filename = "image_instruments.txt" if kind == "instruments" else "image_news.txt"
     path = os.path.join(os.path.dirname(__file__), "prompts", filename)
     try:
         with open(path, encoding="utf-8") as f:
             return f.read().strip()
     except OSError:
-        return "Professional financial news illustration, clean and modern style:"
+        return "Professional financial illustration, clean and modern style:"
 
 
-def _generate_image_openai(prompt: str, style_index: int = 0) -> tuple[str | None, str | None]:
-    """Génère une image via l'API Images OpenAI (DALL·E). Retourne (data_url_base64, None) ou (None, erreur)."""
+def _generate_image_openai(prompt: str, style_index: int = 0, image_kind: str = "news") -> tuple[str | None, str | None]:
+    """Génère une image via l'API Images OpenAI (DALL·E). image_kind: 'news' ou 'instruments'. Retourne (data_url_base64, None) ou (None, erreur)."""
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
         return None, "OPENAI_API_KEY manquant dans .env"
     if not (prompt or "").strip():
         return None, "Prompt vide"
-    template = _load_image_news_prompt(style_index)
+    template = _load_image_prompt(image_kind)
     full_prompt = f"{template} {prompt.strip()}".strip()[:4000]
     try:
         from openai import OpenAI
@@ -1183,21 +1189,22 @@ def _generate_image_openai(prompt: str, style_index: int = 0) -> tuple[str | Non
         return None, str(e).strip()[:300] or "Génération impossible"
 
 
-def _gen_zonebourse_image(prompt: str, style_index: int) -> str | None:
-    """Wrapper pour générer une image Zonebourse (retourne data_url ou None)."""
-    data_url, _ = _generate_image_openai(prompt, style_index=style_index)
+def _gen_zonebourse_image(prompt: str, style_index: int, image_kind: str = "news") -> str | None:
+    """Génère une image pour Dernières actualités. image_kind: 'news' (actualité) ou 'instruments' (trader + écrans)."""
+    data_url, _ = _generate_image_openai(prompt, style_index=style_index, image_kind=image_kind)
     return data_url
 
 
 @app.route("/api/generate-news-image", methods=["POST"])
 def api_generate_news_image():
-    """Génère une image à partir d'un prompt (actualité) via OpenAI DALL·E. style_index 0-5 = 6 styles (choix aléatoire côté client)."""
+    """Génère une image via OpenAI DALL·E. image_kind: 'news' (actualité) ou 'instruments' (trader + écrans)."""
     data = request.get_json(silent=True) or {}
     prompt = (data.get("prompt") or "").strip()
     style_index = data.get("style_index", 0)
     if not prompt:
         return jsonify({"error": "prompt manquant"}), 400
-    data_url, err = _generate_image_openai(prompt, style_index=style_index)
+    kind = (data.get("image_kind") or "news").strip() or "news"
+    data_url, err = _generate_image_openai(prompt, style_index=style_index, image_kind=kind)
     if not data_url:
         return jsonify({"error": err or "Génération d'image impossible"}), 502
     return jsonify({"image_data_url": data_url})

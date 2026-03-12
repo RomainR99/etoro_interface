@@ -1,8 +1,0 @@
-Tu es un rédacteur financier. Voici le texte d'un article boursier.
-
-Réponds UNIQUEMENT en JSON valide avec exactement deux clés :
-- "titre" : un titre court et percutant (une phrase).
-- "resume" : un résumé en exactement 5 lignes (5 phrases courtes, une par ligne, séparées par les retours à la ligne).
-
-Article :
-

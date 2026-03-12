@@ -1,4 +1,4 @@
-"""Récupère les 3 dernières actualités Zonebourse (BeautifulSoup), puis résumé + titre via OpenAI."""
+"""Deux posts par jour en anglais : 1) portefeuille / instruments, 2) actualité marché (NASDAQ, S&P 500, CAC 40)."""
 
 from __future__ import annotations
 
@@ -6,7 +6,6 @@ import base64
 import hashlib
 import json
 import os
-import random
 import re
 from datetime import datetime, timezone
 from html import unescape
@@ -26,20 +25,14 @@ OPENAI_MODEL = "gpt-4o-mini"
 _PROMPTS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "prompts")
 
 
-def _load_summary_prompt() -> str:
-    """Charge le prompt de résumé depuis prompts/zonebourse_summary.txt."""
-    path = os.path.join(_PROMPTS_DIR, "zonebourse_summary.txt")
+def _load_prompt(filename: str, fallback: str = "") -> str:
+    """Charge un prompt depuis prompts/<filename>."""
+    path = os.path.join(_PROMPTS_DIR, filename)
     try:
         with open(path, "r", encoding="utf-8") as f:
             return f.read()
     except OSError:
-        return (
-            "Tu es un rédacteur financier. Voici le texte d'un article boursier.\n\n"
-            "Réponds UNIQUEMENT en JSON valide avec exactement deux clés :\n"
-            '- "titre" : un titre court et percutant (une phrase).\n'
-            '- "resume" : un résumé en exactement 5 lignes (5 phrases courtes, une par ligne, séparées par les retours à la ligne).\n\n'
-            "Article :\n\n"
-        )
+        return fallback
 
 
 USER_AGENT = (
@@ -177,21 +170,20 @@ def extract_article_title(soup: BeautifulSoup) -> str:
     return "Sans titre"
 
 
-def _summarize_with_openai(article_text: str) -> dict[str, str] | None:
-    """Génère un titre et un résumé en 5 lignes via OpenAI. Retourne {"titre": ..., "resume": ...} ou None."""
+def _summarize_with_prompt(user_content: str, prompt_prefix: str) -> dict[str, str] | None:
+    """Génère titre + résumé via OpenAI. prompt_prefix + user_content = message user. Retourne {"titre", "resume"} ou None."""
     api_key = os.getenv("OPENAI_API_KEY")
-    if not api_key or not article_text.strip():
+    if not api_key or not (prompt_prefix.strip() or user_content.strip()):
         return None
-    # Limiter la taille pour rester sous les limites de contexte
-    text = article_text.strip()[:12000]
+    text = (prompt_prefix + user_content).strip()[:14000]
     try:
         from openai import OpenAI
         client = OpenAI(api_key=api_key)
         response = client.chat.completions.create(
             model=OPENAI_MODEL,
             messages=[
-                {"role": "system", "content": "Tu réponds uniquement en JSON valide, sans markdown ni commentaire."},
-                {"role": "user", "content": _load_summary_prompt() + text},
+                {"role": "system", "content": "You answer only with valid JSON, no markdown or commentary."},
+                {"role": "user", "content": text},
             ],
             temperature=0.3,
         )
@@ -206,9 +198,29 @@ def _summarize_with_openai(article_text: str) -> dict[str, str] | None:
         resume = (data.get("resume") or "").strip()
         if isinstance(resume, list):
             resume = "\n".join(str(l).strip() for l in resume)
-        return {"titre": titre or "Sans titre", "resume": resume}
+        return {"titre": titre or "Untitled", "resume": resume}
     except Exception:
         return None
+
+
+def _generate_instruments_post(instruments: list[dict[str, Any]]) -> dict[str, str] | None:
+    """Génère un post en anglais sur l'ensemble des instruments du portefeuille. Retourne {"titre", "resume"} ou None."""
+    prompt_prefix = _load_prompt("post_instruments.txt", "Write a short daily post in English. Reply with JSON: titre, resume (5 lines).\n\nPortfolio:\n\n")
+    lines = []
+    for inv in instruments or []:
+        sym = (inv.get("symbol") or inv.get("displayName") or "").strip()
+        name = (inv.get("displayName") or inv.get("displayname") or inv.get("symbol") or "").strip()
+        if sym or name:
+            lines.append(f"{sym} — {name}")
+    content = "\n".join(lines) if lines else "No instruments in portfolio."
+    return _summarize_with_prompt(content, prompt_prefix)
+
+
+def _summarize_market_news(article_text: str) -> dict[str, str] | None:
+    """Résumé en anglais d'un article marché + contexte NASDAQ/S&P 500/CAC 40. Retourne {"titre", "resume"} ou None."""
+    prompt_prefix = _load_prompt("post_market_news.txt", "Summarize in English as JSON: titre, resume (5 lines). Mention NASDAQ, S&P 500, CAC 40.\n\n")
+    text = (article_text or "").strip()[:12000]
+    return _summarize_with_prompt(text, prompt_prefix)
 
 
 def _normalize_article_url(href: str) -> str | None:
@@ -291,31 +303,34 @@ ZONEBOURSE_CACHE_PATH = os.path.join(_CACHE_DIR, "zonebourse_posts.json")
 ZONEBOURSE_IMAGES_DIR = os.path.join(_CACHE_DIR, "zonebourse_images")
 
 
-def _load_zonebourse_cache(cache_path: str) -> dict[str, dict[str, Any]]:
-    """Charge le cache posts + images depuis data/zonebourse_posts.json."""
+def _load_date_cache(cache_path: str) -> dict[str, Any]:
+    """Charge le cache par date : { "date": "YYYY-MM-DD", "items": [ { type, title, summary, image_file }, ... ] }."""
     if not os.path.exists(cache_path):
         return {}
     try:
         with open(cache_path, encoding="utf-8") as f:
-            return json.load(f)
+            data = json.load(f)
+        if isinstance(data, dict) and "items" in data and "date" in data:
+            return data
     except Exception:
-        return {}
+        pass
+    return {}
 
 
-def _save_zonebourse_cache(cache_path: str, cache: dict[str, dict[str, Any]]) -> None:
-    """Sauvegarde le cache posts + images."""
+def _save_date_cache(cache_path: str, cache: dict[str, Any]) -> None:
+    """Sauvegarde le cache par date."""
     try:
         os.makedirs(os.path.dirname(cache_path), exist_ok=True)
         with open(cache_path, "w", encoding="utf-8") as f:
-            json.dump(cache, f, ensure_ascii=False, indent=None)
+            json.dump(cache, f, ensure_ascii=False, indent=2)
     except Exception:
         pass
 
 
-def _url_to_image_filename(url: str) -> str:
-    """Génère un nom de fichier unique pour une URL (hash)."""
-    h = hashlib.sha256(url.encode("utf-8")).hexdigest()[:16]
-    return f"{h}.png"
+def _day_image_filename(day: str, kind: str) -> str:
+    """Nom de fichier image par jour et type (instruments / news)."""
+    h = hashlib.sha256(f"{day}:{kind}".encode("utf-8")).hexdigest()[:12]
+    return f"{kind}_{day}_{h}.png"
 
 
 def _save_image_from_data_url(data_url: str, filepath: str) -> bool:
@@ -334,7 +349,7 @@ def _save_image_from_data_url(data_url: str, filepath: str) -> bool:
 
 
 def _build_image_prompt(title: str, summary: str) -> str:
-    """Construit le prompt pour la génération d'image."""
+    """Construit le prompt pour la génération d'image (titre + première ligne du résumé)."""
     t = (title or "").strip()
     s = (summary or "").strip()
     first_line = s.split("\n")[0] if s else ""
@@ -342,81 +357,100 @@ def _build_image_prompt(title: str, summary: str) -> str:
 
 
 def get_latest_news(
-    limit: int = 3,
+    limit: int = 2,
     cache_path: str | None = ZONEBOURSE_CACHE_PATH,
-    generate_image_fn: Callable[[str, int], str | None] | None = None,
+    generate_image_fn: Callable[[str, int, str], str | None] | None = None,
+    portfolio_instruments: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     """
-    Récupère les N dernières actualités Zonebourse (HTML + BeautifulSoup),
-    puis génère pour chacune un titre et un résumé en 5 lignes via OpenAI.
-    Si cache_path et generate_image_fn fournis, utilise le cache (url -> {title, summary, image_file}).
-    Les images sont stockées en PNG dans data/zonebourse_images/. Retourne image_url (ou image_data_url en fallback).
+    Deux posts par jour en anglais :
+    1) Post sur l'ensemble des instruments du portefeuille.
+    2) Post sur l'actualité du jour (1 article Zone Bourse) + NASDAQ / S&P 500 / CAC 40.
+    Cache par date (YYYY-MM-DD). generate_image_fn(prompt, style_index, image_kind) avec image_kind "instruments" ou "news".
     """
-    urls, used_fallback = _fetch_article_links(limit=limit)
-    cache = _load_zonebourse_cache(cache_path) if cache_path else {}
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    cache = _load_date_cache(cache_path) if cache_path else {}
     use_cache = bool(cache_path and generate_image_fn)
-    results: list[dict[str, Any]] = []
-    for url in urls:
-        if use_cache and url in cache:
-            entry = cache[url].copy()
+    instruments = portfolio_instruments or []
+
+    if use_cache and cache.get("date") == today and len(cache.get("items", [])) >= 2:
+        results = []
+        for entry in cache["items"][:2]:
+            item = {"title": entry.get("title", ""), "summary": entry.get("summary", "")}
             if entry.get("image_file"):
-                entry["image_url"] = f"/api/zonebourse-image/{entry['image_file']}"
-                entry.pop("image_data_url", None)
-            results.append(entry)
-            continue
-        try:
-            resp = requests.get(url, headers=_get_headers(referer=ACTUALITES_URL), timeout=REQUEST_TIMEOUT)
-            if resp.status_code != 200:
-                continue
-            soup = BeautifulSoup(resp.text, "lxml")
-            try:
-                body = extract_article_text(resp.text)
-            except RuntimeError:
-                body = _extract_any_text(soup)
-            title = extract_article_title(soup)
-            summary = ""
-            if body and len(body.strip()) >= 50:
-                summarized = _summarize_with_openai(body)
-                if summarized:
-                    title = summarized["titre"]
-                    summary = summarized["resume"]
-                else:
-                    summary = body.strip()[:500] + ("…" if len(body) > 500 else "")
-            else:
-                summary = "Résumé non disponible (article inaccessible ou structure de page modifiée)."
-            item: dict[str, Any] = {"title": title, "summary": summary}
-            image_data_url: str | None = None
-            image_file: str | None = None
-            if generate_image_fn:
-                prompt = _build_image_prompt(title, summary)
-                style_index = random.randint(0, 5)
-                image_data_url = generate_image_fn(prompt, style_index)
-                if image_data_url and use_cache:
-                    image_file = _url_to_image_filename(url)
-                    img_path = os.path.join(ZONEBOURSE_IMAGES_DIR, image_file)
-                    if _save_image_from_data_url(image_data_url, img_path):
-                        item["image_url"] = f"/api/zonebourse-image/{image_file}"
-                    else:
-                        image_file = None
-                        item["image_data_url"] = image_data_url
-                elif image_data_url:
-                    item["image_data_url"] = image_data_url
-            if use_cache:
-                cache[url] = {
-                    "title": item["title"],
-                    "summary": item["summary"],
-                    "image_file": image_file,
-                    "cached_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-                }
+                item["image_url"] = f"/api/zonebourse-image/{entry['image_file']}"
             results.append(item)
+        return {"items": results, "used_fallback": False}
+
+    results: list[dict[str, Any]] = []
+    cache_items: list[dict[str, Any]] = []
+
+    # Post 1 : instruments du portefeuille
+    instruments_post = _generate_instruments_post(instruments)
+    if instruments_post:
+        title1 = instruments_post["titre"]
+        summary1 = instruments_post["resume"]
+    else:
+        title1 = "Portfolio overview"
+        summary1 = "Unable to generate instruments summary. Check OPENAI_API_KEY and portfolio data."
+    item1: dict[str, Any] = {"title": title1, "summary": summary1}
+    image_file1: str | None = None
+    if generate_image_fn:
+        prompt1 = _build_image_prompt(title1, summary1)
+        data_url1 = generate_image_fn(prompt1, 0, "instruments")
+        if data_url1 and use_cache:
+            image_file1 = _day_image_filename(today, "instruments")
+            img_path = os.path.join(ZONEBOURSE_IMAGES_DIR, image_file1)
+            if _save_image_from_data_url(data_url1, img_path):
+                item1["image_url"] = f"/api/zonebourse-image/{image_file1}"
+            else:
+                image_file1 = None
+                item1["image_data_url"] = data_url1
+        elif data_url1:
+            item1["image_data_url"] = data_url1
+    results.append(item1)
+    cache_items.append({"type": "instruments", "title": title1, "summary": summary1, "image_file": image_file1})
+
+    # Post 2 : actualité marché (1 article Zone Bourse + NASDAQ/SP500/CAC40)
+    used_fallback = True
+    urls, used_fallback = _fetch_article_links(limit=1)
+    title2 = "Market news"
+    summary2 = "No market article available. Check connection or Zone Bourse."
+    if urls:
+        try:
+            resp = requests.get(urls[0], headers=_get_headers(referer=ACTUALITES_URL), timeout=REQUEST_TIMEOUT)
+            if resp.status_code == 200:
+                soup = BeautifulSoup(resp.text, "lxml")
+                try:
+                    body = extract_article_text(resp.text)
+                except RuntimeError:
+                    body = _extract_any_text(soup)
+                if body and len(body.strip()) >= 50:
+                    summarized = _summarize_market_news(body)
+                    if summarized:
+                        title2 = summarized["titre"]
+                        summary2 = summarized["resume"]
         except Exception:
-            continue
+            pass
+    item2: dict[str, Any] = {"title": title2, "summary": summary2}
+    image_file2: str | None = None
+    if generate_image_fn:
+        prompt2 = _build_image_prompt(title2, summary2)
+        data_url2 = generate_image_fn(prompt2, 0, "news")
+        if data_url2 and use_cache:
+            image_file2 = _day_image_filename(today, "news")
+            img_path = os.path.join(ZONEBOURSE_IMAGES_DIR, image_file2)
+            if _save_image_from_data_url(data_url2, img_path):
+                item2["image_url"] = f"/api/zonebourse-image/{image_file2}"
+            else:
+                image_file2 = None
+                item2["image_data_url"] = data_url2
+        elif data_url2:
+            item2["image_data_url"] = data_url2
+    results.append(item2)
+    cache_items.append({"type": "market_news", "title": title2, "summary": summary2, "image_file": image_file2})
+
     if use_cache and cache_path:
-        _save_zonebourse_cache(cache_path, cache)
-    if not results:
-        results = [
-            {"title": "Actualité 1 (exemple)", "summary": "Le chargement des articles Zonebourse a échoué (vérifier la connexion ou que zonebourse.com autorise les requêtes)."},
-            {"title": "Actualité 2 (exemple)", "summary": "Vous pouvez tester avec des fichiers HTML locaux ou vérifier OPENAI_API_KEY dans .env pour les résumés."},
-            {"title": "Actualité 3 (exemple)", "summary": "Consultez les logs du serveur (python app.py) pour voir les erreurs éventuelles."},
-        ]
+        _save_date_cache(cache_path, {"date": today, "items": cache_items})
+
     return {"items": results, "used_fallback": used_fallback}
