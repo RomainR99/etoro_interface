@@ -23,13 +23,16 @@ ACTUALITES_URL = f"{BASE_URL}/actualite-bourse/"
 REQUEST_TIMEOUT = 15
 OPENAI_MODEL = "gpt-4o-mini"
 
-# Flux RSS Yahoo Finance pour le post actualité marché (remplace Zonebourse)
+# Flux RSS Yahoo Finance pour le post actualité marché (plusieurs URLs en fallback)
 YAHOO_FINANCE_RSS_URLS = [
+    "https://finance.yahoo.com/rss/topstories",
     "https://finance.yahoo.com/rss/",
     "https://finance.yahoo.com/news/rssindex",
 ]
 # Flux RSS par symbole (post 1 : actualités du jour par instrument)
 YAHOO_FINANCE_HEADLINE_RSS = "https://finance.yahoo.com/rss/headline?s={symbol}"
+# Page actualités par symbole (post 2 : BeautifulSoup, titres contenant le symbole)
+YAHOO_QUOTE_NEWS_URL = "https://finance.yahoo.com/quote/{symbol}/news/"
 
 _PROMPTS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "prompts")
 
@@ -235,6 +238,39 @@ def _summarize_market_news(article_text: str) -> dict[str, str] | None:
     return _summarize_with_prompt(text, prompt_prefix)
 
 
+def _collect_news_titles_matching_symbols(
+    instruments: list[dict[str, Any]],
+    max_titles_per_symbol: int = 5,
+) -> str:
+    """Pour chaque instrument du portefeuille, récupère les titres de news Yahoo (quote/news) où le symbole apparaît.
+    Retourne un bloc texte : Symbol SYMBOL (Name): titre1, titre2, ..."""
+    if not instruments:
+        return ""
+    parts: list[str] = []
+    for inv in instruments[:15]:
+        sym = (inv.get("symbol") or inv.get("displayName") or "").strip()
+        name = (inv.get("displayname") or inv.get("displayName") or inv.get("symbol") or "").strip()
+        label = f"{sym} ({name})" if (sym and name) else (name or sym)
+        if not label:
+            continue
+        titles = _fetch_yahoo_quote_news_titles_for_symbol(sym or name, max_titles=max_titles_per_symbol)
+        if titles:
+            lines = [f"Symbol {label}:"] + [f"- {t}" for t in titles]
+            parts.append("\n".join(lines))
+    return "\n\n".join(parts) if parts else ""
+
+
+def _generate_factual_post_from_titles(titles_text: str) -> dict[str, str] | None:
+    """Génère un post factuel en anglais à partir des titres de news (prompt + OpenAI). Retourne {"titre", "resume"} ou None."""
+    if not (titles_text or "").strip():
+        return None
+    prompt_prefix = _load_prompt(
+        "post_market_news_titles.txt",
+        "Write a short factual post in English based only on the news headlines below. Reply with JSON: titre, resume (exactly 5 lines). Be factual, no speculation.\n\n",
+    )
+    return _summarize_with_prompt((titles_text or "").strip()[:8000], prompt_prefix)
+
+
 def _normalize_article_url(href: str) -> str | None:
     """Retourne l'URL absolue d'un article si elle pointe vers une page d'article Zonebourse.
     Format attendu: .../actualite-bourse/slug-titre-abc123def
@@ -312,17 +348,23 @@ def _fetch_article_links(limit: int = 3) -> tuple[list[str], bool]:
 
 def _fetch_yahoo_rss_entries(limit: int = 1) -> list[dict[str, str]]:
     """Récupère les N derniers articles depuis le flux RSS Yahoo Finance.
-    Retourne une liste de dicts avec 'title', 'description', 'link'."""
+    Retourne une liste de dicts avec 'title', 'description', 'link'.
+    Utilise requests pour récupérer le XML puis feedparser pour le parser (meilleure compatibilité)."""
     try:
         import feedparser
     except ImportError:
         return []
+    headers = _get_headers()
+    headers["Accept"] = "application/rss+xml, application/xml, text/xml, */*"
     entries: list[dict[str, str]] = []
     for url in YAHOO_FINANCE_RSS_URLS:
         if len(entries) >= limit:
             break
         try:
-            feed = feedparser.parse(url, request_headers=_get_headers(), request_timeout=REQUEST_TIMEOUT)
+            resp = requests.get(url, headers=headers, timeout=REQUEST_TIMEOUT)
+            if resp.status_code != 200:
+                continue
+            feed = feedparser.parse(resp.content)
             if not getattr(feed, "entries", None):
                 continue
             for entry in feed.entries:
@@ -336,6 +378,67 @@ def _fetch_yahoo_rss_entries(limit: int = 1) -> list[dict[str, str]]:
         except Exception:
             continue
     return entries[:limit]
+
+
+def _fetch_yahoo_quote_news_titles_for_symbol(symbol: str, max_titles: int = 10) -> list[str]:
+    """Récupère les titres des actualités sur la page quote/news Yahoo pour un symbole.
+    Ne garde que les titres qui contiennent le symbole (ex: VZ dans le titre).
+    Retourne une liste de chaînes (titres)."""
+    if not (symbol or "").strip():
+        return []
+    symbol = symbol.strip().upper()
+    url = YAHOO_QUOTE_NEWS_URL.format(symbol=symbol)
+    titles: list[str] = []
+    try:
+        resp = requests.get(url, headers=_get_headers(), timeout=REQUEST_TIMEOUT)
+        if resp.status_code != 200:
+            return []
+        soup = BeautifulSoup(resp.text, "lxml")
+        # Candidats : liens dont l'href ou le texte évoque une news
+        for a in soup.find_all("a", href=True):
+            href = (a.get("href") or "").strip()
+            text = (a.get_text() or "").strip()
+            if not text or len(text) < 10 or len(text) > 300:
+                continue
+            if "/news/" not in href and "news" not in href.lower():
+                continue
+            if symbol in text.upper():
+                if text not in titles:
+                    titles.append(text)
+            if len(titles) >= max_titles:
+                break
+        # Fallback : chercher dans les h3 / spans à proximité de liens news
+        if len(titles) < 2:
+            for h in soup.find_all(["h3", "h2"]):
+                text = (h.get_text() or "").strip()
+                if not text or len(text) < 10:
+                    continue
+                if symbol in text.upper() and text not in titles:
+                    titles.append(text)
+                if len(titles) >= max_titles:
+                    break
+        # Essayer d'extraire du JSON embarqué (stream items)
+        if len(titles) < 2:
+            for script in soup.find_all("script", type=re.compile("json", re.I)):
+                raw = script.get_text(strip=True)
+                if not raw or "title" not in raw.lower():
+                    continue
+                try:
+                    data = json.loads(raw)
+                    if isinstance(data, dict) and "stream" in data:
+                        for item in data.get("stream", [])[:20]:
+                            if not isinstance(item, dict):
+                                continue
+                            t = (item.get("title") or item.get("headline") or "").strip()
+                            if t and symbol in t.upper() and t not in titles:
+                                titles.append(t)
+                except (json.JSONDecodeError, TypeError):
+                    continue
+                if len(titles) >= max_titles:
+                    break
+    except Exception:
+        pass
+    return titles[:max_titles]
 
 
 def _fetch_yahoo_rss_for_symbol(
@@ -591,33 +694,44 @@ def get_latest_news(
         }
     )
 
-    # Post 2 : actualité marché (flux RSS Yahoo Finance + NASDAQ/SP500/CAC40)
+    # Post 2 : actualité marché (d'abord titres Yahoo quote/news par symbole, puis fallback RSS)
     used_fallback = True
-    rss_entries = _fetch_yahoo_rss_entries(limit=1)
     title2 = "Market news"
-    summary2 = "No market article available. Check Yahoo Finance RSS."
-    if rss_entries:
-        entry = rss_entries[0]
-        article_text = (entry.get("title") or "").strip()
-        desc = (entry.get("description") or "").strip()
-        if desc:
-            # Décoder le HTML en texte brut pour le prompt
-            soup_desc = BeautifulSoup(desc, "lxml")
-            desc_plain = soup_desc.get_text("\n", strip=True)
-            desc_plain = re.sub(r"\n{3,}", "\n\n", desc_plain).strip()
-            article_text = (article_text + "\n\n" + desc_plain).strip() if desc_plain else article_text
-        if article_text and len(article_text) >= 30:
-            summarized = _summarize_market_news(article_text)
-            if summarized:
-                used_fallback = False
-                title2 = summarized["titre"]
-                summary2 = summarized["resume"]
-                # Supprimer toute ligne de date (YYYY-MM-DD) en tête du résumé
-                if summary2:
-                    lines = summary2.strip().splitlines()
-                    while lines and re.match(r"^\d{4}-\d{2}-\d{2}\s*$", lines[0].strip()):
-                        lines.pop(0)
-                    summary2 = "\n".join(lines).strip() if lines else summary2
+    summary2 = "No market article available. Check Yahoo Finance."
+    titles_text = _collect_news_titles_matching_symbols(instruments, max_titles_per_symbol=5)
+    if titles_text:
+        factual = _generate_factual_post_from_titles(titles_text)
+        if factual:
+            used_fallback = False
+            title2 = factual["titre"]
+            summary2 = factual["resume"]
+            if summary2:
+                lines = summary2.strip().splitlines()
+                while lines and re.match(r"^\d{4}-\d{2}-\d{2}\s*$", lines[0].strip()):
+                    lines.pop(0)
+                summary2 = "\n".join(lines).strip() if lines else summary2
+    if used_fallback:
+        rss_entries = _fetch_yahoo_rss_entries(limit=1)
+        if rss_entries:
+            entry = rss_entries[0]
+            article_text = (entry.get("title") or "").strip()
+            desc = (entry.get("description") or entry.get("summary") or "").strip()
+            if desc:
+                soup_desc = BeautifulSoup(desc, "lxml")
+                desc_plain = soup_desc.get_text("\n", strip=True)
+                desc_plain = re.sub(r"\n{3,}", "\n\n", desc_plain).strip()
+                article_text = (article_text + "\n\n" + desc_plain).strip() if desc_plain else article_text
+            if article_text and len(article_text) >= 15:
+                summarized = _summarize_market_news(article_text)
+                if summarized:
+                    used_fallback = False
+                    title2 = summarized["titre"]
+                    summary2 = summarized["resume"]
+                    if summary2:
+                        lines = summary2.strip().splitlines()
+                        while lines and re.match(r"^\d{4}-\d{2}-\d{2}\s*$", lines[0].strip()):
+                            lines.pop(0)
+                        summary2 = "\n".join(lines).strip() if lines else summary2
     item2: dict[str, Any] = {"title": title2, "summary": summary2, "date": today}
     image_file2: str | None = None
     if generate_image_fn:

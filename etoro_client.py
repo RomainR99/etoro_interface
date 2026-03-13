@@ -266,9 +266,13 @@ def create_post(
         resp = requests.post(url, headers=_get_headers(), json=body, timeout=30)
         if resp.status_code in (200, 201):
             return resp.json()
-        return None
-    except Exception:
-        return None
+        try:
+            err = resp.json()
+        except Exception:
+            err = {"errorMessage": resp.text or f"HTTP {resp.status_code}"}
+        return {"_api_error": True, "status_code": resp.status_code, "error": err}
+    except Exception as e:
+        return {"_api_error": True, "status_code": None, "error": {"errorMessage": str(e)}}
 
 
 def get_posts_per_month(username: str, years: int = 1, max_pages: int = 10) -> dict[str, int]:
