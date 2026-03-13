@@ -44,6 +44,7 @@ DATE_FROM = "2022-09"  # Données à partir de septembre 2022
 COPIERS_VS_PERF_CACHE = os.path.join(os.path.dirname(__file__), "data", "copiers_vs_performance.json")
 CHAT_QUESTIONS_LOG = os.path.join(os.path.dirname(__file__), "data", "chat_questions.jsonl")
 NEWS_MEDIASTACK_PATH = os.path.join(os.path.dirname(__file__), "data", "news_mediastack.json")
+ETORO_PUBLISHED_POSTS_PATH = os.path.join(os.path.dirname(__file__), "data", "etoro_published_posts.json")
 
 # Rate limit par visitor_id : 5/min, 30/h, 100/j
 CHAT_RATE_LIMIT = {"per_min": 5, "per_hour": 30, "per_day": 100}
@@ -690,7 +691,7 @@ def index():
     try:
         zonebourse_result = get_latest_news(
             limit=2,
-            cache_path=os.path.join(os.path.dirname(__file__), "data", "zonebourse_posts.json"),
+            cache_path=None,
             generate_image_fn=_gen_zonebourse_image,
             portfolio_instruments=portfolio_instruments,
         )
@@ -909,7 +910,7 @@ def api_zonebourse_news():
             pass
         result = get_latest_news(
             limit=2,
-            cache_path=os.path.join(os.path.dirname(__file__), "data", "zonebourse_posts.json"),
+            cache_path=None,
             generate_image_fn=_gen_zonebourse_image,
             portfolio_instruments=portfolio_instruments,
         )
@@ -960,6 +961,7 @@ def api_post_to_etoro():
         else:
             err_msg = msg or str(err) or "Permission refusée par eToro"
         return jsonify({"success": False, "error": err_msg}), 502
+    _append_etoro_published_post(title, summary, image_url)
     return jsonify({"success": True, "post": result, "image_url_sent": image_url})
 
 
@@ -1259,6 +1261,28 @@ def api_generate_news_image():
     if not data_url:
         return jsonify({"error": err or "Génération d'image impossible"}), 502
     return jsonify({"image_data_url": data_url})
+
+
+def _append_etoro_published_post(title: str, summary: str, image_url: str | None) -> None:
+    """Enregistre en mémoire les posts envoyés avec succès à l'API eToro (seule persistance des posts)."""
+    try:
+        os.makedirs(os.path.dirname(ETORO_PUBLISHED_POSTS_PATH), exist_ok=True)
+        posts: list[dict] = []
+        if os.path.exists(ETORO_PUBLISHED_POSTS_PATH):
+            with open(ETORO_PUBLISHED_POSTS_PATH, encoding="utf-8") as f:
+                data = json.load(f)
+                if isinstance(data, list):
+                    posts = data
+        posts.append({
+            "published_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            "title": (title or "").strip(),
+            "summary": (summary or "").strip(),
+            "image_url": (image_url or "").strip() or None,
+        })
+        with open(ETORO_PUBLISHED_POSTS_PATH, "w", encoding="utf-8") as f:
+            json.dump(posts, f, ensure_ascii=False, indent=2)
+    except Exception:
+        pass
 
 
 def _append_chat_question(question: str, reply: str) -> None:

@@ -517,7 +517,7 @@
             </div>
             <div id="zonebourseNewsContainer">
                 {% if zonebourse_used_fallback %}
-                <p id="zonebourseFallbackNotice" class="news-fallback-notice" style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">Utilisation des URLs de secours</p>
+                <p id="zonebourseFallbackNotice" class="news-fallback-notice" style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">Market news unavailable (Yahoo RSS or summary failed). Default content shown.</p>
                 {% else %}
                 <p id="zonebourseFallbackNotice" class="news-fallback-notice" style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem; display: none;"></p>
                 {% endif %}
@@ -816,7 +816,7 @@
                       if (loading.parentNode) loading.remove();
                       if (btn) btn.disabled = false;
                       if (fallbackNotice) {
-                          fallbackNotice.textContent = data.used_fallback ? 'Utilisation des URLs de secours' : '';
+                          fallbackNotice.textContent = data.used_fallback ? 'Market news unavailable (Yahoo RSS or summary failed). Default content shown.' : '';
                           fallbackNotice.style.display = data.used_fallback ? 'block' : 'none';
                       }
                       var news = data.news || [];
