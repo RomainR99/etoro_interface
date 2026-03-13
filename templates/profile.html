@@ -963,7 +963,7 @@
         </div>
         <div class="chat-messages" id="chatMessages"></div>
         <div class="chat-input-wrap">
-            <input type="text" id="chatInput" placeholder="Votre message…" maxlength="500" />
+            <input type="text" id="chatInput" placeholder="Your message…" maxlength="500" />
             <button type="button" id="chatSend">Send</button>
         </div>
         <div id="chatCaptchaWrap" style="display:none; margin-top:0.5rem; padding:0.5rem; background:var(--card-bg); border-radius:6px;">
@@ -986,7 +986,7 @@
     <script>
         (function() {
             var recaptchaSiteKey = {{ recaptcha_site_key | default('') | tojson }};
-            var initialBotMessage = "Besoin d'aide ? Posez une question . Ex : Où trouver des actions à dividendes élevés ? Quels secteurs ont la plus forte croissance ?";
+            var initialBotMessage = "Need help? Ask a question. E.g.: Where to find high-dividend stocks? Which sectors have the strongest growth? Why diversify?";
             var messages = [{ role: "assistant", content: initialBotMessage }];
             var panel = document.getElementById("chatPanel");
             var msgsEl = document.getElementById("chatMessages");
