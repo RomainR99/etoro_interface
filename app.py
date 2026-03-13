@@ -22,6 +22,7 @@ from etoro_client import (
     get_posts_per_month,
     get_current_copiers,
     get_copiers_vs_performance,
+    create_post as etoro_create_post,
 )
 from zone_bourse.news_fetcher import ZONEBOURSE_IMAGES_DIR, get_latest_news
 
@@ -910,6 +911,31 @@ def api_zonebourse_news():
         return jsonify({"count": len(items), "news": items, "used_fallback": result.get("used_fallback", False)})
     except Exception as e:
         return jsonify({"error": str(e), "count": 0, "news": []}), 500
+
+
+@app.route("/api/post-to-etoro", methods=["POST"])
+def api_post_to_etoro():
+    """
+    Crée un post sur le feed eToro (titre + résumé + image optionnelle).
+    Body JSON: { "title": "...", "summary": "...", "image_url": "..." (optionnel) }
+    L'image_url peut être relative (/api/zonebourse-image/...) ; elle est convertie en URL absolue.
+    """
+    data = request.get_json(silent=True) or {}
+    title = (data.get("title") or "").strip()
+    summary = (data.get("summary") or "").strip()
+    image_url = (data.get("image_url") or "").strip() or None
+    message = f"{title}\n\n{summary}".strip()
+    if not message:
+        return jsonify({"success": False, "error": "title et summary requis"}), 400
+    if image_url and image_url.startswith("data:"):
+        image_url = None  # eToro attend une URL publique, pas une data URL
+    if image_url and image_url.startswith("/"):
+        base = request.host_url.rstrip("/")
+        image_url = f"{base}{image_url}"
+    result = etoro_create_post(message, image_url=image_url)
+    if result is None:
+        return jsonify({"success": False, "error": "Échec de l’API eToro (vérifier clés et URL image publique)"}), 502
+    return jsonify({"success": True, "post": result})
 
 
 def _fetch_mediastack_filtered(

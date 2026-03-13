@@ -379,6 +379,25 @@
             color: var(--muted);
             font-size: 0.85rem;
         }
+        .btn-post-etoro {
+            margin-top: 0.5rem;
+            padding: 0.35rem 0.75rem;
+            font-size: 0.8rem;
+            background: var(--border);
+            color: var(--fg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .btn-post-etoro:hover:not(:disabled) {
+            background: var(--accent);
+            color: var(--bg);
+            border-color: var(--accent);
+        }
+        .btn-post-etoro:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -505,8 +524,11 @@
                 {% if zonebourse_news and zonebourse_news|length > 0 %}
                 <ul class="news-list" id="zonebourseNewsList">
                     {% for item in zonebourse_news %}
-                    <li class="news-item">
+                    <li class="news-item" data-title="{{ (item.title or '')|e }}" data-summary="{{ (item.summary or '')|e }}" data-image-url="{{ item.image_url or item.image_data_url or '' }}">
                         <span class="news-title">{{ item.title }}</span>
+                        {% if item.date %}
+                        <p class="news-date" style="margin: 0.2rem 0 0 0; font-size: 0.85rem; color: var(--muted);">{{ item.date }}</p>
+                        {% endif %}
                         {% if item.summary %}
                         <p class="news-summary">{{ item.summary }}</p>
                         {% endif %}
@@ -519,6 +541,7 @@
                             <span>Génération de l'image…</span>
                         </div>
                         {% endif %}
+                        <button type="button" class="btn-post-etoro" data-title="{{ (item.title or '')|e }}" data-summary="{{ (item.summary or '')|e }}" data-image-url="{{ item.image_url or item.image_data_url or '' }}">Poster sur eToro</button>
                     </li>
                     {% endfor %}
                 </ul>
@@ -820,8 +843,13 @@
                               } else {
                                   imgHtml = '<div class="news-item-image news-item-image-loading" data-title="' + titleAttr + '" data-summary="' + summaryAttr + '" data-style-index="' + idx + '"><span>Génération de l\'image…</span></div>';
                               }
-                              return '<li class="news-item"><span class="news-title">' + title + '</span>' +
-                                  (item.summary ? '<p class="news-summary">' + summary + '</p>' : '') + imgHtml + '</li>';
+                              var dateHtml = item.date ? '<p class="news-date" style="margin:0.2rem 0 0 0;font-size:0.85rem;color:var(--muted);">' + (item.date || '').replace(/</g, '&lt;') + '</p>' : '';
+                              var imgUrl = (item.image_url || item.image_data_url || '');
+                              if (imgUrl && imgUrl.indexOf('data:') === 0) imgUrl = '';
+                              var imgUrlAttr = (imgUrl || '').replace(/"/g, '&quot;');
+                              var postBtn = '<button type="button" class="btn-post-etoro" data-title="' + titleAttr + '" data-summary="' + summaryAttr + '" data-image-url="' + imgUrlAttr + '">Poster sur eToro</button>';
+                              return '<li class="news-item" data-title="' + titleAttr + '" data-summary="' + summaryAttr + '" data-image-url="' + imgUrlAttr + '"><span class="news-title">' + title + '</span>' + dateHtml +
+                                  (item.summary ? '<p class="news-summary">' + summary + '</p>' : '') + imgHtml + postBtn + '</li>';
                           }).join('');
                           ul.style.display = 'block';
                           if (typeof generateNewsImages === 'function') generateNewsImages();
@@ -868,6 +896,10 @@
                               img.alt = '';
                               div.innerHTML = '';
                               div.appendChild(img);
+                              var li = div.closest('.news-item');
+                              var postBtn = li ? li.querySelector('.btn-post-etoro') : null;
+                              if (li) li.setAttribute('data-image-url', imgSrc);
+                              if (postBtn) postBtn.setAttribute('data-image-url', imgSrc);
                           } else {
                               var msg = (res.data && res.data.error) ? res.data.error : 'Image non disponible';
                               div.innerHTML = '<span style="color:var(--muted);font-size:0.85rem;" title="' + msg.replace(/"/g, '&quot;') + '">' + (msg.length > 60 ? msg.slice(0, 57) + '…' : msg) + '</span>';
@@ -881,6 +913,35 @@
             }
             var refreshBtn = document.getElementById('refreshZonebourseBtn');
             if (refreshBtn) refreshBtn.addEventListener('click', refreshZonebourseNews);
+            var zonebourseContainer = document.getElementById('zonebourseNewsContainer');
+            if (zonebourseContainer) {
+                zonebourseContainer.addEventListener('click', function(e) {
+                    var btn = e.target && e.target.closest('.btn-post-etoro');
+                    if (!btn) return;
+                    var title = (btn.getAttribute('data-title') || '').trim();
+                    var summary = (btn.getAttribute('data-summary') || '').trim();
+                    var imageUrl = (btn.getAttribute('data-image-url') || '').trim() || undefined;
+                    if (!title && !summary) { alert('Texte manquant.'); return; }
+                    btn.disabled = true;
+                    fetch('/api/post-to-etoro', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ title: title, summary: summary, image_url: imageUrl || null })
+                    }).then(function(r) { return r.json().then(function(data) { return { ok: r.ok, data: data }; }); })
+                      .then(function(res) {
+                          btn.disabled = false;
+                          if (res.ok && res.data && res.data.success) {
+                              alert('Post publié sur eToro.');
+                          } else {
+                              alert((res.data && res.data.error) ? res.data.error : 'Erreur lors du post.');
+                          }
+                      })
+                      .catch(function() {
+                          btn.disabled = false;
+                          alert('Erreur de connexion.');
+                      });
+                });
+            }
             if (document.getElementById('zonebourseNewsList')) generateNewsImages();
 
             try { initChart(); } catch (e) { console.error('initChart:', e); }
@@ -901,13 +962,13 @@
     </div>
     <div class="chat-panel" id="chatPanel">
         <div class="chat-panel-header">
-            Assistant financier
+            Your Financial Assistant
             <button type="button" class="chat-panel-close" id="chatClose" aria-label="Fermer">×</button>
         </div>
         <div class="chat-messages" id="chatMessages"></div>
         <div class="chat-input-wrap">
             <input type="text" id="chatInput" placeholder="Votre message…" maxlength="500" />
-            <button type="button" id="chatSend">Envoyer</button>
+            <button type="button" id="chatSend">Send</button>
         </div>
         <div id="chatCaptchaWrap" style="display:none; margin-top:0.5rem; padding:0.5rem; background:var(--card-bg); border-radius:6px;">
             <p style="font-size:0.85rem; color:var(--muted); margin-bottom:0.5rem;">Veuillez valider le CAPTCHA puis cliquer sur Renvoyer.</p>

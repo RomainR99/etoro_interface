@@ -1,1 +1,55 @@
-Professional financial illustration. RomainRoth, a trader or portfolio manager, in a modern office, looking at multiple large monitors/screens. On the screens are displayed the logos and symbols of the financial instruments in RomainRoth's portfolio (company logos, index symbols, ticker symbols). Realistic, clean style, blue and grey tones. The person is focused on the screens. No text overlays, no speech bubbles. High quality, suitable for a professional finance website.
+Generate a photorealistic finance-themed image using the portfolio instruments listed in the text of the prompt.
+
+You are given a short text section that explicitly lists the instruments to display, in this exact format:
+
+Show only these instruments on the screens:
+- Netflix
+- Verizon
+- Siemens Energy
+- 2CRSi
+- FDJ
+
+This list comes from the application logic (mentioned_instruments) and contains the ONLY instruments that must appear on the monitors.
+
+For each instrument in this list:
+- if it is a stock, display its company logo and ticker
+- if it is an index, display the index symbol
+- if it is an ETF or crypto, display the corresponding symbol
+- distribute the instruments naturally across the monitors
+
+Scene:
+
+A photorealistic professional trader sitting at a modern trading desk in a financial office, looking at multiple monitors (3–5 screens) displaying trading dashboards and financial charts.
+
+The screens must clearly show the instruments from the list (the \"Show only these instruments on the screens:\" section) with visible logos and ticker symbols integrated into trading dashboards, candlestick charts, watchlists and portfolio allocation panels.
+
+Visual style:
+
+photorealistic professional photography  
+DSLR photo  
+50mm lens  
+shallow depth of field  
+high dynamic range  
+
+Lighting and color:
+
+warm neutral office lighting  
+cinematic lighting similar to professional Bloomberg or Financial Times photography  
+balanced color temperature  
+natural skin tones  
+avoid blue screen color dominance  
+
+Environment:
+
+modern hedge fund trading desk  
+keyboard and mouse on desk  
+subtle reflections from the monitors  
+clean contemporary office  
+
+Important constraints:
+
+do not generate illustration or vector style  
+do not apply a blue monochrome palette  
+avoid artificial blue glow from monitors  
+only display instruments present in the list under \"Show only these instruments on the screens:\"
+

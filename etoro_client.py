@@ -234,6 +234,43 @@ def get_user_feed_posts(
         return None
 
 
+def create_post(
+    message: str,
+    image_url: str | None = None,
+    image_width: int = 630,
+    image_height: int = 315,
+) -> dict | None:
+    """
+    Crée un nouveau post de discussion sur le feed eToro (POST /api/v1/feeds/post).
+    message: texte du post.
+    image_url: URL publique de l'image (optionnel). Doit être accessible par les serveurs eToro.
+    Retourne le JSON de la réponse (Post) en cas de succès (201), None en cas d'erreur.
+    """
+    url = f"{BASE_URL}/feeds/post"
+    body = {"message": message}
+    if image_url:
+        body["attachments"] = [
+            {
+                "url": image_url,
+                "mediaType": "Image",
+                "media": {
+                    "image": {
+                        "url": image_url,
+                        "width": image_width,
+                        "height": image_height,
+                    }
+                },
+            }
+        ]
+    try:
+        resp = requests.post(url, headers=_get_headers(), json=body, timeout=30)
+        if resp.status_code in (200, 201):
+            return resp.json()
+        return None
+    except Exception:
+        return None
+
+
 def get_posts_per_month(username: str, years: int = 1, max_pages: int = 10) -> dict[str, int]:
     """
     Récupère les posts d'un trader et les agrège par mois sur les N dernières années.

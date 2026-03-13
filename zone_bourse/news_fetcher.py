@@ -348,12 +348,46 @@ def _save_image_from_data_url(data_url: str, filepath: str) -> bool:
         return False
 
 
-def _build_image_prompt(title: str, summary: str) -> str:
-    """Construit le prompt pour la génération d'image (titre + première ligne du résumé)."""
+def _build_instruments_list_prompt(instruments: list[str]) -> str:
+    """Construit un prompt textuel intermédiaire à partir de mentioned_instruments.
+
+    Exemple de rendu :
+
+    Show only these instruments on the screens:
+    - Netflix
+    - Verizon
+    - Siemens Energy
+    - 2CRSi
+    - FDJ
+    """
+    cleaned = [str(x).strip() for x in instruments if str(x).strip()]
+    if not cleaned:
+        return ""
+    lines = ["Show only these instruments on the screens:"]
+    # Limiter pour garder un prompt compact
+    for name in cleaned[:30]:
+        lines.append(f"- {name}")
+    return "\n".join(lines)
+
+
+def _build_image_prompt(title: str, summary: str, instruments: list[str] | None = None) -> str:
+    """Construit le prompt intermédiaire pour la génération d'image.
+
+    Étape 1 : contexte texte (titre + 1ère ligne du résumé).
+    Étape 2 : texte intermédiaire listant explicitement les instruments à afficher,
+              construit à partir de mentioned_instruments.
+    Ce prompt sera ensuite injecté dans le template principal image_instruments.txt
+    par la couche d'appel d'image (dans app.py).
+    """
     t = (title or "").strip()
     s = (summary or "").strip()
     first_line = s.split("\n")[0] if s else ""
-    return (t + " " + first_line).strip()[:400]
+    base = (t + " " + first_line).strip()
+    if instruments:
+        list_prompt = _build_instruments_list_prompt(instruments)
+        if list_prompt:
+            base = (base + "\n\n" + list_prompt).strip()
+    return base[:800]
 
 
 def get_latest_news(
@@ -376,7 +410,7 @@ def get_latest_news(
     if use_cache and cache.get("date") == today and len(cache.get("items", [])) >= 2:
         results = []
         for entry in cache["items"][:2]:
-            item = {"title": entry.get("title", ""), "summary": entry.get("summary", "")}
+            item = {"title": entry.get("title", ""), "summary": entry.get("summary", ""), "date": today}
             if entry.get("image_file"):
                 item["image_url"] = f"/api/zonebourse-image/{entry['image_file']}"
             results.append(item)
@@ -387,16 +421,35 @@ def get_latest_news(
 
     # Post 1 : instruments du portefeuille
     instruments_post = _generate_instruments_post(instruments)
+    # Construire une liste explicite d'instruments à afficher (nom lisible ou symbole)
+    mentioned_instruments: list[str] = []
+    for inv in instruments:
+        name = (inv.get("displayname") or inv.get("displayName") or "").strip()
+        sym = (inv.get("symbol") or "").strip()
+        if name and sym:
+            label = f"{sym} ({name})"
+        else:
+            label = name or sym
+        if label:
+            mentioned_instruments.append(label)
+
     if instruments_post:
         title1 = instruments_post["titre"]
         summary1 = instruments_post["resume"]
+        if summary1 and summary1.strip().startswith(today):
+            summary1 = summary1.strip()[len(today):].lstrip("\n\r").strip() or summary1
     else:
         title1 = "Portfolio overview"
         summary1 = "Unable to generate instruments summary. Check OPENAI_API_KEY and portfolio data."
-    item1: dict[str, Any] = {"title": title1, "summary": summary1}
+    item1: dict[str, Any] = {
+        "title": title1,
+        "summary": summary1,
+        "date": today,
+        "mentioned_instruments": mentioned_instruments,
+    }
     image_file1: str | None = None
     if generate_image_fn:
-        prompt1 = _build_image_prompt(title1, summary1)
+        prompt1 = _build_image_prompt(title1, summary1, mentioned_instruments)
         data_url1 = generate_image_fn(prompt1, 0, "instruments")
         if data_url1 and use_cache:
             image_file1 = _day_image_filename(today, "instruments")
@@ -407,9 +460,17 @@ def get_latest_news(
                 image_file1 = None
                 item1["image_data_url"] = data_url1
         elif data_url1:
-            item1["image_data_url"] = data_url1
+                item1["image_data_url"] = data_url1
     results.append(item1)
-    cache_items.append({"type": "instruments", "title": title1, "summary": summary1, "image_file": image_file1})
+    cache_items.append(
+        {
+            "type": "instruments",
+            "title": title1,
+            "summary": summary1,
+            "image_file": image_file1,
+            "mentioned_instruments": mentioned_instruments,
+        }
+    )
 
     # Post 2 : actualité marché (1 article Zone Bourse + NASDAQ/SP500/CAC40)
     used_fallback = True
@@ -427,12 +488,14 @@ def get_latest_news(
                     body = _extract_any_text(soup)
                 if body and len(body.strip()) >= 50:
                     summarized = _summarize_market_news(body)
-                    if summarized:
-                        title2 = summarized["titre"]
-                        summary2 = summarized["resume"]
+                if summarized:
+                    title2 = summarized["titre"]
+                    summary2 = summarized["resume"]
+                    if summary2 and summary2.strip().startswith(today):
+                        summary2 = summary2.strip()[len(today):].lstrip("\n\r").strip() or summary2
         except Exception:
             pass
-    item2: dict[str, Any] = {"title": title2, "summary": summary2}
+    item2: dict[str, Any] = {"title": title2, "summary": summary2, "date": today}
     image_file2: str | None = None
     if generate_image_fn:
         prompt2 = _build_image_prompt(title2, summary2)

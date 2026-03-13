@@ -175,6 +175,39 @@ TRADER_USERNAME = "NomDuTrader"
 - [Documentation officielle](https://api-portal.etoro.com/)
 - Base URL : `https://public-api.etoro.com/api/v1/`
 
+### Publication de posts (feed eToro)
+
+1. **Doc API eToro**
+
+L’endpoint utilisé est bien `POST /api/v1/feeds/post` (**Create a new discussion post**).  
+Le corps attendu est `DiscussionCreateRequest` : `message` (obligatoire), `attachments` (optionnel, avec `url`, `mediaType: "Image"`, `media.image`).
+
+2. **`etoro_client.py`**
+
+Nouvelle fonction `create_post(message, image_url=None, image_width=630, image_height=315)` qui envoie un `POST` vers `https://public-api.etoro.com/api/v1/feeds/post` avec les en-têtes existants (`x-api-key`, `x-user-key`, `x-request-id`).  
+Si `image_url` est fourni, un attachment image est ajouté au body.
+
+3. **`app.py`**
+
+Nouvelle route `POST /api/post-to-etoro` qui reçoit en JSON : `title`, `summary`, `image_url` (optionnel).  
+Construit le texte du post : `title + "\n\n" + summary`.  
+Si `image_url` est relatif (commence par `/`), il est transformé en URL absolue avec `request.host_url`.  
+Les `data:` URLs sont ignorées (eToro attend une URL publique).  
+En cas de succès (`201`), renvoie `{ "success": true, "post": ... }` ; sinon `502` avec un message d’erreur.
+
+4. **Template (`Dernières actualités`)**
+
+Un bouton « Poster sur eToro » a été ajouté sous chaque actualité (rendu Jinja + rendu dynamique après rafraîchissement).  
+Au clic : envoi des `data-title`, `data-summary`, `data-image-url` du bouton vers `/api/post-to-etoro`, puis affichage d’une alerte succès/erreur.  
+Quand l’image est générée côté client, `data-image-url` du bouton est mis à jour pour inclure l’URL de l’image.  
+Style du bouton : `.btn-post-etoro` (petit bouton secondaire avec hover).
+
+**À noter**
+
+- Pour que l’image soit visible sur eToro, son URL doit être **accessible publiquement**. En local (`localhost`), eToro ne pourra pas la charger ; en production (ou avec un tunnel type ngrok), utiliser l’URL absolue de l’image.
+- Les clés `ETORO_API_KEY` et `ETORO_USER_KEY` dans `.env` doivent être valides pour que le post soit créé.
+- Les avertissements du linter sur le template viennent du mélange Jinja/JS (ex. `{{ ... }}`) et ne concernent pas les nouveaux bouts de code.
+
 ## Actualités Zonebourse
 
 L’interface affiche les **3 dernières actualités Zonebourse** : le texte des articles est récupéré (BeautifulSoup), puis OpenAI génère un **titre** et un **résumé en 5 lignes** pour chaque article.
