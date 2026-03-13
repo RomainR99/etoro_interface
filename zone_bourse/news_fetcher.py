@@ -1,4 +1,4 @@
-"""Deux posts par jour en anglais : 1) portefeuille / instruments, 2) actualité marché (NASDAQ, S&P 500, CAC 40)."""
+"""Deux posts par jour en anglais : 1) portefeuille / instruments, 2) actualité marché via flux RSS Yahoo Finance (NASDAQ, S&P 500, CAC 40)."""
 
 from __future__ import annotations
 
@@ -7,6 +7,7 @@ import hashlib
 import json
 import os
 import re
+import calendar
 from datetime import datetime, timezone
 from html import unescape
 from typing import Any, Callable
@@ -21,6 +22,14 @@ BASE_URL = "https://www.zonebourse.com"
 ACTUALITES_URL = f"{BASE_URL}/actualite-bourse/"
 REQUEST_TIMEOUT = 15
 OPENAI_MODEL = "gpt-4o-mini"
+
+# Flux RSS Yahoo Finance pour le post actualité marché (remplace Zonebourse)
+YAHOO_FINANCE_RSS_URLS = [
+    "https://finance.yahoo.com/rss/",
+    "https://finance.yahoo.com/news/rssindex",
+]
+# Flux RSS par symbole (post 1 : actualités du jour par instrument)
+YAHOO_FINANCE_HEADLINE_RSS = "https://finance.yahoo.com/rss/headline?s={symbol}"
 
 _PROMPTS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "prompts")
 
@@ -199,20 +208,23 @@ def _summarize_with_prompt(user_content: str, prompt_prefix: str) -> dict[str, s
         if isinstance(resume, list):
             resume = "\n".join(str(l).strip() for l in resume)
         return {"titre": titre or "Untitled", "resume": resume}
-    except Exception:
+    except Exception as e:
+        import logging
+        logging.getLogger(__name__).warning("OpenAI summary failed: %s", e)
         return None
 
 
 def _generate_instruments_post(instruments: list[dict[str, Any]]) -> dict[str, str] | None:
-    """Génère un post en anglais sur l'ensemble des instruments du portefeuille. Retourne {"titre", "resume"} ou None."""
-    prompt_prefix = _load_prompt("post_instruments.txt", "Write a short daily post in English. Reply with JSON: titre, resume (5 lines).\n\nPortfolio:\n\n")
-    lines = []
-    for inv in instruments or []:
-        sym = (inv.get("symbol") or inv.get("displayName") or "").strip()
-        name = (inv.get("displayName") or inv.get("displayname") or inv.get("symbol") or "").strip()
-        if sym or name:
-            lines.append(f"{sym} — {name}")
-    content = "\n".join(lines) if lines else "No instruments in portfolio."
+    """Génère un post en anglais à partir des flux RSS Yahoo Finance du jour pour chaque instrument du portefeuille. Retourne {"titre", "resume"} ou None."""
+    content = _build_portfolio_rss_content(
+        instruments or [],
+        entries_per_instrument=3,
+        only_today=True,
+    )
+    prompt_prefix = _load_prompt(
+        "post_instruments.txt",
+        "Write a short daily post in English based on the RSS headlines below. Reply with JSON: titre, resume (5 lines).\n\n",
+    )
     return _summarize_with_prompt(content, prompt_prefix)
 
 
@@ -296,6 +308,109 @@ def _fetch_article_links(limit: int = 3) -> tuple[list[str], bool]:
         urls = FALLBACK_ARTICLE_URLS[:limit]
         return (urls[:limit], True)
     return (urls[:limit], False)
+
+
+def _fetch_yahoo_rss_entries(limit: int = 1) -> list[dict[str, str]]:
+    """Récupère les N derniers articles depuis le flux RSS Yahoo Finance.
+    Retourne une liste de dicts avec 'title', 'description', 'link'."""
+    try:
+        import feedparser
+    except ImportError:
+        return []
+    entries: list[dict[str, str]] = []
+    for url in YAHOO_FINANCE_RSS_URLS:
+        if len(entries) >= limit:
+            break
+        try:
+            feed = feedparser.parse(url, request_headers=_get_headers(), request_timeout=REQUEST_TIMEOUT)
+            if not getattr(feed, "entries", None):
+                continue
+            for entry in feed.entries:
+                if len(entries) >= limit:
+                    break
+                title = (entry.get("title") or "").strip()
+                desc = (entry.get("description") or entry.get("summary") or "").strip()
+                link = (entry.get("link") or "").strip()
+                if title or desc:
+                    entries.append({"title": title, "description": desc, "link": link})
+        except Exception:
+            continue
+    return entries[:limit]
+
+
+def _fetch_yahoo_rss_for_symbol(
+    symbol: str,
+    limit: int = 5,
+    only_today: bool = True,
+) -> list[dict[str, Any]]:
+    """Récupère les entrées RSS Yahoo Finance pour un symbole (headline feed).
+    Retourne une liste de dicts avec 'title', 'description', 'published_parsed'.
+    Si only_today=True, ne garde que les entrées datées du jour (UTC)."""
+    if not (symbol or "").strip():
+        return []
+    try:
+        import feedparser
+    except ImportError:
+        return []
+    url = YAHOO_FINANCE_HEADLINE_RSS.format(symbol=symbol.strip())
+    today_date = datetime.now(timezone.utc).date()
+    entries: list[dict[str, Any]] = []
+    try:
+        feed = feedparser.parse(url, request_headers=_get_headers(), request_timeout=REQUEST_TIMEOUT)
+        for entry in getattr(feed, "entries", [])[: limit + 10]:
+            if len(entries) >= limit:
+                break
+            if only_today:
+                pub = entry.get("published_parsed")
+                if pub:
+                    try:
+                        # published_parsed is UTC struct_time
+                        ts = calendar.timegm(pub)
+                        entry_date = datetime.fromtimestamp(ts, tz=timezone.utc).date()
+                        if entry_date != today_date:
+                            continue
+                    except (TypeError, OSError, ValueError):
+                        pass
+            title = (entry.get("title") or "").strip()
+            desc = (entry.get("description") or entry.get("summary") or "").strip()
+            entries.append({"title": title, "description": desc})
+    except Exception:
+        pass
+    return entries[:limit]
+
+
+def _build_portfolio_rss_content(
+    instruments: list[dict[str, Any]],
+    entries_per_instrument: int = 3,
+    only_today: bool = True,
+) -> str:
+    """Construit un bloc texte : pour chaque instrument, les titres/descriptions RSS du jour.
+    Utilisé comme entrée au prompt du post 1."""
+    if not instruments:
+        return "No instruments in portfolio."
+    parts: list[str] = []
+    for inv in instruments[:25]:
+        sym = (inv.get("symbol") or inv.get("displayName") or "").strip()
+        name = (inv.get("displayname") or inv.get("displayName") or inv.get("symbol") or "").strip()
+        label = f"{sym} ({name})" if (sym and name) else (name or sym or str(inv.get("instrumentId", "")))
+        if not label:
+            continue
+        entries = _fetch_yahoo_rss_for_symbol(sym or name, limit=entries_per_instrument, only_today=only_today)
+        if not entries and only_today:
+            entries = _fetch_yahoo_rss_for_symbol(sym or name, limit=entries_per_instrument, only_today=False)
+        if not entries:
+            parts.append(f"Instrument: {label}\n(No RSS headlines for today.)")
+            continue
+        lines = [f"Instrument: {label}"]
+        for e in entries:
+            t = (e.get("title") or "").strip()
+            d = (e.get("description") or "").strip()
+            if d:
+                soup = BeautifulSoup(d, "lxml")
+                d = soup.get_text(" ", strip=True)[:400]
+            lines.append(f"- {t}" + (f"\n  {d}" if d else ""))
+        parts.append("\n".join(lines))
+    return "\n\n".join(parts) if parts else "No instruments in portfolio."
 
 
 _CACHE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
@@ -399,7 +514,7 @@ def get_latest_news(
     """
     Deux posts par jour en anglais :
     1) Post sur l'ensemble des instruments du portefeuille.
-    2) Post sur l'actualité du jour (1 article Zone Bourse) + NASDAQ / S&P 500 / CAC 40.
+    2) Post sur l'actualité du jour (flux RSS Yahoo Finance) + NASDAQ / S&P 500 / CAC 40.
     Cache par date (YYYY-MM-DD). generate_image_fn(prompt, style_index, image_kind) avec image_kind "instruments" ou "news".
     """
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -436,8 +551,12 @@ def get_latest_news(
     if instruments_post:
         title1 = instruments_post["titre"]
         summary1 = instruments_post["resume"]
-        if summary1 and summary1.strip().startswith(today):
-            summary1 = summary1.strip()[len(today):].lstrip("\n\r").strip() or summary1
+        # Ne pas afficher de date dans le post : supprimer toute ligne de date (YYYY-MM-DD) en tête du résumé
+        if summary1:
+            lines = summary1.strip().splitlines()
+            while lines and re.match(r"^\d{4}-\d{2}-\d{2}\s*$", lines[0].strip()):
+                lines.pop(0)
+            summary1 = "\n".join(lines).strip() if lines else summary1
     else:
         title1 = "Portfolio overview"
         summary1 = "Unable to generate instruments summary. Check OPENAI_API_KEY and portfolio data."
@@ -472,29 +591,33 @@ def get_latest_news(
         }
     )
 
-    # Post 2 : actualité marché (1 article Zone Bourse + NASDAQ/SP500/CAC40)
+    # Post 2 : actualité marché (flux RSS Yahoo Finance + NASDAQ/SP500/CAC40)
     used_fallback = True
-    urls, used_fallback = _fetch_article_links(limit=1)
+    rss_entries = _fetch_yahoo_rss_entries(limit=1)
     title2 = "Market news"
-    summary2 = "No market article available. Check connection or Zone Bourse."
-    if urls:
-        try:
-            resp = requests.get(urls[0], headers=_get_headers(referer=ACTUALITES_URL), timeout=REQUEST_TIMEOUT)
-            if resp.status_code == 200:
-                soup = BeautifulSoup(resp.text, "lxml")
-                try:
-                    body = extract_article_text(resp.text)
-                except RuntimeError:
-                    body = _extract_any_text(soup)
-                if body and len(body.strip()) >= 50:
-                    summarized = _summarize_market_news(body)
-                if summarized:
-                    title2 = summarized["titre"]
-                    summary2 = summarized["resume"]
-                    if summary2 and summary2.strip().startswith(today):
-                        summary2 = summary2.strip()[len(today):].lstrip("\n\r").strip() or summary2
-        except Exception:
-            pass
+    summary2 = "No market article available. Check Yahoo Finance RSS."
+    if rss_entries:
+        entry = rss_entries[0]
+        article_text = (entry.get("title") or "").strip()
+        desc = (entry.get("description") or "").strip()
+        if desc:
+            # Décoder le HTML en texte brut pour le prompt
+            soup_desc = BeautifulSoup(desc, "lxml")
+            desc_plain = soup_desc.get_text("\n", strip=True)
+            desc_plain = re.sub(r"\n{3,}", "\n\n", desc_plain).strip()
+            article_text = (article_text + "\n\n" + desc_plain).strip() if desc_plain else article_text
+        if article_text and len(article_text) >= 30:
+            summarized = _summarize_market_news(article_text)
+            if summarized:
+                used_fallback = False
+                title2 = summarized["titre"]
+                summary2 = summarized["resume"]
+                # Supprimer toute ligne de date (YYYY-MM-DD) en tête du résumé
+                if summary2:
+                    lines = summary2.strip().splitlines()
+                    while lines and re.match(r"^\d{4}-\d{2}-\d{2}\s*$", lines[0].strip()):
+                        lines.pop(0)
+                    summary2 = "\n".join(lines).strip() if lines else summary2
     item2: dict[str, Any] = {"title": title2, "summary": summary2, "date": today}
     image_file2: str | None = None
     if generate_image_fn:

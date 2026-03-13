@@ -208,6 +208,30 @@ Style du bouton : `.btn-post-etoro` (petit bouton secondaire avec hover).
 - Les clés `ETORO_API_KEY` et `ETORO_USER_KEY` dans `.env` doivent être valides pour que le post soit créé.
 - Les avertissements du linter sur le template viennent du mélange Jinja/JS (ex. `{{ ... }}`) et ne concernent pas les nouveaux bouts de code.
 
+**Exposer l’app en local avec ngrok (pour que les URLs d’images soient publiques)**
+
+Installer ngrok (macOS avec Homebrew) :
+
+```bash
+brew install ngrok
+```
+
+Exemple :
+
+```bash
+ngrok http 5001
+```
+
+Si ton serveur local expose par exemple :
+
+`http://127.0.0.1:5001/static/image.png`
+
+ngrok te donnera une URL publique du type :
+
+`https://abc123.ngrok-free.app/static/image.png`
+
+Cette URL est alors testable publiquement (et utilisable par l’API eToro pour les pièces jointes des posts).
+
 ## Actualités Zonebourse
 
 L’interface affiche les **3 dernières actualités Zonebourse** : le texte des articles est récupéré (BeautifulSoup), puis OpenAI génère un **titre** et un **résumé en 5 lignes** pour chaque article.

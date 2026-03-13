@@ -1,5 +1,11 @@
 """Application Flask pour visualiser le profil des traders eToro."""
 
+from pathlib import Path
+
+# Charger .env depuis la racine du projet (pour OPENAI_API_KEY, etc.)
+from dotenv import load_dotenv
+load_dotenv(Path(__file__).resolve().parent / ".env")
+
 import base64
 import csv
 import io
@@ -924,6 +930,13 @@ def api_post_to_etoro():
     title = (data.get("title") or "").strip()
     summary = (data.get("summary") or "").strip()
     image_url = (data.get("image_url") or "").strip() or None
+    # Forcer la date du jour en tête du résumé si une date YYYY-MM-DD y figure (évite cache/LLM obsolète)
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    if summary:
+        first_line = summary.strip().split("\n")[0].strip()
+        if len(first_line) == 10 and first_line[:4].isdigit() and first_line[4] == "-" and first_line[5:7].isdigit() and first_line[7] == "-" and first_line[8:10].isdigit():
+            rest = summary.strip()[len(first_line):].lstrip("\n\r")
+            summary = f"{today}\n{rest}" if rest else today
     message = f"{title}\n\n{summary}".strip()
     if not message:
         return jsonify({"success": False, "error": "title et summary requis"}), 400
@@ -932,10 +945,22 @@ def api_post_to_etoro():
     if image_url and image_url.startswith("/"):
         base = request.host_url.rstrip("/")
         image_url = f"{base}{image_url}"
+    # eToro ne peut pas charger une image en localhost → post sans image pour éviter image blanche
+    if image_url and ("127.0.0.1" in image_url or "localhost" in image_url):
+        image_url = None
     result = etoro_create_post(message, image_url=image_url)
     if result is None:
         return jsonify({"success": False, "error": "Échec de l’API eToro (vérifier clés et URL image publique)"}), 502
-    return jsonify({"success": True, "post": result})
+    if result.get("_api_error"):
+        err = result.get("error") or {}
+        msg = err.get("errorMessage", "")
+        code = err.get("errorCode", "")
+        if code and msg:
+            err_msg = f"{code}: {msg}"
+        else:
+            err_msg = msg or str(err) or "Permission refusée par eToro"
+        return jsonify({"success": False, "error": err_msg}), 502
+    return jsonify({"success": True, "post": result, "image_url_sent": image_url})
 
 
 def _fetch_mediastack_filtered(

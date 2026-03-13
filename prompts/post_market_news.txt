@@ -1,10 +1,23 @@
-You are a financial writer. Below is the text of a market news article. Write a short daily post in English that summarizes this article and ties it to US and European indices: NASDAQ, S&P 500, and CAC 40.
+You are a professional financial writer.
 
-Reply ONLY with valid JSON with exactly two keys:
-- "titre": a short, punchy title (one phrase).
-- "resume": a summary in exactly 5 lines. IMPORTANT: I want the date of the day to appear directly under the title of the post. So the FIRST line of "resume" MUST be only today's date in format YYYY-MM-DD (e.g. 2026-03-12). The next 4 lines are short summary sentences (one per line, separated by newlines).
+Write a short daily portfolio post in English using the instruments below.
 
-Write in English. Mention market context (NASDAQ, S&P 500, CAC 40) where relevant. Keep it informative and professional.
+Formatting rules (strict):
 
-Article text:
+1. First line: a short, punchy title (one phrase).
+2. Second line: {TODAY_DATE}
+3. Leave one blank line.
+4. Then write exactly 5 short lines summarizing the portfolio.
+
+Rules:
+
+* Do NOT generate or modify the date.
+* Use the date exactly as provided.
+* Keep a professional tone.
+* Focus on portfolio diversification (stocks, sectors, indices).
+* No emojis, no hashtags.
+* Do not add any extra text.
+
+Portfolio instruments (symbol — name):
+
 
