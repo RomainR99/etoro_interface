@@ -10,7 +10,7 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
 - **Simulation DCA** : 1 000 $ au départ + 100 $/mois, comparaison avec le S&P 500
 - **Posts par mois** (graphique 3) : comparaison du nombre de posts. Priorité au feed utilisateur (tous les posts) ; si vide, fallback sur plusieurs instruments (NSDQ100, SPX500, CAC40, Or, BTC, ETH) en filtrant par auteur
 - **Performance vs copieurs** (graphique 5) : nuage de points pour les 2000 traders les plus copiés (abscisse = copieurs, ordonnée = performance % sur 2 ans)
-- **Actualités Zonebourse** : résumés des articles générés par IA (5 lignes par article) et illustration sous chaque actualité (génération d’image via OpenAI DALL·E 3, même clé `OPENAI_API_KEY`)
+- **Actualités Zonebourse** : résumés des articles générés par IA (5 lignes par article) et illustration sous chaque actualité (génération d’image via OpenAI DALL·E 3, même clé `OPENAI_API_KEY`). Pour le stockage et le web, privilégier un format **moins lourd que le PNG** (ex. **WebP** ou **JPEG**) afin de réduire poids disque et bande passante.
 - **Actualités par instrument** : sous les posts Zonebourse, les 3 dernières actualités Mediastack pour les instruments du portefeuille du trader (RomainRoth). Traduction automatique en français via OpenAI.
 - **Chatbot agent IA** : assistant pédagogique en éducation financière pour poser des questions sur les données eToro et Zonebourse. Elle ajoute :
   - conformité AMF / régulation financière
@@ -283,7 +283,8 @@ Article :
 
 Le modèle utilisé est **gpt-4o-mini**. La réponse JSON est parsée pour afficher le titre et le résumé dans l’interface. La clé API est lue depuis la variable d’environnement `OPENAI_API_KEY` (fichier `.env`).
 
-> **📌 Cache** — Les posts et images sont mis en cache dans `data/zonebourse_posts.json` (métadonnées) et `data/zonebourse_images/*.png` (images). Gain de place et de mémoire par rapport au stockage base64 en JSON.
+> **📌 Cache** — Les posts et images sont mis en cache dans `data/zonebourse_posts.json` (métadonnées) et `data/zonebourse_images/` (images). Gain de place et de mémoire par rapport au stockage base64 en JSON.  
+> **Format d’image** : préférer **WebP** ou **JPEG** au **PNG** pour des fichiers moins gourmands en taille ; le PNG reste possible si besoin de transparence sans perte.
 
 ### Actualités par instrument (Mediastack)
 
