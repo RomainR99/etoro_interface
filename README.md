@@ -82,6 +82,18 @@ Exemple : `curl http://127.0.0.1:5001/api/chat-questions` ou ouvrir l’URL dans
 ## Corrections à apporter
 
 - **Graphique 4** : à améliorer (supprimé dans la version actuelle)
+- **Barre de recherche** : ajouter une barre de recherche pour filtrer rapidement les traders, instruments et actualités dans l’interface.
+
+## Sécurité et déploiement
+
+- **Firewall** : mettre en place un firewall pour limiter les accès réseau au strict nécessaire.
+- **Reverse proxy** : placer l’application derrière un reverse proxy (ex. Nginx) pour mieux filtrer et sécuriser le trafic entrant.
+- **Bots Internet et SSH** : ajouter une protection contre les bots Internet, surtout sur SSH (durcissement SSH, blocage brute force, filtrage d’IP, etc.).
+
+## Apple / iOS
+
+- Pour une application Apple, le développement natif se fait en **Swift**.
+- Budget à prévoir : **100 $/an par application**.
 
 
 ## Prérequis
