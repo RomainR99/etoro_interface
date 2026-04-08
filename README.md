@@ -2,6 +2,39 @@
 
 Interface web pour visualiser le profil d'un trader eToro, comparer les performances avec des indices (S&P 500, NASDAQ 100, CAC 40 TR, MSCI World) et lister les instruments par place de marché.
 
+## Sommaire
+
+- [Fonctionnalités](#fonctionnalites)
+  - [Limiter les requêtes (rate limit par visiteur)](#limiter-les-requetes-rate-limit-par-visiteur)
+  - [CAPTCHA (anti-bots)](#captcha-anti-bots)
+  - [Récupérer les données du chatbot](#recuperer-les-donnees-du-chatbot)
+- [Corrections à apporter](#corrections-a-apporter)
+- [Sécurité et déploiement](#securite-et-deploiement)
+- [Apple / iOS](#apple--ios)
+- [Prérequis](#prerequis)
+- [Dépendances principales](#dependances-principales)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Lancement](#lancement)
+- [Structure](#structure)
+- [Configuration du trader](#configuration-du-trader)
+- [API eToro](#api-etoro)
+  - [Publication de posts (feed eToro)](#publication-de-posts-feed-etoro)
+- [Actualités Zonebourse](#actualites-zonebourse)
+  - [Source des données (URLs)](#source-des-donnees-urls)
+  - [Résumé avec OpenAI](#resume-avec-openai)
+  - [Actualités par instrument (Mediastack)](#actualites-par-instrument-mediastack)
+  - [Quand ça marche](#quand-ca-marche)
+  - [Quand ça échoue (message par défaut)](#quand-ca-echoue-message-par-defaut)
+  - [Vérifier la source](#verifier-la-source)
+- [1️⃣ À quoi sert Werkzeug](#1%EF%B8%8F%E2%83%A3-a-quoi-sert-werkzeug)
+- [2️⃣ Exemple simple avec Werkzeug](#2%EF%B8%8F%E2%83%A3-exemple-simple-avec-werkzeug)
+- [3️⃣ Pourquoi Flask utilise Werkzeug](#3%EF%B8%8F%E2%83%A3-pourquoi-flask-utilise-werkzeug)
+- [4️⃣ Ce que contient Werkzeug](#4%EF%B8%8F%E2%83%A3-ce-que-contient-werkzeug)
+- [5️⃣ Werkzeug et WSGI](#5%EF%B8%8F%E2%83%A3-werkzeug-et-wsgi)
+- [6️⃣ Pourquoi utiliser Werkzeug directement](#6%EF%B8%8F%E2%83%A3-pourquoi-utiliser-werkzeug-directement)
+- [✅ Résumé](#%E2%9C%85-resume)
+
 ## Fonctionnalités
 
 - **Profil trader** : affichage du profil, des gains mensuels/annuels et du portefeuille
@@ -83,6 +116,7 @@ Exemple : `curl http://127.0.0.1:5001/api/chat-questions` ou ouvrir l’URL dans
 
 - **Graphique 4** : à améliorer (supprimé dans la version actuelle)
 - **Barre de recherche** : ajouter une barre de recherche pour filtrer rapidement les traders, instruments et actualités dans l’interface.
+- **Amélioration PNG → WebP** : convertir les images PNG (captures d’écran, assets statiques, illustrations) en **WebP** pour réduire le poids des fichiers et la bande passante, tout en conservant une qualité visuelle correcte ; fournir un fallback ou `<picture>` si besoin de compatibilité navigateurs anciens.
 
 ## Sécurité et déploiement
 

@@ -248,6 +248,8 @@
         }
         a:hover { text-decoration: underline; }
         .site-footer {
+            position: relative;
+            z-index: 99;
             margin-top: 2rem;
             padding-top: 1rem;
             border-top: 1px solid var(--border);
@@ -263,29 +265,80 @@
             list-style: none;
             margin: 0;
             padding: 0;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem 1.25rem;
+            align-items: start;
+        }
+        @media (max-width: 720px) {
+            .trader-posts-list {
+                grid-template-columns: 1fr;
+            }
         }
         .trader-post-item {
-            border-bottom: 1px solid var(--border);
-            padding: 0.8rem 0;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem;
+            min-width: 0;
         }
-        .trader-post-item:last-child {
-            border-bottom: none;
+        .trader-post-thumb {
+            width: 100%;
+            max-width: 100%;
+            height: 300px;
+            border-radius: 8px;
+            display: block;
+            border: 1px solid var(--border);
+            margin-bottom: 0.75rem;
+            object-fit: cover;
+        }
+        .trader-post-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 0.75rem;
+        }
+        .trader-post-title {
+            flex: 1;
+            margin: 0;
+            font-size: 1.05rem;
+            font-weight: 600;
+            line-height: 1.35;
+            min-width: 0;
+            color: var(--text);
+        }
+        .trader-post-read-btn {
+            flex-shrink: 0;
+            padding: 0.4rem 0.85rem;
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .trader-post-read-btn:hover {
+            opacity: 0.92;
         }
         .trader-post-date {
             color: var(--muted);
             font-size: 0.8rem;
-            margin-bottom: 0.2rem;
+            margin-top: 0.35rem;
+        }
+        .trader-post-body {
+            display: none;
+            margin-top: 0.75rem;
+            white-space: pre-line;
+            font-size: 0.95rem;
+            line-height: 1.55;
+            color: var(--text);
+        }
+        .trader-post-body.is-open {
+            display: block;
         }
         .trader-post-message {
             white-space: pre-line;
-        }
-        .trader-post-image {
-            margin-top: 0.6rem;
-            width: 100%;
-            max-width: 720px;
-            border-radius: 8px;
-            display: block;
-            border: 1px solid var(--border);
         }
         .btn-load-more-posts {
             margin-top: 0.8rem;
@@ -311,7 +364,7 @@
             border-radius: 16px;
             background: url('/images/chatbot.png') center / cover no-repeat;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            z-index: 1000;
+            z-index: 98;
             display: flex;
             align-items: flex-end;
             justify-content: flex-end;
@@ -333,9 +386,14 @@
         .lang-switch {
             margin-left: auto;
             display: flex;
+            align-items: center;
+            flex-wrap: wrap;
             gap: 0.35rem;
             position: relative;
             z-index: 3;
+        }
+        #section-posts {
+            scroll-margin-top: 8rem;
         }
         .lang-btn {
             border: 1px solid var(--border);
@@ -350,6 +408,15 @@
             border-color: var(--accent);
             color: var(--accent);
         }
+        .lang-switch .nav-header-btn {
+            font-size: 1.7rem;
+            padding: 0.7rem 1rem;
+            border-radius: 12px;
+            border-width: 2px;
+        }
+        .lang-switch #langFrBtn {
+            margin-left: 30px;
+        }
         .chat-panel {
             display: none;
             position: fixed;
@@ -362,7 +429,7 @@
             border: 1px solid var(--border);
             border-radius: 12px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-            z-index: 1001;
+            z-index: 98;
             flex-direction: column;
         }
         .chat-panel.open { display: flex; }
@@ -492,6 +559,8 @@
                 {% if current_copiers is not none %}<span class="badge" id="copiersBadge" style="background: rgba(139,148,158,0.2); color: var(--muted);" data-count="{{ current_copiers }}">{{ current_copiers }} copieur{% if current_copiers > 1 %}s{% endif %}</span>{% endif %}
             </div>
             <div class="lang-switch">
+                <button type="button" id="navHomeBtn" class="lang-btn nav-header-btn" title="Haut de page">Accueil</button>
+                <button type="button" id="navPostsBtn" class="lang-btn nav-header-btn" title="Section posts">Posts</button>
                 <button type="button" id="langFrBtn" class="lang-btn">🇫🇷 FR</button>
                 <button type="button" id="langEnBtn" class="lang-btn">🇬🇧 EN</button>
             </div>
@@ -587,7 +656,7 @@
         </div>
         {% endif %}
 
-        <div class="card" style="margin-top: 1.5rem; grid-column: 1 / -1;">
+        <div class="card" id="section-posts" style="margin-top: 1.5rem; grid-column: 1 / -1;">
             <ul id="traderPostsList" class="trader-posts-list"></ul>
             <p id="traderPostsEmpty" class="empty-state" style="display:none;">Aucun post disponible.</p>
             <button type="button" id="loadMorePostsBtn" class="btn-load-more-posts" style="display:none;">Charger plus</button>
@@ -849,9 +918,11 @@
                 var emptyEl = document.getElementById('traderPostsEmpty');
                 var loadBtn = document.getElementById('loadMorePostsBtn');
                 if (!listEl || !loadBtn) return;
-                var pageSize = 5;
+                var INITIAL_POSTS = 4;
+                var LOAD_MORE_CHUNK = 2;
                 var shown = 0;
-                var posts = Array.isArray(traderPosts) ? traderPosts : [];
+                var allPosts = Array.isArray(traderPosts) ? traderPosts : [];
+                var displayedPosts = [];
                 function escapeHtml(s) {
                     var d = document.createElement('div');
                     d.textContent = s || '';
@@ -862,28 +933,129 @@
                     var dt = new Date(v);
                     return isNaN(dt.getTime()) ? String(v) : dt.toLocaleString('fr-FR');
                 }
+                /** fr | en | de (allemand / autre → exclus des filtres FR/EN) */
+                function inferPostLang(message) {
+                    if (!message) return 'en';
+                    var m = String(message);
+                    if (/Avertissement sur les risques/i.test(m)) return 'fr';
+                    if (/𝘙𝘪𝘴𝘬\s*𝘞𝘢𝘳𝘯𝘪𝘯𝘨|Risk Warning/i.test(m)) return 'en';
+                    var head = m.slice(0, 1200);
+                    if (/[äöüßÄÖÜ]/.test(head) && /\b(und | der | die |Das |für |nicht )\b/i.test(head)) return 'de';
+                    var sample = m.slice(0, 4000);
+                    var fr = 0;
+                    var en = 0;
+                    if (/[àâäéèêëïîôùûüçœ]/i.test(sample)) fr += 3;
+                    var fm = sample.match(/\b(les|des|une|dans|pour|avec|sont|été|notre|votre|être|copieurs|mois|portefeuille|marchés|français|été)\b/gi);
+                    if (fm) fr += fm.length;
+                    var em = sample.match(/\b(the|and|with|from|this|that|have|been|will|our|were|copiers|portfolio|markets|month|Hello)\b/gi);
+                    if (em) en += em.length;
+                    if (fr > en + 2) return 'fr';
+                    if (en > fr + 2) return 'en';
+                    return fr >= en ? 'fr' : 'en';
+                }
+                function rebuildDisplayedPosts() {
+                    var uiLang = localStorage.getItem("page_lang") || "en";
+                    if (uiLang !== "fr" && uiLang !== "en") uiLang = "en";
+                    return allPosts.filter(function (p) {
+                        var L = inferPostLang(p.message || '');
+                        if (L === 'de') return false;
+                        return L === uiLang;
+                    });
+                }
+                function emptyMessageText() {
+                    var i = window.__postEmptyI18n;
+                    if (!i) {
+                        var lang = localStorage.getItem("page_lang") || "en";
+                        return {
+                            none: lang === "fr" ? "Aucun post disponible." : "No posts available.",
+                            noLang: lang === "fr" ? "Aucune publication dans cette langue." : "No posts in this language."
+                        };
+                    }
+                    return { none: i.noPost, noLang: i.noPostsInLanguage };
+                }
+                function extractPostTitle(message) {
+                    if (!message) return '';
+                    var lines = String(message).split(/\r?\n/);
+                    for (var i = 0; i < lines.length; i++) {
+                        var line = lines[i].trim();
+                        if (line) {
+                            if (line.length > 160) return line.slice(0, 157) + '…';
+                            return line;
+                        }
+                    }
+                    return '';
+                }
+                function readCollapseLabels() {
+                    if (window.__postReadLabels && window.__postReadLabels.read) return window.__postReadLabels;
+                    var lang = localStorage.getItem("page_lang") || "en";
+                    return {
+                        read: lang === "fr" ? "Lire" : "Read",
+                        collapse: lang === "fr" ? "Réduire" : "Collapse"
+                    };
+                }
+                listEl.addEventListener('click', function (e) {
+                    var btn = e.target.closest('.trader-post-read-btn');
+                    if (!btn) return;
+                    var item = btn.closest('.trader-post-item');
+                    if (!item) return;
+                    var body = item.querySelector('.trader-post-body');
+                    if (!body) return;
+                    var open = body.classList.toggle('is-open');
+                    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+                    var lab = readCollapseLabels();
+                    btn.textContent = open ? lab.collapse : lab.read;
+                });
                 function renderNextChunk() {
-                    var next = posts.slice(shown, shown + pageSize);
+                    var chunk = shown === 0 ? INITIAL_POSTS : LOAD_MORE_CHUNK;
+                    var next = displayedPosts.slice(shown, shown + chunk);
+                    var lab = readCollapseLabels();
+                    var lang = localStorage.getItem("page_lang") || "en";
+                    var imgAlt = lang === "fr" ? "Illustration du post" : "Post image";
                     next.forEach(function(p) {
                         var li = document.createElement('li');
                         li.className = 'trader-post-item';
+                        var title = extractPostTitle(p.message || '');
+                        if (!title) title = (p.message || '').trim().slice(0, 120) || '—';
                         var imageHtml = (p.image_url && String(p.image_url).trim())
-                            ? '<img class="trader-post-image" src="' + escapeHtml(String(p.image_url)) + '" alt="Image du post">'
+                            ? '<img class="trader-post-thumb" src="' + escapeHtml(String(p.image_url)) + '" alt="' + escapeHtml(imgAlt) + '">'
                             : '';
-                        li.innerHTML = '<div class="trader-post-date">' + escapeHtml(formatDate(p.created)) + '</div><div class="trader-post-message">' + escapeHtml(p.message || '') + '</div>' + imageHtml;
+                        li.innerHTML =
+                            imageHtml +
+                            '<div class="trader-post-head">' +
+                            '<h3 class="trader-post-title">' + escapeHtml(title) + '</h3>' +
+                            '<button type="button" class="trader-post-read-btn" aria-expanded="false">' + escapeHtml(lab.read) + '</button>' +
+                            '</div>' +
+                            '<div class="trader-post-date">' + escapeHtml(formatDate(p.created)) + '</div>' +
+                            '<div class="trader-post-body">' + escapeHtml(p.message || '') + '</div>';
                         listEl.appendChild(li);
                     });
                     shown += next.length;
-                    if (emptyEl) emptyEl.style.display = (shown === 0) ? 'block' : 'none';
-                    loadBtn.style.display = 'inline-block';
-                    loadBtn.disabled = shown >= posts.length;
-                    var lang = localStorage.getItem("page_lang") || "en";
-                    loadBtn.textContent = shown >= posts.length
-                        ? (lang === "fr" ? 'Tous les posts sont chargés' : 'All posts loaded')
-                        : (lang === "fr" ? 'Charger plus' : 'Load more');
+                    var msgs = emptyMessageText();
+                    if (emptyEl) {
+                        if (displayedPosts.length === 0) {
+                            emptyEl.style.display = 'block';
+                            emptyEl.textContent = allPosts.length > 0 ? msgs.noLang : msgs.none;
+                        } else {
+                            emptyEl.style.display = 'none';
+                        }
+                    }
+                    if (displayedPosts.length === 0) {
+                        loadBtn.style.display = 'none';
+                    } else {
+                        loadBtn.style.display = 'inline-block';
+                        loadBtn.disabled = shown >= displayedPosts.length;
+                        loadBtn.textContent = shown >= displayedPosts.length
+                            ? (lang === "fr" ? 'Tous les posts sont chargés' : 'All posts loaded')
+                            : (lang === "fr" ? 'Charger plus' : 'Load more');
+                    }
                 }
+                window.resetTraderPostsList = function () {
+                    shown = 0;
+                    listEl.innerHTML = '';
+                    displayedPosts = rebuildDisplayedPosts();
+                    renderNextChunk();
+                };
                 loadBtn.addEventListener('click', renderNextChunk);
-                renderNextChunk();
             })();
         </script>
 
@@ -945,6 +1117,7 @@
                     dcaTitleMiddle: " $ investis au total — ",
                     dcaTitleSuffix: " vs S&P 500",
                     noPost: "Aucun post disponible.",
+                    noPostsInLanguage: "Aucune publication dans cette langue.",
                     loadMore: "Charger plus",
                     allLoaded: "Tous les posts sont chargés",
                     chatTitle: "Votre assistant financier",
@@ -953,6 +1126,13 @@
                     captchaHelp: "Veuillez valider le CAPTCHA puis cliquer sur Renvoyer.",
                     captchaResend: "Renvoyer",
                     chatWelcome: "Besoin d'aide ? Pose une question. Ex. : Où trouver des actions à fort dividende ? Quels secteurs ont la plus forte croissance ? Pourquoi diversifier ?",
+                    navHome: "Accueil",
+                    navPosts: "Posts",
+                    navHomeTitle: "Haut de page",
+                    navPostsTitle: "Section posts",
+                    readPost: "Lire",
+                    collapsePost: "Réduire",
+                    postImageAlt: "Illustration du post",
                     year: "Année", mJan: "Jan", mFeb: "Fév", mMar: "Mar", mApr: "Avr", mMay: "Mai", mJun: "Juin", mJul: "Juil", mAug: "Août", mSep: "Sep", mOct: "Oct", mNov: "Nov", mDec: "Déc", total: "Total",
                 },
                 en: {
@@ -968,6 +1148,7 @@
                     dcaTitleMiddle: " $ total invested — ",
                     dcaTitleSuffix: " vs S&P 500",
                     noPost: "No posts available.",
+                    noPostsInLanguage: "No posts in this language.",
                     loadMore: "Load more",
                     allLoaded: "All posts loaded",
                     chatTitle: "Your Financial Assistant",
@@ -976,6 +1157,13 @@
                     captchaHelp: "Please validate the CAPTCHA then click Resend.",
                     captchaResend: "Resend",
                     chatWelcome: "Need help? Ask a question. E.g.: Where to find high-dividend stocks? Which sectors have the strongest growth? Why diversify?",
+                    navHome: "Home",
+                    navPosts: "Posts",
+                    navHomeTitle: "Top of page",
+                    navPostsTitle: "Posts section",
+                    readPost: "Read",
+                    collapsePost: "Collapse",
+                    postImageAlt: "Post image",
                     year: "Year", mJan: "Jan", mFeb: "Feb", mMar: "Mar", mApr: "Apr", mMay: "May", mJun: "Jun", mJul: "Jul", mAug: "Aug", mSep: "Sep", mOct: "Oct", mNov: "Nov", mDec: "Dec", total: "Total",
                 }
             };
@@ -999,7 +1187,6 @@
                     ["perfTitle", "performances"],
                     ["perfEmpty", "perfEmpty"],
                     ["dcaSubtitle", "dcaSubtitle"],
-                    ["traderPostsEmpty", "noPost"],
                     ["chatPanelTitle", "chatTitle"],
                     ["captchaHelp", "captchaHelp"],
                 ];
@@ -1007,6 +1194,26 @@
                     const el = document.getElementById(id);
                     if (el) el.textContent = t[key];
                 });
+                const navHomeBtn = document.getElementById("navHomeBtn");
+                const navPostsBtn = document.getElementById("navPostsBtn");
+                if (navHomeBtn) {
+                    navHomeBtn.textContent = t.navHome;
+                    navHomeBtn.title = t.navHomeTitle;
+                }
+                if (navPostsBtn) {
+                    navPostsBtn.textContent = t.navPosts;
+                    navPostsBtn.title = t.navPostsTitle;
+                }
+                document.querySelectorAll(".trader-post-read-btn").forEach((btn) => {
+                    const item = btn.closest(".trader-post-item");
+                    const body = item && item.querySelector(".trader-post-body");
+                    const open = body && body.classList.contains("is-open");
+                    btn.textContent = open ? t.collapsePost : t.readPost;
+                });
+                document.querySelectorAll(".trader-post-thumb").forEach((img) => {
+                    img.alt = t.postImageAlt;
+                });
+                window.__postReadLabels = { read: t.readPost, collapse: t.collapsePost };
                 document.querySelectorAll("[data-i18n]").forEach((el) => {
                     const key = el.getAttribute("data-i18n");
                     if (key && t[key]) el.textContent = t[key];
@@ -1050,6 +1257,8 @@
                         renderMessages();
                     }
                 }
+                window.__postEmptyI18n = { noPost: t.noPost, noPostsInLanguage: t.noPostsInLanguage };
+                if (typeof window.resetTraderPostsList === "function") window.resetTraderPostsList();
             }
 
             const savedLang = localStorage.getItem("page_lang") || "en";
@@ -1058,6 +1267,22 @@
             const enBtn = document.getElementById("langEnBtn");
             if (frBtn) frBtn.addEventListener("click", () => applyLanguage("fr"));
             if (enBtn) enBtn.addEventListener("click", () => applyLanguage("en"));
+
+            (function () {
+                const navHomeBtn = document.getElementById("navHomeBtn");
+                const navPostsBtn = document.getElementById("navPostsBtn");
+                if (navHomeBtn) {
+                    navHomeBtn.addEventListener("click", function () {
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                    });
+                }
+                if (navPostsBtn) {
+                    navPostsBtn.addEventListener("click", function () {
+                        const section = document.getElementById("section-posts");
+                        if (section) section.scrollIntoView({ behavior: "smooth", block: "start" });
+                    });
+                }
+            })();
 
             var recaptchaSiteKey = {{ recaptcha_site_key | default('') | tojson }};
             var initialBotMessage = (I18N[savedLang] && I18N[savedLang].chatWelcome) ? I18N[savedLang].chatWelcome : I18N.en.chatWelcome;
