@@ -1,0 +1,32 @@
+[
+  {
+    "term_fr": "DCA (Dollar Cost Averaging)",
+    "term_en": "DCA (Dollar Cost Averaging)",
+    "def_fr": "Investissement échelonné à intervalles réguliers pour lisser le prix d’achat.",
+    "def_en": "Investing fixed amounts at regular intervals to average the purchase price over time."
+  },
+  {
+    "term_fr": "ETF",
+    "term_en": "ETF",
+    "def_fr": "Fonds indiciel négocié en bourse, répliquant souvent un indice (S&P 500, etc.).",
+    "def_en": "Exchange-traded fund that typically tracks an index (e.g. S&P 500)."
+  },
+  {
+    "term_fr": "Volatilité",
+    "term_en": "Volatility",
+    "def_fr": "Mesure des variations de prix d’un actif sur une période.",
+    "def_en": "Measure of how much an asset’s price fluctuates over time."
+  },
+  {
+    "term_fr": "Dividende",
+    "term_en": "Dividend",
+    "def_fr": "Part des bénéfices versée aux actionnaires par une entreprise.",
+    "def_en": "Portion of profits distributed by a company to shareholders."
+  },
+  {
+    "term_fr": "Portefeuille",
+    "term_en": "Portfolio",
+    "def_fr": "Ensemble des instruments financiers détenus par un investisseur.",
+    "def_en": "Collection of financial instruments held by an investor."
+  }
+]

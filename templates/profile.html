@@ -48,9 +48,11 @@
             padding: 2rem;
         }
         header {
-            display: flex;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
             align-items: center;
-            gap: 1.5rem;
+            column-gap: 1.25rem;
+            row-gap: 0.75rem;
             padding-bottom: 2rem;
             border-bottom: 1px solid var(--border);
             margin-bottom: 2rem;
@@ -71,7 +73,7 @@
             top: 0;
             bottom: 0;
             width: 25%;
-            z-index: 2;
+            z-index: 1;
             cursor: pointer;
         }
         .avatar {
@@ -383,14 +385,42 @@
             flex-shrink: 0;
         }
         .chat-toggle:hover { opacity: 0.9; }
-        .lang-switch {
-            margin-left: auto;
+        .header-left {
             display: flex;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 0.35rem;
+            gap: 1.5rem;
+            min-width: 0;
             position: relative;
-            z-index: 3;
+            z-index: 5;
+            pointer-events: auto;
+        }
+        .header-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 0;
+            position: relative;
+            z-index: 10;
+            pointer-events: auto;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-wrap: nowrap;
+            gap: 0.35rem;
+            min-width: 0;
+            position: relative;
+            z-index: 5;
+            pointer-events: auto;
+        }
+        .header-lang-flags {
+            display: inline-flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            gap: 0.35rem;
+            flex-shrink: 0;
+            margin-left: 30px;
         }
         #section-posts {
             scroll-margin-top: 8rem;
@@ -408,14 +438,149 @@
             border-color: var(--accent);
             color: var(--accent);
         }
-        .lang-switch .nav-header-btn {
+        .header-right .nav-header-btn {
             font-size: 1.7rem;
             padding: 0.7rem 1rem;
             border-radius: 12px;
             border-width: 2px;
         }
-        .lang-switch #langFrBtn {
-            margin-left: 30px;
+        .btn-search-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 3.2rem;
+            height: 3.2rem;
+            padding: 0;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: var(--card);
+            color: var(--text);
+            cursor: pointer;
+            transition: border-color 0.15s ease, color 0.15s ease;
+        }
+        .btn-search-icon:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .btn-search-icon svg {
+            display: block;
+        }
+        .nav-help-btn {
+            min-width: 3.2rem;
+            padding-left: 0.85rem;
+            padding-right: 0.85rem;
+            font-weight: 700;
+            font-size: 1.7rem;
+            text-decoration: none;
+            color: inherit;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .search-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 8vh 1rem 2rem;
+        }
+        .search-modal.open {
+            display: flex;
+        }
+        .search-modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            cursor: pointer;
+        }
+        .search-modal-panel {
+            position: relative;
+            width: min(520px, 100%);
+            max-height: min(80vh, 640px);
+            overflow: auto;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.1rem 1.25rem 1.25rem;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+        }
+        .search-modal-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin-bottom: 0.85rem;
+        }
+        .search-modal-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        .search-modal-close {
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 1.5rem;
+            line-height: 1;
+            cursor: pointer;
+            padding: 0.2rem;
+        }
+        .search-modal-close:hover {
+            color: var(--text);
+        }
+        .modal-search-input {
+            width: 100%;
+            padding: 0.65rem 0.9rem;
+            font-size: 1.05rem;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            background: var(--bg);
+            color: var(--text);
+            margin-bottom: 1rem;
+            box-sizing: border-box;
+        }
+        .search-modal-scopes {
+            display: flex;
+            flex-direction: column;
+            gap: 0.55rem;
+            margin-bottom: 0.75rem;
+        }
+        .search-scope {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: var(--text);
+        }
+        .search-scope input {
+            accent-color: var(--accent);
+        }
+        .lexicon-modal-results {
+            border-top: 1px solid var(--border);
+            padding-top: 0.75rem;
+            margin-top: 0.25rem;
+            max-height: 220px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+        }
+        .lexicon-modal-results .lex-row {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .lexicon-modal-results .lex-row:last-child {
+            border-bottom: none;
+        }
+        .lexicon-modal-results strong {
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+        .lexicon-modal-empty {
+            color: var(--muted);
+            font-size: 0.9rem;
         }
         .chat-panel {
             display: none;
@@ -545,26 +710,53 @@
     <div class="container">
         <header>
             <a href="https://www.etoro.com/people/{{ username }}" class="header-etoro-hit" target="_blank" rel="noopener noreferrer" aria-label="Profil eToro — {{ username }}"></a>
-            {% if profile and profile.avatars and profile.avatars|length > 0 %}
-                {% set avatar_url = profile.avatars[-1].url if profile.avatars[-1].url else profile.avatars[0].url %}
-                <img src="{{ avatar_url }}" alt="{{ username }}" class="avatar">
-            {% else %}
-                <div class="avatar-placeholder">{{ username[0]|upper }}</div>
-            {% endif %}
-            <div>
-                <h1>{{ username }}</h1>
-                {% if profile %}
-                    {% if profile.isPi %}<span class="badge badge-pi">Pro Investor</span>{% endif %}
+            <div class="header-left">
+                {% if profile and profile.avatars and profile.avatars|length > 0 %}
+                    {% set avatar_url = profile.avatars[-1].url if profile.avatars[-1].url else profile.avatars[0].url %}
+                    <img src="{{ avatar_url }}" alt="{{ username }}" class="avatar">
+                {% else %}
+                    <div class="avatar-placeholder">{{ username[0]|upper }}</div>
                 {% endif %}
-                {% if current_copiers is not none %}<span class="badge" id="copiersBadge" style="background: rgba(139,148,158,0.2); color: var(--muted);" data-count="{{ current_copiers }}">{{ current_copiers }} copieur{% if current_copiers > 1 %}s{% endif %}</span>{% endif %}
+                <div>
+                    <h1>{{ username }}</h1>
+                    {% if profile %}
+                        {% if profile.isPi %}<span class="badge badge-pi">Pro Investor</span>{% endif %}
+                    {% endif %}
+                    {% if current_copiers is not none %}<span class="badge" id="copiersBadge" style="background: rgba(139,148,158,0.2); color: var(--muted);" data-count="{{ current_copiers }}">{{ current_copiers }} copieur{% if current_copiers > 1 %}s{% endif %}</span>{% endif %}
+                </div>
             </div>
-            <div class="lang-switch">
+            <div class="header-center">
+                <button type="button" id="btnOpenSearchModal" class="btn-search-icon" title="Rechercher" aria-label="Rechercher">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                </button>
+            </div>
+            <div class="header-right">
                 <button type="button" id="navHomeBtn" class="lang-btn nav-header-btn" title="Haut de page">Accueil</button>
                 <button type="button" id="navPostsBtn" class="lang-btn nav-header-btn" title="Section posts">Posts</button>
-                <button type="button" id="langFrBtn" class="lang-btn">🇫🇷 FR</button>
-                <button type="button" id="langEnBtn" class="lang-btn">🇬🇧 EN</button>
+                <a href="/lexique" id="navHelpLexBtn" class="lang-btn nav-header-btn nav-help-btn" title="Lexique et questions courantes">?</a>
+                <div class="header-lang-flags">
+                    <button type="button" id="langFrBtn" class="lang-btn">🇫🇷 FR</button>
+                    <button type="button" id="langEnBtn" class="lang-btn">🇬🇧 EN</button>
+                </div>
             </div>
         </header>
+
+        <div id="searchModal" class="search-modal" aria-hidden="true">
+            <div class="search-modal-backdrop" id="searchModalBackdrop" tabindex="-1"></div>
+            <div class="search-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalSearchTitle">
+                <div class="search-modal-top">
+                    <h2 id="modalSearchTitle" class="search-modal-title">Recherche</h2>
+                    <button type="button" id="searchModalClose" class="search-modal-close" aria-label="Fermer">×</button>
+                </div>
+                <input type="search" id="modalSearchInput" class="modal-search-input" autocomplete="off" enterkeyhint="search" placeholder="Rechercher…" />
+                <div class="search-modal-scopes">
+                    <label class="search-scope"><input type="radio" name="searchScope" value="title" checked /> <span id="lblScopeTitle">Titres des posts</span></label>
+                    <label class="search-scope"><input type="radio" name="searchScope" value="body" /> <span id="lblScopeBody">Contenus des posts</span></label>
+                    <label class="search-scope"><input type="radio" name="searchScope" value="lexicon" /> <span id="lblScopeLex">Lexique</span></label>
+                </div>
+                <div id="lexiconModalResults" class="lexicon-modal-results" style="display:none;"></div>
+            </div>
+        </div>
 
         {% if not profile and not gain and not portfolio %}
             <div class="error-box">
@@ -666,7 +858,6 @@
         <script>
             const initialLabels = {{ chart_labels | default([]) | tojson }};
             const initialDatasets = {{ chart_datasets | default([]) | tojson }};
-            const traderPosts = {{ trader_posts | default([]) | tojson }};
 
             function hexToRgba(hex, a) {
                 const r = parseInt(hex.slice(1,3), 16), g = parseInt(hex.slice(3,5), 16), b = parseInt(hex.slice(5,7), 16);
@@ -917,12 +1108,34 @@
                 var listEl = document.getElementById('traderPostsList');
                 var emptyEl = document.getElementById('traderPostsEmpty');
                 var loadBtn = document.getElementById('loadMorePostsBtn');
+                var modalSearchInput = document.getElementById('modalSearchInput');
+                var searchModal = document.getElementById('searchModal');
+                var lexiconModalResults = document.getElementById('lexiconModalResults');
                 if (!listEl || !loadBtn) return;
                 var INITIAL_POSTS = 4;
                 var LOAD_MORE_CHUNK = 2;
-                var shown = 0;
-                var allPosts = Array.isArray(traderPosts) ? traderPosts : [];
+                var SEARCH_DEBOUNCE_MS = 300;
                 var displayedPosts = [];
+                var browseNextOffset = 0;
+                var browseHasMore = false;
+                var browseTotal = 0;
+                var browseTotalAll = 0;
+                var searchMode = false;
+                var searchTimer = null;
+                var isLoading = false;
+                var postsFetchAbort = null;
+
+                function abortPostsFetch() {
+                    if (postsFetchAbort) {
+                        postsFetchAbort.abort();
+                        postsFetchAbort = null;
+                    }
+                }
+
+                function getUiLang() {
+                    var l = localStorage.getItem('page_lang') || 'en';
+                    return l === 'fr' ? 'fr' : 'en';
+                }
                 function escapeHtml(s) {
                     var d = document.createElement('div');
                     d.textContent = s || '';
@@ -932,35 +1145,6 @@
                     if (!v) return '';
                     var dt = new Date(v);
                     return isNaN(dt.getTime()) ? String(v) : dt.toLocaleString('fr-FR');
-                }
-                /** fr | en | de (allemand / autre → exclus des filtres FR/EN) */
-                function inferPostLang(message) {
-                    if (!message) return 'en';
-                    var m = String(message);
-                    if (/Avertissement sur les risques/i.test(m)) return 'fr';
-                    if (/𝘙𝘪𝘴𝘬\s*𝘞𝘢𝘳𝘯𝘪𝘯𝘨|Risk Warning/i.test(m)) return 'en';
-                    var head = m.slice(0, 1200);
-                    if (/[äöüßÄÖÜ]/.test(head) && /\b(und | der | die |Das |für |nicht )\b/i.test(head)) return 'de';
-                    var sample = m.slice(0, 4000);
-                    var fr = 0;
-                    var en = 0;
-                    if (/[àâäéèêëïîôùûüçœ]/i.test(sample)) fr += 3;
-                    var fm = sample.match(/\b(les|des|une|dans|pour|avec|sont|été|notre|votre|être|copieurs|mois|portefeuille|marchés|français|été)\b/gi);
-                    if (fm) fr += fm.length;
-                    var em = sample.match(/\b(the|and|with|from|this|that|have|been|will|our|were|copiers|portfolio|markets|month|Hello)\b/gi);
-                    if (em) en += em.length;
-                    if (fr > en + 2) return 'fr';
-                    if (en > fr + 2) return 'en';
-                    return fr >= en ? 'fr' : 'en';
-                }
-                function rebuildDisplayedPosts() {
-                    var uiLang = localStorage.getItem("page_lang") || "en";
-                    if (uiLang !== "fr" && uiLang !== "en") uiLang = "en";
-                    return allPosts.filter(function (p) {
-                        var L = inferPostLang(p.message || '');
-                        if (L === 'de') return false;
-                        return L === uiLang;
-                    });
                 }
                 function emptyMessageText() {
                     var i = window.__postEmptyI18n;
@@ -1005,57 +1189,265 @@
                     var lab = readCollapseLabels();
                     btn.textContent = open ? lab.collapse : lab.read;
                 });
-                function renderNextChunk() {
-                    var chunk = shown === 0 ? INITIAL_POSTS : LOAD_MORE_CHUNK;
-                    var next = displayedPosts.slice(shown, shown + chunk);
+
+                function appendPostLi(p) {
                     var lab = readCollapseLabels();
                     var lang = localStorage.getItem("page_lang") || "en";
                     var imgAlt = lang === "fr" ? "Illustration du post" : "Post image";
-                    next.forEach(function(p) {
-                        var li = document.createElement('li');
-                        li.className = 'trader-post-item';
-                        var title = extractPostTitle(p.message || '');
-                        if (!title) title = (p.message || '').trim().slice(0, 120) || '—';
-                        var imageHtml = (p.image_url && String(p.image_url).trim())
-                            ? '<img class="trader-post-thumb" src="' + escapeHtml(String(p.image_url)) + '" alt="' + escapeHtml(imgAlt) + '">'
-                            : '';
-                        li.innerHTML =
-                            imageHtml +
-                            '<div class="trader-post-head">' +
-                            '<h3 class="trader-post-title">' + escapeHtml(title) + '</h3>' +
-                            '<button type="button" class="trader-post-read-btn" aria-expanded="false">' + escapeHtml(lab.read) + '</button>' +
-                            '</div>' +
-                            '<div class="trader-post-date">' + escapeHtml(formatDate(p.created)) + '</div>' +
-                            '<div class="trader-post-body">' + escapeHtml(p.message || '') + '</div>';
-                        listEl.appendChild(li);
-                    });
-                    shown += next.length;
+                    var title = extractPostTitle(p.message || '');
+                    if (!title) title = (p.message || '').trim().slice(0, 120) || '—';
+                    var li = document.createElement('li');
+                    li.className = 'trader-post-item';
+                    var imageHtml = (p.image_url && String(p.image_url).trim())
+                        ? '<img class="trader-post-thumb" src="' + escapeHtml(String(p.image_url)) + '" alt="' + escapeHtml(imgAlt) + '">'
+                        : '';
+                    li.innerHTML =
+                        imageHtml +
+                        '<div class="trader-post-head">' +
+                        '<h3 class="trader-post-title">' + escapeHtml(title) + '</h3>' +
+                        '<button type="button" class="trader-post-read-btn" aria-expanded="false">' + escapeHtml(lab.read) + '</button>' +
+                        '</div>' +
+                        '<div class="trader-post-date">' + escapeHtml(formatDate(p.created)) + '</div>' +
+                        '<div class="trader-post-body">' + escapeHtml(p.message || '') + '</div>';
+                    listEl.appendChild(li);
+                }
+
+                function updateEmptyAndLoadBtn() {
                     var msgs = emptyMessageText();
+                    var lang = localStorage.getItem("page_lang") || "en";
                     if (emptyEl) {
                         if (displayedPosts.length === 0) {
                             emptyEl.style.display = 'block';
-                            emptyEl.textContent = allPosts.length > 0 ? msgs.noLang : msgs.none;
+                            if (searchMode) {
+                                emptyEl.textContent = lang === "fr" ? "Aucun résultat pour cette recherche." : "No results for this search.";
+                            } else {
+                                emptyEl.textContent = browseTotalAll === 0 ? msgs.none : msgs.noLang;
+                            }
                         } else {
                             emptyEl.style.display = 'none';
                         }
+                    }
+                    if (searchMode) {
+                        loadBtn.style.display = 'none';
+                        return;
                     }
                     if (displayedPosts.length === 0) {
                         loadBtn.style.display = 'none';
                     } else {
                         loadBtn.style.display = 'inline-block';
-                        loadBtn.disabled = shown >= displayedPosts.length;
-                        loadBtn.textContent = shown >= displayedPosts.length
+                        loadBtn.disabled = !browseHasMore || isLoading;
+                        loadBtn.textContent = !browseHasMore
                             ? (lang === "fr" ? 'Tous les posts sont chargés' : 'All posts loaded')
                             : (lang === "fr" ? 'Charger plus' : 'Load more');
                     }
                 }
-                window.resetTraderPostsList = function () {
-                    shown = 0;
+
+                function fetchBrowse(offset, limit, signal) {
+                    return fetch('/api/trader-posts?offset=' + offset + '&limit=' + limit + '&lang=' + getUiLang(), { signal: signal })
+                        .then(function (r) { if (!r.ok) throw new Error('posts'); return r.json(); });
+                }
+                function fetchPostSearch(q, scope, signal) {
+                    var sc = scope === 'body' ? 'body' : 'title';
+                    return fetch('/api/trader-posts/search?q=' + encodeURIComponent(q) + '&lang=' + getUiLang() + '&limit=80&scope=' + sc, { signal: signal })
+                        .then(function (r) { if (!r.ok) throw new Error('search'); return r.json(); });
+                }
+
+                function getModalScope() {
+                    var r = document.querySelector('input[name="searchScope"]:checked');
+                    return r ? r.value : 'title';
+                }
+
+                function loadBrowseInitial() {
+                    abortPostsFetch();
+                    postsFetchAbort = new AbortController();
+                    var signal = postsFetchAbort.signal;
+                    isLoading = true;
+                    searchMode = false;
+                    window.__postsSearchState = null;
+                    displayedPosts = [];
+                    browseNextOffset = 0;
                     listEl.innerHTML = '';
-                    displayedPosts = rebuildDisplayedPosts();
-                    renderNextChunk();
+                    return fetchBrowse(0, INITIAL_POSTS, signal)
+                        .then(function (data) {
+                            displayedPosts = data.posts || [];
+                            browseNextOffset = displayedPosts.length;
+                            browseHasMore = !!data.has_more;
+                            browseTotal = data.total != null ? data.total : 0;
+                            browseTotalAll = data.total_all != null ? data.total_all : 0;
+                            displayedPosts.forEach(appendPostLi);
+                        })
+                        .catch(function (e) {
+                            if (e.name === 'AbortError') return;
+                            console.error(e);
+                            browseTotal = 0;
+                            browseTotalAll = 0;
+                        })
+                        .finally(function () {
+                            isLoading = false;
+                            updateEmptyAndLoadBtn();
+                        });
+                }
+
+                function loadBrowseMore() {
+                    if (searchMode || !browseHasMore || isLoading) return;
+                    abortPostsFetch();
+                    postsFetchAbort = new AbortController();
+                    var signal = postsFetchAbort.signal;
+                    isLoading = true;
+                    loadBtn.disabled = true;
+                    fetchBrowse(browseNextOffset, LOAD_MORE_CHUNK, signal)
+                        .then(function (data) {
+                            var next = data.posts || [];
+                            browseNextOffset += next.length;
+                            browseHasMore = !!data.has_more;
+                            next.forEach(function (p) {
+                                displayedPosts.push(p);
+                                appendPostLi(p);
+                            });
+                        })
+                        .catch(function (e) { if (e.name !== 'AbortError') console.error(e); })
+                        .finally(function () {
+                            isLoading = false;
+                            updateEmptyAndLoadBtn();
+                        });
+                }
+
+                function runPostSearch(q, scope) {
+                    var trimmed = (q || '').trim();
+                    if (!trimmed) {
+                        return loadBrowseInitial();
+                    }
+                    abortPostsFetch();
+                    postsFetchAbort = new AbortController();
+                    var signal = postsFetchAbort.signal;
+                    isLoading = true;
+                    searchMode = true;
+                    listEl.innerHTML = '';
+                    displayedPosts = [];
+                    return fetchPostSearch(trimmed, scope, signal)
+                        .then(function (data) {
+                            displayedPosts = data.posts || [];
+                            displayedPosts.forEach(appendPostLi);
+                            window.__postsSearchState = { query: trimmed, scope: scope };
+                        })
+                        .catch(function (e) { if (e.name !== 'AbortError') console.error(e); })
+                        .finally(function () {
+                            isLoading = false;
+                            updateEmptyAndLoadBtn();
+                        });
+                }
+
+                function runLexiconSearch(q) {
+                    var trimmed = (q || '').trim();
+                    if (!lexiconModalResults) return;
+                    if (!trimmed) {
+                        lexiconModalResults.style.display = 'none';
+                        lexiconModalResults.innerHTML = '';
+                        return;
+                    }
+                    fetch('/api/lexique/search?q=' + encodeURIComponent(trimmed) + '&lang=' + getUiLang())
+                        .then(function (r) { return r.json(); })
+                        .then(function (data) {
+                            var entries = data.entries || [];
+                            lexiconModalResults.style.display = 'block';
+                            if (entries.length === 0) {
+                                var emptyMsg = getUiLang() === 'fr' ? 'Aucun terme trouvé.' : 'No glossary entries found.';
+                                lexiconModalResults.innerHTML = '<p class="lexicon-modal-empty">' + escapeHtml(emptyMsg) + '</p>';
+                                return;
+                            }
+                            lexiconModalResults.innerHTML = entries.map(function (e) {
+                                return '<div class="lex-row"><strong>' + escapeHtml(e.term || '') + '</strong><div>' + escapeHtml(e.definition || '') + '</div></div>';
+                            }).join('');
+                        })
+                        .catch(function (e) { console.error(e); });
+                }
+
+                function openSearchModal() {
+                    if (!searchModal) return;
+                    searchModal.classList.add('open');
+                    searchModal.setAttribute('aria-hidden', 'false');
+                    document.body.style.overflow = 'hidden';
+                    if (modalSearchInput) {
+                        setTimeout(function () { modalSearchInput.focus(); }, 50);
+                    }
+                }
+
+                function closeSearchModal() {
+                    if (!searchModal) return;
+                    searchModal.classList.remove('open');
+                    searchModal.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                }
+
+                function onModalSearchDebounced() {
+                    if (!modalSearchInput) return;
+                    var v = modalSearchInput.value;
+                    var scope = getModalScope();
+                    if (scope === 'lexicon') {
+                        runLexiconSearch(v);
+                        return;
+                    }
+                    if (lexiconModalResults) {
+                        lexiconModalResults.style.display = 'none';
+                        lexiconModalResults.innerHTML = '';
+                    }
+                    if (!v.trim()) {
+                        loadBrowseInitial();
+                        return;
+                    }
+                    runPostSearch(v.trim(), scope === 'body' ? 'body' : 'title');
+                }
+
+                function onModalSearchInput() {
+                    clearTimeout(searchTimer);
+                    searchTimer = setTimeout(onModalSearchDebounced, SEARCH_DEBOUNCE_MS);
+                }
+
+                window.resetTraderPostsList = function () {
+                    var st = window.__postsSearchState;
+                    if (st && st.query && (st.scope === 'title' || st.scope === 'body')) {
+                        return runPostSearch(st.query, st.scope);
+                    }
+                    return loadBrowseInitial();
                 };
-                loadBtn.addEventListener('click', renderNextChunk);
+                window.__postsRefreshLoadBtn = updateEmptyAndLoadBtn;
+
+                loadBtn.addEventListener('click', loadBrowseMore);
+
+                var btnOpenSearchModal = document.getElementById('btnOpenSearchModal');
+                var searchModalBackdrop = document.getElementById('searchModalBackdrop');
+                var searchModalClose = document.getElementById('searchModalClose');
+                if (btnOpenSearchModal) btnOpenSearchModal.addEventListener('click', openSearchModal);
+                if (searchModalBackdrop) searchModalBackdrop.addEventListener('click', closeSearchModal);
+                if (searchModalClose) searchModalClose.addEventListener('click', closeSearchModal);
+                if (modalSearchInput) {
+                    modalSearchInput.addEventListener('input', onModalSearchInput);
+                    modalSearchInput.addEventListener('keydown', function (e) {
+                        if (e.key === 'Escape') {
+                            e.preventDefault();
+                            closeSearchModal();
+                            return;
+                        }
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            clearTimeout(searchTimer);
+                            onModalSearchDebounced();
+                            if (getModalScope() !== 'lexicon') {
+                                closeSearchModal();
+                                var sec = document.getElementById('section-posts');
+                                if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }
+                        }
+                    });
+                }
+                document.querySelectorAll('input[name="searchScope"]').forEach(function (radio) {
+                    radio.addEventListener('change', function () {
+                        clearTimeout(searchTimer);
+                        onModalSearchDebounced();
+                    });
+                });
+
+                loadBrowseInitial();
             })();
         </script>
 
@@ -1130,6 +1522,14 @@
                     navPosts: "Posts",
                     navHomeTitle: "Haut de page",
                     navPostsTitle: "Section posts",
+                    postsSearchPlaceholder: "Rechercher…",
+                    postsSearchAriaLabel: "Rechercher dans les publications",
+                    searchModalTitle: "Recherche",
+                    searchScopeTitle: "Titres des posts",
+                    searchScopeBody: "Contenus des posts",
+                    searchScopeLex: "Lexique",
+                    btnSearchOpenTitle: "Ouvrir la recherche",
+                    navHelpLexTitle: "Lexique et questions courantes",
                     readPost: "Lire",
                     collapsePost: "Réduire",
                     postImageAlt: "Illustration du post",
@@ -1161,6 +1561,14 @@
                     navPosts: "Posts",
                     navHomeTitle: "Top of page",
                     navPostsTitle: "Posts section",
+                    postsSearchPlaceholder: "Search…",
+                    postsSearchAriaLabel: "Search publications",
+                    searchModalTitle: "Search",
+                    searchScopeTitle: "Post titles",
+                    searchScopeBody: "Post content",
+                    searchScopeLex: "Glossary",
+                    btnSearchOpenTitle: "Open search",
+                    navHelpLexTitle: "Glossary & FAQ",
                     readPost: "Read",
                     collapsePost: "Collapse",
                     postImageAlt: "Post image",
@@ -1204,6 +1612,26 @@
                     navPostsBtn.textContent = t.navPosts;
                     navPostsBtn.title = t.navPostsTitle;
                 }
+                const modalSearchInputEl = document.getElementById("modalSearchInput");
+                if (modalSearchInputEl) {
+                    modalSearchInputEl.placeholder = t.postsSearchPlaceholder;
+                    modalSearchInputEl.setAttribute("aria-label", t.postsSearchAriaLabel);
+                }
+                const modalSearchTitleEl = document.getElementById("modalSearchTitle");
+                if (modalSearchTitleEl) modalSearchTitleEl.textContent = t.searchModalTitle;
+                const lblScopeTitle = document.getElementById("lblScopeTitle");
+                const lblScopeBody = document.getElementById("lblScopeBody");
+                const lblScopeLex = document.getElementById("lblScopeLex");
+                if (lblScopeTitle) lblScopeTitle.textContent = t.searchScopeTitle;
+                if (lblScopeBody) lblScopeBody.textContent = t.searchScopeBody;
+                if (lblScopeLex) lblScopeLex.textContent = t.searchScopeLex;
+                const btnOpenSearchModal = document.getElementById("btnOpenSearchModal");
+                if (btnOpenSearchModal) {
+                    btnOpenSearchModal.setAttribute("title", t.btnSearchOpenTitle);
+                    btnOpenSearchModal.setAttribute("aria-label", t.btnSearchOpenTitle);
+                }
+                const navHelpLexBtn = document.getElementById("navHelpLexBtn");
+                if (navHelpLexBtn) navHelpLexBtn.setAttribute("title", t.navHelpLexTitle);
                 document.querySelectorAll(".trader-post-read-btn").forEach((btn) => {
                     const item = btn.closest(".trader-post-item");
                     const body = item && item.querySelector(".trader-post-body");
@@ -1240,6 +1668,7 @@
                 if (loadBtn) {
                     loadBtn.textContent = loadBtn.disabled ? t.allLoaded : t.loadMore;
                 }
+                if (typeof window.__postsRefreshLoadBtn === "function") window.__postsRefreshLoadBtn();
                 const frIds = ["riskTitleFr", "riskTextFr", "riskFrBreak"];
                 const enIds = ["riskTitleEn", "riskTextEn"];
                 frIds.forEach((id) => {

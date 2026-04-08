@@ -11,6 +11,7 @@ import csv
 import io
 import json
 import os
+import re
 import time
 import uuid
 from datetime import datetime, timezone
@@ -47,6 +48,11 @@ NEWS_MEDIASTACK_PATH = os.path.join(os.path.dirname(__file__), "data", "news_med
 ETORO_PUBLISHED_POSTS_PATH = os.path.join(os.path.dirname(__file__), "data", "etoro_published_posts.json")
 TRADER_POSTS_PATH = os.path.join(os.path.dirname(__file__), "data", "trader_posts_romainroth.json")
 TRADER_POST_IMAGES_DIR = os.path.join(os.path.dirname(__file__), "data", "trader_post_images")
+LEXIQUE_PATH = os.path.join(os.path.dirname(__file__), "data", "lexique.json")
+FAQ_PATH = os.path.join(os.path.dirname(__file__), "data", "faq.json")
+_lexique_json_cache: list | None = None
+_faq_json_cache: list | None = None
+_trader_posts_cache: list[dict] | None = None
 
 # Rate limit par visitor_id : 5/min, 30/h, 100/j
 CHAT_RATE_LIMIT = {"per_min": 5, "per_hour": 30, "per_day": 100}
@@ -694,7 +700,7 @@ def index():
         current_copiers = get_current_copiers(TRADER_USERNAME)
     except Exception:
         current_copiers = None
-    trader_posts = _load_trader_posts_local(limit=None)
+    trader_posts: list[dict] = []
 
     resp = make_response(render_template(
         "profile.html",
@@ -750,6 +756,87 @@ def api_all_stocks():
         return jsonify({"stocks": numbered})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/trader-posts")
+def api_trader_posts():
+    """Pagination des posts (filtré par langue UI), sans tout envoyer au client."""
+    try:
+        offset = max(0, int(request.args.get("offset", 0)))
+        limit = max(1, min(100, int(request.args.get("limit", 4))))
+    except (TypeError, ValueError):
+        offset, limit = 0, 4
+    lang = request.args.get("lang", "en")
+    if lang not in ("fr", "en"):
+        lang = "en"
+    posts = _get_all_trader_posts_cached()
+    filtered = _filter_posts_by_ui_lang(posts, lang)
+    slice_posts = filtered[offset : offset + limit]
+    return jsonify(
+        {
+            "posts": slice_posts,
+            "total": len(filtered),
+            "total_all": len(posts),
+            "offset": offset,
+            "has_more": offset + limit < len(filtered),
+        }
+    )
+
+
+@app.route("/api/trader-posts/search")
+def api_trader_posts_search():
+    """Recherche par mots-clés, filtré par langue UI. scope=title|body|all."""
+    q = (request.args.get("q") or "").strip()
+    try:
+        limit = max(1, min(100, int(request.args.get("limit", 80))))
+    except (TypeError, ValueError):
+        limit = 80
+    lang = request.args.get("lang", "en")
+    if lang not in ("fr", "en"):
+        lang = "en"
+    scope = (request.args.get("scope") or "all").lower()
+    if scope not in ("title", "body", "all"):
+        scope = "all"
+    tokens = _normalize_search_tokens(q)
+    if not tokens:
+        return jsonify({"posts": [], "total": 0})
+    posts = _get_all_trader_posts_cached()
+    filtered = _filter_posts_by_ui_lang(posts, lang)
+    matches = [p for p in filtered if _post_match_search_tokens(p, tokens, scope)]
+    return jsonify({"posts": matches[:limit], "total": len(matches)})
+
+
+@app.route("/api/lexique/search")
+def api_lexique_search():
+    """Recherche dans le lexique (termes + définitions)."""
+    q = (request.args.get("q") or "").strip()
+    lang = request.args.get("lang", "en")
+    if lang not in ("fr", "en"):
+        lang = "en"
+    tokens = _normalize_search_tokens(q)
+    if not tokens:
+        return jsonify({"entries": []})
+    entries = _load_lexique_entries()
+    out: list[dict] = []
+    for e in entries:
+        if not isinstance(e, dict):
+            continue
+        term = (e.get("term_fr") if lang == "fr" else e.get("term_en")) or e.get("term_fr") or ""
+        dfn = (e.get("def_fr") if lang == "fr" else e.get("def_en")) or ""
+        hay = f"{term} {dfn}".lower()
+        if all(t in hay for t in tokens):
+            out.append({"term": term.strip(), "definition": dfn.strip()})
+    return jsonify({"entries": out[:50]})
+
+
+@app.route("/lexique")
+def page_lexique():
+    """Lexique et questions courantes."""
+    return render_template(
+        "lexique.html",
+        lexique_entries=_load_lexique_entries(),
+        faq_entries=_load_faq_entries(),
+    )
 
 
 def _compute_posts_chart_data(traders: list[str], years: int = 1) -> tuple[list[str], list[dict]]:
@@ -1350,6 +1437,152 @@ def _load_trader_posts_local(limit: int | None = None) -> list[dict]:
         return cleaned[: max(0, limit)]
     except Exception:
         return []
+
+
+def _get_all_trader_posts_cached() -> list[dict]:
+    global _trader_posts_cache
+    if _trader_posts_cache is None:
+        _trader_posts_cache = _load_trader_posts_local(limit=None)
+    return _trader_posts_cache
+
+
+def _infer_post_lang(message: str) -> str:
+    """Même heuristique que le filtre langue côté client (profile.html)."""
+    if not message:
+        return "en"
+    if re.search(r"Avertissement sur les risques", message, re.I):
+        return "fr"
+    if re.search(r"𝘙𝘪𝘴𝘬\s*𝘞𝘢𝘳𝘯𝘪𝘯𝘨|Risk Warning", message, re.I):
+        return "en"
+    head = message[:1200]
+    if re.search(r"[äöüßÄÖÜ]", head) and re.search(
+        r"\b(und |der |die |Das |für |nicht )\b", head, re.I
+    ):
+        return "de"
+    sample = message[:4000]
+    fr = 0
+    en = 0
+    if re.search(r"[àâäéèêëïîôùûüçœ]", sample, re.I):
+        fr += 3
+    fr += len(
+        re.findall(
+            r"\b(les|des|une|dans|pour|avec|sont|été|notre|votre|être|copieurs|mois|portefeuille|marchés|français|été)\b",
+            sample,
+            re.I,
+        )
+    )
+    en += len(
+        re.findall(
+            r"\b(the|and|with|from|this|that|have|been|will|our|were|copiers|portfolio|markets|month|Hello)\b",
+            sample,
+            re.I,
+        )
+    )
+    if fr > en + 2:
+        return "fr"
+    if en > fr + 2:
+        return "en"
+    return "fr" if fr >= en else "en"
+
+
+def _post_title_line(message: str) -> str:
+    if not message:
+        return ""
+    for line in message.splitlines():
+        line = line.strip()
+        if line:
+            if len(line) > 160:
+                return line[:157] + "…"
+            return line
+    return ""
+
+
+def _filter_posts_by_ui_lang(posts: list[dict], ui_lang: str) -> list[dict]:
+    if ui_lang not in ("fr", "en"):
+        ui_lang = "en"
+    out: list[dict] = []
+    for p in posts:
+        if not isinstance(p, dict):
+            continue
+        msg = str(p.get("message") or "")
+        lang = _infer_post_lang(msg)
+        if lang == "de":
+            continue
+        if ui_lang == "fr" and lang == "fr":
+            out.append(p)
+        elif ui_lang == "en" and lang == "en":
+            out.append(p)
+    return out
+
+
+def _normalize_search_tokens(q: str) -> list[str]:
+    return [t for t in re.split(r"\s+", q.strip().lower()) if t]
+
+
+def _post_body_for_search(message: str) -> str:
+    """Texte du post hors première ligne (titre) ; si une seule ligne, tout le message."""
+    msg = str(message or "")
+    if not msg.strip():
+        return ""
+    lines = msg.splitlines()
+    first = True
+    rest: list[str] = []
+    for line in lines:
+        if line.strip():
+            if first:
+                first = False
+                continue
+        rest.append(line)
+    body = "\n".join(rest).strip()
+    if not body:
+        return msg.lower()
+    return body.lower()
+
+
+def _post_match_search_tokens(post: dict, tokens: list[str], scope: str = "all") -> bool:
+    if not tokens:
+        return False
+    msg = str(post.get("message") or "")
+    title = _post_title_line(msg)
+    if scope == "title":
+        hay = title.lower()
+    elif scope == "body":
+        hay = _post_body_for_search(msg)
+    else:
+        hay = f"{title} {msg}".lower()
+    return all(t in hay for t in tokens)
+
+
+def _load_lexique_entries() -> list[dict]:
+    global _lexique_json_cache
+    if _lexique_json_cache is not None:
+        return _lexique_json_cache
+    if not os.path.exists(LEXIQUE_PATH):
+        _lexique_json_cache = []
+        return _lexique_json_cache
+    try:
+        with open(LEXIQUE_PATH, encoding="utf-8") as f:
+            data = json.load(f)
+        _lexique_json_cache = data if isinstance(data, list) else []
+    except Exception:
+        _lexique_json_cache = []
+    return _lexique_json_cache
+
+
+def _load_faq_entries() -> list[dict]:
+    global _faq_json_cache
+    if _faq_json_cache is not None:
+        return _faq_json_cache
+    if not os.path.exists(FAQ_PATH):
+        _faq_json_cache = []
+        return _faq_json_cache
+    try:
+        with open(FAQ_PATH, encoding="utf-8") as f:
+            data = json.load(f)
+        _faq_json_cache = data if isinstance(data, list) else []
+    except Exception:
+        _faq_json_cache = []
+    return _faq_json_cache
 
 
 def _load_chatbot_resources(filename: str) -> str:

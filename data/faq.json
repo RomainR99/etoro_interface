@@ -1,0 +1,20 @@
+[
+  {
+    "q_fr": "Où trouver les performances du trader ?",
+    "a_fr": "Sur la page d’accueil du profil, la section « Performances » et les graphiques en dessous.",
+    "q_en": "Where can I see the trader’s performance?",
+    "a_en": "On the profile home page, in the Performance section and the charts below."
+  },
+  {
+    "q_fr": "Comment fonctionne la recherche dans les posts ?",
+    "a_fr": "Cliquez sur la loupe dans l’en-tête : vous pouvez chercher dans les titres, le texte des posts ou le lexique.",
+    "q_en": "How does post search work?",
+    "a_en": "Click the magnifier in the header: you can search titles, post body text, or the glossary."
+  },
+  {
+    "q_fr": "Les données sont-elles des conseils en investissement ?",
+    "a_fr": "Non. Les informations sont à titre éducatif et informatif uniquement, sans constituer un conseil personnalisé.",
+    "q_en": "Is this investment advice?",
+    "a_en": "No. Information is for education only and does not constitute personalised advice."
+  }
+]
