@@ -1,0 +1,201 @@
+﻿n°,id,symbole,nom
+1,3201,spunnoff,spun off Questerre Energy Corp
+2,3202,NAIL,Direxion Shares Etf Trust-Direxion Daily Homebuilders & Supplies Bull 3x Shares
+3,3203,SVITZR.CO,Svitzer A/S
+4,3204,NRGU,MicroSectors US Big Oil Index 3X Leveraged ETN
+5,3205,NUGT,Direxion Daily Gold Miners Index Bull 2X Shares
+6,3206,OIH,VanEck Vectors Oil Services ETF
+7,3207,OUSA,O'Shares US Quality Dividend ETF
+8,3208,PALL,Abrdn Palladium ETF Trust
+9,3209,PGX,Invesco Preferred ETF
+10,3210,PHYS,Sprott Physical Gold Trust
+11,3211,ZEAL.CO,Zealand Pharma A/S
+12,3212,PPLT,Abrdn Platinum ETF Trust
+13,3213,PSLV,Sprott Physical Silver Trust
+14,3214,REET,iShares Global REIT ETF
+15,3215,REML,X-Links Monthly Pay 2x Leveraged Mortgage REIT ETN
+16,3216,FLCB,Franklin U.S. Core Bond ETF
+17,3217,SCHD,Schwab US Dividend Equity ETF
+18,3218,SCHE,Schwab Emerging Markets Equity ETF
+19,3219,SCHF,Schwab International Equity ETF
+20,3220,SCHX,Schwab US Large-Cap ETF
+21,3221,SDIV,Global X SuperDividend ETF
+22,3222,NKT.CO,Nkt A/S
+23,3223,SDOW,ProShares UltraPro Short Dow30
+24,3224,SDS,ProShares UltraShort S&P500
+25,3225,SH,ProShares Short S&P500
+26,3226,SOXL,Direxion Daily Semiconductors Bull 3x Shares
+27,3227,SOXS,Direxion Daily Semiconductor Bear 3X Shares
+28,3228,SPGP.L,iShares Gold Producers UCITS ETF
+29,3229,SPHD,Invesco S&P 500 High Dividend Low Volatility ETF
+30,3230,SPXL,Direxion Daily S&P 500 Bull 3X
+31,3231,SPXS,Direxion Daily S&P 500 Bear 3X Shares
+32,3232,SPXU,ProShares UltraPro Short S&P 500
+33,3233,SPYD,SPDR Portfolio S&P 500 High Dividend ETF
+34,3234,SPYG,SPDR Portfolio S&P 500 Growth ETF
+35,3235,SRTY,ProShares UltraPro Short Russell2000
+36,3236,SVXY,ProShares Short VIX Short-Term Futures ETF
+37,3237,TAN,Invesco Solar ETF
+38,3238,THD,iShares MSCI Thailand ETF
+39,3239,TMF,Direxion Daily 20 Year Plus Treasury Bull 3x Shares
+40,3240,BAVA.CO,Bavarian Nordic A/S
+41,3241,TNA,Direxion Daily Small Cap Bull 3X Shares
+42,3242,UCO,ProShares Ultra Bloomberg Crude Oil
+43,3243,UDOW,ProShares UltraPro Dow30
+44,3244,UPRO,ProShares UltraPro S&P 500
+45,3245,USL,United States 12 Month Oil Fund LP
+46,3246,UVXY,ProShares Ultra VIX Short-Term Futures ETF
+47,3247,VB,Vanguard Small-Cap ETF
+48,3248,VBK,Vanguard Small-Cap Growth ETF
+49,3249,VBR,Vanguard Small-Cap Value ETF
+50,3250,VFH,Vanguard Financials ETF
+51,3251,VHT,Vanguard Health Care ETF
+52,3252,VIG,Vanguard Dividend Appreciation ETF
+53,3253,VO,Vanguard Mid-Cap ETF
+54,3254,VOOG,Vanguard S&P 500 Growth ETF
+55,3255,VOOV,Vanguard S&P 500 Value ETF
+56,3256,VOX,Vanguard Communication Services ETF
+57,3257,VT.US,Vanguard Total World Stock ETF
+58,3258,VTEB,Vanguard Tax-Exempt Bond Index ETF
+59,3259,YINN,Direxion Daily FTSE China Bull 3X Shares
+60,3260,FLIN,Franklin FTSE India ETF
+61,3261,TRMD-A.CO,Torm PLC
+62,3262,ALSYDB.CO,AL Sydbank
+63,3263,ALKB.CO,ALK Abello A/S
+64,3264,DNORD.CO,Dampskibsselskabet Norden A/S
+65,3265,GUBRA.CO,Gubra A/S
+66,3266,CHEMM.CO,Chemometec A/S
+67,3267,ASTK.CO,Asetek A/S
+68,3268,GREENM.CO,GreenMobility A/S
+69,3269,CBRAIN.CO,Cbrain A/S
+70,3270,HH.CO,H+H International A/S
+71,3271,GREENH.CO,Green Hydrogen Systems A/S
+72,3272,MANTA.HE,Mandatum Holding Oy
+73,3273,BITC.DE,CoinShares Bitcoin ETP
+74,3274,QDVY.DE,iShares Floating Rate Bond UCITS ETF
+75,3275,SXR8.DE,iShares Core S&P 500 UCITS ETF
+76,3276,IS3K.DE,iShares Short Duration High Yield Corp Bond UCITS ETF
+77,3277,SXRH.DE,iShares TIPS 0-5 UCITS ETF
+78,3278,2B77.DE,iShares Ageing Population UCITS ETF
+79,3279,2B79.DE,iShares Digitalisation UCITS ETF
+80,3280,AYEU.DE,iShares Smart City Infrastructure UCITS ETF
+81,3281,2BTC.DE,21Shares Bitcoin ETP
+82,3282,KALMAR.HE,Kalmar Oyj-B Share
+83,3283,LASTIK.HE,Luotea Oyj
+84,3284,CA347.HE,CA347
+85,3285,CA348.HE,CA348
+86,3286,CA349.HE,CA349
+87,3287,SYENS.BR,Syensqo SA
+88,3288,JDEP.NV,JDE Peet's NV
+89,3289,ANTIN.PA,Antin Infrastructure Partners SAS
+90,3290,CA353.BR,CA353
+91,3291,CA354.BR,CA354
+92,3292,CA355.BR,CA355
+93,3293,CA356.BR,CA356
+94,3294,CA357.BR,CA357
+95,3295,CA358.BR,CA358
+96,3296,CA359.BR,CA359
+97,3297,WDEF.L,WisdomTree Europe Defence UCITS ETF
+98,3298,WELU.DE,Amundi S&P Global Information Technology ESG UCITS ETF DR EUR Acc
+99,3299,WDTE.DE,Invesco S&P World Information Technology ESG UCITS ETF Acc
+100,3300,AYEW.DE,iShares MSCI World Information Technology Sector ESG UCITS ETF USD Inc (EUR)
+101,3301,CBRS.DE,First Trust Nasdaq Cybersecurity UCITS ETF Class A USD Acc (EUR)
+102,3302,XAIX.DE,Xtrackers Artificial Intelligence &Big Data UCITS ETF 1C (EUR)
+103,3303,CA366.LSB,CA366
+104,3304,CA367.LSB,CA367
+105,3305,CA368.LSB,CA368
+106,3306,CA369.LSB,CA369
+107,3307,XYZ.ASX,Block Inc
+108,3308,NWS.ASX,News Corporation
+109,3309,FPH.ASX,Fisher & Paykel Healthcare Corporation Limited
+110,3310,AIA.ASX,Auckland International Airport Limited
+111,3311,TLC.ASX,The Lottery Corporation Limited
+112,3312,REH.ASX,Reece Limited
+113,3313,ALX.ASX,Atlas Arteria Limited
+114,3314,TWE.ASX,Treasury Wine Estates Limited
+115,3315,TPG.ASX,TPG Telecom Limited
+116,3316,SPK.ASX,Spark New Zealand Limited
+117,3317,CAR.ASX,carsales.com Ltd
+118,3318,SGH.ASX,SGH Ltd
+119,3319,ORI.ASX,Orica Limited
+120,3320,ALD.ASX,Ampol Limited
+121,3321,CWY.ASX,Cleanaway Waste Management Limited
+122,3322,ALQ.ASX,ALS Limited
+123,3323,LLC.ASX,Lendlease Group
+124,3324,PME.ASX,Pro Medicus Limited
+125,3325,BEN.ASX,Bendigo and Adelaide Bank Limited
+126,3326,HVN.ASX,Harvey Norman Holdings Limited
+127,3327,CGF.ASX,Challenger Limited
+128,3328,NHC.ASX,New Hope Corporation Limited
+129,3329,QUB.ASX,Qube Holdings Limited
+130,3330,BOQ.ASX,Bank of Queensland Limited
+131,3331,ALU.ASX,Altium Limited
+132,3332,A2M.ASX,The a2 Milk Company Limited
+133,3333,VEA.ASX,Viva Energy Group Limited
+134,3334,AMP.ASX,AMP Limited
+135,3335,NXT.ASX,NEXTDC Limited
+136,3336,BPT.ASX,Beach Energy Limited
+137,3337,MTS.ASX,Metcash Limited
+138,3338,TNE.ASX,Technology One Limited
+139,3339,ANN.ASX,Ansell Limited
+140,3340,NEC.ASX,Nine Entertainment Co. Holdings Limited
+141,3341,VUK.ASX,Virgin Money UK PLC
+142,3342,CRN.ASX,Coronado Global Resources Inc
+143,3343,NHF.ASX,nib holdings limited
+144,3344,DOW.ASX,Downer EDI Limited
+145,3345,CLW.ASX,Charter Hall Long WALE REIT
+146,3346,ANY.BD,ANY Security Printing Company PLC
+147,3347,BRG.ASX,Breville Group Limited
+148,3348,SGR.ASX,The Star Entertainment Group Limited
+149,3349,PRU.ASX,Perseus Mining Limited
+150,3350,CIA.ASX,Champion Iron Limited
+151,3351,CTD.ASX,Corporate Travel Management Limited
+152,3352,PL,Planet Labs PBC
+153,3353,ONT.L,Oxford Nanopore Technologies plc
+154,3354,IBDQ,iShares iBonds Dec 2025 Term Corporate ETF
+155,3355,IBDP,iShares iBonds Dec 2024 Term Corporate ETF
+156,3356,IBDR,iShares iBonds Dec 2026 Term Corporate ETF
+157,3357,IBTG,iShares iBonds Dec 2026 Term Treasury ETF
+158,3358,IBTF,iShares iBonds Dec 2025 Term Treasury ETF
+159,3359,IBTE,iShares iBonds Dec 2024 Term Treasury ETF
+160,3360,ID27.L,iShares iBonds Dec 2027 Term $ Corp UCITS ETF
+161,3361,300.HK,Midea Group Co Ltd
+162,3362,1658.HK,Postal Savings Bank of China Co
+163,3363,9999.HK,NetEase Inc
+164,3364,9633.HK,Nongfu Spring Co Ltd
+165,3365,3750.HK,Contemporary Amperex Technology Co Limited
+166,3366,0434.HK,Boyaa Interactive International Limited
+167,3367,CA376.HK,CA376
+168,3368,MYR.ASX,Myer Holdings Limited
+169,3369,Dormant1234,Dormant1234
+170,3370,VAS.ASX,Vanguard Australian Shares Index ETF
+171,3371,VGS.ASX,Vanguard MSCI Index International Shares ETF
+172,3372,IVV.ASX,iShares S&P 500 ETF
+173,3373,A200.ASX,Betashares Australia 200 ETF
+174,3374,QUAL.ASX,VanEck MSCI International Quality ETF
+175,3375,NDQ.ASX,Betashares NASDAQ 100 ETF
+176,3376,IOZ.ASX,iShares Core S&P/ASX 200 ETF
+177,3377,VGAD.ASX,Vanguard MSCI Index International Shares (Hedged) ETF
+178,3378,APPENINN.BD,Appeninn Holding
+179,3379,AUTOW.BD,AUTOWALLIS PLC
+180,3380,BIF.BD,Budapesti Ingatlan Hasznosítási és Fejlesztési Nyrt
+181,3381,CIG.BD,CIG Pannonia Life Insurance PLC
+182,3382,GSPARK.BD,GRAPHISOFT PARK SE
+183,3383,MAST.BD,MASTERPLAST
+184,3384,MOL.BD,MOL Hungarian Oil and Gas PLC
+185,3385,MTELEKOM.BD,Magyar Telekom Telecommunications PLC
+186,3386,ArikTest.Tender,Test Tender offer 
+187,3387,Offer.CashReserved,NatwestOffer.CashReserved
+188,3388,Drm.ETF35,Dormant ETF35
+189,3389,IITB.MI,Ishares Italy Govt Bond
+190,3390,BTP10.MI,Lyxor Euromts 10Y Itl Gv Bnd
+191,3391,BTP13.MI,Lyxor Euromts 1-3Y It Btp Gv
+192,3392,XBOT.MI,X Italy Gov 0-1
+193,3393,8PSG.DE,Invesco Physical Gold ETC
+194,3394,EUN5.DE,iShares Core EUR Corp Bond UCITS ETF EUR
+195,3395,QDVR.DE,iShares MSCI USA SRI UCITS ETF USD
+196,3396,IUSQ.DE,iShares MSCI ACWI UCITS ETF
+197,3397,OM3L.DE,iShares MSCI USA ESG Enhanced UCITS ETF
+198,3398,SPPU.DE,SPDR Bloomberg SASB US Corporate ESG UCITS ETF
+199,3399,SXXPIEX.DE,iShares STOXX Europe 600 UCITS ETF
+200,3400,SX5EEX.DE,iShares Core EURO STOXX 50 UCITS ETF

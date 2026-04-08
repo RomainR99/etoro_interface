@@ -1,0 +1,602 @@
+[
+  {
+    "n": 1,
+    "id": 12501,
+    "symbole": "D77.DE",
+    "nom": "Neon Equity AG"
+  },
+  {
+    "n": 2,
+    "id": 12502,
+    "symbole": "ZYE1.DE",
+    "nom": "Addiko Bank AG"
+  },
+  {
+    "n": 3,
+    "id": 12503,
+    "symbole": "WIG1.DE",
+    "nom": "Sporttotal AG"
+  },
+  {
+    "n": 4,
+    "id": 12504,
+    "symbole": "MWB0.DE",
+    "nom": "mwb Fairtrade Wertpapierhandelsbank AG"
+  },
+  {
+    "n": 5,
+    "id": 12505,
+    "symbole": "H9W.DE",
+    "nom": "HWA AG"
+  },
+  {
+    "n": 6,
+    "id": 12506,
+    "symbole": "DMRE.DE",
+    "nom": "Demire Deutsche Mittelstand Real Estate AG"
+  },
+  {
+    "n": 7,
+    "id": 12507,
+    "symbole": "ELB.DE",
+    "nom": "elumeo SE"
+  },
+  {
+    "n": 8,
+    "id": 12508,
+    "symbole": "PO1.DE",
+    "nom": "Performance One AG"
+  },
+  {
+    "n": 9,
+    "id": 12509,
+    "symbole": "OBS.DE",
+    "nom": "Orbis Se"
+  },
+  {
+    "n": 10,
+    "id": 12510,
+    "symbole": "T9Z.DE",
+    "nom": "Zumtobel Group AG"
+  },
+  {
+    "n": 11,
+    "id": 12511,
+    "symbole": "TR9.DE",
+    "nom": "Otrs AG"
+  },
+  {
+    "n": 12,
+    "id": 12512,
+    "symbole": "AJ91.DE",
+    "nom": "DocCheck AG"
+  },
+  {
+    "n": 13,
+    "id": 12513,
+    "symbole": "123F.DE",
+    "nom": "123fahrschule SE"
+  },
+  {
+    "n": 14,
+    "id": 12514,
+    "symbole": "IS7.DE",
+    "nom": "InTiCa Systems SE"
+  },
+  {
+    "n": 15,
+    "id": 12515,
+    "symbole": "HLG.DE",
+    "nom": "Highlight Communications AG"
+  },
+  {
+    "n": 16,
+    "id": 12516,
+    "symbole": "P7V.DE",
+    "nom": "Photon Energy NV"
+  },
+  {
+    "n": 17,
+    "id": 12517,
+    "symbole": "KA8.DE",
+    "nom": "Klassik Radio AG"
+  },
+  {
+    "n": 18,
+    "id": 12518,
+    "symbole": "14D.DE",
+    "nom": "Tokentus Investment AG"
+  },
+  {
+    "n": 19,
+    "id": 12519,
+    "symbole": "VBX.DE",
+    "nom": "Voltabox AG"
+  },
+  {
+    "n": 20,
+    "id": 12520,
+    "symbole": "AGB2.DE",
+    "nom": "Agrana Beteiligungs AG"
+  },
+  {
+    "n": 21,
+    "id": 12521,
+    "symbole": "NIIN.DE",
+    "nom": "niiio Finance Group AG"
+  },
+  {
+    "n": 22,
+    "id": 12522,
+    "symbole": "1FC.DE",
+    "nom": "FACC AG"
+  },
+  {
+    "n": 23,
+    "id": 12523,
+    "symbole": "ACWN.DE",
+    "nom": "AS Creation Tapeten AG"
+  },
+  {
+    "n": 24,
+    "id": 12524,
+    "symbole": "DIE.DE",
+    "nom": "Dierig Holding AG"
+  },
+  {
+    "n": 25,
+    "id": 12525,
+    "symbole": "VRL.DE",
+    "nom": "Net Digital AG"
+  },
+  {
+    "n": 26,
+    "id": 12526,
+    "symbole": "SMWN.DE",
+    "nom": "SM Wirtschaftsberatungs AG"
+  },
+  {
+    "n": 27,
+    "id": 12527,
+    "symbole": "MED.DE",
+    "nom": "Mediclin AG"
+  },
+  {
+    "n": 28,
+    "id": 12528,
+    "symbole": "VG80.DE",
+    "nom": "Varengold Bank AG"
+  },
+  {
+    "n": 29,
+    "id": 12529,
+    "symbole": "WCMK.DE",
+    "nom": "WCM Beteiligungs und Grundbesitz AG"
+  },
+  {
+    "n": 30,
+    "id": 12530,
+    "symbole": "A6T.DE",
+    "nom": "Artec Technologies AG"
+  },
+  {
+    "n": 31,
+    "id": 12531,
+    "symbole": "AAQ1.DE",
+    "nom": "Aap Implantate AG"
+  },
+  {
+    "n": 32,
+    "id": 12532,
+    "symbole": "ELS.DE",
+    "nom": "Elaris AG"
+  },
+  {
+    "n": 33,
+    "id": 12533,
+    "symbole": "UDC.DE",
+    "nom": "UniDevice AG"
+  },
+  {
+    "n": 34,
+    "id": 12534,
+    "symbole": "EFF0.DE",
+    "nom": "Deutsche Effecten und Wechsel Beteiligungsgesellschaft AG"
+  },
+  {
+    "n": 35,
+    "id": 12535,
+    "symbole": "M5S.DE",
+    "nom": "H2 CORE AG"
+  },
+  {
+    "n": 36,
+    "id": 12536,
+    "symbole": "C1V0.DE",
+    "nom": "mVISE AG"
+  },
+  {
+    "n": 37,
+    "id": 12537,
+    "symbole": "RTC.DE",
+    "nom": "Realtech AG"
+  },
+  {
+    "n": 38,
+    "id": 12538,
+    "symbole": "S6P.DE",
+    "nom": "Spielvereinigung Unterhaching Fussball GmbH & Co KgaA"
+  },
+  {
+    "n": 39,
+    "id": 12539,
+    "symbole": "B7J1.DE",
+    "nom": "SRV Yhtiot Oyj"
+  },
+  {
+    "n": 40,
+    "id": 12540,
+    "symbole": "T1L.DE",
+    "nom": "S Immo AG"
+  },
+  {
+    "n": 41,
+    "id": 12541,
+    "symbole": "GTK.DE",
+    "nom": "Tonkens Agrar AG"
+  },
+  {
+    "n": 42,
+    "id": 12542,
+    "symbole": "Z29.DE",
+    "nom": "029 Group SE"
+  },
+  {
+    "n": 43,
+    "id": 12543,
+    "symbole": "LRND.DE",
+    "nom": "Learnd SE"
+  },
+  {
+    "n": 44,
+    "id": 12544,
+    "symbole": "SPM.DE",
+    "nom": "Splendid Medien AG"
+  },
+  {
+    "n": 45,
+    "id": 12545,
+    "symbole": "EAD.DE",
+    "nom": "Erlebnis Akademie AG"
+  },
+  {
+    "n": 46,
+    "id": 12546,
+    "symbole": "CPX.DE",
+    "nom": "Capsensixx AG"
+  },
+  {
+    "n": 47,
+    "id": 12547,
+    "symbole": "CCAP.DE",
+    "nom": "Corestate Capital Holding SA"
+  },
+  {
+    "n": 48,
+    "id": 12548,
+    "symbole": "CY1K.DE",
+    "nom": "Sbf AG"
+  },
+  {
+    "n": 49,
+    "id": 12549,
+    "symbole": "O4B.DE",
+    "nom": "OVB Holding AG"
+  },
+  {
+    "n": 50,
+    "id": 12550,
+    "symbole": "DTD2.DE",
+    "nom": "B+S Banksysteme AG"
+  },
+  {
+    "n": 51,
+    "id": 12551,
+    "symbole": "MDN.DE",
+    "nom": "Medion AG"
+  },
+  {
+    "n": 52,
+    "id": 12552,
+    "symbole": "A4Y0.DE",
+    "nom": "Accentro Real Estate AG"
+  },
+  {
+    "n": 53,
+    "id": 12553,
+    "symbole": "ROI.DE",
+    "nom": "Rosenbauer International AG"
+  },
+  {
+    "n": 54,
+    "id": 12554,
+    "symbole": "TTO.DE",
+    "nom": "TTL Beteiligungs und Grundbesitz AG"
+  },
+  {
+    "n": 55,
+    "id": 12555,
+    "symbole": "SAV.DE",
+    "nom": "Savannah Resources Plc"
+  },
+  {
+    "n": 56,
+    "id": 12556,
+    "symbole": "DFTK.DE",
+    "nom": "DF Deutsche Forfait AG"
+  },
+  {
+    "n": 57,
+    "id": 12557,
+    "symbole": "TGT.DE",
+    "nom": "11 88 0 Solutions AG"
+  },
+  {
+    "n": 58,
+    "id": 12558,
+    "symbole": "CGX.DE",
+    "nom": "Cgre AG"
+  },
+  {
+    "n": 59,
+    "id": 12559,
+    "symbole": "PSH0.DE",
+    "nom": "Sernova Biotherapeutics Inc"
+  },
+  {
+    "n": 60,
+    "id": 12560,
+    "symbole": "AMM.DE",
+    "nom": "Grounds Real Estate Development AG"
+  },
+  {
+    "n": 61,
+    "id": 12561,
+    "symbole": "HMU.DE",
+    "nom": "HMS Bergbau AG"
+  },
+  {
+    "n": 62,
+    "id": 12562,
+    "symbole": "ENGL.DE",
+    "nom": "Digital Invest eV AG"
+  },
+  {
+    "n": 63,
+    "id": 12563,
+    "symbole": "BXT.DE",
+    "nom": "BioNxt Solutions Inc"
+  },
+  {
+    "n": 64,
+    "id": 12564,
+    "symbole": "FF24.DE",
+    "nom": "Fast Finance 24 Holding AG"
+  },
+  {
+    "n": 65,
+    "id": 12565,
+    "symbole": "INW.DE",
+    "nom": "GBS Software AG"
+  },
+  {
+    "n": 66,
+    "id": 12566,
+    "symbole": "7GG.DE",
+    "nom": "SMG Technology Acceleration SE"
+  },
+  {
+    "n": 67,
+    "id": 12567,
+    "symbole": "TLIK.DE",
+    "nom": "Teles AG"
+  },
+  {
+    "n": 68,
+    "id": 12568,
+    "symbole": "MAK.DE",
+    "nom": "MATERNUS-Kliniken-AG"
+  },
+  {
+    "n": 69,
+    "id": 12569,
+    "symbole": "RTV.DE",
+    "nom": "Your Family Entertainment AG"
+  },
+  {
+    "n": 70,
+    "id": 12570,
+    "symbole": "UMD.DE",
+    "nom": "UMT United Mobility Technology AG"
+  },
+  {
+    "n": 71,
+    "id": 12571,
+    "symbole": "PDA0.DE",
+    "nom": "Pro DV AG"
+  },
+  {
+    "n": 72,
+    "id": 12572,
+    "symbole": "PAG.DE",
+    "nom": "PREOS Global Office Real Estate & Technology AG"
+  },
+  {
+    "n": 73,
+    "id": 12573,
+    "symbole": "EFIT.DE",
+    "nom": "EasyMotionSkin Tec GmbH"
+  },
+  {
+    "n": 74,
+    "id": 12574,
+    "symbole": "O5G.DE",
+    "nom": "CPI Property Group SA"
+  },
+  {
+    "n": 75,
+    "id": 12575,
+    "symbole": "ECV1.DE",
+    "nom": "Encavis AG"
+  },
+  {
+    "n": 76,
+    "id": 12576,
+    "symbole": "ECX.DE",
+    "nom": "Epigenomics AG"
+  },
+  {
+    "n": 77,
+    "id": 12577,
+    "symbole": "ERWE.DE",
+    "nom": "ERWE Immobilien AG"
+  },
+  {
+    "n": 78,
+    "id": 12578,
+    "symbole": "12578",
+    "nom": "12578"
+  },
+  {
+    "n": 79,
+    "id": 12579,
+    "symbole": "G6P.DE",
+    "nom": "Going Public Media AG"
+  },
+  {
+    "n": 80,
+    "id": 12580,
+    "symbole": "GTY.DE",
+    "nom": "Gateway Real Estate AG"
+  },
+  {
+    "n": 81,
+    "id": 12581,
+    "symbole": "LDF.DE",
+    "nom": "Linus Digital Finance AG"
+  },
+  {
+    "n": 82,
+    "id": 12582,
+    "symbole": "A62.DE",
+    "nom": "IGP Advantag AG"
+  },
+  {
+    "n": 83,
+    "id": 12583,
+    "symbole": "T5O0.DE",
+    "nom": "bioXXmed AG"
+  },
+  {
+    "n": 84,
+    "id": 12584,
+    "symbole": "GAGO.DE",
+    "nom": "GORE German Office Real Estate AG"
+  },
+  {
+    "n": 85,
+    "id": 12585,
+    "symbole": "IPOK.DE",
+    "nom": "Heidelberger Beteiligungsholding AG"
+  },
+  {
+    "n": 86,
+    "id": 12586,
+    "symbole": "COR.DE",
+    "nom": "Coreo AG"
+  },
+  {
+    "n": 87,
+    "id": 12587,
+    "symbole": "RCMN.DE",
+    "nom": "RCM Beteiligungs AG"
+  },
+  {
+    "n": 88,
+    "id": 12588,
+    "symbole": "HHHA.DE",
+    "nom": "Homes & Holiday AG"
+  },
+  {
+    "n": 89,
+    "id": 12589,
+    "symbole": "ITN.DE",
+    "nom": "Intertainment AG"
+  },
+  {
+    "n": 90,
+    "id": 12590,
+    "symbole": "VROS.DE",
+    "nom": "Verianos Se"
+  },
+  {
+    "n": 91,
+    "id": 12591,
+    "symbole": "EXJ.DE",
+    "nom": "Readcrest Capital AG"
+  },
+  {
+    "n": 92,
+    "id": 12592,
+    "symbole": "E8X.DE",
+    "nom": "Elexxion AG"
+  },
+  {
+    "n": 93,
+    "id": 12593,
+    "symbole": "T3T1.DE",
+    "nom": "Seven Principles AG"
+  },
+  {
+    "n": 94,
+    "id": 12594,
+    "symbole": "VXT.DE",
+    "nom": "Tmc Content Group AG"
+  },
+  {
+    "n": 95,
+    "id": 12595,
+    "symbole": "12595",
+    "nom": "12595"
+  },
+  {
+    "n": 96,
+    "id": 12596,
+    "symbole": "12596",
+    "nom": "12596"
+  },
+  {
+    "n": 97,
+    "id": 12597,
+    "symbole": "12597",
+    "nom": "12597"
+  },
+  {
+    "n": 98,
+    "id": 12598,
+    "symbole": "12598",
+    "nom": "12598"
+  },
+  {
+    "n": 99,
+    "id": 12599,
+    "symbole": "12599",
+    "nom": "12599"
+  },
+  {
+    "n": 100,
+    "id": 12600,
+    "symbole": "UNA.NV",
+    "nom": "Unilever PLC"
+  }
+]

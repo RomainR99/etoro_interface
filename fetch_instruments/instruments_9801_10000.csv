@@ -1,0 +1,201 @@
+﻿n°,id,symbole,nom
+1,9801,SMR,NuScale Power Corporation
+2,9802,ANIP,ANI Pharmaceuticals Inc
+3,9803,TTMI,TTM Technologies Inc
+4,9804,EHAB,Enhabit Inc
+5,9805,MGRC,Mcgrath Rentcorp
+6,9806,SXI,Standex International Corporation
+7,9807,CWEN.A,Clearway Energy Inc
+8,9808,KNSA,Kiniksa Pharmaceuticals Ltd
+9,9809,TMCI,Treace Medical Concepts Inc
+10,9810,ENVA,Enova International Inc
+11,9811,WSFS,WSFS Financial Corporation
+12,9812,OM.US,Outset Medical Inc
+13,9813,ROAD,Construction Partners Inc
+14,9814,POWL,Powell Industries Inc
+15,9815,ECVT,Ecovyst Inc
+16,9816,INBXV,Inhibrx Inc
+17,9817,GBDC,Golub Capital BDC Inc
+18,9818,AMWD,American Woodmark Corporation
+19,9819,ZUMZ,Zumiez Inc
+20,9820,KURA,Kura Oncology Inc
+21,9821,LEN.B,Lennar Corporation
+22,9822,HLIO,Helios Technologies Inc
+23,9823,COGT,Cogent Biosciences Inc
+24,9824,KROS,Keros Therapeutics Inc
+25,9825,TRN.US,Trinity Industries Inc
+26,9826,ADTN,ADTRAN Holdings Inc
+27,9827,BMA,Banco Macro S A
+28,9828,ZETA.US,Zeta Global Holdings Corp
+29,9829,WIT,Wipro Limited
+30,9830,PMT,PennyMac Mortgage Investment Trust
+31,9831,GCO,Genesco Inc
+32,9832,CTS,CTS Corporation
+33,9833,ATMU,Atmus Filtration Technologies Inc
+34,9834,VGR,Vector Group Ltd
+35,9835,QTRX,Quanterix Corporation
+36,9836,ESTA,Establishment Labs Holdings Inc
+37,9837,DFH,Dream Finders Homes Inc
+38,9838,AGM,Federal Agricultural Mortgage Corporation
+39,9839,NHI,National Health Investors Inc
+40,9840,INOD,Innodata Inc
+41,9841,TGH,Textainer Group Holdings Limited
+42,9842,REYN,Reynolds Consumer Products Inc
+43,9843,NWG,NatWest Group plc-ADR
+44,9844,HOPE,Hope Bancorp Inc
+45,9845,IOSP,Innospec Inc
+46,9846,CRGY,Crescent Energy Company
+47,9847,ALG,Alamo Group Inc
+48,9848,CNNE,Cannae Holdings Inc
+49,9849,B.old,Barnes Group Inc
+50,9850,ADPT,Adaptive Biotechnologies Corporation
+51,9851,PAC,Grupo Aeroportuario del Pacífico SAB de CV
+52,9852,ZGN,Ermenegildo Zegna NV
+53,9853,ASC,Ardmore Shipping Corporation
+54,9854,WTTR,Select Water Solutions Inc
+55,9855,CRVL,CorVel Corporation
+56,9856,SCHL,Scholastic Corporation
+57,9857,NWN,Northwest Natural Holding Company
+58,9858,TARS,Tarsus Pharmaceuticals Inc
+59,9859,DORM,Dorman Products Inc
+60,9860,TTGT.Acquired,TechTarget Inc
+61,9861,VRTS,Virtus Investment Partners Inc
+62,9862,OEC,Orion SA
+63,9863,HMN,Horace Mann Educators Corporation
+64,9864,CPK,Chesapeake Utilities Corporation
+65,9865,ASLE,AerSale Corporation
+66,9866,TIMB,TIM SA
+67,9867,PFS,Provident Financial Services Inc
+68,9868,WEAV,Weave Communications Inc
+69,9869,JBSS,John B Sanfilippo & Son Inc
+70,9870,MBUU,Malibu Boats Inc
+71,9871,UTZ,Utz Brands Inc
+72,9872,OSW,OneSpaWorld Holdings Limited
+73,9873,MODN.US,Model N Inc
+74,9874,SKWD,Skyward Specialty Insurance Group Inc
+75,9875,LFST,LifeStance Health Group Inc
+76,9876,LILAK,Liberty Latin America Ltd
+77,9877,TNC,Tennant Company
+78,9878,BANF,BancFirst Corporation
+79,9879,UMH,UMH Properties Inc
+80,9880,XNCR,Xencor Inc
+81,9881,TSEOF,Trinseo Plc
+82,9882,ECPG,Encore Capital Group Inc
+83,9883,LGF.A,Lions Gate Entertainment Corp
+84,9884,ACCD,Accolade Inc
+85,9885,KFRC,Kforce Inc
+86,9886,EFSC,Enterprise Financial Services Corp
+87,9887,SHYF,The Shyft Group Inc
+88,9888,STC,Stewart Information Services Corporation
+89,9889,MATV,Mativ Holdings Inc
+90,9890,EPAC,Enerpac Tool Group Corp
+91,9891,TERN,Terns Pharmaceuticals Inc
+92,9892,AMPS,Altus Power Inc
+93,9893,STEP,StepStone Group LP
+94,9894,DCGO,Docgo Inc
+95,9895,COLL,Collegium Pharmaceutical Inc
+96,9896,DFIN,Donnelley Financial Solutions Inc
+97,9897,JELD,JELD-WEN Holding Inc
+98,9898,LGF.B,Lions Gate Entertainment Corp
+99,9899,MODVQ,Modivcare Inc
+100,9900,TCMD,Tactile Systems Technology Inc
+101,9901,NBTB,Nbt Bancorp Inc
+102,9902,HNI,HNI Corporation
+103,9903,ACT,Enact Holdings Inc
+104,9904,HT.US,Hersha Hospitality Trust
+105,9905,ROVR,Rover Group Inc
+106,9906,ACDC,ProFrac Holding Corp
+107,9907,EGBN,Eagle Bancrp Inc
+108,9908,INVA,Innoviva Inc
+109,9909,LMB,Limbach Holdings Inc
+110,9910,GRFS,Grifols SA
+111,9911,CMPR,Cimpress Plc
+112,9912,FDMT,4D Molecular Therapeutics Inc
+113,9913,VERX,Vertex Inc
+114,9914,MEG.US,Montrose Environmental Group Inc
+115,9915,AEG,Aegon Ltd
+116,9916,BXC,BlueLinx Holdings Inc
+117,9917,BLBD,Blue Bird Corporation
+118,9918,PRAA,Pra Group Inc
+119,9919,CRMT,Americas Car-Mart Inc
+120,9920,SCVL,Shoe Carnival Inc
+121,9921,AVNS,Avanos Medical Inc
+122,9922,APOG,Apogee Enterprises Inc
+123,9923,VRNA,Verona Pharma plc
+124,9924,PLUS,ePlus Inc
+125,9925,MRTN,Marten Transport Ltd
+126,9926,WMK,Weis Markets Inc
+127,9927,AVTA,Avantax Inc
+128,9928,RTL,Necessity Retail
+129,9929,CABA,Cabaletta Bio Inc
+130,9930,DH,Definitive Healthcare Corp
+131,9931,LMAT,LeMaitre Vascular Inc
+132,9932,LGND,Ligand Pharmaceuticals Incorporated
+133,9933,SASR,Sandy Spring Bancorp Inc
+134,9934,PLMR,Palomar Holdings Inc
+135,9935,FRME,First Merchants Corporation
+136,9936,CSWC,Capital Southwest Corporation
+137,9937,FCF,First Commonwealth Financial Corporation
+138,9938,TRMK,Trustmark Corporation
+139,9939,OFG,Ofg Bancorp
+140,9940,LXU,LSB Industries Inc
+141,9941,RGNX,REGENXBIO Inc
+142,9942,HOV,Hovnanian Enterprises Inc
+143,9943,LADR,Ladder Capital Corp
+144,9944,GOLD.US,Gold.com Inc
+145,9945,NWBI,Northwest Bancshares Inc
+146,9946,TSLX,Sixth Street Specialty Lending Inc
+147,9947,FFBC,First Financial Bancorp
+148,9948,NBHC,National Bank Holdings Corporation
+149,9949,GSBD,Goldman Sachs BDC Inc
+150,9950,INVX,Innovex International Inc
+151,9951,IMKTA,Ingles Markets Incorporated
+152,9952,TIGR,UP Fintech Holding Limited
+153,9953,KNTK,Kinetik Holdings Inc
+154,9954,PRM,Perimeter Solutions SA
+155,9955,WINA,Winmark Corporation
+156,9956,OKLO,Oklo Inc
+157,9957,PDFS,PDF Solutions Inc
+158,9958,FNKO,Funko Inc
+159,9959,HPK,HighPeak Energy Inc
+160,9960,KALU,Kaiser Aluminum Corporation
+161,9961,NABL,N-able Inc
+162,9962,CXW,Corecivic Inc
+163,9963,EYPT,EyePoint Inc
+164,9964,RDUS,Schnitzer Steel Industries Inc
+165,9965,VZIO,VIZIO Holding Corp
+166,9966,TR,Tootsie Roll Industries Inc
+167,9967,MRUS,Merus Nv
+168,9968,ITOS,iTeos Therapeutics Inc
+169,9969,MCFT,MasterCraft Boat Holdings Inc
+170,9970,NAAS,NaaS Technology Inc
+171,9971,TTEC,Ttec Holdings In
+172,9972,RAPT,RAPT Therapeutics Inc
+173,9973,DCPH,Deciphera Pharmaceuticals Inc
+174,9974,ACRS,Aclaris Therapeutics Inc
+175,9975,FWRG,First Watch Restaurant Group Inc
+176,9976,EWCZ,European Wax Center Inc
+177,9977,CSAN,Cosan SA
+178,9978,IMXI,International Money Express Inc
+179,9979,LEU,Centrus Energy Corp
+180,9980,MRC.US,Mrc Global Inc
+181,9981,ATEX,Anterix Inc
+182,9982,ETD,Ethan Allen Interiors Inc
+183,9983,LOCO,El Pollo Loco Holdings Inc
+184,9984,ADEA,Adeia Inc
+185,9985,RNST,Renasant Corporation
+186,9986,WABC,Westamerica Bancorporation
+187,9987,WPP,WPP plc
+188,9988,BCYC,Bicycle Therapeutics plc
+189,9989,SANA,Sana Biotechnology Inc
+190,9990,MDXG,Mimedx Group Inc
+191,9991,EVLO,Evelo Biosciences Inc
+192,9992,CHCO,City Holding Company
+193,9993,ACRE,Ares Commercial Real Estate Corporation
+194,9994,ASIX,Advansix Inc
+195,9995,PAX,Patria Investments Limited
+196,9996,AMPL,Amplitude Inc
+197,9997,CNDA,Concord Acquisition Corp II
+198,9998,MERC,Mercer International Inc
+199,9999,AVPT,Avepoint Inc
+200,10000,DEWA.AE,Dubai Electricity and Water Authority PJSC

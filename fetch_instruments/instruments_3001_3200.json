@@ -1,0 +1,1202 @@
+[
+  {
+    "n": 1,
+    "id": 3001,
+    "symbole": "EEM",
+    "nom": "iShares MSCI Emerging Markets ETF"
+  },
+  {
+    "n": 2,
+    "id": 3002,
+    "symbole": "GDX",
+    "nom": "VanEck Vectors Gold Miners ETF"
+  },
+  {
+    "n": 3,
+    "id": 3003,
+    "symbole": "EWJ",
+    "nom": "Ishares MSCI JAPAN ETF"
+  },
+  {
+    "n": 4,
+    "id": 3004,
+    "symbole": "XLF",
+    "nom": "State Street Financial Select Sector SPDR ETF"
+  },
+  {
+    "n": 5,
+    "id": 3005,
+    "symbole": "IWM",
+    "nom": "Ishares Russell 2000 ETF"
+  },
+  {
+    "n": 6,
+    "id": 3006,
+    "symbole": "QQQ",
+    "nom": "Invesco QQQ"
+  },
+  {
+    "n": 7,
+    "id": 3007,
+    "symbole": "USO",
+    "nom": "United States Oil Fund"
+  },
+  {
+    "n": 8,
+    "id": 3008,
+    "symbole": "XLE",
+    "nom": "State Street Energy Select Sector SPDR ETF"
+  },
+  {
+    "n": 9,
+    "id": 3009,
+    "symbole": "EFA",
+    "nom": "iShares MSCI EAFE ETF"
+  },
+  {
+    "n": 10,
+    "id": 3010,
+    "symbole": "FXI",
+    "nom": "iShares China Large-Cap ETF"
+  },
+  {
+    "n": 11,
+    "id": 3011,
+    "symbole": "RSX",
+    "nom": "VanEck Vectors Russia ETF"
+  },
+  {
+    "n": 12,
+    "id": 3012,
+    "symbole": "EWZ",
+    "nom": "Brazil Index MSCI Ishares"
+  },
+  {
+    "n": 13,
+    "id": 3013,
+    "symbole": "XLU",
+    "nom": "State Street Utilities Select Sector SPDR ETF"
+  },
+  {
+    "n": 14,
+    "id": 3014,
+    "symbole": "GDXJ",
+    "nom": "VanEck Vectors Junior Gold Miners ETF"
+  },
+  {
+    "n": 15,
+    "id": 3015,
+    "symbole": "IYR",
+    "nom": "iShares U.S. Real Estate ETF"
+  },
+  {
+    "n": 16,
+    "id": 3016,
+    "symbole": "XOP",
+    "nom": "SPDR S&P Oil & Gas Exploration & Production ETF"
+  },
+  {
+    "n": 17,
+    "id": 3017,
+    "symbole": "XLV",
+    "nom": "State Street Health Care Select Sector SPDR ETF"
+  },
+  {
+    "n": 18,
+    "id": 3018,
+    "symbole": "UNG",
+    "nom": "US Natural Gas"
+  },
+  {
+    "n": 19,
+    "id": 3019,
+    "symbole": "XLI",
+    "nom": "State Street Industrial Select Sector SPDR ETF"
+  },
+  {
+    "n": 20,
+    "id": 3020,
+    "symbole": "TLT",
+    "nom": "iShares 20+ Year Treasury Bond ETF "
+  },
+  {
+    "n": 21,
+    "id": 3021,
+    "symbole": "XLK",
+    "nom": "State Street Technology Select Sector SPDR ETF"
+  },
+  {
+    "n": 22,
+    "id": 3022,
+    "symbole": "XLP",
+    "nom": "State Street Consumer Staples Select Sector SPDR ETF"
+  },
+  {
+    "n": 23,
+    "id": 3023,
+    "symbole": "HYG",
+    "nom": "Iboxx $ High Yield Corporate Bd Ishares"
+  },
+  {
+    "n": 24,
+    "id": 3024,
+    "symbole": "XLY",
+    "nom": "State Street Consumer Discretionary Select Sector SPDR ETF"
+  },
+  {
+    "n": 25,
+    "id": 3025,
+    "symbole": "GLD",
+    "nom": "SPDR Gold"
+  },
+  {
+    "n": 26,
+    "id": 3026,
+    "symbole": "DIA.US",
+    "nom": "State Street SPDR Dow Jones In"
+  },
+  {
+    "n": 27,
+    "id": 3027,
+    "symbole": "SSO",
+    "nom": "Proshares Ultra S&P 500 "
+  },
+  {
+    "n": 28,
+    "id": 3028,
+    "symbole": "IBB",
+    "nom": "Ishares Nasdaq Biotechnology "
+  },
+  {
+    "n": 29,
+    "id": 3029,
+    "symbole": "MDY",
+    "nom": " State Street SPDR S&P MidCap 400 ETF Trust"
+  },
+  {
+    "n": 30,
+    "id": 3030,
+    "symbole": "LQDE.L",
+    "nom": "iShares $ Corporate Bond UCITS ETF"
+  },
+  {
+    "n": 31,
+    "id": 3031,
+    "symbole": "TPRO.MI",
+    "nom": "Technoprobe S.P.A"
+  },
+  {
+    "n": 32,
+    "id": 3032,
+    "symbole": "BC.MI",
+    "nom": "Brunello Cucinelli S.p.A."
+  },
+  {
+    "n": 33,
+    "id": 3033,
+    "symbole": "ICOP.MI",
+    "nom": "ICoP SpA SB Societa Benefit"
+  },
+  {
+    "n": 34,
+    "id": 3034,
+    "symbole": "CBU5.DE",
+    "nom": "iShares iBonds Dec 2028 Term $ Corp UCITS ETF"
+  },
+  {
+    "n": 35,
+    "id": 3035,
+    "symbole": "IAEX.L",
+    "nom": "iShares AEX UCITS ETF"
+  },
+  {
+    "n": 36,
+    "id": 3036,
+    "symbole": "IAPD.L",
+    "nom": "iShares Asia Pacific Dividend UCITS ETF"
+  },
+  {
+    "n": 37,
+    "id": 3037,
+    "symbole": "4IG.BD",
+    "nom": "4iG Nyrt"
+  },
+  {
+    "n": 38,
+    "id": 3038,
+    "symbole": "AKKO.BD",
+    "nom": "AKKO Invest Nyrt"
+  },
+  {
+    "n": 39,
+    "id": 3039,
+    "symbole": "ALTEO.BD",
+    "nom": "ALTEO Energy Services Public Limited Company"
+  },
+  {
+    "n": 40,
+    "id": 3040,
+    "symbole": "SWDA.L",
+    "nom": "iShares Core MSCI World UCITS ETF"
+  },
+  {
+    "n": 41,
+    "id": 3041,
+    "symbole": "IB26.DE",
+    "nom": "iShares iBonds Dec 2026 Term Corp UCITS ETF"
+  },
+  {
+    "n": 42,
+    "id": 3042,
+    "symbole": "IB28.DE",
+    "nom": "iShares iBonds Dec 2028 Term Corp UCITS ETF"
+  },
+  {
+    "n": 43,
+    "id": 3043,
+    "symbole": "QDVP.DE",
+    "nom": "iShares US Mortgage Backed Securities UCITS ETF"
+  },
+  {
+    "n": 44,
+    "id": 3044,
+    "symbole": "DSFIR.NV",
+    "nom": "DSM-FIRMENICH AG"
+  },
+  {
+    "n": 45,
+    "id": 3045,
+    "symbole": "BFIT.NV",
+    "nom": "Basic-Fit N.V"
+  },
+  {
+    "n": 46,
+    "id": 3046,
+    "symbole": "APAM.NV",
+    "nom": "Aperam S.A"
+  },
+  {
+    "n": 47,
+    "id": 3047,
+    "symbole": "ALFEN.NV",
+    "nom": "Alfen N.V"
+  },
+  {
+    "n": 48,
+    "id": 3048,
+    "symbole": "IEML.L",
+    "nom": "iShares J.P. Morgan EM Local Govt Bond UCITS ETF "
+  },
+  {
+    "n": 49,
+    "id": 3049,
+    "symbole": "UMG.NV",
+    "nom": "Universal Music Group N.V"
+  },
+  {
+    "n": 50,
+    "id": 3050,
+    "symbole": "HDLV.DE",
+    "nom": "Invesco S&P 500 High Dividend Low Volatility UCITS ETF"
+  },
+  {
+    "n": 51,
+    "id": 3051,
+    "symbole": "DXS3.DE",
+    "nom": "Xtrackers S&P 500 Inverse Daily Swap UCITS ETF"
+  },
+  {
+    "n": 52,
+    "id": 3052,
+    "symbole": "ISF.L",
+    "nom": "iShares Core FTSE 100 UCITS ETF (Dist)"
+  },
+  {
+    "n": 53,
+    "id": 3053,
+    "symbole": "PLX.PA",
+    "nom": "Pluxee France SA"
+  },
+  {
+    "n": 54,
+    "id": 3054,
+    "symbole": "IMIB.L",
+    "nom": "iShares FTSE MIB UCITS ETF (Dist)"
+  },
+  {
+    "n": 55,
+    "id": 3055,
+    "symbole": "EXO.NV",
+    "nom": "Exor NV"
+  },
+  {
+    "n": 56,
+    "id": 3056,
+    "symbole": "ICGB.DE22",
+    "nom": "iShares China CNY Bond UCITS ETF22"
+  },
+  {
+    "n": 57,
+    "id": 3057,
+    "symbole": "IS3F.DE",
+    "nom": "iShares Corp Bond Interest Rate Hedged UCITS ETF"
+  },
+  {
+    "n": 58,
+    "id": 3058,
+    "symbole": "SEMB.L",
+    "nom": "iShares J.P. Morgan $ Emerging Markets Bond UCITS ETF"
+  },
+  {
+    "n": 59,
+    "id": 3059,
+    "symbole": "IS3L.DE",
+    "nom": "iShares Ultrashort Bond UCITS ETF"
+  },
+  {
+    "n": 60,
+    "id": 3060,
+    "symbole": "IFFF.L",
+    "nom": "iShares MSCI AC Far East ex-Japan UCITS ETF"
+  },
+  {
+    "n": 61,
+    "id": 3061,
+    "symbole": "IBZL.L",
+    "nom": "iShares MSCI Brazil UCITS ETF (Dist)"
+  },
+  {
+    "n": 62,
+    "id": 3062,
+    "symbole": "IS0Q.DE",
+    "nom": "iShares V PLC - iShares J.P. Morgan EM Corp Bond UCITS ETF"
+  },
+  {
+    "n": 63,
+    "id": 3063,
+    "symbole": "IDEM.L",
+    "nom": "iShares MSCI Emerging Markets UCITS ETF (Dist)"
+  },
+  {
+    "n": 64,
+    "id": 3064,
+    "symbole": "EDMU.DE",
+    "nom": "iShares MSCI USA ESG Enhanced UCITS ETF"
+  },
+  {
+    "n": 65,
+    "id": 3065,
+    "symbole": "IQQ6.DE",
+    "nom": "iShares Developed Markets Property Yield UCITS ETF"
+  },
+  {
+    "n": 66,
+    "id": 3066,
+    "symbole": "IMEU.L",
+    "nom": "iShares MSCI Europe UCITS ETF (Dist)"
+  },
+  {
+    "n": 67,
+    "id": 3067,
+    "symbole": "CAVEN.OL",
+    "nom": "Cavendish Hydrogen ASA"
+  },
+  {
+    "n": 68,
+    "id": 3068,
+    "symbole": "IJPE.L",
+    "nom": "iShares MSCI Japan EUR Hedged UCITS ETF"
+  },
+  {
+    "n": 69,
+    "id": 3069,
+    "symbole": "SOMA.OL",
+    "nom": "Solstad Maritime Holding AS"
+  },
+  {
+    "n": 70,
+    "id": 3070,
+    "symbole": "CA307.OL",
+    "nom": "CA307"
+  },
+  {
+    "n": 71,
+    "id": 3071,
+    "symbole": "CA308.OL",
+    "nom": "CA308"
+  },
+  {
+    "n": 72,
+    "id": 3072,
+    "symbole": "ITWN.L",
+    "nom": "iShares MSCI Taiwan UCITS ETF"
+  },
+  {
+    "n": 73,
+    "id": 3073,
+    "symbole": "CA309.OL",
+    "nom": "CA309"
+  },
+  {
+    "n": 74,
+    "id": 3074,
+    "symbole": "CA310.OL",
+    "nom": "CA310"
+  },
+  {
+    "n": 75,
+    "id": 3075,
+    "symbole": "IUSA.L",
+    "nom": "iShares S&P 500 UCITS ETF (Dist)"
+  },
+  {
+    "n": 76,
+    "id": 3076,
+    "symbole": "CA311.OL",
+    "nom": "CA311"
+  },
+  {
+    "n": 77,
+    "id": 3077,
+    "symbole": "CA312.OL",
+    "nom": "CA312"
+  },
+  {
+    "n": 78,
+    "id": 3078,
+    "symbole": "CA313.OL",
+    "nom": "CA313"
+  },
+  {
+    "n": 79,
+    "id": 3079,
+    "symbole": "IUKP.L",
+    "nom": "iShares UK Property UCITS ETF"
+  },
+  {
+    "n": 80,
+    "id": 3080,
+    "symbole": "VXXOLD",
+    "nom": "BARCLAYS BANK IPATH S&P 500 VIX S/T FU ETN"
+  },
+  {
+    "n": 81,
+    "id": 3081,
+    "symbole": "3081",
+    "nom": "3081"
+  },
+  {
+    "n": 82,
+    "id": 3082,
+    "symbole": "3082",
+    "nom": "3082"
+  },
+  {
+    "n": 83,
+    "id": 3083,
+    "symbole": "3083",
+    "nom": "3083"
+  },
+  {
+    "n": 84,
+    "id": 3084,
+    "symbole": "3084",
+    "nom": "3084"
+  },
+  {
+    "n": 85,
+    "id": 3085,
+    "symbole": "3085",
+    "nom": "3085"
+  },
+  {
+    "n": 86,
+    "id": 3086,
+    "symbole": "3086",
+    "nom": "3086"
+  },
+  {
+    "n": 87,
+    "id": 3087,
+    "symbole": "3087",
+    "nom": "3087"
+  },
+  {
+    "n": 88,
+    "id": 3088,
+    "symbole": "3088",
+    "nom": "3088"
+  },
+  {
+    "n": 89,
+    "id": 3089,
+    "symbole": "3089",
+    "nom": "3089"
+  },
+  {
+    "n": 90,
+    "id": 3090,
+    "symbole": "3090",
+    "nom": "3090"
+  },
+  {
+    "n": 91,
+    "id": 3091,
+    "symbole": "3091",
+    "nom": "3091"
+  },
+  {
+    "n": 92,
+    "id": 3092,
+    "symbole": "3092",
+    "nom": "3092"
+  },
+  {
+    "n": 93,
+    "id": 3093,
+    "symbole": "3093",
+    "nom": "3093"
+  },
+  {
+    "n": 94,
+    "id": 3094,
+    "symbole": "3094",
+    "nom": "3094"
+  },
+  {
+    "n": 95,
+    "id": 3095,
+    "symbole": "CA314.OL",
+    "nom": "CA314"
+  },
+  {
+    "n": 96,
+    "id": 3096,
+    "symbole": "3096",
+    "nom": "3096"
+  },
+  {
+    "n": 97,
+    "id": 3097,
+    "symbole": "3097",
+    "nom": "3097"
+  },
+  {
+    "n": 98,
+    "id": 3098,
+    "symbole": "3098",
+    "nom": "3098"
+  },
+  {
+    "n": 99,
+    "id": 3099,
+    "symbole": "XIV",
+    "nom": "Credit Suisse AG - VelocityShares Daily Inverse VIX Short Term ETN"
+  },
+  {
+    "n": 100,
+    "id": 3100,
+    "symbole": "SHY",
+    "nom": "iShares 1-3 Year Treasury Bond ETF"
+  },
+  {
+    "n": 101,
+    "id": 3101,
+    "symbole": "IEF",
+    "nom": "iShares 7-10 Year Treasury Bond ETF"
+  },
+  {
+    "n": 102,
+    "id": 3102,
+    "symbole": "DBA",
+    "nom": "Invesco DB Agriculture Fund"
+  },
+  {
+    "n": 103,
+    "id": 3103,
+    "symbole": "CORN.US",
+    "nom": "Teucrium Corn Fund"
+  },
+  {
+    "n": 104,
+    "id": 3104,
+    "symbole": "WEAT",
+    "nom": "Teucrium Wheat Fund"
+  },
+  {
+    "n": 105,
+    "id": 3105,
+    "symbole": "UGA",
+    "nom": "United States Gasoline Fund"
+  },
+  {
+    "n": 106,
+    "id": 3106,
+    "symbole": "3106",
+    "nom": "3106"
+  },
+  {
+    "n": 107,
+    "id": 3107,
+    "symbole": "3107",
+    "nom": "3107"
+  },
+  {
+    "n": 108,
+    "id": 3108,
+    "symbole": "3108",
+    "nom": "3108"
+  },
+  {
+    "n": 109,
+    "id": 3109,
+    "symbole": "3109",
+    "nom": "3109"
+  },
+  {
+    "n": 110,
+    "id": 3110,
+    "symbole": "3110",
+    "nom": "3110"
+  },
+  {
+    "n": 111,
+    "id": 3111,
+    "symbole": "RWR",
+    "nom": "SPDR DOW JONES REIT ETF"
+  },
+  {
+    "n": 112,
+    "id": 3112,
+    "symbole": "CA315.OL",
+    "nom": "CA315"
+  },
+  {
+    "n": 113,
+    "id": 3113,
+    "symbole": "3113",
+    "nom": "3113"
+  },
+  {
+    "n": 114,
+    "id": 3114,
+    "symbole": "3114",
+    "nom": "3114"
+  },
+  {
+    "n": 115,
+    "id": 3115,
+    "symbole": "3115",
+    "nom": "3115"
+  },
+  {
+    "n": 116,
+    "id": 3116,
+    "symbole": "3116",
+    "nom": "3116"
+  },
+  {
+    "n": 117,
+    "id": 3117,
+    "symbole": "3117",
+    "nom": "3117"
+  },
+  {
+    "n": 118,
+    "id": 3118,
+    "symbole": "EWY",
+    "nom": "iShares MSCI South Korea ETF"
+  },
+  {
+    "n": 119,
+    "id": 3119,
+    "symbole": "3119",
+    "nom": "3119"
+  },
+  {
+    "n": 120,
+    "id": 3120,
+    "symbole": "3120",
+    "nom": "3120"
+  },
+  {
+    "n": 121,
+    "id": 3121,
+    "symbole": "EWW",
+    "nom": "iShares MSCI Mexico ETF"
+  },
+  {
+    "n": 122,
+    "id": 3122,
+    "symbole": "EWT",
+    "nom": "iShares MSCI Taiwan ETF"
+  },
+  {
+    "n": 123,
+    "id": 3123,
+    "symbole": "3123",
+    "nom": "3123"
+  },
+  {
+    "n": 124,
+    "id": 3124,
+    "symbole": "LQD",
+    "nom": "iShares iBoxx $ Investment Grade Corporate Bond ETF"
+  },
+  {
+    "n": 125,
+    "id": 3125,
+    "symbole": "BOND",
+    "nom": "PIMCO Active Bond Exchange-Traded Fund"
+  },
+  {
+    "n": 126,
+    "id": 3126,
+    "symbole": "3126",
+    "nom": "3126"
+  },
+  {
+    "n": 127,
+    "id": 3127,
+    "symbole": "3127",
+    "nom": "3127"
+  },
+  {
+    "n": 128,
+    "id": 3128,
+    "symbole": "3128",
+    "nom": "3128"
+  },
+  {
+    "n": 129,
+    "id": 3129,
+    "symbole": "3129",
+    "nom": "3129"
+  },
+  {
+    "n": 130,
+    "id": 3130,
+    "symbole": "3130",
+    "nom": "3130"
+  },
+  {
+    "n": 131,
+    "id": 3131,
+    "symbole": "3131",
+    "nom": "3131"
+  },
+  {
+    "n": 132,
+    "id": 3132,
+    "symbole": "3132",
+    "nom": "3132"
+  },
+  {
+    "n": 133,
+    "id": 3133,
+    "symbole": "3133",
+    "nom": "3133"
+  },
+  {
+    "n": 134,
+    "id": 3134,
+    "symbole": "3134",
+    "nom": "3134"
+  },
+  {
+    "n": 135,
+    "id": 3135,
+    "symbole": "3135",
+    "nom": "3135"
+  },
+  {
+    "n": 136,
+    "id": 3136,
+    "symbole": "3136",
+    "nom": "3136"
+  },
+  {
+    "n": 137,
+    "id": 3137,
+    "symbole": "HMLSD",
+    "nom": "Horizons Marijuana Life Sciences Index ETF"
+  },
+  {
+    "n": 138,
+    "id": 3138,
+    "symbole": "IVV",
+    "nom": "iShares Core S&P 500 ETF"
+  },
+  {
+    "n": 139,
+    "id": 3139,
+    "symbole": "IEFA",
+    "nom": "iShares Core MSCI EAFE ETF"
+  },
+  {
+    "n": 140,
+    "id": 3140,
+    "symbole": "AGG",
+    "nom": "iShares Core U.S. Aggregate Bond ETF"
+  },
+  {
+    "n": 141,
+    "id": 3141,
+    "symbole": "IEMG",
+    "nom": "iShares Core MSCI Emerging Markets ETF"
+  },
+  {
+    "n": 142,
+    "id": 3142,
+    "symbole": "IJH",
+    "nom": "iShares Core S&P Mid-Cap ETF"
+  },
+  {
+    "n": 143,
+    "id": 3143,
+    "symbole": "IJR",
+    "nom": "iShares Core S&P Small-Cap ETF"
+  },
+  {
+    "n": 144,
+    "id": 3144,
+    "symbole": "ITOT",
+    "nom": "iShares Core S&P Total U.S. Stock Market ETF"
+  },
+  {
+    "n": 145,
+    "id": 3145,
+    "symbole": "IXUS",
+    "nom": "iShares Core MSCI Total International Stock ETF"
+  },
+  {
+    "n": 146,
+    "id": 3146,
+    "symbole": "HDV",
+    "nom": "iShares Core High Dividend ETF"
+  },
+  {
+    "n": 147,
+    "id": 3147,
+    "symbole": "IUSG",
+    "nom": "iShares Core S&P US Growth"
+  },
+  {
+    "n": 148,
+    "id": 3148,
+    "symbole": "IUSV",
+    "nom": "iShares Core S&P US Value"
+  },
+  {
+    "n": 149,
+    "id": 3149,
+    "symbole": "DGRO",
+    "nom": "iShares Core Dividend Growth ETF"
+  },
+  {
+    "n": 150,
+    "id": 3150,
+    "symbole": "IEUR",
+    "nom": "iShares Core MSCI Europe ETF"
+  },
+  {
+    "n": 151,
+    "id": 3151,
+    "symbole": "IUSB",
+    "nom": "iShares Core Total USD Bond Market ETF"
+  },
+  {
+    "n": 152,
+    "id": 3152,
+    "symbole": "ISTB",
+    "nom": "iShares Core 1-5 Year USD Bond ETF"
+  },
+  {
+    "n": 153,
+    "id": 3153,
+    "symbole": "AOR",
+    "nom": "iShares Core Growth Allocation ETF"
+  },
+  {
+    "n": 154,
+    "id": 3154,
+    "symbole": "3154",
+    "nom": "3154"
+  },
+  {
+    "n": 155,
+    "id": 3155,
+    "symbole": "IPAC",
+    "nom": "iShares Core MSCI Pacific ETF"
+  },
+  {
+    "n": 156,
+    "id": 3156,
+    "symbole": "IDEV",
+    "nom": "iShares Core MSCI International Developed Markets ETF"
+  },
+  {
+    "n": 157,
+    "id": 3157,
+    "symbole": "AOA",
+    "nom": "iShares Core Aggressive Allocation ETF"
+  },
+  {
+    "n": 158,
+    "id": 3158,
+    "symbole": "IAGG",
+    "nom": "iShares Core International Aggregate Bond ETF"
+  },
+  {
+    "n": 159,
+    "id": 3159,
+    "symbole": "USRT",
+    "nom": "iShares Core U.S. REIT ETF"
+  },
+  {
+    "n": 160,
+    "id": 3160,
+    "symbole": "AOK",
+    "nom": "iShares Core Conservative Allocation ETF"
+  },
+  {
+    "n": 161,
+    "id": 3161,
+    "symbole": "ILTB",
+    "nom": "iShares Core 10+ Year USD Bond ETF"
+  },
+  {
+    "n": 162,
+    "id": 3162,
+    "symbole": "IMTB",
+    "nom": "iShares Core 5-10 Year USD Bond ETF"
+  },
+  {
+    "n": 163,
+    "id": 3163,
+    "symbole": "VXX",
+    "nom": "iPath Series B S&P 500 VIX Short-Term FuturesTM ETN"
+  },
+  {
+    "n": 164,
+    "id": 3164,
+    "symbole": "AMZA",
+    "nom": "InfraCap MLP ETF"
+  },
+  {
+    "n": 165,
+    "id": 3165,
+    "symbole": "ARKF",
+    "nom": "ARK Blockchain & Fintech Innovation ETF"
+  },
+  {
+    "n": 166,
+    "id": 3166,
+    "symbole": "ARKK",
+    "nom": "ARK Innovation ETF"
+  },
+  {
+    "n": 167,
+    "id": 3167,
+    "symbole": "ARKW",
+    "nom": "ARK Next Generation Internet ETF"
+  },
+  {
+    "n": 168,
+    "id": 3168,
+    "symbole": "BAR",
+    "nom": "Graniteshares Gold Trust"
+  },
+  {
+    "n": 169,
+    "id": 3169,
+    "symbole": "BLOK",
+    "nom": "Amplify Blockchain Technology ETF"
+  },
+  {
+    "n": 170,
+    "id": 3170,
+    "symbole": "BLV",
+    "nom": "Vanguard Long-Term Bond ETF"
+  },
+  {
+    "n": 171,
+    "id": 3171,
+    "symbole": "BRZU",
+    "nom": "Direxion Daily MSCI Brazil Bull 2X Shares"
+  },
+  {
+    "n": 172,
+    "id": 3172,
+    "symbole": "FLJP",
+    "nom": "Franklin FTSE Japan ETF"
+  },
+  {
+    "n": 173,
+    "id": 3173,
+    "symbole": "CQQQ",
+    "nom": "Invesco China Technology ETF"
+  },
+  {
+    "n": 174,
+    "id": 3174,
+    "symbole": "DBO",
+    "nom": "Invesco DB Oil Fund"
+  },
+  {
+    "n": 175,
+    "id": 3175,
+    "symbole": "DFEN",
+    "nom": "Direxion Daily Aerospace & Defense Bull 3X Shares"
+  },
+  {
+    "n": 176,
+    "id": 3176,
+    "symbole": "DIV",
+    "nom": "Global SuperDividend US ETF"
+  },
+  {
+    "n": 177,
+    "id": 3177,
+    "symbole": "DJP",
+    "nom": "iPath Bloomberg Commodity Index Total Return ETN"
+  },
+  {
+    "n": 178,
+    "id": 3178,
+    "symbole": "DRIP",
+    "nom": "Direxion Daily S&P Oil & Gas Exp. & Prod. Bear 2X Shares"
+  },
+  {
+    "n": 179,
+    "id": 3179,
+    "symbole": "DUST",
+    "nom": "Direxion Daily Gold Miners Index Bear 2X Shares"
+  },
+  {
+    "n": 180,
+    "id": 3180,
+    "symbole": "ERX",
+    "nom": "Direxion Daily Energy Bull 2X Shares"
+  },
+  {
+    "n": 181,
+    "id": 3181,
+    "symbole": "EWL",
+    "nom": "iShares MSCI Switzerland ETF"
+  },
+  {
+    "n": 182,
+    "id": 3182,
+    "symbole": "EWN",
+    "nom": "iShares MSCI Netherlands ETF"
+  },
+  {
+    "n": 183,
+    "id": 3183,
+    "symbole": "FAS",
+    "nom": "Direxion Daily Financial Bull 3X Shares"
+  },
+  {
+    "n": 184,
+    "id": 3184,
+    "symbole": "CA316.OL",
+    "nom": "CA316"
+  },
+  {
+    "n": 185,
+    "id": 3185,
+    "symbole": "SIXG",
+    "nom": "Defiance Connective Technologies ETF"
+  },
+  {
+    "n": 186,
+    "id": 3186,
+    "symbole": "CA317.OL",
+    "nom": "CA317"
+  },
+  {
+    "n": 187,
+    "id": 3187,
+    "symbole": "FNGA",
+    "nom": "MicroSectors FANG+ Index 3X Leveraged ETN "
+  },
+  {
+    "n": 188,
+    "id": 3188,
+    "symbole": "FREL",
+    "nom": "Fidelity MSCI Real Estate Index ETF"
+  },
+  {
+    "n": 189,
+    "id": 3189,
+    "symbole": "FTEC",
+    "nom": "Fidelity MSCI Information Technology Index ETF"
+  },
+  {
+    "n": 190,
+    "id": 3190,
+    "symbole": "GLDM",
+    "nom": "SPDR Gold MiniShares Trust"
+  },
+  {
+    "n": 191,
+    "id": 3191,
+    "symbole": "GUSH",
+    "nom": "Direxion Daily S&P Oil & Gas Exp. & Prod. Bull 2X Shares"
+  },
+  {
+    "n": 192,
+    "id": 3192,
+    "symbole": "IHI",
+    "nom": "iShares U.S. Medical Devices ETF"
+  },
+  {
+    "n": 193,
+    "id": 3193,
+    "symbole": "IXJ",
+    "nom": "iShares Global Healthcare ETF"
+  },
+  {
+    "n": 194,
+    "id": 3194,
+    "symbole": "JDST",
+    "nom": "Direxion Daily Junior Gold Miners Index Bear 2X Shares"
+  },
+  {
+    "n": 195,
+    "id": 3195,
+    "symbole": "JETS",
+    "nom": "US Global Jets ETF"
+  },
+  {
+    "n": 196,
+    "id": 3196,
+    "symbole": "JNUG",
+    "nom": "Direxion Daily Junior Gold Miners Index Bull 2X Shares"
+  },
+  {
+    "n": 197,
+    "id": 3197,
+    "symbole": "CA318.OL",
+    "nom": "CA318"
+  },
+  {
+    "n": 198,
+    "id": 3198,
+    "symbole": "LABD",
+    "nom": "Direxion Daily S&P Biotech Bear 3X Shares"
+  },
+  {
+    "n": 199,
+    "id": 3199,
+    "symbole": "LABU.US",
+    "nom": "Direxion Daily S&P Biotech Bull 3X Shares"
+  },
+  {
+    "n": 200,
+    "id": 3200,
+    "symbole": "LIT.US",
+    "nom": "Global X Lithium & Battery Tech ETF"
+  }
+]

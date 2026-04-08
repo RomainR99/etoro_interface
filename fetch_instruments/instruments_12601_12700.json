@@ -1,0 +1,602 @@
+[
+  {
+    "n": 1,
+    "id": 12601,
+    "symbole": "MT.NV",
+    "nom": "ArcelorMittal SA"
+  },
+  {
+    "n": 2,
+    "id": 12602,
+    "symbole": "REN.NV",
+    "nom": "RELX PLC"
+  },
+  {
+    "n": 3,
+    "id": 12603,
+    "symbole": "INPST.NV",
+    "nom": "InPost SA"
+  },
+  {
+    "n": 4,
+    "id": 12604,
+    "symbole": "FUR.NV",
+    "nom": "Fugro NV"
+  },
+  {
+    "n": 5,
+    "id": 12605,
+    "symbole": "ALLFG.NV",
+    "nom": "Allfunds Group PLC"
+  },
+  {
+    "n": 6,
+    "id": 12606,
+    "symbole": "CVC.NV",
+    "nom": "CVC Capital Partners PLC"
+  },
+  {
+    "n": 7,
+    "id": 12607,
+    "symbole": "BAMNB.NV",
+    "nom": "Koninklijke BAM Groep NV"
+  },
+  {
+    "n": 8,
+    "id": 12608,
+    "symbole": "PHARM.NV",
+    "nom": "Pharming Group NV"
+  },
+  {
+    "n": 9,
+    "id": 12609,
+    "symbole": "HEIJM.NV",
+    "nom": "Koninklijke Heijmans NV"
+  },
+  {
+    "n": 10,
+    "id": 12610,
+    "symbole": "VLK.NV",
+    "nom": "Van Lanschot Kempen NV"
+  },
+  {
+    "n": 11,
+    "id": 12611,
+    "symbole": "HAL.NV",
+    "nom": "HAL Trust"
+  },
+  {
+    "n": 12,
+    "id": 12612,
+    "symbole": "CRBN.NV",
+    "nom": "Corbion NV"
+  },
+  {
+    "n": 13,
+    "id": 12613,
+    "symbole": "CTPNV.NV",
+    "nom": "Ctp NV"
+  },
+  {
+    "n": 14,
+    "id": 12614,
+    "symbole": "ECMPA.NV",
+    "nom": "Eurocommercial Properties NV"
+  },
+  {
+    "n": 15,
+    "id": 12615,
+    "symbole": "VVY.NV",
+    "nom": "Vivoryon Therapeutics NV"
+  },
+  {
+    "n": 16,
+    "id": 12616,
+    "symbole": "CCEP.NV",
+    "nom": "Coca-Cola Europacific Partners PLC"
+  },
+  {
+    "n": 17,
+    "id": 12617,
+    "symbole": "NSI.NV",
+    "nom": "NSI NV"
+  },
+  {
+    "n": 18,
+    "id": 12618,
+    "symbole": "MAREL.NV",
+    "nom": "Marel hf"
+  },
+  {
+    "n": 19,
+    "id": 12619,
+    "symbole": "AVTX.NV",
+    "nom": "Avantium NV"
+  },
+  {
+    "n": 20,
+    "id": 12620,
+    "symbole": "NXFIL.NV",
+    "nom": "NX Filtration NV"
+  },
+  {
+    "n": 21,
+    "id": 12621,
+    "symbole": "BRNL.NV",
+    "nom": "Brunel International NV"
+  },
+  {
+    "n": 22,
+    "id": 12622,
+    "symbole": "EBUS.NV",
+    "nom": "Ebusco Holding NV"
+  },
+  {
+    "n": 23,
+    "id": 12623,
+    "symbole": "FAST.NV",
+    "nom": "Fastned BV"
+  },
+  {
+    "n": 24,
+    "id": 12624,
+    "symbole": "RWI.NV",
+    "nom": "Renewi PLC"
+  },
+  {
+    "n": 25,
+    "id": 12625,
+    "symbole": "THEON.NV",
+    "nom": "Theon International Plc"
+  },
+  {
+    "n": 26,
+    "id": 12626,
+    "symbole": "SLIGR.NV",
+    "nom": "Sligro Food Group NV"
+  },
+  {
+    "n": 27,
+    "id": 12627,
+    "symbole": "NEDAP.NV",
+    "nom": "Nedap NV"
+  },
+  {
+    "n": 28,
+    "id": 12628,
+    "symbole": "FFARM.NV",
+    "nom": "ForFarmers NV"
+  },
+  {
+    "n": 29,
+    "id": 12629,
+    "symbole": "SIFG.NV",
+    "nom": "Sif Holding NV"
+  },
+  {
+    "n": 30,
+    "id": 12630,
+    "symbole": "CA12630",
+    "nom": "Vastned Retail NV"
+  },
+  {
+    "n": 31,
+    "id": 12631,
+    "symbole": "ACOMO.NV",
+    "nom": "Acomo NV"
+  },
+  {
+    "n": 32,
+    "id": 12632,
+    "symbole": "KENDR.NV",
+    "nom": "Kendrion NV"
+  },
+  {
+    "n": 33,
+    "id": 12633,
+    "symbole": "BSGR.NV",
+    "nom": "B&S Group SA"
+  },
+  {
+    "n": 34,
+    "id": 12634,
+    "symbole": "FER.NV",
+    "nom": "Ferrovial SE"
+  },
+  {
+    "n": 35,
+    "id": 12635,
+    "symbole": "CMCOM.NV",
+    "nom": "CM.com NV"
+  },
+  {
+    "n": 36,
+    "id": 12636,
+    "symbole": "12636",
+    "nom": "12636"
+  },
+  {
+    "n": 37,
+    "id": 12637,
+    "symbole": "AXS.NV",
+    "nom": "Accsys Technologies PLC"
+  },
+  {
+    "n": 38,
+    "id": 12638,
+    "symbole": "AZRN.NV",
+    "nom": "Azerion Group NV"
+  },
+  {
+    "n": 39,
+    "id": 12639,
+    "symbole": "VEON.NV",
+    "nom": "VEON Ltd"
+  },
+  {
+    "n": 40,
+    "id": 12640,
+    "symbole": "BAI.NV",
+    "nom": "BenevolentAI SA"
+  },
+  {
+    "n": 41,
+    "id": 12641,
+    "symbole": "VALUE.NV",
+    "nom": "Value8 NV"
+  },
+  {
+    "n": 42,
+    "id": 12642,
+    "symbole": "HOLCO.NV",
+    "nom": "Holland Colours NV"
+  },
+  {
+    "n": 43,
+    "id": 12643,
+    "symbole": "EARTH.NV",
+    "nom": "Green Earth Group NV"
+  },
+  {
+    "n": 44,
+    "id": 12644,
+    "symbole": "NRP.NV",
+    "nom": "Nepi Rockcastle NV"
+  },
+  {
+    "n": 45,
+    "id": 12645,
+    "symbole": "EAS2P.NV",
+    "nom": "Ease2pay NV"
+  },
+  {
+    "n": 46,
+    "id": 12646,
+    "symbole": "REINA.NV",
+    "nom": "Reinet Investments SCA"
+  },
+  {
+    "n": 47,
+    "id": 12647,
+    "symbole": "CABKA.NV",
+    "nom": "Cabka NV"
+  },
+  {
+    "n": 48,
+    "id": 12648,
+    "symbole": "AJAX.NV",
+    "nom": "AFC Ajax NV"
+  },
+  {
+    "n": 49,
+    "id": 12649,
+    "symbole": "CTAC.NV",
+    "nom": "Ctac NV"
+  },
+  {
+    "n": 50,
+    "id": 12650,
+    "symbole": "PBH.NV",
+    "nom": "PB Holding N.V."
+  },
+  {
+    "n": 51,
+    "id": 12651,
+    "symbole": "MORE.NV",
+    "nom": "Morefield Group NV"
+  },
+  {
+    "n": 52,
+    "id": 12652,
+    "symbole": "BNJ.NV",
+    "nom": "Banijay Group NV"
+  },
+  {
+    "n": 53,
+    "id": 12653,
+    "symbole": "ALX.NV",
+    "nom": "Alumexx NV"
+  },
+  {
+    "n": 54,
+    "id": 12654,
+    "symbole": "NAI.NV",
+    "nom": "New Amsterdam Invest NV"
+  },
+  {
+    "n": 55,
+    "id": 12655,
+    "symbole": "AMUND.NV",
+    "nom": "Almunda Professionals NV"
+  },
+  {
+    "n": 56,
+    "id": 12656,
+    "symbole": "NEDSE.NV",
+    "nom": "MKB Nedsense NV"
+  },
+  {
+    "n": 57,
+    "id": 12657,
+    "symbole": "QEV.NV",
+    "nom": "SPEAR Investments I BV"
+  },
+  {
+    "n": 58,
+    "id": 12658,
+    "symbole": "DIE.BR",
+    "nom": "DIeteren Group SA"
+  },
+  {
+    "n": 59,
+    "id": 12659,
+    "symbole": "dor12659",
+    "nom": "CMB Tech NV"
+  },
+  {
+    "n": 60,
+    "id": 12660,
+    "symbole": "LOTB.BR",
+    "nom": "Lotus Bakeries NV"
+  },
+  {
+    "n": 61,
+    "id": 12661,
+    "symbole": "ELI.BR",
+    "nom": "Elia Group SA"
+  },
+  {
+    "n": 62,
+    "id": 12662,
+    "symbole": "AZE.BR",
+    "nom": "Azelis Group NV"
+  },
+  {
+    "n": 63,
+    "id": 12663,
+    "symbole": "TUB.BR",
+    "nom": "Financiere de Tubize SA"
+  },
+  {
+    "n": 64,
+    "id": 12664,
+    "symbole": "MELE.BR",
+    "nom": "Melexis NV"
+  },
+  {
+    "n": 65,
+    "id": 12665,
+    "symbole": "SHUR.BR",
+    "nom": "Shurgard Self Storage Ltd"
+  },
+  {
+    "n": 66,
+    "id": 12666,
+    "symbole": "KBCA.BR",
+    "nom": "Kbc Ancora NV"
+  },
+  {
+    "n": 67,
+    "id": 12667,
+    "symbole": "BAR.BR",
+    "nom": "Barco NV"
+  },
+  {
+    "n": 68,
+    "id": 12668,
+    "symbole": "XIOR.BR",
+    "nom": "Xior Student Housing NV"
+  },
+  {
+    "n": 69,
+    "id": 12669,
+    "symbole": "BEKB.BR",
+    "nom": "NV Bekaert SA"
+  },
+  {
+    "n": 70,
+    "id": 12670,
+    "symbole": "DEME.BR",
+    "nom": "DEME Group NV"
+  },
+  {
+    "n": 71,
+    "id": 12671,
+    "symbole": "VGP.BR",
+    "nom": "VGP NV"
+  },
+  {
+    "n": 72,
+    "id": 12672,
+    "symbole": "MONT.BR",
+    "nom": "Montea NV"
+  },
+  {
+    "n": 73,
+    "id": 12673,
+    "symbole": "FAGR.BR",
+    "nom": "Fagron NV"
+  },
+  {
+    "n": 74,
+    "id": 12674,
+    "symbole": "CPINV.BR",
+    "nom": "Care Property Invest NV"
+  },
+  {
+    "n": 75,
+    "id": 12675,
+    "symbole": "ONTEX.BR",
+    "nom": "Ontex Group NV"
+  },
+  {
+    "n": 76,
+    "id": 12676,
+    "symbole": "KIN.BR",
+    "nom": "Kinepolis Group NV"
+  },
+  {
+    "n": 77,
+    "id": 12677,
+    "symbole": "GIMB.BR",
+    "nom": "Gimv NV"
+  },
+  {
+    "n": 78,
+    "id": 12678,
+    "symbole": "RET.BR",
+    "nom": "Retail Estates NV"
+  },
+  {
+    "n": 79,
+    "id": 12679,
+    "symbole": "TESB.BR",
+    "nom": "Tessenderlo Group NV"
+  },
+  {
+    "n": 80,
+    "id": 12680,
+    "symbole": "12680",
+    "nom": "12680"
+  },
+  {
+    "n": 81,
+    "id": 12681,
+    "symbole": "BREB.BR",
+    "nom": "Brederode SA"
+  },
+  {
+    "n": 82,
+    "id": 12682,
+    "symbole": "RECT.BR",
+    "nom": "Recticel NV"
+  },
+  {
+    "n": 83,
+    "id": 12683,
+    "symbole": "BPOST.BR",
+    "nom": "Bpost SA"
+  },
+  {
+    "n": 84,
+    "id": 12684,
+    "symbole": "EVS.BR",
+    "nom": "EVS Broadcast Equipment SA"
+  },
+  {
+    "n": 85,
+    "id": 12685,
+    "symbole": "IBAB.BR",
+    "nom": "Ion Beam Applications SA"
+  },
+  {
+    "n": 86,
+    "id": 12686,
+    "symbole": "TITC.BR",
+    "nom": "Titan SA"
+  },
+  {
+    "n": 87,
+    "id": 12687,
+    "symbole": "HYL.BR",
+    "nom": "Hyloris Pharmaceuticals SA"
+  },
+  {
+    "n": 88,
+    "id": 12688,
+    "symbole": "ASCE.BR",
+    "nom": "Ascencio SA"
+  },
+  {
+    "n": 89,
+    "id": 12689,
+    "symbole": "DECB.BR",
+    "nom": "Deceuninck NV"
+  },
+  {
+    "n": 90,
+    "id": 12690,
+    "symbole": "TINC.BR",
+    "nom": "Tinc NV"
+  },
+  {
+    "n": 91,
+    "id": 12691,
+    "symbole": "VAN.BR",
+    "nom": "Van de Velde NV"
+  },
+  {
+    "n": 92,
+    "id": 12692,
+    "symbole": "HOMI.BR",
+    "nom": "Home Invest Belgium SA"
+  },
+  {
+    "n": 93,
+    "id": 12693,
+    "symbole": "AGFB.BR",
+    "nom": "AGFA Gevaert NV"
+  },
+  {
+    "n": 94,
+    "id": 12694,
+    "symbole": "COMB.BR",
+    "nom": "Compagnie du Bois Sauvage SA"
+  },
+  {
+    "n": 95,
+    "id": 12695,
+    "symbole": "NYXH.BR",
+    "nom": "Nyxoah SA"
+  },
+  {
+    "n": 96,
+    "id": 12696,
+    "symbole": "SOLV.BR",
+    "nom": "Solvac SA"
+  },
+  {
+    "n": 97,
+    "id": 12697,
+    "symbole": "ONWD.BR",
+    "nom": "ONWARD Medical NV"
+  },
+  {
+    "n": 98,
+    "id": 12698,
+    "symbole": "IMMO.BR",
+    "nom": "Compagnie Immobiliere de Belgique"
+  },
+  {
+    "n": 99,
+    "id": 12699,
+    "symbole": "EKOP.BR",
+    "nom": "Ekopak NV"
+  },
+  {
+    "n": 100,
+    "id": 12700,
+    "symbole": "WEHB.BR",
+    "nom": "Wereldhave Belgium NV"
+  }
+]

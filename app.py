@@ -45,6 +45,8 @@ COPIERS_VS_PERF_CACHE = os.path.join(os.path.dirname(__file__), "data", "copiers
 CHAT_QUESTIONS_LOG = os.path.join(os.path.dirname(__file__), "data", "chat_questions.jsonl")
 NEWS_MEDIASTACK_PATH = os.path.join(os.path.dirname(__file__), "data", "news_mediastack.json")
 ETORO_PUBLISHED_POSTS_PATH = os.path.join(os.path.dirname(__file__), "data", "etoro_published_posts.json")
+TRADER_POSTS_PATH = os.path.join(os.path.dirname(__file__), "data", "trader_posts_romainroth.json")
+TRADER_POST_IMAGES_DIR = os.path.join(os.path.dirname(__file__), "data", "trader_post_images")
 
 # Rate limit par visitor_id : 5/min, 30/h, 100/j
 CHAT_RATE_LIMIT = {"per_min": 5, "per_hour": 30, "per_day": 100}
@@ -689,22 +691,10 @@ def index():
         most_copied = []
 
     try:
-        zonebourse_result = get_latest_news(
-            limit=2,
-            cache_path=None,
-            generate_image_fn=_gen_zonebourse_image,
-            portfolio_instruments=portfolio_instruments,
-        )
-        zonebourse_news = zonebourse_result.get("items", [])
-        zonebourse_used_fallback = zonebourse_result.get("used_fallback", False)
-    except Exception:
-        zonebourse_news = []
-        zonebourse_used_fallback = False
-
-    try:
         current_copiers = get_current_copiers(TRADER_USERNAME)
     except Exception:
         current_copiers = None
+    trader_posts = _load_trader_posts_local(limit=None)
 
     resp = make_response(render_template(
         "profile.html",
@@ -722,8 +712,7 @@ def index():
         dca_romainroth=dca_romainroth,
         dca_sp500=dca_sp500,
         dca_total_invested=dca_total_invested,
-        zonebourse_news=zonebourse_news,
-        zonebourse_used_fallback=zonebourse_used_fallback,
+        trader_posts=trader_posts,
         current_copiers=current_copiers,
         recaptcha_site_key=os.getenv("RECAPTCHA_SITE_KEY", ""),
     ))
@@ -897,6 +886,14 @@ def api_zonebourse_image(filename: str):
     if not filename.endswith(".png") or ".." in filename or "/" in filename:
         return jsonify({"error": "invalid"}), 400
     return send_from_directory(ZONEBOURSE_IMAGES_DIR, filename, mimetype="image/png")
+
+
+@app.route("/api/trader-post-image/<filename>")
+def api_trader_post_image(filename: str):
+    """Sert une image de post trader sauvegardée localement."""
+    if ".." in filename or "/" in filename:
+        return jsonify({"error": "invalid"}), 400
+    return send_from_directory(TRADER_POST_IMAGES_DIR, filename)
 
 
 @app.route("/api/zonebourse-news")
@@ -1320,6 +1317,39 @@ def _load_chat_questions() -> list[dict]:
     except Exception:
         pass
     return rows
+
+
+def _load_trader_posts_local(limit: int | None = None) -> list[dict]:
+    """Charge les posts du trader depuis le JSON local."""
+    if not os.path.exists(TRADER_POSTS_PATH):
+        return []
+    try:
+        with open(TRADER_POSTS_PATH, encoding="utf-8") as f:
+            data = json.load(f)
+        posts = data.get("posts") if isinstance(data, dict) else None
+        if not isinstance(posts, list):
+            return []
+        cleaned: list[dict] = []
+        for p in posts:
+            if not isinstance(p, dict):
+                continue
+            message = str(p.get("message") or "").strip()
+            created = str(p.get("created") or "").strip()
+            image_url = str(p.get("image_url") or "").strip() or None
+            if not message:
+                continue
+            cleaned.append({
+                "id": str(p.get("id") or ""),
+                "created": created,
+                "message": message,
+                "image_url": image_url,
+            })
+        cleaned.sort(key=lambda x: x.get("created", ""), reverse=True)
+        if limit is None:
+            return cleaned
+        return cleaned[: max(0, limit)]
+    except Exception:
+        return []
 
 
 def _load_chatbot_resources(filename: str) -> str:

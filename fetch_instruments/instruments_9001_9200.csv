@@ -1,0 +1,201 @@
+﻿n°,id,symbole,nom
+1,9001,CLOV,Clover Health Investments Corp.
+2,9002,WKME,WalkMe Ltd.
+3,9003,YOU.DE,ABOUT YOU Holding AG
+4,9004,AMBR,Amber International Holding Lt
+5,9005,CYRX,CryoPort Inc.
+6,9006,EMBJ,Embraer SA-ADR
+7,9007,DAC,Danaos Corp
+8,9008,TRUP,Trupanion Inc
+9,9009,HDB,HDFC Bank Ltd-ADR
+10,9010,SCATC.OL,Scatec ASA
+11,9011,ECV.DE,Encavis AG
+12,9012,WBK,Westpac Banking Corp - ADR
+13,9013,EMBRACB.ST,Embracer Group AB
+14,9014,SF.ST,Stillfront Group AB
+15,9015,ZIP,ZipRecruiter Inc.
+16,9016,TEAD,TEAD Holdings Co
+17,9017,RSKD,Riskified Inc.
+18,9018,9018,9018
+19,9019,PLTK,Playtika Holding Corp.
+20,9020,WOOF,Petco Health & Wellness Company Inc
+21,9021,POSH,Poshmark Inc Class A
+22,9022,DRVN,Driven Brands Holdings Inc
+23,9023,LGIH,LGI Homes Inc.
+24,9024,FUBO,FuboTV Inc
+25,9025,KTB,Kontoor Brands Inc.
+26,9026,HL,Hecla Mining Company
+27,9027,ARNC,Arconic Corporation
+28,9028,EAF,GrafTech International Ltd.
+29,9029,TEX,Terex Corporation
+30,9030,LOPE,Grand Canyon Education Inc.
+31,9031,STEM,Stem Inc.
+32,9032,VRNT,Verint Systems Inc.
+33,9033,AHCO,AdaptHealth Corp.
+34,9034,WDFC,WD-40 Company
+35,9035,TCBI,Texas Capital Bancshares Inc.
+36,9036,IOVA,Iovance Biotherapeutics Inc.
+37,9037,FLGT,Fulgent Genetics Inc.
+38,9038,CVLT,Commvault Systems Inc.
+39,9039,AXNX,Axonics Inc.
+40,9040,NWE,NorthWestern Corporation
+41,9041,9041,9041
+42,9042,SJI,South Jersey Industries Inc.
+43,9043,CCXI,ChemoCentryx Inc.
+44,9044,COLB,Columbia Banking System Inc.
+45,9045,UCTT,Ultra Clean Holdings Inc.
+46,9046,GOEVQ,Canoo Inc.
+47,9047,TWNK,Hostess Brands Inc.
+48,9048,PCRX,Pacira BioSciences Inc.
+49,9049,PRCH,Porch Group Inc.
+50,9050,SPHR,Sphere Entertainment Co
+51,9051,9051,9051
+52,9052,NTCT,NetScout Systems Inc.
+53,9053,CDNA,CareDx Inc
+54,9054,GBT,Global Blood Therapeutics Inc.
+55,9055,BGS,B&G Foods Inc.
+56,9056,9056,9056
+57,9057,MDRX,Veradigm Inc
+58,9058,NSTGQ,NanoString Technologies Inc.
+59,9059,KN,Knowles Corporation
+60,9060,DOW,Dow Inc.
+61,9061,BF-B,Brown-Forman Corporation
+62,9062,IR,Ingersoll Rand Inc.
+63,9063,HZNP,Horizon Therapeutics Public Limited Company
+64,9064,TW,Tradeweb Markets Inc.
+65,9065,TYL,Tyler Technologies Inc.
+66,9066,IPO1.US,IPO1
+67,9067,DAY,Dayforce Inc
+68,9068,CLVT,Clarivate Plc
+69,9069,GDRX,GoodRx Holdings Inc.
+70,9070,ARGX,Argenx SE-ADR
+71,9071,FND,Floor & Decor Holdings Inc.
+72,9072,AVLR,Avalara Inc.
+73,9073,WAL,Western Alliance Bancorporation
+74,9074,SNA,Snap-on Incorporated
+75,9075,TTC,The Toro Company
+76,9076,PCOR,Procore Technologies Inc.
+77,9077,FICO,Fair Isaac Corporation
+78,9078,FHN,First Horizon Corporation
+79,9079,WSC,WillScot Mobile Mini Holdings Corp.
+80,9080,AGL,agilon health inc.
+81,9081,AIRC,Apartment Income REIT Corp.
+82,9082,JHG,Janus Henderson Group plc
+83,9083,OMCL,Omnicell Inc.
+84,9084,WK,Workiva Inc.
+85,9085,RKLB,Rocket Lab Corp
+86,9086,ASGN,ASGN Incorporated
+87,9087,NVST,Envista Holdings Corporation
+88,9088,EXP,Eagle Materials Inc.
+89,9089,VVV.US,Valvoline Inc.
+90,9090,AZEK,The AZEK Company Inc.
+91,9091,FLNC,Fluence Energy Inc.
+92,9092,CLH,Clean Harbors Inc.
+93,9093,NCNO,nCino Inc.
+94,9094,VNT,Vontier Corporation
+95,9095,BEAM,Beam Therapeutics Inc.
+96,9096,WTFC,Wintrust Financial Corporation
+97,9097,AMN,AMN Healthcare Services Inc.
+98,9098,APPN,Appian Corporation
+99,9099,FIGS,FIGS Inc.
+100,9100,RARE.US,Ultragenyx Pharmaceutical Inc.
+101,9101,CALY,Callaway Golf Company
+102,9102,AL,Air Lease Corporation
+103,9103,GSHD,Goosehead Insurance Inc
+104,9104,SLG,SL Green Realty Corp.
+105,9105,MMS,Maximus Inc.
+106,9106,RHP,Ryman Hospitality Properties Inc.
+107,9107,VSCO,Victoria's Secret & Co.
+108,9108,DTM,DT Midstream Inc.
+109,9109,CIVI,Civitas Resources Inc.
+110,9110,EXLS,ExlService Holdings Inc.
+111,9111,CWH,Camping World Holdings Inc.
+112,9112,SSTK,Shutterstock Inc.
+113,9113,SWX,Southwest Gas Holdings Inc.
+114,9114,ARVN,Arvinas Inc.
+115,9115,COMP.US,Compass Inc.
+116,9116,PFSI,PennyMac Financial Services Inc.
+117,9117,KLIC,Kulicke and Soffa Industries Inc.
+118,9118,ETWO,E2open Parent Holdings Inc.
+119,9119,INSM,Insmed Incorporated
+120,9120,WMT.RTH,Walmart Inc.
+121,9121,ASB,Associated Banc-Corp
+122,9122,CRC,California Resources Corporation
+123,9123,RLAY,Relay Therapeutics Inc.
+124,9124,SR,Spire Inc.
+125,9125,PTLO,Portillo's Inc.
+126,9126,ONB,Old National Bancorp
+127,9127,LPRO,Open Lending Corporation
+128,9128,WERN,Werner Enterprises Inc.
+129,9129,UPBD, Upbound Group Inc
+130,9130,FTDR,Frontdoor Inc.
+131,9131,WIRE,Encore Wire Corporation
+132,9132,DY,Dycom Industries Inc.
+133,9133,BCC,Boise Cascade Company
+134,9134,PSFE,Paysafe Limited
+135,9135,ARCB,ArcBest Corporation
+136,9136,ASTR,Astra Space Inc.
+137,9137,ALLO,Allogene Therapeutics Inc.
+138,9138,FBC,Flagstar Bancorp Inc.
+139,9139,AAMI,Acadian Asset Management Inc.
+140,9140,SAVA,Cassava Sciences Inc.
+141,9141,ACLS,Axcelis Technologies Inc.
+142,9142,SBLK,Star Bulk Carriers Corp.
+143,9143,DM,Desktop Metal Inc.
+144,9144,MBC,MasterBrand INC
+145,9145,HYZN,Hyzon Motors Inc.
+146,9146,CDMO,Avid Bioservices Inc.
+147,9147,GENI,Genius Sports Limited
+148,9148,IRWD,Ironwood Pharmaceuticals Inc.
+149,9149,SNBR,Sleep Number Corporation
+150,9150,CMP,Compass Minerals International Inc.
+151,9151,BAND.US,Bandwidth Inc.
+152,9152,MHO,M/I Homes Inc.
+153,9153,NOG,Northern Oil and Gas Inc.
+154,9154,HYFM,Hydrofarm Holdings Group Inc.
+155,9155,BFLY,Butterfly Network Inc.
+156,9156,DNMRQ,Danimer Scientific Inc.
+157,9157,RELX,RELX PLC-ADR
+158,9158,NGG,National Grid plc-ADR
+159,9159,AOSL,Alpha and Omega Semiconductor Limited
+160,9160,MTTR,Matterport Inc
+161,9161,VZ.RTH,Verizon
+162,9162,9162,9162
+163,9163,9163,9163
+164,9164,9164,9164
+165,9165,9165,9165
+166,9166,9166,9166
+167,9167,9167,9167
+168,9168,9168,9168
+169,9169,9169,9169
+170,9170,9170,9170
+171,9171,9171,9171
+172,9172,9172,9172
+173,9173,9173,9173
+174,9174,9174,9174
+175,9175,9175,9175
+176,9176,9176,9176
+177,9177,9177,9177
+178,9178,9178,9178
+179,9179,9179,9179
+180,9180,9180,9180
+181,9181,9181,9181
+182,9182,9182,9182
+183,9183,9183,9183
+184,9184,9184,9184
+185,9185,9185,9185
+186,9186,9186,9186
+187,9187,9187,9187
+188,9188,9188,9188
+189,9189,9189,9189
+190,9190,9190,9190
+191,9191,9191,9191
+192,9192,9192,9192
+193,9193,9193,9193
+194,9194,9194,9194
+195,9195,9195,9195
+196,9196,9196,9196
+197,9197,9197,9197
+198,9198,9198,9198
+199,9199,9199,9199
+200,9200,9200,9200

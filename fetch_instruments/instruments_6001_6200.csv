@@ -1,0 +1,201 @@
+﻿n°,id,symbole,nom
+1,6001,UDR,UDR Inc
+2,6002,VNO,Vornado Realty Trust
+3,6003,6003,6003
+4,6004,EG,Everest Group Ltd
+5,6005,RMD,ResMed Inc
+6,6006,BIO.US,Bio-Rad Laboratories Inc
+7,6007,DRE,Duke Realty Corp
+8,6008,6008,6008
+9,6009,RETA,Reata Pharmaceuticals Inc
+10,6010,6010,6010
+11,6011,OHI,Omega Healthcare Investors Inc
+12,6012,STE,STERIS PLC
+13,6013,SUZ,Suzano SA-ADR
+14,6014,THO,Thor Industries Inc
+15,6015,CHGG,Chegg Inc
+16,6016,ATH.old,Athene Holding Ltd
+17,6017,NVCR,Novocure Ltd
+18,6018,EHTH,eHealth Inc
+19,6019,MRTX,Mirati Therapeutics Inc
+20,6020,MTN,Vail Resorts Inc
+21,6021,GNRC,Generac Holdings Inc
+22,6022,SFIX,Stitch Fix Inc
+23,6023,RVTY,Revvity Inc 
+24,6024,TREE.US,LendingTree Inc
+25,6025,COLD,Americold Realty Trust
+26,6026,BZUN,Baozun Inc-ADR
+27,6027,CADE.old,Cadence BanCorp
+28,6028,MTH,Meritage Homes Corp
+29,6029,BJ,BJ's Wholesale Club Holdings Inc
+30,6030,HQY,HealthEquity Inc
+31,6031,6031,6031
+32,6032,WPC,WP Carey Inc
+33,6033,SAFM,Sanderson Farms Inc
+34,6034,HGV,Hilton Grand Vacations Inc
+35,6035,REG,Regency Centers Corp
+36,6036,SAGE,Sage Therapeutics Inc
+37,6037,CRUS,Cirrus Logic Inc
+38,6038,PENN,Penn National Gaming Inc
+39,6039,PNR,Pentair PLC
+40,6040,GOSS,Gossamer Bio Inc
+41,6041,BG,Bunge Global S.A.
+42,6042,PRAH,PRA Health Sciences Inc
+43,6043,BLUE,Bluebird Bio Inc
+44,6044,FRT,Federal Realty Investment Trust
+45,6045,ARCH,Arch Resources Inc
+46,6046,WST,West Pharmaceutical Services Inc
+47,6047,6047,6047
+48,6048,ZTO,ZTO Express Cayman Inc-ADR
+49,6049,6049,6049
+50,6050,WTR,Essential Utilities Inc
+51,6051,DECK,Deckers Outdoor Corp
+52,6052,GGB,Gerdau SA-ADR
+53,6053,CROX,Crocs Inc
+54,6054,288.HK,WH Group Ltd
+55,6055,AZPN.US,Aspen Technology Inc
+56,6056,QTWO,Q2 Holdings Inc
+57,6057,OLN,Olin Corp
+58,6058,BRO,Brown & Brown Inc
+59,6059,CHE,Chemed Corp
+60,6060,BRFS,BRF SA-ADR
+61,6061,EVBG,Everbridge Inc
+62,6062,KBH,KB Home
+63,6063,TREX,Trex Co Inc
+64,6064,CADE,Cadence Bank
+65,6065,RARX,Ra Pharmaceuticals Inc
+66,6066,REXR,Rexford Industrial Realty Inc
+67,6067,DNKN,Dunkin Brands Group Inc
+68,6068,EHC,Encompass Health Corp
+69,6069,AMED,Amedisys Inc
+70,6070,IBKC,IBERIABANK Corp
+71,6071,AXON,Axon Enterprise Inc
+72,6072,CRL,Charles River Laboratories International Inc
+73,6073,SPWRQ,SunPower Corp
+74,6074,CUBE,CubeSmart
+75,6075,HRC,Hill-Rom Holdings Inc
+76,6076,6076,6076
+77,6077,MTDR,Matador Resources Co
+78,6078,PRKS,United Parks & Resorts Inc
+79,6079,PEB,Pebblebrook Hotel Trust
+80,6080,NVRO,Nevro Corp
+81,6081,VAC,Marriott Vacations Worldwide Corp
+82,6082,CHRS,Coherus Biosciences Inc
+83,6083,FRPT,Freshpet Inc
+84,6084,EXEL,Exelixis Inc
+85,6085,2331.HK,Li Ning Co Ltd
+86,6086,NTRA,Natera Inc
+87,6087,CZR,Caesars Entertainment Inc
+88,6088,HR,Healthcare Realty Trust Inc
+89,6089,ABCB,Ameris Bancorp
+90,6090,LSI,Life Storage Inc
+91,6091,HTHT,Huazhu Group Ltd-ADR
+92,6092,IPHI,Inphi Corp
+93,6093,6093,6093
+94,6094,COHR,Coherent Corp
+95,6095,TMHC,Taylor Morrison Home Corp
+96,6096,BLDR,Builders FirstSource Inc
+97,6097,MRCY,Mercury Systems Inc
+98,6098,RDN,Radian Group Inc
+99,6099,CNK,Cinemark Holdings Inc
+100,6100,MDC,MDC Holdings Inc
+101,6101,NSP,Insperity Inc
+102,6102,PDCE,PDC Energy Inc
+103,6103,6103,6103
+104,6104,BRKR,Bruker Corp
+105,6105,INGN,Inogen Inc
+106,6106,PLAY,Dave & Busters Entertainment Inc
+107,6107,GOLLQ,Gol Linhas Aereas Inteligentes SA-ADR
+108,6108,LPSN,LivePerson Inc
+109,6109,NVTAQ,Invitae Corp
+110,6110,SM,SM Energy Co
+111,6111,CTLT,Catalent Inc
+112,6112,AZLUY,Azul SA-SPDN ADR
+113,6113,EGHT,8x8 Inc
+114,6114,AIN,Albany International Corp
+115,6115,EV,Eaton Vance Corp
+116,6116,1833.HK,Ping An Healthcare and Technology Co Ltd
+117,6117,VCYT,Veracyte Inc
+118,6118,RGEN,Repligen Corp
+119,6119,6119,6119
+120,6120,QEP,QEP Resources Inc
+121,6121,6121,6121
+122,6122,SBS,Cia de Saneamento Basico do Estado de Sao Paulo-ADR
+123,6123,FBP,First BanCorp/Puerto Rico
+124,6124,JACK,Jack in the Box Inc
+125,6125,SUM,Summit Materials Inc
+126,6126,TXRH,Texas Roadhouse Inc
+127,6127,GKOS,Glaukos Corp
+128,6128,ACIA,Acacia Communications Inc
+129,6129,SBRA,Sabra Health Care REIT Inc
+130,6130,BCO,Brinks Co
+131,6131,BHVN.OLD,Biohaven Pharmaceutical Holding Co Ltd
+132,6132,SXT.US,Sensient Technologies Corp
+133,6133,OAS.OLD,Oasis Petroleum Inc
+134,6134,TECH,Bio-Techne Corp
+135,6135,SKM,SK Telecom Co Ltd-ADR
+136,6136,BPMC,Blueprint Medicines Corp
+137,6137,00066.HK,MTR Corp Ltd
+138,6138,IMMU,Immunomedics Inc
+139,6139,OIBR,Oi SA
+140,6140,CVSA,Covista Inc
+141,6141,TACO,Del Taco Restaurants Inc
+142,6142,IDA,IDACORP Inc
+143,6143,ISBC,Investors Bancorp Inc
+144,6144,CNX,CNX Resources Corp
+145,6145,BOX,Box Inc
+146,6146,MTOR,Meritor Inc
+147,6147,SAIL.US,SailPoint Technologies Holding Inc
+148,6148,3888.HK,Kingsoft Corp Ltd
+149,6149,SCCO,Southern Copper Corp
+150,6150,6055.HK,China Tobacco International HK Co Ltd
+151,6151,IBP,Installed Building Products Inc
+152,6152,MRNA,Moderna Inc
+153,6153,TMV.DE,TeamViewer AG
+154,6154,LOGM,LogMeIn Inc
+155,6155,NVAX,Novavax Inc
+156,6156,6156,6156
+157,6157,6157,6157
+158,6158,6158,6158
+159,6159,6159,6159
+160,6160,6160,6160
+161,6161,6161,6161
+162,6162,6162,6162
+163,6163,6163,6163
+164,6164,6164,6164
+165,6165,6165,6165
+166,6166,PS,Pluralsight Inc
+167,6167,CODX,Co-Diagnostics Inc
+168,6168,COIN,Coinbase Global Inc
+169,6169,GRCE,Grace Therapeutics Inc
+170,6170,DMKPQ,DMK Pharmaceuticals Corp
+171,6171,XM,QUALTRICS INTERNATIONAL-CL A
+172,6172,AEZS,Aeterna Zentaris Inc
+173,6173,AGRX,Agile Therapeutics Inc
+174,6174,AIHS,Senmiao Technology Ltd
+175,6175,ALDX,Aldeyra Therapeutics Inc
+176,6176,SHLS,Shoals Technologies Group Inc
+177,6177,TTEK,Tetra Tech Inc
+178,6178,APPS,Digital Turbine Inc
+179,6179,ARPO,Rights APRN 7/10/21
+180,6180,ATHXQ,Athersys Inc
+181,6181,ATRS,Antares Pharma Inc
+182,6182,AVCO,Avalon GloboCare Corp
+183,6183,AVGR,Avinger Inc
+184,6184,AVXL,Anavex Life Sciences Corp
+185,6185,CRTO,CRITEO SA-SPON ADR
+186,6186,SBLX,StableX Technologies Inc
+187,6187,AYTU,Aytu BioScience Inc
+188,6188,BHTG,BioHiTech Global Inc
+189,6189,BIOC,Biocept Inc
+190,6190,BIOL,Biolase Inc
+191,6191,BKYI,Bio-key International Inc
+192,6192,BLFS,BioLife Solutions Inc
+193,6193,BLNK,Blink Charging Co
+194,6194,BNGO,BioNano Genomics Inc
+195,6195,BOXL,Boxlight Corp
+196,6196,BYFC,Broadway Financial Corp/DE
+197,6197,PR,Permian Resources Corp
+198,6198,CEMI,Chembio Diagnostics Inc
+199,6199,CETX,Cemtrex Inc
+200,6200,CHEK,Check Cap Ltd

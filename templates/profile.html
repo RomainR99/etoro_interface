@@ -30,6 +30,18 @@
             min-height: 100vh;
             line-height: 1.6;
         }
+        /* Masque le contenu qui défile dans le créneau sticky (top: 5px) */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--bg);
+            z-index: 101;
+            pointer-events: none;
+        }
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -43,9 +55,24 @@
             border-bottom: 1px solid var(--border);
             margin-bottom: 2rem;
             position: sticky;
-            top: 0;
+            top: 5px;
             z-index: 100;
             background: var(--bg);
+            transition: padding-bottom 0.22s ease, margin-bottom 0.22s ease, gap 0.22s ease;
+        }
+        header.header--compact {
+            padding-bottom: 5px;
+            margin-bottom: 1rem;
+            gap: 0.75rem;
+        }
+        .header-etoro-hit {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 25%;
+            z-index: 2;
+            cursor: pointer;
         }
         .avatar {
             width: 100px;
@@ -220,14 +247,60 @@
             text-decoration: none;
         }
         a:hover { text-decoration: underline; }
-        .risk-warning {
+        .site-footer {
             margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+        .risk-warning {
             padding: 0.75rem 0;
             font-size: 0.75rem;
             line-height: 1.5;
             color: var(--muted);
         }
         .risk-warning .risk-text { font-style: italic; }
+        .trader-posts-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .trader-post-item {
+            border-bottom: 1px solid var(--border);
+            padding: 0.8rem 0;
+        }
+        .trader-post-item:last-child {
+            border-bottom: none;
+        }
+        .trader-post-date {
+            color: var(--muted);
+            font-size: 0.8rem;
+            margin-bottom: 0.2rem;
+        }
+        .trader-post-message {
+            white-space: pre-line;
+        }
+        .trader-post-image {
+            margin-top: 0.6rem;
+            width: 100%;
+            max-width: 720px;
+            border-radius: 8px;
+            display: block;
+            border: 1px solid var(--border);
+        }
+        .btn-load-more-posts {
+            margin-top: 0.8rem;
+            padding: 0.45rem 0.8rem;
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-load-more-posts:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
         /* Chatbot bas-droite */
         .chat-toggle-wrap {
             position: fixed;
@@ -257,6 +330,26 @@
             flex-shrink: 0;
         }
         .chat-toggle:hover { opacity: 0.9; }
+        .lang-switch {
+            margin-left: auto;
+            display: flex;
+            gap: 0.35rem;
+            position: relative;
+            z-index: 3;
+        }
+        .lang-btn {
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text);
+            border-radius: 6px;
+            padding: 0.35rem 0.5rem;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .lang-btn.active {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
         .chat-panel {
             display: none;
             position: fixed;
@@ -379,30 +472,12 @@
             color: var(--muted);
             font-size: 0.85rem;
         }
-        .btn-post-etoro {
-            margin-top: 0.5rem;
-            padding: 0.35rem 0.75rem;
-            font-size: 0.8rem;
-            background: var(--border);
-            color: var(--fg);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            cursor: pointer;
-        }
-        .btn-post-etoro:hover:not(:disabled) {
-            background: var(--accent);
-            color: var(--bg);
-            border-color: var(--accent);
-        }
-        .btn-post-etoro:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
+            <a href="https://www.etoro.com/people/{{ username }}" class="header-etoro-hit" target="_blank" rel="noopener noreferrer" aria-label="Profil eToro — {{ username }}"></a>
             {% if profile and profile.avatars and profile.avatars|length > 0 %}
                 {% set avatar_url = profile.avatars[-1].url if profile.avatars[-1].url else profile.avatars[0].url %}
                 <img src="{{ avatar_url }}" alt="{{ username }}" class="avatar">
@@ -411,24 +486,26 @@
             {% endif %}
             <div>
                 <h1>{{ username }}</h1>
-                <p class="username">@{{ username }}</p>
                 {% if profile %}
-                    {% if profile.isVerified %}<span class="badge badge-verified">✓ Vérifié</span>{% endif %}
                     {% if profile.isPi %}<span class="badge badge-pi">Pro Investor</span>{% endif %}
                 {% endif %}
-                {% if current_copiers is not none %}<span class="badge" style="background: rgba(139,148,158,0.2); color: var(--muted);">{{ current_copiers }} copieur{% if current_copiers > 1 %}s{% endif %}</span>{% endif %}
+                {% if current_copiers is not none %}<span class="badge" id="copiersBadge" style="background: rgba(139,148,158,0.2); color: var(--muted);" data-count="{{ current_copiers }}">{{ current_copiers }} copieur{% if current_copiers > 1 %}s{% endif %}</span>{% endif %}
+            </div>
+            <div class="lang-switch">
+                <button type="button" id="langFrBtn" class="lang-btn">🇫🇷 FR</button>
+                <button type="button" id="langEnBtn" class="lang-btn">🇬🇧 EN</button>
             </div>
         </header>
 
         {% if not profile and not gain and not portfolio %}
             <div class="error-box">
-                Impossible de charger les données. Vérifiez vos clés API (.env) et que le trader "{{ username }}" existe.
+                <span id="errorLoadData">Impossible de charger les données. Vérifiez vos clés API (.env) et que le trader "{{ username }}" existe.</span>
             </div>
         {% endif %}
 
         {% if portfolio_instruments and portfolio_instruments|length > 0 %}
         <div class="card" style="margin-bottom: 1.5rem;">
-            <h2>Instruments en portefeuille ({{ portfolio_instruments|length }})</h2>
+            <h2 id="portfolioTitle" data-count="{{ portfolio_instruments|length }}">Instruments en portefeuille ({{ portfolio_instruments|length }})</h2>
             <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem;">
                 {% for item in portfolio_instruments %}
                 <span style="display: inline-flex; flex-direction: column; align-items: flex-start; gap: 0.15rem; background: rgba(88,166,255,0.1); border: 1px solid var(--border); padding: 0.5rem 0.75rem; border-radius: 8px; font-size: 0.9rem;">
@@ -447,26 +524,26 @@
         {% endif %}
 
         <div class="card" style="grid-column: 1 / -1;">
-            <h2>Performances</h2>
+            <h2 id="perfTitle">Performances</h2>
             {% if performance_yearly and performance_yearly|length > 0 %}
             <div>
                 <table class="perf-table" style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
                     <thead>
                         <tr style="border-bottom: 1px solid var(--border); text-align: left;">
-                            <th style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Année</th>
-                            <th style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Jan</th>
-                            <th style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Fév</th>
-                            <th style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Mar</th>
-                            <th style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Avr</th>
-                            <th style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Mai</th>
-                            <th style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Juin</th>
-                            <th style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Juil</th>
-                            <th style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Août</th>
-                            <th style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Sep</th>
-                            <th style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Oct</th>
-                            <th style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Nov</th>
-                            <th style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Déc</th>
-                            <th style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Total</th>
+                            <th data-i18n="year" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Année</th>
+                            <th data-i18n="mJan" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Jan</th>
+                            <th data-i18n="mFeb" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Fév</th>
+                            <th data-i18n="mMar" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Mar</th>
+                            <th data-i18n="mApr" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Avr</th>
+                            <th data-i18n="mMay" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Mai</th>
+                            <th data-i18n="mJun" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Juin</th>
+                            <th data-i18n="mJul" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Juil</th>
+                            <th data-i18n="mAug" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Août</th>
+                            <th data-i18n="mSep" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Sep</th>
+                            <th data-i18n="mOct" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Oct</th>
+                            <th data-i18n="mNov" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Nov</th>
+                            <th data-i18n="mDec" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Déc</th>
+                            <th data-i18n="total" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Total</th>
                             <th style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">S&P 500</th>
                             <th style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Écart</th>
                         </tr>
@@ -485,7 +562,7 @@
                         {% endfor %}
                         {% if performance_total %}
                         <tr style="border-top: 2px solid var(--border); font-weight: 600;">
-                            <td style="padding: 0.5rem 0.5rem;">Total</td>
+                            <td data-i18n="total" style="padding: 0.5rem 0.5rem;">Total</td>
                             <td colspan="12" style="padding: 0.5rem 0.5rem; color: var(--muted); font-size: 0.8rem;">—</td>
                             <td style="padding: 0.5rem 0.5rem; font-family: ui-monospace, monospace;" class="stat-value {{ 'positive' if performance_total.trader_pct is not none and performance_total.trader_pct >= 0 else 'negative' }} {{ 'perf-bg-positive' if performance_total.trader_pct is not none and performance_total.trader_pct > 0 else 'perf-bg-negative' if performance_total.trader_pct is not none and performance_total.trader_pct < 0 else 'perf-bg-neutral' if performance_total.trader_pct is not none else '' }}">{{ "%.2f"|format(performance_total.trader_pct) if performance_total.trader_pct is not none else "—" }}%</td>
                             <td style="padding: 0.5rem 0.5rem; font-family: ui-monospace, monospace;" class="stat-value {{ 'positive' if performance_total.sp500_pct is not none and performance_total.sp500_pct >= 0 else 'negative' }}">{{ "%.2f"|format(performance_total.sp500_pct) if performance_total.sp500_pct is not none else "—" }}%</td>
@@ -496,14 +573,14 @@
                 </table>
             </div>
             {% else %}
-            <p class="empty-state">Données de performance non disponibles.</p>
+            <p class="empty-state" id="perfEmpty">Données de performance non disponibles.</p>
             {% endif %}
         </div>
 
         {% if dca_labels and (dca_romainroth or dca_sp500) %}
         <div class="card" style="margin-top: 1.5rem; grid-column: 1 / -1;">
-            <h2>Simulation DCA — {{ "%.0f"|format(dca_total_invested) if dca_total_invested else "—" }} $ investis au total — {{ username }} vs S&P 500</h2>
-            <p class="empty-state" style="margin-bottom: 1rem;">1 000 $ au départ + 100 $/mois à la fin de chaque mois (à partir de sept. 2022)</p>
+            <h2 id="dcaTitle">Simulation DCA — {{ "%.0f"|format(dca_total_invested) if dca_total_invested else "—" }} $ investis au total — {{ username }} vs S&P 500</h2>
+            <p class="empty-state" style="margin-bottom: 1rem;" id="dcaSubtitle">1 000 $ au départ + 100 $/mois à la fin de chaque mois (à partir de sept. 2022)</p>
             <div style="position: relative; height: 320px;">
                 <canvas id="dcaChart"></canvas>
             </div>
@@ -511,47 +588,16 @@
         {% endif %}
 
         <div class="card" style="margin-top: 1.5rem; grid-column: 1 / -1;">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
-                <h2 style="margin: 0;">Dernières actualités</h2>
-                <button type="button" id="refreshZonebourseBtn" class="chart-controls button" style="padding: 0.4rem 0.9rem; font-size: 0.85rem; background: var(--accent); color: var(--bg); border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">Rafraîchir les actualités</button>
-            </div>
-            <div id="zonebourseNewsContainer">
-                {% if zonebourse_used_fallback %}
-                <p id="zonebourseFallbackNotice" class="news-fallback-notice" style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem;">Market news unavailable (Yahoo RSS or summary failed). Default content shown.</p>
-                {% else %}
-                <p id="zonebourseFallbackNotice" class="news-fallback-notice" style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem; display: none;"></p>
-                {% endif %}
-                {% if zonebourse_news and zonebourse_news|length > 0 %}
-                <ul class="news-list" id="zonebourseNewsList">
-                    {% for item in zonebourse_news %}
-                    <li class="news-item" data-title="{{ (item.title or '')|e }}" data-summary="{{ (item.summary or '')|e }}" data-image-url="{{ item.image_url or item.image_data_url or '' }}">
-                        <span class="news-title">{{ item.title }}</span>
-                        {% if item.summary %}
-                        <p class="news-summary">{{ item.summary }}</p>
-                        {% endif %}
-                        {% if item.image_url or item.image_data_url %}
-                        <div class="news-item-image">
-                            <img src="{{ item.image_url or item.image_data_url }}" alt="">
-                        </div>
-                        {% else %}
-                        <div class="news-item-image news-item-image-loading" data-title="{{ item.title|e }}" data-summary="{{ item.summary|e }}" data-style-index="{{ loop.index0 }}">
-                            <span>Génération de l'image…</span>
-                        </div>
-                        {% endif %}
-                        <button type="button" class="btn-post-etoro" data-title="{{ (item.title or '')|e }}" data-summary="{{ (item.summary or '')|e }}" data-image-url="{{ item.image_url or item.image_data_url or '' }}">Poster sur eToro</button>
-                    </li>
-                    {% endfor %}
-                </ul>
-                {% else %}
-                <p class="empty-state" id="zonebourseEmpty">Aucune actualité chargée pour le moment.</p>
-                {% endif %}
-            </div>
+            <ul id="traderPostsList" class="trader-posts-list"></ul>
+            <p id="traderPostsEmpty" class="empty-state" style="display:none;">Aucun post disponible.</p>
+            <button type="button" id="loadMorePostsBtn" class="btn-load-more-posts" style="display:none;">Charger plus</button>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
         <script>
             const initialLabels = {{ chart_labels | default([]) | tojson }};
             const initialDatasets = {{ chart_datasets | default([]) | tojson }};
+            const traderPosts = {{ trader_posts | default([]) | tojson }};
 
             function hexToRgba(hex, a) {
                 const r = parseInt(hex.slice(1,3), 16), g = parseInt(hex.slice(3,5), 16), b = parseInt(hex.slice(5,7), 16);
@@ -657,7 +703,8 @@
                                 const el = document.createElement('p');
                                 el.className = 'empty-state posts-chart-msg';
                                 el.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);margin:0;z-index:2;';
-                                el.textContent = 'Aucun post récupéré pour ces traders.';
+                                const lang = localStorage.getItem("page_lang") || "en";
+                                el.textContent = lang === "fr" ? 'Aucun post récupéré pour ces traders.' : 'No posts fetched for these traders.';
                                 container.style.position = 'relative';
                                 container.appendChild(el);
                             }
@@ -713,7 +760,8 @@
                             const el = document.createElement('p');
                             el.className = 'empty-state posts-chart-msg';
                             el.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);margin:0;color:var(--danger);';
-                            el.textContent = 'Erreur chargement des posts: ' + (err.message || 'réessayez plus tard');
+                            const lang = localStorage.getItem("page_lang") || "en";
+                            el.textContent = (lang === "fr" ? 'Erreur chargement des posts: ' : 'Posts loading error: ') + (err.message || (lang === "fr" ? 'réessayez plus tard' : 'try again later'));
                             container.style.position = 'relative';
                             container.appendChild(el);
                         }
@@ -793,163 +841,61 @@
             if (cac40El) cac40El.addEventListener('change', updateChart);
             const msciEl = document.getElementById('msciCheck');
             if (msciEl) msciEl.addEventListener('change', updateChart);
-            function refreshZonebourseNews() {
-                var btn = document.getElementById('refreshZonebourseBtn');
-                var list = document.getElementById('zonebourseNewsList');
-                var empty = document.getElementById('zonebourseEmpty');
-                var fallbackNotice = document.getElementById('zonebourseFallbackNotice');
-                if (btn) btn.disabled = true;
-                var loading = document.createElement('p');
-                loading.className = 'empty-state';
-                loading.textContent = 'Chargement des actualités…';
-                if (list) { list.style.display = 'none'; }
-                if (empty) { empty.style.display = 'none'; }
-                var container = document.getElementById('zonebourseNewsContainer');
-                if (container) {
-                    var oldLoading = container.querySelector('.zonebourse-loading');
-                    if (oldLoading) oldLoading.remove();
-                    loading.classList.add('zonebourse-loading');
-                    container.appendChild(loading);
-                }
-                fetch('/api/zonebourse-news').then(function(r) { return r.json(); })
-                  .then(function(data) {
-                      if (loading.parentNode) loading.remove();
-                      if (btn) btn.disabled = false;
-                      if (fallbackNotice) {
-                          fallbackNotice.textContent = data.used_fallback ? 'Market news unavailable (Yahoo RSS or summary failed). Default content shown.' : '';
-                          fallbackNotice.style.display = data.used_fallback ? 'block' : 'none';
-                      }
-                      var news = data.news || [];
-                      if (news.length > 0) {
-                          var ul = document.getElementById('zonebourseNewsList');
-                          if (!ul) {
-                              ul = document.createElement('ul');
-                              ul.id = 'zonebourseNewsList';
-                              ul.className = 'news-list';
-                              if (container) container.appendChild(ul);
-                          }
-                          ul.innerHTML = news.map(function(item, idx) {
-                              var title = (item.title || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                              var summary = (item.summary || '').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-                              var titleAttr = (item.title || '').replace(/"/g, '&quot;');
-                              var summaryAttr = (item.summary || '').replace(/"/g, '&quot;');
-                              var imgHtml;
-                              var imgSrc = item.image_url || item.image_data_url;
-                              if (imgSrc) {
-                                  imgHtml = '<div class="news-item-image"><img src="' + (imgSrc || '').replace(/"/g, '&quot;') + '" alt=""></div>';
-                              } else {
-                                  imgHtml = '<div class="news-item-image news-item-image-loading" data-title="' + titleAttr + '" data-summary="' + summaryAttr + '" data-style-index="' + idx + '"><span>Génération de l\'image…</span></div>';
-                              }
-                              var imgUrl = (item.image_url || item.image_data_url || '');
-                              if (imgUrl && imgUrl.indexOf('data:') === 0) imgUrl = '';
-                              var imgUrlAttr = (imgUrl || '').replace(/"/g, '&quot;');
-                              var postBtn = '<button type="button" class="btn-post-etoro" data-title="' + titleAttr + '" data-summary="' + summaryAttr + '" data-image-url="' + imgUrlAttr + '">Poster sur eToro</button>';
-                              return '<li class="news-item" data-title="' + titleAttr + '" data-summary="' + summaryAttr + '" data-image-url="' + imgUrlAttr + '"><span class="news-title">' + title + '</span>' +
-                                  (item.summary ? '<p class="news-summary">' + summary + '</p>' : '') + imgHtml + postBtn + '</li>';
-                          }).join('');
-                          ul.style.display = 'block';
-                          if (typeof generateNewsImages === 'function') generateNewsImages();
-                          if (empty) empty.style.display = 'none';
-                      } else {
-                          var e = document.getElementById('zonebourseEmpty');
-                          if (e) { e.textContent = data.error ? 'Erreur: ' + data.error : 'Aucune actualité chargée.'; e.style.display = 'block'; }
-                          if (list) list.style.display = 'none';
-                      }
-                  })
-                  .catch(function(err) {
-                      if (loading.parentNode) loading.remove();
-                      if (btn) btn.disabled = false;
-                      var e = document.getElementById('zonebourseEmpty');
-                      if (e) { e.textContent = 'Erreur de connexion.'; e.style.display = 'block'; }
-                      if (list) list.style.display = 'none';
-                  });
-            }
-            function buildImagePrompt(title, summary) {
-                var t = (title || '').trim();
-                var s = (summary || '').trim();
-                var firstLine = s.indexOf('\n') >= 0 ? s.split('\n')[0] : s;
-                return (t + ' ' + firstLine).trim().slice(0, 400);
-            }
-            function generateNewsImages() {
-                var containers = document.querySelectorAll('.news-item-image.news-item-image-loading');
-                Array.prototype.forEach.call(containers, function(div) {
-                    var title = div.getAttribute('data-title') || '';
-                    var summary = div.getAttribute('data-summary') || '';
-                    var styleIndex = Math.floor(Math.random() * 6);
-                    var prompt = buildImagePrompt(title, summary);
-                    if (!prompt) { div.innerHTML = ''; div.classList.remove('news-item-image-loading'); return; }
-                    fetch('/api/generate-news-image', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ prompt: prompt, style_index: styleIndex })
-                    }).then(function(r) { return r.json().then(function(data) { return { ok: r.ok, data: data }; }); })
-                      .then(function(res) {
-                          div.classList.remove('news-item-image-loading');
-                          var imgSrc = (res.data && (res.data.image_url || res.data.image_data_url));
-                          if (res.ok && imgSrc) {
-                              var img = document.createElement('img');
-                              img.src = imgSrc;
-                              img.alt = '';
-                              div.innerHTML = '';
-                              div.appendChild(img);
-                              var li = div.closest('.news-item');
-                              var postBtn = li ? li.querySelector('.btn-post-etoro') : null;
-                              if (li) li.setAttribute('data-image-url', imgSrc);
-                              if (postBtn) postBtn.setAttribute('data-image-url', imgSrc);
-                          } else {
-                              var msg = (res.data && res.data.error) ? res.data.error : 'Image non disponible';
-                              div.innerHTML = '<span style="color:var(--muted);font-size:0.85rem;" title="' + msg.replace(/"/g, '&quot;') + '">' + (msg.length > 60 ? msg.slice(0, 57) + '…' : msg) + '</span>';
-                          }
-                      })
-                      .catch(function() {
-                          div.classList.remove('news-item-image-loading');
-                          div.innerHTML = '<span style="color:var(--muted);font-size:0.85rem;">Image non disponible</span>';
-                      });
-                });
-            }
-            var refreshBtn = document.getElementById('refreshZonebourseBtn');
-            if (refreshBtn) refreshBtn.addEventListener('click', refreshZonebourseNews);
-            var zonebourseContainer = document.getElementById('zonebourseNewsContainer');
-            if (zonebourseContainer) {
-                zonebourseContainer.addEventListener('click', function(e) {
-                    var btn = e.target && e.target.closest('.btn-post-etoro');
-                    if (!btn) return;
-                    var title = (btn.getAttribute('data-title') || '').trim();
-                    var summary = (btn.getAttribute('data-summary') || '').trim();
-                    var imageUrl = (btn.getAttribute('data-image-url') || '').trim() || undefined;
-                    if (!title && !summary) { alert('Texte manquant.'); return; }
-                    btn.disabled = true;
-                    fetch('/api/post-to-etoro', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ title: title, summary: summary, image_url: imageUrl || null })
-                    }).then(function(r) { return r.json().then(function(data) { return { ok: r.ok, data: data }; }); })
-                      .then(function(res) {
-                          btn.disabled = false;
-                          if (res.ok && res.data && res.data.success) {
-                              alert('Post publié sur eToro.');
-                          } else {
-                              alert((res.data && res.data.error) ? res.data.error : 'Erreur lors du post.');
-                          }
-                      })
-                      .catch(function() {
-                          btn.disabled = false;
-                          alert('Erreur de connexion.');
-                      });
-                });
-            }
-            if (document.getElementById('zonebourseNewsList')) generateNewsImages();
-
             try { initChart(); } catch (e) { console.error('initChart:', e); }
             try { initPostsChart(); } catch (e) { console.error('initPostsChart:', e); }
+
+            (function initTraderPosts() {
+                var listEl = document.getElementById('traderPostsList');
+                var emptyEl = document.getElementById('traderPostsEmpty');
+                var loadBtn = document.getElementById('loadMorePostsBtn');
+                if (!listEl || !loadBtn) return;
+                var pageSize = 5;
+                var shown = 0;
+                var posts = Array.isArray(traderPosts) ? traderPosts : [];
+                function escapeHtml(s) {
+                    var d = document.createElement('div');
+                    d.textContent = s || '';
+                    return d.innerHTML;
+                }
+                function formatDate(v) {
+                    if (!v) return '';
+                    var dt = new Date(v);
+                    return isNaN(dt.getTime()) ? String(v) : dt.toLocaleString('fr-FR');
+                }
+                function renderNextChunk() {
+                    var next = posts.slice(shown, shown + pageSize);
+                    next.forEach(function(p) {
+                        var li = document.createElement('li');
+                        li.className = 'trader-post-item';
+                        var imageHtml = (p.image_url && String(p.image_url).trim())
+                            ? '<img class="trader-post-image" src="' + escapeHtml(String(p.image_url)) + '" alt="Image du post">'
+                            : '';
+                        li.innerHTML = '<div class="trader-post-date">' + escapeHtml(formatDate(p.created)) + '</div><div class="trader-post-message">' + escapeHtml(p.message || '') + '</div>' + imageHtml;
+                        listEl.appendChild(li);
+                    });
+                    shown += next.length;
+                    if (emptyEl) emptyEl.style.display = (shown === 0) ? 'block' : 'none';
+                    loadBtn.style.display = 'inline-block';
+                    loadBtn.disabled = shown >= posts.length;
+                    var lang = localStorage.getItem("page_lang") || "en";
+                    loadBtn.textContent = shown >= posts.length
+                        ? (lang === "fr" ? 'Tous les posts sont chargés' : 'All posts loaded')
+                        : (lang === "fr" ? 'Charger plus' : 'Load more');
+                }
+                loadBtn.addEventListener('click', renderNextChunk);
+                renderNextChunk();
+            })();
         </script>
 
-        <p class="risk-warning">
-            ⚠️ Avertissement sur les risques :<br>
-            <span class="risk-text">Les informations publiées sur ce site sont fournies à titre informatif et éducatif uniquement et ne constituent pas un conseil en investissement. Chaque lecteur reste seul responsable de ses décisions financières. Les performances passées ne préjugent pas des performances futures.</span><br>
-            ⚠️ Risk Warning:<br>
-            <span class="risk-text">The information published on this website is provided for informational and educational purposes only and does not constitute investment advice. Each reader remains solely responsible for their financial decisions. Past performance does not guarantee future results.</span>
-        </p>
+        <footer class="site-footer">
+            <p class="risk-warning">
+                <span id="riskTitleFr">⚠️ Avertissement sur les risques :</span><br>
+                <span class="risk-text" id="riskTextFr">Les informations publiées sur ce site sont fournies à titre informatif et éducatif uniquement et ne constituent pas un conseil en investissement. Chaque lecteur reste seul responsable de ses décisions financières. Les performances passées ne préjugent pas des performances futures.</span>
+                <span id="riskFrBreak"><br></span>
+                <span id="riskTitleEn">⚠️ Risk Warning:</span><br>
+                <span class="risk-text" id="riskTextEn">The information published on this website is provided for informational and educational purposes only and does not constitute investment advice. Each reader remains solely responsible for their financial decisions. Past performance does not guarantee future results.</span>
+            </p>
+        </footer>
     </div>
 
     <!-- Chatbot bas-droite -->
@@ -958,7 +904,7 @@
     </div>
     <div class="chat-panel" id="chatPanel">
         <div class="chat-panel-header">
-            Your Financial Assistant
+            <span id="chatPanelTitle">Your Financial Assistant</span>
             <button type="button" class="chat-panel-close" id="chatClose" aria-label="Fermer">×</button>
         </div>
         <div class="chat-messages" id="chatMessages"></div>
@@ -967,7 +913,7 @@
             <button type="button" id="chatSend">Send</button>
         </div>
         <div id="chatCaptchaWrap" style="display:none; margin-top:0.5rem; padding:0.5rem; background:var(--card-bg); border-radius:6px;">
-            <p style="font-size:0.85rem; color:var(--muted); margin-bottom:0.5rem;">Veuillez valider le CAPTCHA puis cliquer sur Renvoyer.</p>
+            <p style="font-size:0.85rem; color:var(--muted); margin-bottom:0.5rem;" id="captchaHelp">Veuillez valider le CAPTCHA puis cliquer sur Renvoyer.</p>
             <div id="chatCaptchaWidget"></div>
             <button type="button" id="chatCaptchaResend" class="chart-controls button" style="margin-top:0.5rem; padding:0.4rem 0.8rem; font-size:0.85rem;">Renvoyer</button>
         </div>
@@ -985,8 +931,136 @@
     {% endif %}
     <script>
         (function() {
+            const I18N = {
+                fr: {
+                    verified: "✓ Vérifié",
+                    copieur: "copieur",
+                    copieurs: "copieurs",
+                    loadDataError: 'Impossible de charger les données. Vérifiez vos clés API (.env) et que le trader "{{ username }}" existe.',
+                    portfolio: "Instruments en portefeuille",
+                    performances: "Performances",
+                    perfEmpty: "Données de performance non disponibles.",
+                    dcaSubtitle: "1 000 $ au départ + 100 $/mois à la fin de chaque mois (à partir de sept. 2022)",
+                    dcaTitlePrefix: "Simulation DCA — ",
+                    dcaTitleMiddle: " $ investis au total — ",
+                    dcaTitleSuffix: " vs S&P 500",
+                    noPost: "Aucun post disponible.",
+                    loadMore: "Charger plus",
+                    allLoaded: "Tous les posts sont chargés",
+                    chatTitle: "Votre assistant financier",
+                    chatPlaceholder: "Votre message…",
+                    chatSend: "Envoyer",
+                    captchaHelp: "Veuillez valider le CAPTCHA puis cliquer sur Renvoyer.",
+                    captchaResend: "Renvoyer",
+                    chatWelcome: "Besoin d'aide ? Pose une question. Ex. : Où trouver des actions à fort dividende ? Quels secteurs ont la plus forte croissance ? Pourquoi diversifier ?",
+                    year: "Année", mJan: "Jan", mFeb: "Fév", mMar: "Mar", mApr: "Avr", mMay: "Mai", mJun: "Juin", mJul: "Juil", mAug: "Août", mSep: "Sep", mOct: "Oct", mNov: "Nov", mDec: "Déc", total: "Total",
+                },
+                en: {
+                    verified: "✓ Verified",
+                    copieur: "copier",
+                    copieurs: "copiers",
+                    loadDataError: 'Unable to load data. Check your API keys (.env) and that trader "{{ username }}" exists.',
+                    portfolio: "Portfolio instruments",
+                    performances: "Performance",
+                    perfEmpty: "Performance data unavailable.",
+                    dcaSubtitle: "1,000 $ initially + 100 $/month at the end of each month (from Sep 2022)",
+                    dcaTitlePrefix: "DCA Simulation — ",
+                    dcaTitleMiddle: " $ total invested — ",
+                    dcaTitleSuffix: " vs S&P 500",
+                    noPost: "No posts available.",
+                    loadMore: "Load more",
+                    allLoaded: "All posts loaded",
+                    chatTitle: "Your Financial Assistant",
+                    chatPlaceholder: "Your message…",
+                    chatSend: "Send",
+                    captchaHelp: "Please validate the CAPTCHA then click Resend.",
+                    captchaResend: "Resend",
+                    chatWelcome: "Need help? Ask a question. E.g.: Where to find high-dividend stocks? Which sectors have the strongest growth? Why diversify?",
+                    year: "Year", mJan: "Jan", mFeb: "Feb", mMar: "Mar", mApr: "Apr", mMay: "May", mJun: "Jun", mJul: "Jul", mAug: "Aug", mSep: "Sep", mOct: "Oct", mNov: "Nov", mDec: "Dec", total: "Total",
+                }
+            };
+
+            function applyLanguage(lang) {
+                const t = I18N[lang] || I18N.en;
+                localStorage.setItem("page_lang", lang);
+                const frBtn = document.getElementById("langFrBtn");
+                const enBtn = document.getElementById("langEnBtn");
+                if (frBtn) frBtn.classList.toggle("active", lang === "fr");
+                if (enBtn) enBtn.classList.toggle("active", lang === "en");
+                const bv = document.getElementById("badgeVerified");
+                if (bv) bv.textContent = t.verified;
+                const cb = document.getElementById("copiersBadge");
+                if (cb) {
+                    const n = Number(cb.getAttribute("data-count") || "0");
+                    cb.textContent = `${n} ${n > 1 ? t.copieurs : t.copieur}`;
+                }
+                const elMap = [
+                    ["errorLoadData", "loadDataError"],
+                    ["perfTitle", "performances"],
+                    ["perfEmpty", "perfEmpty"],
+                    ["dcaSubtitle", "dcaSubtitle"],
+                    ["traderPostsEmpty", "noPost"],
+                    ["chatPanelTitle", "chatTitle"],
+                    ["captchaHelp", "captchaHelp"],
+                ];
+                elMap.forEach(([id, key]) => {
+                    const el = document.getElementById(id);
+                    if (el) el.textContent = t[key];
+                });
+                document.querySelectorAll("[data-i18n]").forEach((el) => {
+                    const key = el.getAttribute("data-i18n");
+                    if (key && t[key]) el.textContent = t[key];
+                });
+                const pTitle = document.getElementById("portfolioTitle");
+                if (pTitle) {
+                    const c = pTitle.getAttribute("data-count") || "0";
+                    pTitle.textContent = `${t.portfolio} (${c})`;
+                }
+                const dcaTitle = document.getElementById("dcaTitle");
+                if (dcaTitle) {
+                    const raw = dcaTitle.textContent || "";
+                    const m = raw.match(/—\s*([0-9.,\-]+|—)\s*\$/);
+                    const amount = m ? m[1] : "—";
+                    dcaTitle.textContent = `${t.dcaTitlePrefix}${amount}${t.dcaTitleMiddle}{{ username }}${t.dcaTitleSuffix}`;
+                }
+                const inEl = document.getElementById("chatInput");
+                if (inEl) inEl.placeholder = t.chatPlaceholder;
+                const sendBtn = document.getElementById("chatSend");
+                if (sendBtn) sendBtn.textContent = t.chatSend;
+                const resendBtn = document.getElementById("chatCaptchaResend");
+                if (resendBtn) resendBtn.textContent = t.captchaResend;
+                const loadBtn = document.getElementById("loadMorePostsBtn");
+                if (loadBtn) {
+                    loadBtn.textContent = loadBtn.disabled ? t.allLoaded : t.loadMore;
+                }
+                const frIds = ["riskTitleFr", "riskTextFr", "riskFrBreak"];
+                const enIds = ["riskTitleEn", "riskTextEn"];
+                frIds.forEach((id) => {
+                    const el = document.getElementById(id);
+                    if (el) el.style.display = lang === "fr" ? "" : "none";
+                });
+                enIds.forEach((id) => {
+                    const el = document.getElementById(id);
+                    if (el) el.style.display = lang === "en" ? "" : "none";
+                });
+                if (messages && messages.length > 0 && messages[0].role === "assistant") {
+                    const known = [I18N.fr.chatWelcome, I18N.en.chatWelcome];
+                    if (known.includes(messages[0].content)) {
+                        messages[0].content = t.chatWelcome;
+                        renderMessages();
+                    }
+                }
+            }
+
+            const savedLang = localStorage.getItem("page_lang") || "en";
+            applyLanguage(savedLang);
+            const frBtn = document.getElementById("langFrBtn");
+            const enBtn = document.getElementById("langEnBtn");
+            if (frBtn) frBtn.addEventListener("click", () => applyLanguage("fr"));
+            if (enBtn) enBtn.addEventListener("click", () => applyLanguage("en"));
+
             var recaptchaSiteKey = {{ recaptcha_site_key | default('') | tojson }};
-            var initialBotMessage = "Need help? Ask a question. E.g.: Where to find high-dividend stocks? Which sectors have the strongest growth? Why diversify?";
+            var initialBotMessage = (I18N[savedLang] && I18N[savedLang].chatWelcome) ? I18N[savedLang].chatWelcome : I18N.en.chatWelcome;
             var messages = [{ role: "assistant", content: initialBotMessage }];
             var panel = document.getElementById("chatPanel");
             var msgsEl = document.getElementById("chatMessages");
@@ -1088,6 +1162,16 @@
             document.getElementById("chatSend").onclick = sendToApi;
             inputEl.addEventListener("keydown", function(e) { if (e.key === "Enter") sendToApi(); });
             renderMessages();
+        })();
+        (function () {
+            var header = document.querySelector('header');
+            if (!header) return;
+            var threshold = 32;
+            function syncHeaderCompact() {
+                header.classList.toggle('header--compact', window.scrollY > threshold);
+            }
+            window.addEventListener('scroll', syncHeaderCompact, { passive: true });
+            syncHeaderCompact();
         })();
     </script>
 </body>

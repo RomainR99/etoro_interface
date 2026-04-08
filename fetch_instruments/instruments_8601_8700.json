@@ -1,0 +1,602 @@
+[
+  {
+    "n": 1,
+    "id": 8601,
+    "symbole": "CEG",
+    "nom": "Constellation Energy Corp"
+  },
+  {
+    "n": 2,
+    "id": 8602,
+    "symbole": "CVR_ZGNX",
+    "nom": "CVR of ZGNX 2$ per share upon EU approval by 31/12/2023"
+  },
+  {
+    "n": 3,
+    "id": 8603,
+    "symbole": "NVEI",
+    "nom": "Nuvei Corp"
+  },
+  {
+    "n": 4,
+    "id": 8604,
+    "symbole": "KD",
+    "nom": "Kyndryl Holdings Inc"
+  },
+  {
+    "n": 5,
+    "id": 8605,
+    "symbole": "ONL",
+    "nom": "Orion Office Reit Inc."
+  },
+  {
+    "n": 6,
+    "id": 8606,
+    "symbole": "CA8",
+    "nom": "Meredith Holdings Corp."
+  },
+  {
+    "n": 7,
+    "id": 8607,
+    "symbole": "ICL",
+    "nom": " ICL Group Ltd"
+  },
+  {
+    "n": 8,
+    "id": 8608,
+    "symbole": "KEN",
+    "nom": "Kenon Holdings Ltd"
+  },
+  {
+    "n": 9,
+    "id": 8609,
+    "symbole": "TPG",
+    "nom": "TPG Inc."
+  },
+  {
+    "n": 10,
+    "id": 8610,
+    "symbole": "NCMGF",
+    "nom": "Newcrest Mining LTD - ADR"
+  },
+  {
+    "n": 11,
+    "id": 8611,
+    "symbole": "WBD",
+    "nom": "Warner Bros Discovery Inc"
+  },
+  {
+    "n": 12,
+    "id": 8612,
+    "symbole": "MIGI",
+    "nom": "Mawson Infrastructure Group Inc."
+  },
+  {
+    "n": 13,
+    "id": 8613,
+    "symbole": "WRD",
+    "nom": "WeRide Inc"
+  },
+  {
+    "n": 14,
+    "id": 8614,
+    "symbole": "wrts.aprn.15",
+    "nom": "APRN WARRANT - 0.8 at 15 USD"
+  },
+  {
+    "n": 15,
+    "id": 8615,
+    "symbole": "wrts.aprn.18",
+    "nom": "APRN WARRANT - 0.4 at 18 USD"
+  },
+  {
+    "n": 16,
+    "id": 8616,
+    "symbole": "wrts.aprn.20",
+    "nom": "APRN WARRANT - 0.2 at 20 USD"
+  },
+  {
+    "n": 17,
+    "id": 8617,
+    "symbole": "NLOP",
+    "nom": "Net Lease Office Properties"
+  },
+  {
+    "n": 18,
+    "id": 8618,
+    "symbole": "EE",
+    "nom": "Excelerate Energy Inc."
+  },
+  {
+    "n": 19,
+    "id": 8619,
+    "symbole": "CA21",
+    "nom": "Royal Dutch  Shell"
+  },
+  {
+    "n": 20,
+    "id": 8620,
+    "symbole": "SBER.MOEX",
+    "nom": "Sberbank Moscow"
+  },
+  {
+    "n": 21,
+    "id": 8621,
+    "symbole": "RPI.L",
+    "nom": "Raspberry Pi Ltd"
+  },
+  {
+    "n": 22,
+    "id": 8622,
+    "symbole": "CA54.L",
+    "nom": "CA54"
+  },
+  {
+    "n": 23,
+    "id": 8623,
+    "symbole": "CA55.L",
+    "nom": "CA55"
+  },
+  {
+    "n": 24,
+    "id": 8624,
+    "symbole": "HIPO",
+    "nom": "Hippo Holdings Inc"
+  },
+  {
+    "n": 25,
+    "id": 8625,
+    "symbole": "VIRT",
+    "nom": "Virtu Financial Inc"
+  },
+  {
+    "n": 26,
+    "id": 8626,
+    "symbole": "AKA.US",
+    "nom": "a.k.a. Brands Holding"
+  },
+  {
+    "n": 27,
+    "id": 8627,
+    "symbole": "OLPX",
+    "nom": "OLAPLEX HOLDINGS INC"
+  },
+  {
+    "n": 28,
+    "id": 8628,
+    "symbole": "SRAD",
+    "nom": "Sportradar Group AG"
+  },
+  {
+    "n": 29,
+    "id": 8629,
+    "symbole": "8629",
+    "nom": "8629"
+  },
+  {
+    "n": 30,
+    "id": 8630,
+    "symbole": "8630",
+    "nom": "8630"
+  },
+  {
+    "n": 31,
+    "id": 8631,
+    "symbole": "BIRG.L",
+    "nom": "Bank of Ireland Group plc"
+  },
+  {
+    "n": 32,
+    "id": 8632,
+    "symbole": "UPST",
+    "nom": "Upstart Holdings Inc"
+  },
+  {
+    "n": 33,
+    "id": 8633,
+    "symbole": "8633",
+    "nom": "8633"
+  },
+  {
+    "n": 34,
+    "id": 8634,
+    "symbole": "UWMC",
+    "nom": "UWM Holdings Corp"
+  },
+  {
+    "n": 35,
+    "id": 8635,
+    "symbole": "EDR",
+    "nom": "Endeavor Group Holdings Inc"
+  },
+  {
+    "n": 36,
+    "id": 8636,
+    "symbole": "SWTX",
+    "nom": "SpringWorks Therapeutics Inc"
+  },
+  {
+    "n": 37,
+    "id": 8637,
+    "symbole": "DUOL",
+    "nom": "Duolingo"
+  },
+  {
+    "n": 38,
+    "id": 8638,
+    "symbole": "E",
+    "nom": "Eni SpA-ADR"
+  },
+  {
+    "n": 39,
+    "id": 8639,
+    "symbole": "BAP",
+    "nom": "Credicorp Ltd"
+  },
+  {
+    "n": 40,
+    "id": 8640,
+    "symbole": "ENIAY",
+    "nom": "Enel Americas SA"
+  },
+  {
+    "n": 41,
+    "id": 8641,
+    "symbole": "FMX",
+    "nom": "Fomento Economico Mexicano SAB-ADR"
+  },
+  {
+    "n": 42,
+    "id": 8642,
+    "symbole": "SID",
+    "nom": "Cia Siderurgica Nacional SA-ADR"
+  },
+  {
+    "n": 43,
+    "id": 8643,
+    "symbole": "BARK",
+    "nom": "The Original Bark Co"
+  },
+  {
+    "n": 44,
+    "id": 8644,
+    "symbole": "NTCOY",
+    "nom": "Natura & Co Holding SA-ADR"
+  },
+  {
+    "n": 45,
+    "id": 8645,
+    "symbole": "KOF",
+    "nom": "Coca-Cola Femsa SAB de CV"
+  },
+  {
+    "n": 46,
+    "id": 8646,
+    "symbole": "AXIA",
+    "nom": "AXIA ENERGIA - ADR"
+  },
+  {
+    "n": 47,
+    "id": 8647,
+    "symbole": "EVGO",
+    "nom": "EVgo Inc"
+  },
+  {
+    "n": 48,
+    "id": 8648,
+    "symbole": "PRGS",
+    "nom": "Progress Software Corporation"
+  },
+  {
+    "n": 49,
+    "id": 8649,
+    "symbole": "VG.Old",
+    "nom": "Vonage Holdings Corp"
+  },
+  {
+    "n": 50,
+    "id": 8650,
+    "symbole": "AVYAQ",
+    "nom": "Avaya Holdings Corp"
+  },
+  {
+    "n": 51,
+    "id": 8651,
+    "symbole": "STVN",
+    "nom": "Stevanato Group S.p.A."
+  },
+  {
+    "n": 52,
+    "id": 8652,
+    "symbole": "PKX",
+    "nom": "Posco - ADR"
+  },
+  {
+    "n": 53,
+    "id": 8653,
+    "symbole": "SICPQ",
+    "nom": "SilverGate Capital"
+  },
+  {
+    "n": 54,
+    "id": 8654,
+    "symbole": "CMRC",
+    "nom": "Commerce.com Inc"
+  },
+  {
+    "n": 55,
+    "id": 8655,
+    "symbole": "GOGL.US",
+    "nom": "Golden Ocean Group Ltd"
+  },
+  {
+    "n": 56,
+    "id": 8656,
+    "symbole": "GLOB",
+    "nom": "Globant SA"
+  },
+  {
+    "n": 57,
+    "id": 8657,
+    "symbole": "8657",
+    "nom": "8657"
+  },
+  {
+    "n": 58,
+    "id": 8658,
+    "symbole": "BPOP",
+    "nom": "Popular Inc"
+  },
+  {
+    "n": 59,
+    "id": 8659,
+    "symbole": "AQN",
+    "nom": "Algonquin Power & Utilities Corp"
+  },
+  {
+    "n": 60,
+    "id": 8660,
+    "symbole": "AGR.US",
+    "nom": "Avangrid Inc"
+  },
+  {
+    "n": 61,
+    "id": 8661,
+    "symbole": "8661",
+    "nom": "8661"
+  },
+  {
+    "n": 62,
+    "id": 8662,
+    "symbole": "VERV",
+    "nom": "Verve Therapeutics Inc"
+  },
+  {
+    "n": 63,
+    "id": 8663,
+    "symbole": "8663",
+    "nom": "8663"
+  },
+  {
+    "n": 64,
+    "id": 8664,
+    "symbole": "LSPD",
+    "nom": "Lightspeed Commerce Inc"
+  },
+  {
+    "n": 65,
+    "id": 8665,
+    "symbole": "TENB",
+    "nom": "Tenable Holdings Inc"
+  },
+  {
+    "n": 66,
+    "id": 8666,
+    "symbole": "VRNS",
+    "nom": "Varonis Systems Inc"
+  },
+  {
+    "n": 67,
+    "id": 8667,
+    "symbole": "CURV",
+    "nom": "Torrid Holdings Inc"
+  },
+  {
+    "n": 68,
+    "id": 8668,
+    "symbole": "MCFE",
+    "nom": "McAfee Corp"
+  },
+  {
+    "n": 69,
+    "id": 8669,
+    "symbole": "CTKB",
+    "nom": "Cytek Biosciences Inc"
+  },
+  {
+    "n": 70,
+    "id": 8670,
+    "symbole": "8670",
+    "nom": "8670"
+  },
+  {
+    "n": 71,
+    "id": 8671,
+    "symbole": "HUT",
+    "nom": "Hut 8 Mining Corp"
+  },
+  {
+    "n": 72,
+    "id": 8672,
+    "symbole": "SNY",
+    "nom": "Sanofi-ADR"
+  },
+  {
+    "n": 73,
+    "id": 8673,
+    "symbole": "ORANY",
+    "nom": "Orange S.A.-ADR"
+  },
+  {
+    "n": 74,
+    "id": 8674,
+    "symbole": "LOGI",
+    "nom": "Logitech International S.A."
+  },
+  {
+    "n": 75,
+    "id": 8675,
+    "symbole": "UBS",
+    "nom": "UBS Group AG"
+  },
+  {
+    "n": 76,
+    "id": 8676,
+    "symbole": "CS.US",
+    "nom": "Credit Suisse Group AG-ADR"
+  },
+  {
+    "n": 77,
+    "id": 8677,
+    "symbole": "BBVA.US",
+    "nom": "Banco Bilbao Vizcaya Argentaria SA-ADR"
+  },
+  {
+    "n": 78,
+    "id": 8678,
+    "symbole": "SAP",
+    "nom": "SAP SE ADR"
+  },
+  {
+    "n": 79,
+    "id": 8679,
+    "symbole": "BP.US",
+    "nom": "BP plc ADR"
+  },
+  {
+    "n": 80,
+    "id": 8680,
+    "symbole": "8680",
+    "nom": "8680"
+  },
+  {
+    "n": 81,
+    "id": 8681,
+    "symbole": "GSK",
+    "nom": "GlaxoSmithKline plc ADR"
+  },
+  {
+    "n": 82,
+    "id": 8682,
+    "symbole": "DEO",
+    "nom": "Diageo plc ADR"
+  },
+  {
+    "n": 83,
+    "id": 8683,
+    "symbole": "STM.US",
+    "nom": "STMicroelectronics NV"
+  },
+  {
+    "n": 84,
+    "id": 8684,
+    "symbole": "TTE",
+    "nom": "TotalEnergies SE"
+  },
+  {
+    "n": 85,
+    "id": 8685,
+    "symbole": "SNPTY",
+    "nom": "China Petroleum & Chemical Corporation ADR"
+  },
+  {
+    "n": 86,
+    "id": 8686,
+    "symbole": "PTRCY",
+    "nom": "PetroChina Company Limited -ADR"
+  },
+  {
+    "n": 87,
+    "id": 8687,
+    "symbole": "SMFG",
+    "nom": "Sumitomo Mitsui Financial Group Inc-ADR"
+  },
+  {
+    "n": 88,
+    "id": 8688,
+    "symbole": "8688",
+    "nom": "8688"
+  },
+  {
+    "n": 89,
+    "id": 8689,
+    "symbole": "8689",
+    "nom": "8689"
+  },
+  {
+    "n": 90,
+    "id": 8690,
+    "symbole": "OZON",
+    "nom": "Ozon Holdings PLC"
+  },
+  {
+    "n": 91,
+    "id": 8691,
+    "symbole": "KB",
+    "nom": "KB Financial Group Inc-ADR"
+  },
+  {
+    "n": 92,
+    "id": 8692,
+    "symbole": "ONC",
+    "nom": "BeiGene Ltd-ADR"
+  },
+  {
+    "n": 93,
+    "id": 8693,
+    "symbole": "JTKWY",
+    "nom": "Just Eat Takeaway.com NV-ADR"
+  },
+  {
+    "n": 94,
+    "id": 8694,
+    "symbole": "HSKA",
+    "nom": "Heska Corporation"
+  },
+  {
+    "n": 95,
+    "id": 8695,
+    "symbole": "CENTA",
+    "nom": "Central Garden & Pet Company"
+  },
+  {
+    "n": 96,
+    "id": 8696,
+    "symbole": "BCPC",
+    "nom": "Balchem Corporation"
+  },
+  {
+    "n": 97,
+    "id": 8697,
+    "symbole": "JKS",
+    "nom": "JinkoSolar Holding Co Ltd-ADR"
+  },
+  {
+    "n": 98,
+    "id": 8698,
+    "symbole": "BCE",
+    "nom": "BCE Inc"
+  },
+  {
+    "n": 99,
+    "id": 8699,
+    "symbole": "IHG",
+    "nom": "InterContinental Hotels Group PLC-ADR"
+  },
+  {
+    "n": 100,
+    "id": 8700,
+    "symbole": "NRDE",
+    "nom": "Nu Ride Inc"
+  }
+]

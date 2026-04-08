@@ -1,0 +1,101 @@
+﻿n°,id,symbole,nom
+1,12101,TUN.L,Tungsten West Plc
+2,12102,CRDL.L,Cordel Group Plc
+3,12103,12103,12103
+4,12104,FLK.L,Fletcher King Plc
+5,12105,GRC.L,Grc International Group Plc
+6,12106,RAI.L,Ra International Group Plc
+7,12107,PHSC.L,Phsc Plc
+8,12108,LDSG.L,Leeds Group Plc
+9,12109,CCS.L,Crossword Cybersecurity Plc
+10,12110,JWNG.L,Jaywing Plc
+11,12111,INHC.L,Induction Healthcare Group Plc
+12,12112,LIV.L,Livermore Investments Group Ld
+13,12113,TRAC.L,T42 Iot Tracking Solutions Plc
+14,12114,KRS.L,Keras Resources Plc
+15,12115,TRAK.L,Trakm8 Holdings Plc
+16,12116,GAL.L,Galantas Gold Corporation
+17,12117,HVT.L,Heavitree Brewery Plc
+18,12118,MCON.L,Mincon Group Plc
+19,12119,ZEN.L,Zenith Energy Ltd.
+20,12120,ARA.L,Aura Renewable Acquisitions Plc
+21,12121,CMO.L,Cmo Group Plc
+22,12122,CEPS.L,Ceps Plc
+23,12123,AIQ.L,Aiq Ld
+24,12124,AC8.L,Acceler8 Ventures Plc
+25,12125,ORNT.L,Orient Telecoms Plc
+26,12126,TEAM.L,Team Plc
+27,12127,JADE.L,Jade Road Investments Ld
+28,12128,DSG.L,Dillistone Group Plc
+29,12129,SEEN.L,Seeen Plc
+30,12130,TAND.L,Tan Delta Systems Plc
+31,12131,TIA.L,Tialis Essential It Plc
+32,12132,HAMA.L,Hamak Gold Limited
+33,12133,SPDI.L,Secure Property Dev & Inv Plc
+34,12134,CHSS.L,World Chess Plc
+35,12135,EUZ.L,Europa Metals Ltd
+36,12136,BRS.L,Beacon Rise Holdings Plc
+37,12137,ALNA.L,Alina Holdings Plc
+38,12138,LSC.L,London Security Plc
+39,12139,EVST.L,Everest Global Plc
+40,12140,ARGO.L,Argo Group Ld
+41,12141,450.L,450 Plc
+42,12142,KRPZ.L,Kropz Plc
+43,12143,APQ.L,Apq Global Limited
+44,12144,UKR.L,Ukrproduct Group Ld
+45,12145,TAST.L,Tasty Plc
+46,12146,PLAZ.L,Plaza Centers N.V.
+47,12147,SIV.L,Sivota Plc
+48,12148,Dormant12148,Dormant12148
+49,12149,URU.L,Uru Metals Ld
+50,12150,KCR.L,Kcr Residential Reit Plc
+51,12151,WCOA.L,WisdomTree Enhanced Commodity UCITS ETF
+52,12152,ETHA.US,iShares Ethereum Trust ETF
+53,12153,BRNT.L,WisdomTree Brent Crude Oil
+54,12154,UGAS.L,WisdomTree Gasoline
+55,12155,NGAS.L,WisdomTree Natural Gas
+56,12156,NICK.L,WisdomTree Nickel
+57,12157,SLVR.L,WisdomTree Silver
+58,12158,ZINC.L,WisdomTree Zinc
+59,12159,PHPT.L,WisdomTree Physical Platinum
+60,12160,ALUM.L,WisdomTree Aluminium
+61,12161,YXT,YXT.COM Group Holding Ltd
+62,12162,SEG.Right,Right for Seaport Entertainment Group Inc
+63,12163,INGM,Ingram Micro Holding Corporation
+64,12164,ECG,Everus Construction Group Inc
+65,12165,MRP,Millrose Properties Inc
+66,12166,ALPHADHA,Dormant 12166
+67,12167,CRWV,CoreWeave Inc
+68,12168,AHL,Aspen Insurance Holdings Limited
+69,12169,CON.US,Concentra Group Holdings
+70,12170,IHC.DH,International Holding Company PJSC
+71,12171,ADNOCDRI.DH,ADNOC Drilling Company PJSC
+72,12172,ALPHADHA.DH,Alpha Dhabi Holding PJSC
+73,12173,ALDAR.DH,Aldar Properties PJSC
+74,12174,ADCB.DH,Abu Dhabi Commercial Bank PJSC
+75,12175,MODON.DH,Modon Holding PSC
+76,12176,FAB.DH,First Abu Dhabi Bank PJSC
+77,12177,ADIB.DH,Abu Dhabi Islamic Bank PJSC
+78,12178,2POINTZE.DH,Two Point Zero Group PJSC
+79,12179,APEX.DH,Apex Investment Company PJSC
+80,12180,EAND.DH,Emirates Telecommunications Group
+81,12181,ADNOCGAS.DH,ADNOC Gas PLC
+82,12182,NMDC.DH,NMDC Group PJSC
+83,12183,PALMS.DH,Palms Sports PrJSC
+84,12184,PHX.DH,Phoenix Group PLC
+85,12185,PUREHEAL.DH,Pure Health Holding PJSC
+86,12186,ADNOCLS.DH,ADNOC Logistics & Services
+87,12187,AMR.DH,Americana Restaurants International PLC
+88,12188,TAQA.DH,Abu Dhabi National Energy Company PJSC
+89,12189,LULU.DH,Lulu Retail Holdings PLC
+90,12190,EASYLEAS.DH,Easy Lease Motor Cycle Rental PSC
+91,12191,ADNOCDIS.DH,Abu Dhabi National Oil Company for Distribution PJSC
+92,12192,ADPORTS.DH,ABU DHABI PORTS CO PJSC
+93,12193,PRESIGHT.DH,Presight AI Holding PLC
+94,12194,BOROUGE.DH,Borouge PLC
+95,12195,ESG.DH,ESG Emirates Stallions Group PrJSC
+96,12196,ESHRAQ.DH,Eshraq Investments PJSC
+97,12197,ASM.DH,AL Seer Marine Supplies & Equipment Co LLC
+98,12198,JULPHAR.DH,Gulf Pharmaceutical Industries PSC
+99,12199,BURJEEL.DH,Burjeel Holdings PLC
+100,12200,ETOR,eToro Group LTD

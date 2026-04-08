@@ -1,0 +1,201 @@
+﻿n°,id,symbole,nom
+1,3401,DAXEX.DE,iShares Core DAX UCITS ETF
+2,3402,EUNW.DE,iShares EUR High Yield Corp Bond UCITS ETF
+3,3403,IBCD.DE,iShares USD Corp Bond UCITS ETF
+4,3404,OPUS.BD,OPUS GLOBAL Nyrt
+5,3405,OTP.BD,OTP Bank Nyrt
+6,3406,PANNERGY.BD,PANNERGY PLC
+7,3407,RABA.BD,Raba Jarmuipari Holding Nyrt
+8,3408,RICHT.BD,Richter Gedeon Nyrt
+9,3409,TAKAREKJ.BD,MBH Mortgage Bank Co. PLC
+10,3410,IMBA.L,iShares US Mortgage Backed Securities UCITS ETF
+11,3411,ERNA.L,iShares USD Ultrashort Bond UCITS ETF
+12,3412,IHYA.L,iShares USD High Yield Corp Bond UCITS ETF
+13,3413,SDHA.L,iShares USD Short Duration High Yield Corp Bond UCITS ETF
+14,3414,DHYA.L,iShares USD High Yield Corp Bond ESG UCITS ETF
+15,3415,FLOA.L,iShares USD Floating Rate Bond UCITS ETF
+16,3416,EWI,IShares MSCI Italy ETF
+17,3417,SPY.RTH,State Street SPDR S&P 500 ETF
+18,3418,QQQ.RTH,Invesco QQQ
+19,3419,SXRL.DE,iShares USD Treasury Bond 3-7yr UCITS ETF
+20,3420,SRUUF,Sprott Physical Uranium Trust
+21,3421,ARGT,Global X MSCI Argentina ETF
+22,3422,BOIL,ProShares Ultra Bloomberg Natural Gas
+23,3423,KOLD,ProShares UltraShort Bloomberg Natural Gas
+24,3424,RSPT,Invesco S&P 500 Equal Weight Technology ETF 
+25,3425,SMIN.US,ISHARES MSCI INDIA SMALL-CAP
+26,3426,INCO,Columbia India Consumer ETF
+27,3427,BOAT,SonicShares Global Shipping ETF
+28,3428,84X0.DE,iShares MSCI EM ex China UCITS ETF
+29,3429,OD7U.DE,WisdomTree Agriculture
+30,3430,SPYU,MAX S&P 500 4X Leveraged ETN 
+31,3431,CSUS.L,iShares MSCI USA UCITS ETF
+32,3432,IJPA.L,iShares Core MSCI Japan IMI UCITS ETF
+33,3433,CSX5.L,iShares Core EURO STOXX 50 ETF
+34,3434,CSPX.L,iShares Core S&P 500 UCITS ETF
+35,3435,WABERERS.BD,Waberers International Nyrt
+36,3436,ZWACK.BD,Zwack Unicum Nyrt
+37,3437,A5G.IR,AIB Group plc
+38,3438,BIRG.IR,Bank of Ireland Group plc
+39,3439,CRN.IR,Cairn Homes plc
+40,3440,CRH.IR,CRH PLC
+41,3441,DHG.IR,Dalata Hotel Group plc
+42,3442,FBD.IR,FBD Holdings plc
+43,3443,FLTR.IR,Flutter Entertainment plc
+44,3444,GLB.IR,Glanbia plc
+45,3445,GLV.IR,Glenveagh Properties PLC
+46,3446,PTSB.IR,Permanent TSB Group Holdings plc
+47,3447,IRES.IR,Irish Residential Properties REIT Plc
+48,3448,KMR.IR,Kenmare Resources plc
+49,3449,KSP.IR,Kingspan Group plc
+50,3450,KYGA.IR,Kerry Group plc
+51,3451,OGN.IR,Origin Enterprises plc
+52,3452,RYA.IR,Ryanair Holdings plc
+53,3453,SKG.IR,Smurfit Kappa Group Plc
+54,3454,UPR.IR,Uniphar plc
+55,3455,CEZ.PR,CEZ as
+56,3456,CZG.PR,Colt CZ Group SE
+57,3457,RBAG.PR,Dormant 3457
+58,3458,KOFOL.PR,Kofola CeskoSlovensko a.s.
+59,3459,KOMB.PR,Komercní banka a.s.
+60,3460,MONET.PR,MONETA Money Bank a.s.
+61,3461,PEN.PR,Photon Energy NV
+62,3462,TABAK.PR,Philip Morris CR a.s.
+63,3463,VIG.PR,Vienna Insurance Group AG
+64,3464,ADKO.VI,Addiko Bank AG
+65,3465,AGR.VI,AGRANA Beteiligungs-Aktiengesellschaft
+66,3466,AMAG.VI,AMAG Austria Metall AG
+67,3467,ANDR.VI,Dormant 3467
+68,3468,ATS.VI,AT & S Austria Technologie & Systemtechnik AG
+69,3469,BG.VI,BAWAG Group AG
+70,3470,CAI.VI,CA Immobilien Anlagen AG
+71,3471,DOC.WA,DO & CO AG
+72,3472,EBS.VI,Dormant 3472
+73,3473,EVN.VI,EVN AG
+74,3474,FACC.VI,Dormant 3474
+75,3475,FKA.VI,Frauenthal Holding AG
+76,3476,FLU.VI,Flughafen Wien AG
+77,3477,FQT.VI,Frequentis AG
+78,3478,IIA.VI,IMMOFINANZ AG
+79,3479,KTCG.VI,Kapsch TrafficCom AG
+80,3480,LNZ.VI,Dormant 3480
+81,3481,MARI.VI,Marinomed Biotech AG
+82,3482,MMK.VI,Dormant 3482
+83,3483,OMV.VI,Dormant 3483
+84,3484,PAL.VI,Palfinger AG
+85,3485,PKTM.VI,PIERER Mobility AG
+86,3486,POST.VI,Oesterreichische Post AG
+87,3487,POS.VI,Dormant 3487
+88,3488,PYT.VI,Polytec Holding AG
+89,3489,RBI.VI,Dormant 3489
+90,3490,RHIM.VI,RHI Magnesita NV
+91,3491,ROS.VI,Dormant 3491
+92,3492,SBO.VI,Schoeller-Bleckmann AG
+93,3493,SEM.VI,Dormant 3493
+94,3494,SPI.VI,S IMMO AG
+95,3495,STR.VI,Strabag SE
+96,3496,TKA.VI,Dormant 3496
+97,3497,UBS.VI,UBM Development AG
+98,3498,UQA.VI,Dormant 3498
+99,3499,VER.VI,Dormant 3499
+100,3500,VOE.VI,Voestalpine AG
+101,3501,WIE.VI,Dormant 3501
+102,3502,WOL.VI,Wolford AG
+103,3503,ZAG.VI,Dormant 3503
+104,3504,ACP.WA,Asseco Poland SA
+105,3505,ALE.WA,Allegro.eu SA
+106,3506,ALR.WA,Alior Bank SA
+107,3507,CCC.WA,CCC SA
+108,3508,CDR.WA,CD Projekt SA
+109,3509,CPS.WA,Cyfrowy Polsat SA
+110,3510,DNP.WA,Dino Polska SA
+111,3511,EAT.WA,AmRest Holdings SE
+112,3512,ENG.WA,Energa SA
+113,3513,EUR.WA,Eurocash SA
+114,3514,JSW.WA,Jastrzebska Spólka Weglowa SA
+115,3515,KGH.WA,KGHM Polska Miedz SA
+116,3516,KRU.WA,KRUK Spólka Akcyjna
+117,3517,KTY.WA,Grupa Kety SA
+118,3518,LPP.WA,LPP SA
+119,3519,MBK.WA,mBank SA
+120,3520,MRC.WA,Mercator Medical SA
+121,3521,OPL.WA,Orange Polska SA
+122,3522,PCO.WA,Pepco Group NV
+123,3523,PEO.WA,Bank Polska Kasa Opieki SA
+124,3524,PGE.WA,PGE Polska Grupa Energetyczna SA
+125,3525,PKN.WA,Polski Koncern Naftowy ORLEN Spólka Akcyjna
+126,3526,PKO.WA,Powszechna Kasa Oszczednosci Bank Polski SA
+127,3527,PZU.WA,Powszechny Zaklad Ubezpieczen SA
+128,3528,SPL.WA,Santander Bank Polska SA
+129,3529,TPE.WA,TAURON Polska Energia SA
+130,3530,ANIM.MI,Anima Holding S.p.A
+131,3531,BFF.MI,BFF Bank S.p.A
+132,3532,REY.MI,Reply S.p.A
+133,3533,BPSO.MI,Banca Popolare di Sondrio S.p.A
+134,3534,WBD.MI,Webuild S.p.A
+135,3535,PIA.MI,Piaggio & C. SpA
+136,3536,MAIRE.MI,Maire Tecnimont S.p.A
+137,3537,DNR.MI,Industrie De Nora S.p.A
+138,3538,DLG.MI,DeLonghi S.p.A
+139,3539,TGYM.MI,Technogym S.p.A
+140,3540,CE.MI,Credito Emiliano S.p.A
+141,3541,TIP.MI,Tamburi Investment Partners S.p.A
+142,3542,FCT.MI,Fincantieri S.p.A
+143,3543,ACE.MI,ACEA S.p.A.
+144,3544,SES.MI,SeSa S.p.A
+145,3545,ZV.MI,Zignago Vetro S.p.A
+146,3546,ICOS.MI,Intercos S.p.A
+147,3547,ENAV.MI,ENAV S.p.A
+148,3548,SOL.MI,SOL S.p.A
+149,3549,SL.MI,Sanlorenzo S.p.A
+150,3550,ARIS.MI,Ariston Holding N.V
+151,3551,GVS.MI,GVS S.p.A
+152,3552,DAN.MI,Danieli & C. Officine Meccaniche S.p.A
+153,3553,SCF.MI,Salcef Group S.p.A
+154,3554,RWAY.MI,Rai Way S.p.A
+155,3555,ITM.MI,Italmobiliare S.p.A
+156,3556,CRL.MI,Carel Industries S.p.A
+157,3557,EGLA.MI,EuroGroup Laminations S.p.A
+158,3558,CEM.MI,Cementir Holding N.V
+159,3559,MOL.MI,Gruppo MutuiOnline S.p.A
+160,3560,ARN.MI,Alerion Clean Power S.p.A
+161,3561,EDF.PA,Electricite de France S.A
+162,3562,NEX.PA,Nexans SA
+163,3563,GTT.PA,Gaztransport et Technigaz SA
+164,3564,TE.PA,Technip Energies N.V
+165,3565,ERA.PA,ERAMET S.A.
+166,3566,VIRI.PA,Viridien
+167,3567,VRLA.PA,Verallia
+168,3568,AYV.PA,Ayvens SA
+169,3569,IPS.PA,Ipsos SA
+170,3570,EAPI.PA,Euroapi SA
+171,3571,COFA.PA,Coface SA
+172,3572,VU.PA, Vusion
+173,3573,MERY.PA,Mercialys
+174,3574,ROTH.PA,Rothschild & Co SCA
+175,3575,ARG.PA,Argan SA
+176,3576,ITP.PA,Interparfums SA
+177,3577,RIN.PA,Vilmorin & Cie SA
+178,3578,DBG.PA,Derichebourg SA
+179,3579,ALESK.PA,Esker SA
+180,3580,MRN.PA,Mersen SA
+181,3581,BEN.PA,Beneteau SA
+182,3582,VIRP.PA,Virbac SA
+183,3583,LSS.PA,Lectra SA
+184,3584,XFAB.PA,X Fab Silicon Foundries EV
+185,3585,MAU.PA,Etablissements Maurel & Prom SA
+186,3586,NAE.PA,North Atlantic Energies
+187,3587,CARM.PA,Carmila SA
+188,3588,TKO.PA,Tikehau Capital
+189,3589,PEUG.PA,Peugeot Invest SA
+190,3590,ODET.PA,Compagnie de lOdet
+191,3591,EMIS.L,EMIS Group plc
+192,3592,KAPE.L,Kape Technologies PLC
+193,3593,JET2.L,Jet2 plc
+194,3594,BREE.L,Breedon Group plc
+195,3595,SUPR.L,Supermarket Income REIT plc
+196,3596,KWS.L,Keywords Studios plc
+197,3597,YCA.L,Yellow Cake plc
+198,3598,BUR.L,Burford Capital Limited
+199,3599,CVSG.L,CVS Group plc
+200,3600,FOUR.L,4imprint Group plc

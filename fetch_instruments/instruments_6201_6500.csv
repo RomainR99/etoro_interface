@@ -1,0 +1,301 @@
+﻿n°,id,symbole,nom
+1,6201,NUWE,Nuwellis Inc
+2,6202,CJJD,China Jo-Jo Drugstores Inc
+3,6203,CLDX,Celldex Therapeutics Inc
+4,6204,CLIR,ClearSign Technologies Corp
+5,6205,CLSK,Cleanspark Inc
+6,6206,CLSN,Celsion Corp
+7,6207,COCP,Cocrystal Pharma Inc
+8,6208,COOP,Mr Cooper Group Inc
+9,6209,CPRX,Catalyst Pharmaceuticals Inc
+10,6210,CTRM,Castor Maritime Inc
+11,6211,DFFN,Diffusion Pharmaceuticals Inc
+12,6212,KUST,Kustom Entertainment Inc
+13,6213,PUBM,PUBMATIC INC-CLASS A
+14,6214,DVAX,Dynavax Technologies Corp
+15,6215,EGAN,eGain Corp
+16,6216,EKSO,Ekso Bionics Holdings Inc
+17,6217,EVFM,Evofem Biosciences Inc
+18,6218,APP,Applovin Corp
+19,6219,TTCFQ,Tattooed Chef Inc
+20,6220,FRSX,Foresight Autonomous Holdings Ltd-ADR
+21,6221,GENE,Genetic Technologies Ltd
+22,6222,GEVO,Gevo Inc
+23,6223,GHSI,Guardion Health Sciences Inc
+24,6224,GLBS,Globus Maritime Ltd
+25,6225,GNPX,Genprex Inc
+26,6226,TOON,Kartoon Studios Inc
+27,6227,CSCW,Color Star Technology Co Ltd
+28,6228,ALGM,Allegro MicroSystems Inc
+29,6229,SCPX,Scorpius Holdings Inc
+30,6230,HTGMQ,HTG Molecular Diagnostics Inc
+31,6231,IDEXQ,Ideanomics Inc
+32,6232,IMRN,Immuron Ltd
+33,6233,XTIA,XTI Aerospace Inc
+34,6234,IZEA,IZEA Worldwide Inc
+35,6235,JAGX,Jaguar Health Inc
+36,6236,KIN,Kindred Biosciences Inc
+37,6237,KTOV,Kitov Pharma Ltd
+38,6238,GNOG,Golden Nugget Online Gaming Inc
+39,6239,LKCO,Luokung Technology Corp
+40,6240,NEGG,Newegg Commerce Inc
+41,6241,LMFA,LM Funding America Inc
+42,6242,LPCN,Lipocine Inc
+43,6243,LUNA.US,Luna Innovations Inc
+44,6244,MARA,Marathon Digital Holdings Inc.
+45,6245,MARK,Remark Holdings Inc
+46,6246,MBRX,Moleculin Biotech Inc
+47,6247,6247,6247
+48,6248,VRDN,Viridian Therapeutics Inc
+49,6249,MITK,Mitek Systems Inc
+50,6250,MDVL,MedAvail Holdings Inc
+51,6251,BTB,Bit Brother Ltd
+52,6252,CENN, Cenntro Inc
+53,6253,NBEVQ,New Age Inc
+54,6254,NESR,National Energy Services Reunited Corp
+55,6255,NNDM,Nano Dimension Ltd-ADR
+56,6256,INDP,Intec Parent Inc
+57,6257,NXTD,NXT-ID Inc
+58,6258,OCGN,Ocugen Inc
+59,6259,TRAW,Traws Pharma Inc
+60,6260,ONVO,Oraganovo Holdings Inc
+61,6261,OTLK,Outlook Therapeutics Inc
+62,6262,PAYS,Paysign Inc
+63,6263,PHUN,Phunware Inc
+64,6264,PLUG,Plug Power Inc
+65,6265,PRPO,Precipio Inc
+66,6266,AIXC,AIxCrypto Holdings Inc
+67,6267,SCTL,Recro Pharma Inc
+68,6268,RESN,Resonant Inc
+69,6269,RGLS,Regulus Therapeutics Inc
+70,6270,RIOT,Riot Platforms Inc
+71,6271,LSTR,Landstar System Inc
+72,6272,SHIP,Seanergy Maritime Holdings Corp
+73,6273,SINT,SiNtx Technologies Inc
+74,6274,6274,6274
+75,6275,TWOUQ,2U Inc
+76,6276,6276,6276
+77,6277,SOLO,ElectraMeccanica Vehicles Corp
+78,6278,SRNE,Sorrento Therapeutics Inc
+79,6279,SSSS,SuRo Capital Corp
+80,6280,SSTI,ShotSpotter Inc
+81,6281,SUNWQ,Sunworks Inc
+82,6282,SXTC,China SXT Pharmaceuticals Inc.
+83,6283,TBLT,Toughbuilt Industries Inc
+84,6284,TELL,Tellurian Inc
+85,6285,TEUM,Pareteum Corp
+86,6286,TH,Target Hospitality Corp
+87,6287,TOPS,TOP Ships Inc
+88,6288,TRVN,Trevena Inc
+89,6289,BTTC,Black Titan Corp
+90,6290,UONE,Urban One Inc
+91,6291,6291,6291
+92,6292,VBIVQ,VBI Vaccines Inc
+93,6293,VISL,Vislink Technologies Inc
+94,6294,VKTX,Viking Therapeutics Inc
+95,6295,VUZI,Vuzix Corp
+96,6296,VXRT,Vaxart Inc
+97,6297,WATT,Energous Corp
+98,6298,WKHS,Workhorse Group Inc
+99,6299,WRAP,Wrap Technologies Inc
+100,6300,XELA,Exela Technologies Inc
+101,6301,XSPA,XpresSpa Group Inc
+102,6302,ZNOG,Zion Oil & Gas Inc
+103,6303,ZSANQ,Zosano Pharma Corp
+104,6304,ZYXI,Zynex Inc
+105,6305,ACMR,ACM Research Inc
+106,6306,ACRX,AcelRx Pharmaceuticals Inc
+107,6307,ADMA,ADMA Biologics Inc
+108,6308,ADMS,Adamas Pharmaceuticals Inc
+109,6309,ADVM,Adverum Biotechnologies Inc
+110,6310,ALT.US,Altimmune Inc
+111,6311,6311,6311
+112,6312,APPF,Appfolio Inc
+113,6313,ARCT,Arcturus Therapeutics Holdings Inc
+114,6314,AXSM,Axsome Therapeutics Inc
+115,6315,6315,6315
+116,6316,6316,6316
+117,6317,CAN,Canaan Inc
+118,6318,CDLX,Cardlytics Inc
+119,6319,CERS,Cerus Corp
+120,6320,CIBR,First Trust NASDAQ Cybersecurity ETF
+121,6321,CIDM,Cinedigm Corp
+122,6322,CLOU,Global X Cloud Computing ETF
+123,6323,CRIS,Curis Inc
+124,6324,CRSP,CRISPR Therapeutics AG
+125,6325,CRVS,Corvus Pharmaceuticals Inc
+126,6326,DOMO,Domo Inc
+127,6327,DVY,iShares Select Dividend ETF
+128,6328,EH,EHang Holdings Ltd-ADR
+129,6329,EOLS,Evolus Inc
+130,6330,EQ,Equillium Inc
+131,6331,EVER,EverQuote Inc
+132,6332,EXPI,eXp World Holdings Inc
+133,6333,FATE,Fate Therapeutics Inc
+134,6334,FCEL,FuelCell Energy Inc
+135,6335,6335,6335
+136,6336,FOLD,Amicus Therapeutics Inc
+137,6337,HALL,Hallmark Financial Services Inc
+138,6338,TBCH,Turtle Beach Corp
+139,6339,AHG,Hexindai Inc ADR
+140,6340,MDIV,First Trust Multi-Asset Diversified Income Index Fund
+141,6341,MNKD,MannKind Corp
+142,6342,MRNS,Marinus Pharmaceuticals Inc
+143,6343,MVIS,MicroVision Inc
+144,6344,NERV,Minerva Neurosciences Inc
+145,6345,NMIH,NMI Holdings Inc
+146,6346,NOVNQ.US,Novan Inc
+147,6347,OCUL,Ocular Therapeutix Inc
+148,6348,PHAS,PhaseBio Pharmaceuticals Inc
+149,6349,6349,6349
+150,6350,PRQR,ProQR Therapeutics NV
+151,6351,PRTK,Paratek Pharmaceuticals Inc
+152,6352,PTGX,Protagonist Therapeutics Inc
+153,6353,QYLD,Global X Nasdaq 100 Covered Call ETF
+154,6354,RPD,Rapid7 Inc
+155,6355,RVNC,Revance Therapeutics Inc
+156,6356,RNAC,Selecta Biosciences Inc
+157,6357,SMH,VanEck Vectors Semiconductor ETF
+158,6358,SNSR,Global X Internet of Things ETF
+159,6359,SRET,Global X SuperDividend REIT ETF
+160,6360,SURF,Surface Oncology Inc
+161,6361,SY,So-Young International Inc
+162,6362,TNXP,Tonix Pharmaceuticals Holding Corp
+163,6363,TPICQ,TPI Composites Inc
+164,6364,TTOO,T2 Biosystems Inc
+165,6365,VONG,Vanguard Russell 1000 Growth ETF
+166,6366,VRAYQ,ViewRay Inc
+167,6367,VSTM,Verastem Inc
+168,6368,VXUS,Vanguard Total International Stock ETF
+169,6369,WCLD,WisdomTree Cloud Computing Fund
+170,6370,WIMIold,WiMi Hologram Cloud Inc
+171,6371,ZGNX,Zogenix Inc
+172,6372,ABUS,Arbutus Biopharma Corp
+173,6373,ACOR,Acorda Therapeutics Inc
+174,6374,ADAP,Adaptimmune Therapeutics Plc
+175,6375,6375,6375
+176,6376,MFIC,MidCap Financial Investment Co
+177,6377,ALNA,Allena Pharmaceuticals Inc
+178,6378,ALNY,Alnylam Pharmaceuticals Inc
+179,6379,AMRSQ,Amyris Inc
+180,6380,ANGI,ANGI Homeservices Inc
+181,6381,ARAY,Accuray Inc
+182,6382,ARCC,Ares Capital Corp
+183,6383,ATRA,Atara Biotherapeutics Inc
+184,6384,6384,6384
+185,6385,SIOX,Sio Gene Therapies Inc
+186,6386,AY,Atlantica Sustainable Infrastructure PLC
+187,6387,BBIO,Bridgebio Pharma Inc
+188,6388,BCRX,BioCryst Pharmaceuticals Inc
+189,6389,BGC,BGC Group Inc
+190,6390,BLU,Bellus Health Inc
+191,6391,BNTX,BioNTech SE-ADR
+192,6392,6392,6392
+193,6393,AZTA,Azenta Inc
+194,6394,CAKE.US,The Cheesecake Factory Inc
+195,6395,CARG,Cargurus Inc
+196,6396,CASSQ,Casa Systems Inc
+197,6397,CBAY,Cymabay Therapeutics Inc
+198,6398,CDXS,Codexis Inc
+199,6399,CG,The Carlyle Group Inc
+200,6400,CGNX,Cognex Corp
+201,6401,CHEF,The Chefs' Warehouse Inc
+202,6402,CHMA,Chiasma Inc
+203,6403,CIH,China Index Holdings Ltd
+204,6404,CLNE,Clean Energy Fuels Corp
+205,6405,CLVSQ,Clovis Oncology Inc
+206,6406,CMTL,Comtech Telecommunications Corp
+207,6407,CNDT,Conduent Inc
+208,6408,CNST,Constellation Pharmaceuticals Inc
+209,6409,CONE,CyrusOne Inc
+210,6410,CONN,Conn's Inc
+211,6411,CRNT,Ceragon Networks Ltd
+212,6412,CWCO,Consolidated Water Co Ltd
+213,6413,CYTK,Cytokinetics Inc
+214,6414,DDOG,Datadog Inc
+215,6415,6415,6415
+216,6416,DTIL,Precision BioSciences Inc
+217,6417,DXLG,Destination XL Group Inc
+218,6418,EGLE,Eagle Bulk Shipping Inc
+219,6419,EIGI,Endurance International Group Holdings Inc
+220,6420,EPZM,Epizyme Inc
+221,6421,ERIC,Telefonaktiebolaget LM Ericsson ADR
+222,6422,FIZZ,National Beverage Corp
+223,6423,DMNIF,Damon Inc
+224,6424,FOXA,Fox Corp
+225,6425,GERN,Geron Corp
+226,6426,GIII,G-III Apparel Group Ltd
+227,6427,GLAD,Gladstone Capital Corp
+228,6428,GLNG,Golar LNG Ltd
+229,6429,GLUU,Glu Mobile Inc
+230,6430,GMLP,Golar LNG Partners LP
+231,6431,GO,Grocery Outlet Holding Corp
+232,6432,GOGO,Gogo Inc
+233,6433,GOOD,Gladstone Commercial Corp
+234,6434,GOOGL,Alphabet Inc Class A
+235,6435,GPRE,Green Plains Inc
+236,6436,GSKY,GreenSky Inc
+237,6437,HA,Hawaiian Holdings Inc
+238,6438,HALO,Halozyme Therapeutics Inc
+239,6439,HCAT,Health Catalyst Inc
+240,6440,6440,6440
+241,6441,HLIT,Harmonic Inc
+242,6442,HMHC,Houghton Mifflin Harcourt Co
+243,6443,IFRX,InflaRx NV
+244,6444,IHRT,iHeartMedia Inc
+245,6445,ILPT,Industrial Logistics Properties Trust
+246,6446,IMGN,ImmunoGen Inc
+247,6447,INFN,Infinera Corp
+248,6448,INMD,Inmode Ltd
+249,6449,INO,Inovio Pharmaceuticals Inc
+250,6450,INSG,Inseego Corp
+251,6451,6451,6451
+252,6452,IRDM,Iridium Communications Inc
+253,6453,ITCI,Intra-Cellular Therapies Inc
+254,6454,ITRI,Itron Inc
+255,6455,KNDI,Kandi Technologies Group Inc
+256,6456,LECO,Lincoln Electric Holdings Inc
+257,6457,LI,Li Auto Inc-ADR
+258,6458,EGIO,Edgio Inc
+259,6459,LSCC,Lattice Semiconductor Corp
+260,6460,LSXMK,Liberty Media Corp-Liberty SiriusXM Series C
+261,6461,LTRPA,Liberty TripAdvisor Holdings Inc
+262,6462,LVGO,Livongo Health Inc
+263,6463,LXRX,Lexicon Pharmaceuticals Inc
+264,6464,MCRB,Seres Therapeutics Inc
+265,6465,MGI,MoneyGram International Inc
+266,6466,MIDD.L,iShares FTSE 250 UCITS ETF
+267,6467,MIST,Milestone Pharmaceuticals Inc
+268,6468,MKSI,MKS Instruments Inc
+269,6469,MLCO,Melco Resorts & Entertainment Ltd-ADR
+270,6470,VYNE,VYNE Therapeutics INC
+271,6471,MPWR,Monolithic Power Systems Inc
+272,6472,6472,6472
+273,6473,MSTR,Strategy Inc
+274,6474,MYOK,MyoKardia Inc
+275,6475,NARI,Inari Medical Inc
+276,6476,NBRVF,Nabriva Therapeutics PLC
+277,6477,NCMI,National CineMedia Inc
+278,6478,NDLS,Noodles & Co
+279,6479,NICE,Nice Ltd-ADR
+280,6480,IBRX,ImmunityBio Inc
+281,6481,NKLAQ,Nikola Corp
+282,6482,NKTR,Nektar Therapeutics
+283,6483,NMRK,Newmark Group Inc
+284,6484,NXST,Nexstar Media Group Inc
+285,6485,NXTC,NextCure Inc
+286,6486,ADAM,Adamas Trust Inc
+287,6487,OGI,Organigram Global Inc
+288,6488,ONEM,1Life Healthcare Inc
+289,6489,OPI,Office Properties Income Trust
+290,6490,OPK,OPKO Health Inc
+291,6491,OPTN,Optinose Inc
+292,6492,ORTX,Orchard Therapeutics plc-ADR
+293,6493,OSUR,OraSure Technologies Inc
+294,6494,OVID,Ovid Therapeutics Inc
+295,6495,PAAS,Pan American Silver Corp
+296,6496,PACB,Pacific Biosciences of California Inc
+297,6497,PBCT,People's United Financial Inc
+298,6498,PCH,PotlatchDeltic Corp
+299,6499,PFLT,PennantPark Floating Rate Capital Ltd
+300,6500,PGEN,Precigen Inc

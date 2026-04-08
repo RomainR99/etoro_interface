@@ -1,0 +1,201 @@
+﻿n°,id,symbole,nom
+1,9601,IAS,Integral Ad Science Holding Corp
+2,9602,SEM,Select Medical Holdings Corporation
+3,9603,PIPR,Piper Sandler Companies
+4,9604,GFF,Griffon Corporation
+5,9605,ZNTL,Zentalis Pharmaceuticals Inc
+6,9606,HTO,H2O America
+7,9607,SDA,SunCar Technology Group Inc
+8,9608,COCO,The Vita Coco Company Inc
+9,9609,WD,Walker & Dunlop Inc
+10,9610,CCC.US,CCC Intelligent Solutions Holdings Inc
+11,9611,KFY,Korn Ferry
+12,9612,CAMT,Camtek Ltd
+13,9613,SNDR,Schneider National Inc
+14,9614,FELE,Franklin Electric Co Inc
+15,9615,LPG,Dorian Lpg Ltd
+16,9616,ULCC,Frontier Group Holdings Inc
+17,9617,BANC,Banc Of California
+18,9618,IPAR,Inter Parfums Inc
+19,9619,NEU,NewMarket Corporation
+20,9620,MOG.A,Moog Inc
+21,9621,ATRC,Atricure Inc
+22,9622,GIL,Gildan Activewear Inc
+23,9623,OTTR,Otter Tail Corporation
+24,9624,KMPR,Kemper Corporation
+25,9625,CVCO,Cavco Industries Inc
+26,9626,CCS,Century Communities Inc
+27,9627,PRMB,Primo Brands Corp-A
+28,9628,PJT,PJT Partners Inc
+29,9629,NEXT,NextDecade Corporation
+30,9630,LTH,Life Time Group Holdings Inc
+31,9631,PLRX,Pliant Therapeutics Inc
+32,9632,GGAL,Grupo Financiero Galicia SA
+33,9633,MIRM,Mirum Pharmaceuticals Inc
+34,9634,SUPN,Supernus Pharmaceuticals Inc
+35,9635,LZ,Legalzoomcom Inc
+36,9636,STR,Sitio Royalties Corp
+37,9637,RYZ,Ryerson Holding Corporation
+38,9638,PSNY,Polestar Automotive Holding UK PLC
+39,9639,MNRO,Monro Inc
+40,9640,PBH,Prestige Consumer Healthcare Inc
+41,9641,HIBB,Hibbett Inc
+42,9642,PLAB,Photronics Inc
+43,9643,ESAB,ESAB Corporation
+44,9644,BZH,Beazer Homes USA Inc
+45,9645,RXST,Rxsight Inc
+46,9646,FORM,Formfactor Inc
+47,9647,CSGS,CSG Systems International Inc
+48,9648,NPO,Enpro Inc
+49,9649,OSCR,Oscar Health Inc
+50,9650,VTNRQ,Vertex Energy Inc
+51,9651,RILY,BRC Group Holdings Inc
+52,9652,EMBC,Embecta Corp
+53,9653,CCRN,Cross Country Healthcare Inc
+54,9654,GBX.US,The Greenbrier Companies Inc
+55,9655,WNC,Wabash National Corporation
+56,9656,OSIS,Osi Systems Inc
+57,9657,CCF,Chase Corp
+58,9658,MYRG,MYR Group Inc
+59,9659,SBCF,Seacoast Banking Corporation of Florida
+60,9660,NUVL,Nuvalent Inc
+61,9661,EBIXQ,Ebix Inc
+62,9662,SNCY,Sun Country Airlines Holdings Inc
+63,9663,GOOS,Canada Goose Holdings Inc
+64,9664,LZB,La-Z-Boy Incorporated
+65,9665,UNF,UniFirst Corporation
+66,9666,AUB,Atlantic Union Bankshares Corporation
+67,9667,VCEL,Vericel Corporation
+68,9668,VECO,Veeco Instruments Inc
+69,9669,RC,Ready Capital Corporation
+70,9670,MCW,Mister Car Wash Inc
+71,9671,HI,Hillenbrand Inc
+72,9672,WRBY,Warby Parker Inc
+73,9673,ORC,Orchid Island Ca
+74,9674,XENE,Xenon Pharmaceuticals Inc
+75,9675,TGI,Triumph Group Inc
+76,9676,IDYA,IDEAYA Biosciences Inc
+77,9677,9677,9677
+78,9678,WOR,Worthington Enterprises Inc
+79,9679,CLB,Core Laboratories Inc
+80,9680,BVN,Compañía de Minas Buenaventura S.A.A
+81,9681,MLKN,Millerknoll Inc
+82,9682,LAUR,Laureate Education Inc
+83,9683,PGTI,PGT Innovations Inc
+84,9684,SCL,Stepan Company
+85,9685,WTM,White Mountains Insurance Group Ltd
+86,9686,HCCI,Heritage-Crystal Clean Inc
+87,9687,TNGX,Tango Therapeutics Inc
+88,9688,CUTRQ,Cutera Inc
+89,9689,SKIN,The Beauty Health Company
+90,9690,IMCR,Immunocore Holdings plc
+91,9691,REPL,Replimune Group Inc
+92,9692,GPCR,Structure Therapeutics Inc
+93,9693,BKE,The Buckle Inc
+94,9694,DOOR,Masonite International Corporation
+95,9695,RES,Rpc Inc
+96,9696,RPT.OLD,Rpt Realty
+97,9697,ERII,Energy Recovery Inc
+98,9698,CWAN,Clearwater Analytics Holdings Inc
+99,9699,PRO.US,Pros Holdings Inc
+100,9700,BLKB,Blackbaud Inc
+101,9701,RCKT,Rocket Pharmaceuticals Inc
+102,9702,XMTR,Xometry Inc
+103,9703,IRON,Disc Medicine Inc
+104,9704,CBZ,Cbiz Inc
+105,9705,WAFD,WaFd Inc
+106,9706,DAWN,Day One Biopharmaceuticals Inc
+107,9707,WWW,Wolverine World Wide Inc
+108,9708,ROCK,Gibraltar Industries Inc
+109,9709,ASR,Grupo Aeroportuario del Sureste S. A. B. de C. V.
+110,9710,RADI,Radius Global Infrastructure Inc
+111,9711,HLMN,Hillman Solutions Corp
+112,9712,COHU,Cohu Inc
+113,9713,ICFI,ICF International Inc
+114,9714,FMS,Fresenius Medical Care AG
+115,9715,FULC,Fulcrum Therapeutics Inc
+116,9716,NTST,Netstreit Corp
+117,9717,HURN,Huron Consulting Group Inc
+118,9718,URGN,UroGen Pharma Ltd
+119,9719,VERA,Vera Therapeutics Inc
+120,9720,PKST,Peakstone Realty Trust
+121,9721,CSTL,Castle Biosciences Inc
+122,9722,KAI,Kadant Inc
+123,9723,DRS,Leonardo Drs Inc
+124,9724,VCTR,Victory Capital Holdings Inc
+125,9725,PSMT,Pricesmart Inc
+126,9726,AVDL,Avadel Pharmaceuticals plc
+127,9727,MGPI,MGP Ingredients Inc
+128,9728,PYCR,Paycor Hcm Inc
+129,9729,XPEL,Xpel Inc
+130,9730,ARI,Apollo Commercial Real Estate Finance Inc
+131,9731,STRA,Strategic Education Inc
+132,9732,DGII,Digi Intl Inc
+133,9733,ASAIY,Sendas Distribuidora SA
+134,9734,AGIO,Agios Pharmaceuticals Inc
+135,9735,CSW,Csw Industri Inc
+136,9736,BELFB,Bel Fuse Inc
+137,9737,KRUS,Kura Sushi USA Inc
+138,9738,CSTM,Constellium Se
+139,9739,RUM,Rumble Inc
+140,9740,JJSF,J&J Snack Foods Corp
+141,9741,GTX.US,Garrett Motion Inc
+142,9742,AGYS,Agilysys Inc
+143,9743,MEI,Methode Electronics Inc
+144,9744,HROW,Harrow Inc
+145,9745,PLXS,Plexus Corp
+146,9746,AIR.US,Aar Corp
+147,9747,ARHS,Arhaus Inc
+148,9748,CENX,Century Aluminum Company
+149,9749,VNOM,VIPER ENERGY INC-CL A
+150,9750,ATAT,Atour Lifestyle Holdings Limited
+151,9751,DEA,Easterly Government Properties Inc
+152,9752,ADUS,Addus HomeCare Corporation
+153,9753,GSL,Global Ship Lease Inc
+154,9754,EQRX,Eqrx Inc
+155,9755,XHR,Xenia Hotels & Resorts Inc
+156,9756,RUSHA,Rush Enterprises Inc
+157,9757,ARQT,Arcutis Biotherapeutics Inc
+158,9758,IBOC,International Bancshares Corporation
+159,9759,MYGN,Myriad Genetics Inc
+160,9760,HEES,H&E Equipment Services Inc
+161,9761,NVEE,Nv5 Global Inc
+162,9762,KT,KT Corporation
+163,9763,ESE,ESCO Technologies Inc
+164,9764,HCSG,Healthcare Services Group Inc
+165,9765,INVZ,Innoviz Technologies Ltd
+166,9766,EFC,Ellington Financial Inc
+167,9767,LNN,Lindsay Corporation
+168,9768,HZO,Marinemax Inc
+169,9769,MIR.US,Mirion Technologies Inc
+170,9770,ARLO,Arlo Technologies Inc
+171,9771,SATS,EchoStar Corporation
+172,9772,EVLV,Evolv Technologies Holdings Inc
+173,9773,MVST,Microvast Holdings Inc
+174,9774,BWIN,Baldwin Insurance Group Inc
+175,9775,KYMR,Kymera Therapeutics Inc
+176,9776,ESGR.US,Enstar Group Limited
+177,9777,BANR,Banner Corporation
+178,9778,BJRI,BJ's Restaurants Inc
+179,9779,ESMT,Engagesmart Inc
+180,9780,SBOW,SilverBow Resources Inc
+181,9781,PATK,Patrick Industries Inc
+182,9782,SIBN,SI-BONE Inc
+183,9783,SFL,SFL Corporation Ltd
+184,9784,MGEE,Mge Energy Inc
+185,9785,RNAM,Avidity Biosciences Inc
+186,9786,CNA,CNA Financial Corporation
+187,9787,OCSL,Oaktree Specialty Lending Corporation
+188,9788,MTX,Minerals Technologies Inc
+189,9789,ATEN,A10 Networks Inc
+190,9790,NAPA,The Duckhorn Portfolio Inc
+191,9791,GNK.US,Genco Shipping & Trading Limited
+192,9792,ABOS,Acumen Pharmaceuticals Inc
+193,9793,CLFD,Clearfield Inc
+194,9794,DOLE,Dole Plc
+195,9795,MTRN,Materion Corporation
+196,9796,USPH,US Physical Therapy Inc
+197,9797,PRIM,Primoris Services Corporation
+198,9798,CNS,Cohen & Steers Inc
+199,9799,REZI,Resideo Technologies Inc
+200,9800,CRNX,Crinetics Pharmaceuticals Inc

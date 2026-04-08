@@ -1,0 +1,1202 @@
+[
+  {
+    "n": 1,
+    "id": 9801,
+    "symbole": "SMR",
+    "nom": "NuScale Power Corporation"
+  },
+  {
+    "n": 2,
+    "id": 9802,
+    "symbole": "ANIP",
+    "nom": "ANI Pharmaceuticals Inc"
+  },
+  {
+    "n": 3,
+    "id": 9803,
+    "symbole": "TTMI",
+    "nom": "TTM Technologies Inc"
+  },
+  {
+    "n": 4,
+    "id": 9804,
+    "symbole": "EHAB",
+    "nom": "Enhabit Inc"
+  },
+  {
+    "n": 5,
+    "id": 9805,
+    "symbole": "MGRC",
+    "nom": "Mcgrath Rentcorp"
+  },
+  {
+    "n": 6,
+    "id": 9806,
+    "symbole": "SXI",
+    "nom": "Standex International Corporation"
+  },
+  {
+    "n": 7,
+    "id": 9807,
+    "symbole": "CWEN.A",
+    "nom": "Clearway Energy Inc"
+  },
+  {
+    "n": 8,
+    "id": 9808,
+    "symbole": "KNSA",
+    "nom": "Kiniksa Pharmaceuticals Ltd"
+  },
+  {
+    "n": 9,
+    "id": 9809,
+    "symbole": "TMCI",
+    "nom": "Treace Medical Concepts Inc"
+  },
+  {
+    "n": 10,
+    "id": 9810,
+    "symbole": "ENVA",
+    "nom": "Enova International Inc"
+  },
+  {
+    "n": 11,
+    "id": 9811,
+    "symbole": "WSFS",
+    "nom": "WSFS Financial Corporation"
+  },
+  {
+    "n": 12,
+    "id": 9812,
+    "symbole": "OM.US",
+    "nom": "Outset Medical Inc"
+  },
+  {
+    "n": 13,
+    "id": 9813,
+    "symbole": "ROAD",
+    "nom": "Construction Partners Inc"
+  },
+  {
+    "n": 14,
+    "id": 9814,
+    "symbole": "POWL",
+    "nom": "Powell Industries Inc"
+  },
+  {
+    "n": 15,
+    "id": 9815,
+    "symbole": "ECVT",
+    "nom": "Ecovyst Inc"
+  },
+  {
+    "n": 16,
+    "id": 9816,
+    "symbole": "INBXV",
+    "nom": "Inhibrx Inc"
+  },
+  {
+    "n": 17,
+    "id": 9817,
+    "symbole": "GBDC",
+    "nom": "Golub Capital BDC Inc"
+  },
+  {
+    "n": 18,
+    "id": 9818,
+    "symbole": "AMWD",
+    "nom": "American Woodmark Corporation"
+  },
+  {
+    "n": 19,
+    "id": 9819,
+    "symbole": "ZUMZ",
+    "nom": "Zumiez Inc"
+  },
+  {
+    "n": 20,
+    "id": 9820,
+    "symbole": "KURA",
+    "nom": "Kura Oncology Inc"
+  },
+  {
+    "n": 21,
+    "id": 9821,
+    "symbole": "LEN.B",
+    "nom": "Lennar Corporation"
+  },
+  {
+    "n": 22,
+    "id": 9822,
+    "symbole": "HLIO",
+    "nom": "Helios Technologies Inc"
+  },
+  {
+    "n": 23,
+    "id": 9823,
+    "symbole": "COGT",
+    "nom": "Cogent Biosciences Inc"
+  },
+  {
+    "n": 24,
+    "id": 9824,
+    "symbole": "KROS",
+    "nom": "Keros Therapeutics Inc"
+  },
+  {
+    "n": 25,
+    "id": 9825,
+    "symbole": "TRN.US",
+    "nom": "Trinity Industries Inc"
+  },
+  {
+    "n": 26,
+    "id": 9826,
+    "symbole": "ADTN",
+    "nom": "ADTRAN Holdings Inc"
+  },
+  {
+    "n": 27,
+    "id": 9827,
+    "symbole": "BMA",
+    "nom": "Banco Macro S A"
+  },
+  {
+    "n": 28,
+    "id": 9828,
+    "symbole": "ZETA.US",
+    "nom": "Zeta Global Holdings Corp"
+  },
+  {
+    "n": 29,
+    "id": 9829,
+    "symbole": "WIT",
+    "nom": "Wipro Limited"
+  },
+  {
+    "n": 30,
+    "id": 9830,
+    "symbole": "PMT",
+    "nom": "PennyMac Mortgage Investment Trust"
+  },
+  {
+    "n": 31,
+    "id": 9831,
+    "symbole": "GCO",
+    "nom": "Genesco Inc"
+  },
+  {
+    "n": 32,
+    "id": 9832,
+    "symbole": "CTS",
+    "nom": "CTS Corporation"
+  },
+  {
+    "n": 33,
+    "id": 9833,
+    "symbole": "ATMU",
+    "nom": "Atmus Filtration Technologies Inc"
+  },
+  {
+    "n": 34,
+    "id": 9834,
+    "symbole": "VGR",
+    "nom": "Vector Group Ltd"
+  },
+  {
+    "n": 35,
+    "id": 9835,
+    "symbole": "QTRX",
+    "nom": "Quanterix Corporation"
+  },
+  {
+    "n": 36,
+    "id": 9836,
+    "symbole": "ESTA",
+    "nom": "Establishment Labs Holdings Inc"
+  },
+  {
+    "n": 37,
+    "id": 9837,
+    "symbole": "DFH",
+    "nom": "Dream Finders Homes Inc"
+  },
+  {
+    "n": 38,
+    "id": 9838,
+    "symbole": "AGM",
+    "nom": "Federal Agricultural Mortgage Corporation"
+  },
+  {
+    "n": 39,
+    "id": 9839,
+    "symbole": "NHI",
+    "nom": "National Health Investors Inc"
+  },
+  {
+    "n": 40,
+    "id": 9840,
+    "symbole": "INOD",
+    "nom": "Innodata Inc"
+  },
+  {
+    "n": 41,
+    "id": 9841,
+    "symbole": "TGH",
+    "nom": "Textainer Group Holdings Limited"
+  },
+  {
+    "n": 42,
+    "id": 9842,
+    "symbole": "REYN",
+    "nom": "Reynolds Consumer Products Inc"
+  },
+  {
+    "n": 43,
+    "id": 9843,
+    "symbole": "NWG",
+    "nom": "NatWest Group plc-ADR"
+  },
+  {
+    "n": 44,
+    "id": 9844,
+    "symbole": "HOPE",
+    "nom": "Hope Bancorp Inc"
+  },
+  {
+    "n": 45,
+    "id": 9845,
+    "symbole": "IOSP",
+    "nom": "Innospec Inc"
+  },
+  {
+    "n": 46,
+    "id": 9846,
+    "symbole": "CRGY",
+    "nom": "Crescent Energy Company"
+  },
+  {
+    "n": 47,
+    "id": 9847,
+    "symbole": "ALG",
+    "nom": "Alamo Group Inc"
+  },
+  {
+    "n": 48,
+    "id": 9848,
+    "symbole": "CNNE",
+    "nom": "Cannae Holdings Inc"
+  },
+  {
+    "n": 49,
+    "id": 9849,
+    "symbole": "B.old",
+    "nom": "Barnes Group Inc"
+  },
+  {
+    "n": 50,
+    "id": 9850,
+    "symbole": "ADPT",
+    "nom": "Adaptive Biotechnologies Corporation"
+  },
+  {
+    "n": 51,
+    "id": 9851,
+    "symbole": "PAC",
+    "nom": "Grupo Aeroportuario del Pacífico SAB de CV"
+  },
+  {
+    "n": 52,
+    "id": 9852,
+    "symbole": "ZGN",
+    "nom": "Ermenegildo Zegna NV"
+  },
+  {
+    "n": 53,
+    "id": 9853,
+    "symbole": "ASC",
+    "nom": "Ardmore Shipping Corporation"
+  },
+  {
+    "n": 54,
+    "id": 9854,
+    "symbole": "WTTR",
+    "nom": "Select Water Solutions Inc"
+  },
+  {
+    "n": 55,
+    "id": 9855,
+    "symbole": "CRVL",
+    "nom": "CorVel Corporation"
+  },
+  {
+    "n": 56,
+    "id": 9856,
+    "symbole": "SCHL",
+    "nom": "Scholastic Corporation"
+  },
+  {
+    "n": 57,
+    "id": 9857,
+    "symbole": "NWN",
+    "nom": "Northwest Natural Holding Company"
+  },
+  {
+    "n": 58,
+    "id": 9858,
+    "symbole": "TARS",
+    "nom": "Tarsus Pharmaceuticals Inc"
+  },
+  {
+    "n": 59,
+    "id": 9859,
+    "symbole": "DORM",
+    "nom": "Dorman Products Inc"
+  },
+  {
+    "n": 60,
+    "id": 9860,
+    "symbole": "TTGT.Acquired",
+    "nom": "TechTarget Inc"
+  },
+  {
+    "n": 61,
+    "id": 9861,
+    "symbole": "VRTS",
+    "nom": "Virtus Investment Partners Inc"
+  },
+  {
+    "n": 62,
+    "id": 9862,
+    "symbole": "OEC",
+    "nom": "Orion SA"
+  },
+  {
+    "n": 63,
+    "id": 9863,
+    "symbole": "HMN",
+    "nom": "Horace Mann Educators Corporation"
+  },
+  {
+    "n": 64,
+    "id": 9864,
+    "symbole": "CPK",
+    "nom": "Chesapeake Utilities Corporation"
+  },
+  {
+    "n": 65,
+    "id": 9865,
+    "symbole": "ASLE",
+    "nom": "AerSale Corporation"
+  },
+  {
+    "n": 66,
+    "id": 9866,
+    "symbole": "TIMB",
+    "nom": "TIM SA"
+  },
+  {
+    "n": 67,
+    "id": 9867,
+    "symbole": "PFS",
+    "nom": "Provident Financial Services Inc"
+  },
+  {
+    "n": 68,
+    "id": 9868,
+    "symbole": "WEAV",
+    "nom": "Weave Communications Inc"
+  },
+  {
+    "n": 69,
+    "id": 9869,
+    "symbole": "JBSS",
+    "nom": "John B Sanfilippo & Son Inc"
+  },
+  {
+    "n": 70,
+    "id": 9870,
+    "symbole": "MBUU",
+    "nom": "Malibu Boats Inc"
+  },
+  {
+    "n": 71,
+    "id": 9871,
+    "symbole": "UTZ",
+    "nom": "Utz Brands Inc"
+  },
+  {
+    "n": 72,
+    "id": 9872,
+    "symbole": "OSW",
+    "nom": "OneSpaWorld Holdings Limited"
+  },
+  {
+    "n": 73,
+    "id": 9873,
+    "symbole": "MODN.US",
+    "nom": "Model N Inc"
+  },
+  {
+    "n": 74,
+    "id": 9874,
+    "symbole": "SKWD",
+    "nom": "Skyward Specialty Insurance Group Inc"
+  },
+  {
+    "n": 75,
+    "id": 9875,
+    "symbole": "LFST",
+    "nom": "LifeStance Health Group Inc"
+  },
+  {
+    "n": 76,
+    "id": 9876,
+    "symbole": "LILAK",
+    "nom": "Liberty Latin America Ltd"
+  },
+  {
+    "n": 77,
+    "id": 9877,
+    "symbole": "TNC",
+    "nom": "Tennant Company"
+  },
+  {
+    "n": 78,
+    "id": 9878,
+    "symbole": "BANF",
+    "nom": "BancFirst Corporation"
+  },
+  {
+    "n": 79,
+    "id": 9879,
+    "symbole": "UMH",
+    "nom": "UMH Properties Inc"
+  },
+  {
+    "n": 80,
+    "id": 9880,
+    "symbole": "XNCR",
+    "nom": "Xencor Inc"
+  },
+  {
+    "n": 81,
+    "id": 9881,
+    "symbole": "TSEOF",
+    "nom": "Trinseo Plc"
+  },
+  {
+    "n": 82,
+    "id": 9882,
+    "symbole": "ECPG",
+    "nom": "Encore Capital Group Inc"
+  },
+  {
+    "n": 83,
+    "id": 9883,
+    "symbole": "LGF.A",
+    "nom": "Lions Gate Entertainment Corp"
+  },
+  {
+    "n": 84,
+    "id": 9884,
+    "symbole": "ACCD",
+    "nom": "Accolade Inc"
+  },
+  {
+    "n": 85,
+    "id": 9885,
+    "symbole": "KFRC",
+    "nom": "Kforce Inc"
+  },
+  {
+    "n": 86,
+    "id": 9886,
+    "symbole": "EFSC",
+    "nom": "Enterprise Financial Services Corp"
+  },
+  {
+    "n": 87,
+    "id": 9887,
+    "symbole": "SHYF",
+    "nom": "The Shyft Group Inc"
+  },
+  {
+    "n": 88,
+    "id": 9888,
+    "symbole": "STC",
+    "nom": "Stewart Information Services Corporation"
+  },
+  {
+    "n": 89,
+    "id": 9889,
+    "symbole": "MATV",
+    "nom": "Mativ Holdings Inc"
+  },
+  {
+    "n": 90,
+    "id": 9890,
+    "symbole": "EPAC",
+    "nom": "Enerpac Tool Group Corp"
+  },
+  {
+    "n": 91,
+    "id": 9891,
+    "symbole": "TERN",
+    "nom": "Terns Pharmaceuticals Inc"
+  },
+  {
+    "n": 92,
+    "id": 9892,
+    "symbole": "AMPS",
+    "nom": "Altus Power Inc"
+  },
+  {
+    "n": 93,
+    "id": 9893,
+    "symbole": "STEP",
+    "nom": "StepStone Group LP"
+  },
+  {
+    "n": 94,
+    "id": 9894,
+    "symbole": "DCGO",
+    "nom": "Docgo Inc"
+  },
+  {
+    "n": 95,
+    "id": 9895,
+    "symbole": "COLL",
+    "nom": "Collegium Pharmaceutical Inc"
+  },
+  {
+    "n": 96,
+    "id": 9896,
+    "symbole": "DFIN",
+    "nom": "Donnelley Financial Solutions Inc"
+  },
+  {
+    "n": 97,
+    "id": 9897,
+    "symbole": "JELD",
+    "nom": "JELD-WEN Holding Inc"
+  },
+  {
+    "n": 98,
+    "id": 9898,
+    "symbole": "LGF.B",
+    "nom": "Lions Gate Entertainment Corp"
+  },
+  {
+    "n": 99,
+    "id": 9899,
+    "symbole": "MODVQ",
+    "nom": "Modivcare Inc"
+  },
+  {
+    "n": 100,
+    "id": 9900,
+    "symbole": "TCMD",
+    "nom": "Tactile Systems Technology Inc"
+  },
+  {
+    "n": 101,
+    "id": 9901,
+    "symbole": "NBTB",
+    "nom": "Nbt Bancorp Inc"
+  },
+  {
+    "n": 102,
+    "id": 9902,
+    "symbole": "HNI",
+    "nom": "HNI Corporation"
+  },
+  {
+    "n": 103,
+    "id": 9903,
+    "symbole": "ACT",
+    "nom": "Enact Holdings Inc"
+  },
+  {
+    "n": 104,
+    "id": 9904,
+    "symbole": "HT.US",
+    "nom": "Hersha Hospitality Trust"
+  },
+  {
+    "n": 105,
+    "id": 9905,
+    "symbole": "ROVR",
+    "nom": "Rover Group Inc"
+  },
+  {
+    "n": 106,
+    "id": 9906,
+    "symbole": "ACDC",
+    "nom": "ProFrac Holding Corp"
+  },
+  {
+    "n": 107,
+    "id": 9907,
+    "symbole": "EGBN",
+    "nom": "Eagle Bancrp Inc"
+  },
+  {
+    "n": 108,
+    "id": 9908,
+    "symbole": "INVA",
+    "nom": "Innoviva Inc"
+  },
+  {
+    "n": 109,
+    "id": 9909,
+    "symbole": "LMB",
+    "nom": "Limbach Holdings Inc"
+  },
+  {
+    "n": 110,
+    "id": 9910,
+    "symbole": "GRFS",
+    "nom": "Grifols SA"
+  },
+  {
+    "n": 111,
+    "id": 9911,
+    "symbole": "CMPR",
+    "nom": "Cimpress Plc"
+  },
+  {
+    "n": 112,
+    "id": 9912,
+    "symbole": "FDMT",
+    "nom": "4D Molecular Therapeutics Inc"
+  },
+  {
+    "n": 113,
+    "id": 9913,
+    "symbole": "VERX",
+    "nom": "Vertex Inc"
+  },
+  {
+    "n": 114,
+    "id": 9914,
+    "symbole": "MEG.US",
+    "nom": "Montrose Environmental Group Inc"
+  },
+  {
+    "n": 115,
+    "id": 9915,
+    "symbole": "AEG",
+    "nom": "Aegon Ltd"
+  },
+  {
+    "n": 116,
+    "id": 9916,
+    "symbole": "BXC",
+    "nom": "BlueLinx Holdings Inc"
+  },
+  {
+    "n": 117,
+    "id": 9917,
+    "symbole": "BLBD",
+    "nom": "Blue Bird Corporation"
+  },
+  {
+    "n": 118,
+    "id": 9918,
+    "symbole": "PRAA",
+    "nom": "Pra Group Inc"
+  },
+  {
+    "n": 119,
+    "id": 9919,
+    "symbole": "CRMT",
+    "nom": "Americas Car-Mart Inc"
+  },
+  {
+    "n": 120,
+    "id": 9920,
+    "symbole": "SCVL",
+    "nom": "Shoe Carnival Inc"
+  },
+  {
+    "n": 121,
+    "id": 9921,
+    "symbole": "AVNS",
+    "nom": "Avanos Medical Inc"
+  },
+  {
+    "n": 122,
+    "id": 9922,
+    "symbole": "APOG",
+    "nom": "Apogee Enterprises Inc"
+  },
+  {
+    "n": 123,
+    "id": 9923,
+    "symbole": "VRNA",
+    "nom": "Verona Pharma plc"
+  },
+  {
+    "n": 124,
+    "id": 9924,
+    "symbole": "PLUS",
+    "nom": "ePlus Inc"
+  },
+  {
+    "n": 125,
+    "id": 9925,
+    "symbole": "MRTN",
+    "nom": "Marten Transport Ltd"
+  },
+  {
+    "n": 126,
+    "id": 9926,
+    "symbole": "WMK",
+    "nom": "Weis Markets Inc"
+  },
+  {
+    "n": 127,
+    "id": 9927,
+    "symbole": "AVTA",
+    "nom": "Avantax Inc"
+  },
+  {
+    "n": 128,
+    "id": 9928,
+    "symbole": "RTL",
+    "nom": "Necessity Retail"
+  },
+  {
+    "n": 129,
+    "id": 9929,
+    "symbole": "CABA",
+    "nom": "Cabaletta Bio Inc"
+  },
+  {
+    "n": 130,
+    "id": 9930,
+    "symbole": "DH",
+    "nom": "Definitive Healthcare Corp"
+  },
+  {
+    "n": 131,
+    "id": 9931,
+    "symbole": "LMAT",
+    "nom": "LeMaitre Vascular Inc"
+  },
+  {
+    "n": 132,
+    "id": 9932,
+    "symbole": "LGND",
+    "nom": "Ligand Pharmaceuticals Incorporated"
+  },
+  {
+    "n": 133,
+    "id": 9933,
+    "symbole": "SASR",
+    "nom": "Sandy Spring Bancorp Inc"
+  },
+  {
+    "n": 134,
+    "id": 9934,
+    "symbole": "PLMR",
+    "nom": "Palomar Holdings Inc"
+  },
+  {
+    "n": 135,
+    "id": 9935,
+    "symbole": "FRME",
+    "nom": "First Merchants Corporation"
+  },
+  {
+    "n": 136,
+    "id": 9936,
+    "symbole": "CSWC",
+    "nom": "Capital Southwest Corporation"
+  },
+  {
+    "n": 137,
+    "id": 9937,
+    "symbole": "FCF",
+    "nom": "First Commonwealth Financial Corporation"
+  },
+  {
+    "n": 138,
+    "id": 9938,
+    "symbole": "TRMK",
+    "nom": "Trustmark Corporation"
+  },
+  {
+    "n": 139,
+    "id": 9939,
+    "symbole": "OFG",
+    "nom": "Ofg Bancorp"
+  },
+  {
+    "n": 140,
+    "id": 9940,
+    "symbole": "LXU",
+    "nom": "LSB Industries Inc"
+  },
+  {
+    "n": 141,
+    "id": 9941,
+    "symbole": "RGNX",
+    "nom": "REGENXBIO Inc"
+  },
+  {
+    "n": 142,
+    "id": 9942,
+    "symbole": "HOV",
+    "nom": "Hovnanian Enterprises Inc"
+  },
+  {
+    "n": 143,
+    "id": 9943,
+    "symbole": "LADR",
+    "nom": "Ladder Capital Corp"
+  },
+  {
+    "n": 144,
+    "id": 9944,
+    "symbole": "GOLD.US",
+    "nom": "Gold.com Inc"
+  },
+  {
+    "n": 145,
+    "id": 9945,
+    "symbole": "NWBI",
+    "nom": "Northwest Bancshares Inc"
+  },
+  {
+    "n": 146,
+    "id": 9946,
+    "symbole": "TSLX",
+    "nom": "Sixth Street Specialty Lending Inc"
+  },
+  {
+    "n": 147,
+    "id": 9947,
+    "symbole": "FFBC",
+    "nom": "First Financial Bancorp"
+  },
+  {
+    "n": 148,
+    "id": 9948,
+    "symbole": "NBHC",
+    "nom": "National Bank Holdings Corporation"
+  },
+  {
+    "n": 149,
+    "id": 9949,
+    "symbole": "GSBD",
+    "nom": "Goldman Sachs BDC Inc"
+  },
+  {
+    "n": 150,
+    "id": 9950,
+    "symbole": "INVX",
+    "nom": "Innovex International Inc"
+  },
+  {
+    "n": 151,
+    "id": 9951,
+    "symbole": "IMKTA",
+    "nom": "Ingles Markets Incorporated"
+  },
+  {
+    "n": 152,
+    "id": 9952,
+    "symbole": "TIGR",
+    "nom": "UP Fintech Holding Limited"
+  },
+  {
+    "n": 153,
+    "id": 9953,
+    "symbole": "KNTK",
+    "nom": "Kinetik Holdings Inc"
+  },
+  {
+    "n": 154,
+    "id": 9954,
+    "symbole": "PRM",
+    "nom": "Perimeter Solutions SA"
+  },
+  {
+    "n": 155,
+    "id": 9955,
+    "symbole": "WINA",
+    "nom": "Winmark Corporation"
+  },
+  {
+    "n": 156,
+    "id": 9956,
+    "symbole": "OKLO",
+    "nom": "Oklo Inc"
+  },
+  {
+    "n": 157,
+    "id": 9957,
+    "symbole": "PDFS",
+    "nom": "PDF Solutions Inc"
+  },
+  {
+    "n": 158,
+    "id": 9958,
+    "symbole": "FNKO",
+    "nom": "Funko Inc"
+  },
+  {
+    "n": 159,
+    "id": 9959,
+    "symbole": "HPK",
+    "nom": "HighPeak Energy Inc"
+  },
+  {
+    "n": 160,
+    "id": 9960,
+    "symbole": "KALU",
+    "nom": "Kaiser Aluminum Corporation"
+  },
+  {
+    "n": 161,
+    "id": 9961,
+    "symbole": "NABL",
+    "nom": "N-able Inc"
+  },
+  {
+    "n": 162,
+    "id": 9962,
+    "symbole": "CXW",
+    "nom": "Corecivic Inc"
+  },
+  {
+    "n": 163,
+    "id": 9963,
+    "symbole": "EYPT",
+    "nom": "EyePoint Inc"
+  },
+  {
+    "n": 164,
+    "id": 9964,
+    "symbole": "RDUS",
+    "nom": "Schnitzer Steel Industries Inc"
+  },
+  {
+    "n": 165,
+    "id": 9965,
+    "symbole": "VZIO",
+    "nom": "VIZIO Holding Corp"
+  },
+  {
+    "n": 166,
+    "id": 9966,
+    "symbole": "TR",
+    "nom": "Tootsie Roll Industries Inc"
+  },
+  {
+    "n": 167,
+    "id": 9967,
+    "symbole": "MRUS",
+    "nom": "Merus Nv"
+  },
+  {
+    "n": 168,
+    "id": 9968,
+    "symbole": "ITOS",
+    "nom": "iTeos Therapeutics Inc"
+  },
+  {
+    "n": 169,
+    "id": 9969,
+    "symbole": "MCFT",
+    "nom": "MasterCraft Boat Holdings Inc"
+  },
+  {
+    "n": 170,
+    "id": 9970,
+    "symbole": "NAAS",
+    "nom": "NaaS Technology Inc"
+  },
+  {
+    "n": 171,
+    "id": 9971,
+    "symbole": "TTEC",
+    "nom": "Ttec Holdings In"
+  },
+  {
+    "n": 172,
+    "id": 9972,
+    "symbole": "RAPT",
+    "nom": "RAPT Therapeutics Inc"
+  },
+  {
+    "n": 173,
+    "id": 9973,
+    "symbole": "DCPH",
+    "nom": "Deciphera Pharmaceuticals Inc"
+  },
+  {
+    "n": 174,
+    "id": 9974,
+    "symbole": "ACRS",
+    "nom": "Aclaris Therapeutics Inc"
+  },
+  {
+    "n": 175,
+    "id": 9975,
+    "symbole": "FWRG",
+    "nom": "First Watch Restaurant Group Inc"
+  },
+  {
+    "n": 176,
+    "id": 9976,
+    "symbole": "EWCZ",
+    "nom": "European Wax Center Inc"
+  },
+  {
+    "n": 177,
+    "id": 9977,
+    "symbole": "CSAN",
+    "nom": "Cosan SA"
+  },
+  {
+    "n": 178,
+    "id": 9978,
+    "symbole": "IMXI",
+    "nom": "International Money Express Inc"
+  },
+  {
+    "n": 179,
+    "id": 9979,
+    "symbole": "LEU",
+    "nom": "Centrus Energy Corp"
+  },
+  {
+    "n": 180,
+    "id": 9980,
+    "symbole": "MRC.US",
+    "nom": "Mrc Global Inc"
+  },
+  {
+    "n": 181,
+    "id": 9981,
+    "symbole": "ATEX",
+    "nom": "Anterix Inc"
+  },
+  {
+    "n": 182,
+    "id": 9982,
+    "symbole": "ETD",
+    "nom": "Ethan Allen Interiors Inc"
+  },
+  {
+    "n": 183,
+    "id": 9983,
+    "symbole": "LOCO",
+    "nom": "El Pollo Loco Holdings Inc"
+  },
+  {
+    "n": 184,
+    "id": 9984,
+    "symbole": "ADEA",
+    "nom": "Adeia Inc"
+  },
+  {
+    "n": 185,
+    "id": 9985,
+    "symbole": "RNST",
+    "nom": "Renasant Corporation"
+  },
+  {
+    "n": 186,
+    "id": 9986,
+    "symbole": "WABC",
+    "nom": "Westamerica Bancorporation"
+  },
+  {
+    "n": 187,
+    "id": 9987,
+    "symbole": "WPP",
+    "nom": "WPP plc"
+  },
+  {
+    "n": 188,
+    "id": 9988,
+    "symbole": "BCYC",
+    "nom": "Bicycle Therapeutics plc"
+  },
+  {
+    "n": 189,
+    "id": 9989,
+    "symbole": "SANA",
+    "nom": "Sana Biotechnology Inc"
+  },
+  {
+    "n": 190,
+    "id": 9990,
+    "symbole": "MDXG",
+    "nom": "Mimedx Group Inc"
+  },
+  {
+    "n": 191,
+    "id": 9991,
+    "symbole": "EVLO",
+    "nom": "Evelo Biosciences Inc"
+  },
+  {
+    "n": 192,
+    "id": 9992,
+    "symbole": "CHCO",
+    "nom": "City Holding Company"
+  },
+  {
+    "n": 193,
+    "id": 9993,
+    "symbole": "ACRE",
+    "nom": "Ares Commercial Real Estate Corporation"
+  },
+  {
+    "n": 194,
+    "id": 9994,
+    "symbole": "ASIX",
+    "nom": "Advansix Inc"
+  },
+  {
+    "n": 195,
+    "id": 9995,
+    "symbole": "PAX",
+    "nom": "Patria Investments Limited"
+  },
+  {
+    "n": 196,
+    "id": 9996,
+    "symbole": "AMPL",
+    "nom": "Amplitude Inc"
+  },
+  {
+    "n": 197,
+    "id": 9997,
+    "symbole": "CNDA",
+    "nom": "Concord Acquisition Corp II"
+  },
+  {
+    "n": 198,
+    "id": 9998,
+    "symbole": "MERC",
+    "nom": "Mercer International Inc"
+  },
+  {
+    "n": 199,
+    "id": 9999,
+    "symbole": "AVPT",
+    "nom": "Avepoint Inc"
+  },
+  {
+    "n": 200,
+    "id": 10000,
+    "symbole": "DEWA.AE",
+    "nom": "Dubai Electricity and Water Authority PJSC"
+  }
+]

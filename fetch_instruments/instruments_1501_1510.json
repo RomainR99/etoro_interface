@@ -1,0 +1,62 @@
+[
+  {
+    "n": 1,
+    "id": 1501,
+    "symbole": "GM",
+    "nom": "General Motors Co"
+  },
+  {
+    "n": 2,
+    "id": 1502,
+    "symbole": "ESRX",
+    "nom": "Express Scripts Holding Co"
+  },
+  {
+    "n": 3,
+    "id": 1503,
+    "symbole": "MPC",
+    "nom": "Marathon Petroleum Corporation"
+  },
+  {
+    "n": 4,
+    "id": 1504,
+    "symbole": "CAH",
+    "nom": "Cardinal Health Inc"
+  },
+  {
+    "n": 5,
+    "id": 1505,
+    "symbole": "ELV",
+    "nom": "Elevance Health Inc"
+  },
+  {
+    "n": 6,
+    "id": 1506,
+    "symbole": "FMC",
+    "nom": "FMC Corp"
+  },
+  {
+    "n": 7,
+    "id": 1507,
+    "symbole": "AIG",
+    "nom": "American International Group Inc"
+  },
+  {
+    "n": 8,
+    "id": 1508,
+    "symbole": "DOW.OLD",
+    "nom": "Dow Inc"
+  },
+  {
+    "n": 9,
+    "id": 1509,
+    "symbole": "AET",
+    "nom": "Aetna Inc"
+  },
+  {
+    "n": 10,
+    "id": 1510,
+    "symbole": "COP",
+    "nom": "ConocoPhillips Co"
+  }
+]

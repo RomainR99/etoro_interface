@@ -1,0 +1,1802 @@
+[
+  {
+    "n": 1,
+    "id": 6501,
+    "symbole": "PGNY",
+    "nom": "Progyny Inc"
+  },
+  {
+    "n": 2,
+    "id": 6502,
+    "symbole": "PINC",
+    "nom": "Premier Inc"
+  },
+  {
+    "n": 3,
+    "id": 6503,
+    "symbole": "PLCE",
+    "nom": "Children's Place Inc"
+  },
+  {
+    "n": 4,
+    "id": 6504,
+    "symbole": "PLYA",
+    "nom": "Playa Hotels & Resorts NV"
+  },
+  {
+    "n": 5,
+    "id": 6505,
+    "symbole": "PNNT",
+    "nom": "PennantPark Investment Corp"
+  },
+  {
+    "n": 6,
+    "id": 6506,
+    "symbole": "PPD",
+    "nom": "PPD Inc"
+  },
+  {
+    "n": 7,
+    "id": 6507,
+    "symbole": "PRFT",
+    "nom": "Perficient Inc"
+  },
+  {
+    "n": 8,
+    "id": 6508,
+    "symbole": "PRVB",
+    "nom": "Provention Bio Inc"
+  },
+  {
+    "n": 9,
+    "id": 6509,
+    "symbole": "PSEC",
+    "nom": "Prospect Capital Corp"
+  },
+  {
+    "n": 10,
+    "id": 6510,
+    "symbole": "PTEN",
+    "nom": "Patterson-UTI Energy Inc"
+  },
+  {
+    "n": 11,
+    "id": 6511,
+    "symbole": "PVAC",
+    "nom": "Penn Virginia Corp"
+  },
+  {
+    "n": 12,
+    "id": 6512,
+    "symbole": "6512",
+    "nom": "6512"
+  },
+  {
+    "n": 13,
+    "id": 6513,
+    "symbole": "QDEL",
+    "nom": "Quidel Corp"
+  },
+  {
+    "n": 14,
+    "id": 6514,
+    "symbole": "QURE",
+    "nom": "uniQure NV"
+  },
+  {
+    "n": 15,
+    "id": 6515,
+    "symbole": "RDFN",
+    "nom": "Redfin Corp"
+  },
+  {
+    "n": 16,
+    "id": 6516,
+    "symbole": "REAL",
+    "nom": "RealReal Inc"
+  },
+  {
+    "n": 17,
+    "id": 6517,
+    "symbole": "REGI",
+    "nom": "Renewable Energy Group Inc"
+  },
+  {
+    "n": 18,
+    "id": 6518,
+    "symbole": "RIGL",
+    "nom": "Rigel Pharmaceuticals Inc"
+  },
+  {
+    "n": 19,
+    "id": 6519,
+    "symbole": "ROIC",
+    "nom": "Retail Opportunity Investments Corp"
+  },
+  {
+    "n": 20,
+    "id": 6520,
+    "symbole": "RPRX",
+    "nom": "Royalty Pharma PLC"
+  },
+  {
+    "n": 21,
+    "id": 6521,
+    "symbole": "RRGB",
+    "nom": "Red Robin Gourmet Burgers Inc"
+  },
+  {
+    "n": 22,
+    "id": 6522,
+    "symbole": "RRR",
+    "nom": "Red Rock Resorts Inc"
+  },
+  {
+    "n": 23,
+    "id": 6523,
+    "symbole": "RUBY",
+    "nom": "Rubius Therapeutics Inc"
+  },
+  {
+    "n": 24,
+    "id": 6524,
+    "symbole": "RUTH",
+    "nom": "Ruth's Hospitality Group Inc"
+  },
+  {
+    "n": 25,
+    "id": 6525,
+    "symbole": "RVMD",
+    "nom": "REVOLUTION Medicines Inc"
+  },
+  {
+    "n": 26,
+    "id": 6526,
+    "symbole": "SABR",
+    "nom": "Sabre Corp"
+  },
+  {
+    "n": 27,
+    "id": 6527,
+    "symbole": "SBGI",
+    "nom": "Sinclair Inc"
+  },
+  {
+    "n": 28,
+    "id": 6528,
+    "symbole": "SDCCQ",
+    "nom": "SmileDirectClub Inc"
+  },
+  {
+    "n": 29,
+    "id": 6529,
+    "symbole": "SDGR",
+    "nom": "Schrodinger Inc/United States"
+  },
+  {
+    "n": 30,
+    "id": 6530,
+    "symbole": "SEAC",
+    "nom": "SeaChange International Inc"
+  },
+  {
+    "n": 31,
+    "id": 6531,
+    "symbole": "LNWO",
+    "nom": "Light & Wonder Inc"
+  },
+  {
+    "n": 32,
+    "id": 6532,
+    "symbole": "SINA",
+    "nom": "SINA Corp/China"
+  },
+  {
+    "n": 33,
+    "id": 6533,
+    "symbole": "SKYW",
+    "nom": "SkyWest Inc"
+  },
+  {
+    "n": 34,
+    "id": 6534,
+    "symbole": "SLM",
+    "nom": "SLM Corp"
+  },
+  {
+    "n": 35,
+    "id": 6535,
+    "symbole": "SNCR",
+    "nom": "Synchronoss Technologies Inc"
+  },
+  {
+    "n": 36,
+    "id": 6536,
+    "symbole": "SNDL",
+    "nom": "SNDL Inc"
+  },
+  {
+    "n": 37,
+    "id": 6537,
+    "symbole": "SNDX",
+    "nom": "Syndax Pharmaceuticals Inc"
+  },
+  {
+    "n": 38,
+    "id": 6538,
+    "symbole": "SONO",
+    "nom": "Sonos Inc"
+  },
+  {
+    "n": 39,
+    "id": 6539,
+    "symbole": "SPPI",
+    "nom": "Spectrum Pharmaceuticals Inc"
+  },
+  {
+    "n": 40,
+    "id": 6540,
+    "symbole": "SPWH",
+    "nom": "Sportsman's Warehouse Holdings Inc"
+  },
+  {
+    "n": 41,
+    "id": 6541,
+    "symbole": "SSRM",
+    "nom": "SSR Mining Inc"
+  },
+  {
+    "n": 42,
+    "id": 6542,
+    "symbole": "STAY",
+    "nom": "Extended Stay America Inc"
+  },
+  {
+    "n": 43,
+    "id": 6543,
+    "symbole": "BMBL",
+    "nom": "Bumble Inc."
+  },
+  {
+    "n": 44,
+    "id": 6544,
+    "symbole": "SVC",
+    "nom": "Service Properties Trust"
+  },
+  {
+    "n": 45,
+    "id": 6545,
+    "symbole": "MNTV",
+    "nom": "Momentive Global Inc"
+  },
+  {
+    "n": 46,
+    "id": 6546,
+    "symbole": "SWAV",
+    "nom": "Shockwave Medical Inc"
+  },
+  {
+    "n": 47,
+    "id": 6547,
+    "symbole": "6547",
+    "nom": "6547"
+  },
+  {
+    "n": 48,
+    "id": 6548,
+    "symbole": "SYNH",
+    "nom": "Syneos Health Inc"
+  },
+  {
+    "n": 49,
+    "id": 6549,
+    "symbole": "TER",
+    "nom": "Teradyne Inc"
+  },
+  {
+    "n": 50,
+    "id": 6550,
+    "symbole": "TNAV",
+    "nom": "Telenav Inc"
+  },
+  {
+    "n": 51,
+    "id": 6551,
+    "symbole": "TRVG",
+    "nom": "Trivago NV-ADR"
+  },
+  {
+    "n": 52,
+    "id": 6552,
+    "symbole": "TSEM",
+    "nom": "Tower Semiconductor Ltd"
+  },
+  {
+    "n": 53,
+    "id": 6553,
+    "symbole": "TVTY",
+    "nom": "Tivity Health Inc"
+  },
+  {
+    "n": 54,
+    "id": 6554,
+    "symbole": "TXG",
+    "nom": "10X Genomics Inc"
+  },
+  {
+    "n": 55,
+    "id": 6555,
+    "symbole": "TXMD",
+    "nom": "TherapeuticsMD Inc"
+  },
+  {
+    "n": 56,
+    "id": 6556,
+    "symbole": "UPWK",
+    "nom": "Upwork Inc"
+  },
+  {
+    "n": 57,
+    "id": 6557,
+    "symbole": "USCR",
+    "nom": "US Concrete Inc"
+  },
+  {
+    "n": 58,
+    "id": 6558,
+    "symbole": "UTHR",
+    "nom": "United Therapeutics Corp"
+  },
+  {
+    "n": 59,
+    "id": 6559,
+    "symbole": "VEON",
+    "nom": "VEON Ltd"
+  },
+  {
+    "n": 60,
+    "id": 6560,
+    "symbole": "VIR",
+    "nom": "Vir Biotechnology Inc"
+  },
+  {
+    "n": 61,
+    "id": 6561,
+    "symbole": "6561",
+    "nom": "6561"
+  },
+  {
+    "n": 62,
+    "id": 6562,
+    "symbole": "VRA",
+    "nom": "Vera Bradley Inc"
+  },
+  {
+    "n": 63,
+    "id": 6563,
+    "symbole": "VREX",
+    "nom": "Varex Imaging Corp"
+  },
+  {
+    "n": 64,
+    "id": 6564,
+    "symbole": "VRMMQ.old",
+    "nom": "Vroom Inc.old"
+  },
+  {
+    "n": 65,
+    "id": 6565,
+    "symbole": "VYGR",
+    "nom": "Voyager Therapeutics Inc"
+  },
+  {
+    "n": 66,
+    "id": 6566,
+    "symbole": "WT",
+    "nom": "WisdomTree Investments Inc"
+  },
+  {
+    "n": 67,
+    "id": 6567,
+    "symbole": "WING",
+    "nom": "Wingstop Inc"
+  },
+  {
+    "n": 68,
+    "id": 6568,
+    "symbole": "WMG",
+    "nom": "Warner Music Group Corp"
+  },
+  {
+    "n": 69,
+    "id": 6569,
+    "symbole": "WTRH",
+    "nom": "Waitr Holdings Inc"
+  },
+  {
+    "n": 70,
+    "id": 6570,
+    "symbole": "XBIT",
+    "nom": "XBiotech Inc"
+  },
+  {
+    "n": 71,
+    "id": 6571,
+    "symbole": "XNET",
+    "nom": "Xunlei Ltd-ADR"
+  },
+  {
+    "n": 72,
+    "id": 6572,
+    "symbole": "XP",
+    "nom": "XP Inc"
+  },
+  {
+    "n": 73,
+    "id": 6573,
+    "symbole": "6573",
+    "nom": "6573"
+  },
+  {
+    "n": 74,
+    "id": 6574,
+    "symbole": "6574",
+    "nom": "6574"
+  },
+  {
+    "n": 75,
+    "id": 6575,
+    "symbole": "ZG",
+    "nom": "Zillow Group Inc"
+  },
+  {
+    "n": 76,
+    "id": 6576,
+    "symbole": "GTM",
+    "nom": "ZoomInfo Technologies Inc"
+  },
+  {
+    "n": 77,
+    "id": 6577,
+    "symbole": "AAT",
+    "nom": "American Assets Trust Inc"
+  },
+  {
+    "n": 78,
+    "id": 6578,
+    "symbole": "6578",
+    "nom": "6578"
+  },
+  {
+    "n": 79,
+    "id": 6579,
+    "symbole": "ABR",
+    "nom": "Arbor Realty Trust Inc"
+  },
+  {
+    "n": 80,
+    "id": 6580,
+    "symbole": "ACC",
+    "nom": "American Campus Communities Inc"
+  },
+  {
+    "n": 81,
+    "id": 6581,
+    "symbole": "ADC",
+    "nom": "Agree Realty Corp"
+  },
+  {
+    "n": 82,
+    "id": 6582,
+    "symbole": "AEM",
+    "nom": "Agnico Eagle Mines Ltd"
+  },
+  {
+    "n": 83,
+    "id": 6583,
+    "symbole": "AER",
+    "nom": "AerCap Holdings NV"
+  },
+  {
+    "n": 84,
+    "id": 6584,
+    "symbole": "AG",
+    "nom": "First Majestic Silver Corp"
+  },
+  {
+    "n": 85,
+    "id": 6585,
+    "symbole": "AGI",
+    "nom": "Alamos Gold Inc"
+  },
+  {
+    "n": 86,
+    "id": 6586,
+    "symbole": "AIV",
+    "nom": "Apartment Investment and Management Co"
+  },
+  {
+    "n": 87,
+    "id": 6587,
+    "symbole": "AJRD",
+    "nom": "Aerojet Rocketdyne Holdings Inc"
+  },
+  {
+    "n": 88,
+    "id": 6588,
+    "symbole": "AKR",
+    "nom": "Acadia Realty Trust"
+  },
+  {
+    "n": 89,
+    "id": 6589,
+    "symbole": "ALX",
+    "nom": "Alexander's Inc"
+  },
+  {
+    "n": 90,
+    "id": 6590,
+    "symbole": "AM",
+    "nom": "Antero Midstream Corp"
+  },
+  {
+    "n": 91,
+    "id": 6591,
+    "symbole": "AMC",
+    "nom": "AMC Entertainment Holdings Inc"
+  },
+  {
+    "n": 92,
+    "id": 6592,
+    "symbole": "AMCR",
+    "nom": "Amcor PLC"
+  },
+  {
+    "n": 93,
+    "id": 6593,
+    "symbole": "AMH",
+    "nom": "American Homes 4 Rent"
+  },
+  {
+    "n": 94,
+    "id": 6594,
+    "symbole": "AMRC",
+    "nom": "Ameresco Inc"
+  },
+  {
+    "n": 95,
+    "id": 6595,
+    "symbole": "AMRX",
+    "nom": "Amneal Pharmaceuticals Inc"
+  },
+  {
+    "n": 96,
+    "id": 6596,
+    "symbole": "AOS",
+    "nom": "A O Smith Corp"
+  },
+  {
+    "n": 97,
+    "id": 6597,
+    "symbole": "APLE",
+    "nom": "Apple Hospitality REIT Inc"
+  },
+  {
+    "n": 98,
+    "id": 6598,
+    "symbole": "APO",
+    "nom": "Apollo Global Management Inc"
+  },
+  {
+    "n": 99,
+    "id": 6599,
+    "symbole": "AQUA",
+    "nom": "Evoqua Water Technologies Corp"
+  },
+  {
+    "n": 100,
+    "id": 6600,
+    "symbole": "AR.US",
+    "nom": "Antero Resources Corp"
+  },
+  {
+    "n": 101,
+    "id": 6601,
+    "symbole": "ARCO",
+    "nom": "Arcos Dorados Holdings Inc"
+  },
+  {
+    "n": 102,
+    "id": 6602,
+    "symbole": "AROC",
+    "nom": "Archrock Inc"
+  },
+  {
+    "n": 103,
+    "id": 6603,
+    "symbole": "ARR",
+    "nom": "ARMOUR Residential REIT Inc"
+  },
+  {
+    "n": 104,
+    "id": 6604,
+    "symbole": "AU",
+    "nom": "AngloGold Ashanti Ltd-ADR"
+  },
+  {
+    "n": 105,
+    "id": 6605,
+    "symbole": "AUY",
+    "nom": "Yamana Gold Inc"
+  },
+  {
+    "n": 106,
+    "id": 6606,
+    "symbole": "AVTR",
+    "nom": "Avantor Inc"
+  },
+  {
+    "n": 107,
+    "id": 6607,
+    "symbole": "DCH.US",
+    "nom": "Dauch Corporation"
+  },
+  {
+    "n": 108,
+    "id": 6608,
+    "symbole": "BN.US",
+    "nom": "Brookfield Corp"
+  },
+  {
+    "n": 109,
+    "id": 6609,
+    "symbole": "BBAR",
+    "nom": "Banco BBVA Argentina SA"
+  },
+  {
+    "n": 110,
+    "id": 6610,
+    "symbole": "BCS",
+    "nom": "Barclays PLC-ADR"
+  },
+  {
+    "n": 111,
+    "id": 6611,
+    "symbole": "BDC",
+    "nom": "Belden Inc"
+  },
+  {
+    "n": 112,
+    "id": 6612,
+    "symbole": "FLKR",
+    "nom": "Franklin FTSE South Korea ETF"
+  },
+  {
+    "n": 113,
+    "id": 6613,
+    "symbole": "BDN",
+    "nom": "Brandywine Realty Trust"
+  },
+  {
+    "n": 114,
+    "id": 6614,
+    "symbole": "BE",
+    "nom": "Bloom Energy Corp"
+  },
+  {
+    "n": 115,
+    "id": 6615,
+    "symbole": "BEST",
+    "nom": "BEST Inc"
+  },
+  {
+    "n": 116,
+    "id": 6616,
+    "symbole": "BHR",
+    "nom": "Braemar Hotels & Resorts Inc"
+  },
+  {
+    "n": 117,
+    "id": 6617,
+    "symbole": "BIP",
+    "nom": "Brookfield Infrastructure Partners LP"
+  },
+  {
+    "n": 118,
+    "id": 6618,
+    "symbole": "BKD",
+    "nom": "Brookdale Senior Living Inc"
+  },
+  {
+    "n": 119,
+    "id": 6619,
+    "symbole": "BMI",
+    "nom": "Badger Meter Inc"
+  },
+  {
+    "n": 120,
+    "id": 6620,
+    "symbole": "BOOT",
+    "nom": "Boot Barn Holdings Inc"
+  },
+  {
+    "n": 121,
+    "id": 6621,
+    "symbole": "BORR",
+    "nom": "Borr Drilling Ltd"
+  },
+  {
+    "n": 122,
+    "id": 6622,
+    "symbole": "BRX",
+    "nom": "Brixmor Property Group Inc"
+  },
+  {
+    "n": 123,
+    "id": 6623,
+    "symbole": "BSM",
+    "nom": "Black Stone Minerals LP"
+  },
+  {
+    "n": 124,
+    "id": 6624,
+    "symbole": "BSX.US",
+    "nom": "Boston Scientific Corp"
+  },
+  {
+    "n": 125,
+    "id": 6625,
+    "symbole": "BTE",
+    "nom": "Baytex Energy Corp"
+  },
+  {
+    "n": 126,
+    "id": 6626,
+    "symbole": "BW",
+    "nom": "Babcock & Wilcox Enterprises Inc"
+  },
+  {
+    "n": 127,
+    "id": 6627,
+    "symbole": "BXMT",
+    "nom": "Blackstone Mortgage Trust Inc"
+  },
+  {
+    "n": 128,
+    "id": 6628,
+    "symbole": "CAL",
+    "nom": "Caleres Inc"
+  },
+  {
+    "n": 129,
+    "id": 6629,
+    "symbole": "CARR",
+    "nom": "Carrier Global Corp"
+  },
+  {
+    "n": 130,
+    "id": 6630,
+    "symbole": "CARS",
+    "nom": "Cars.com Inc"
+  },
+  {
+    "n": 131,
+    "id": 6631,
+    "symbole": "CBB",
+    "nom": "Cincinnati Bell Inc"
+  },
+  {
+    "n": 132,
+    "id": 6632,
+    "symbole": "CBDBY",
+    "nom": "Cia Brasileira de Distribuicao"
+  },
+  {
+    "n": 133,
+    "id": 6633,
+    "symbole": "6633",
+    "nom": "6633"
+  },
+  {
+    "n": 134,
+    "id": 6634,
+    "symbole": "CCJ",
+    "nom": "Cameco Corp"
+  },
+  {
+    "n": 135,
+    "id": 6635,
+    "symbole": "CCO",
+    "nom": "Clear Channel Outdoor Holdings Inc"
+  },
+  {
+    "n": 136,
+    "id": 6636,
+    "symbole": "CDE",
+    "nom": "Coeur Mining Inc"
+  },
+  {
+    "n": 137,
+    "id": 6637,
+    "symbole": "CDR",
+    "nom": "Cedar Realty Trust Inc"
+  },
+  {
+    "n": 138,
+    "id": 6638,
+    "symbole": "CP",
+    "nom": "Canadian Pacific Railway LTD"
+  },
+  {
+    "n": 139,
+    "id": 6639,
+    "symbole": "6639",
+    "nom": "6639"
+  },
+  {
+    "n": 140,
+    "id": 6640,
+    "symbole": "CHAP",
+    "nom": "Chaparral Energy Inc"
+  },
+  {
+    "n": 141,
+    "id": 6641,
+    "symbole": "SAVAW",
+    "nom": "SAVAW Warrant"
+  },
+  {
+    "n": 142,
+    "id": 6642,
+    "symbole": "SKLZ",
+    "nom": "Skillz Inc"
+  },
+  {
+    "n": 143,
+    "id": 6643,
+    "symbole": "CIM",
+    "nom": "Chimera Investment Corp"
+  },
+  {
+    "n": 144,
+    "id": 6644,
+    "symbole": "CLDT",
+    "nom": "Chatham Lodging Trust"
+  },
+  {
+    "n": 145,
+    "id": 6645,
+    "symbole": "CLF.US",
+    "nom": "Cleveland-Cliffs Inc"
+  },
+  {
+    "n": 146,
+    "id": 6646,
+    "symbole": "RPTX.CVR",
+    "nom": "RPTX Merger CVR"
+  },
+  {
+    "n": 147,
+    "id": 6647,
+    "symbole": "DBRG",
+    "nom": "DigitalBridge Group Inc"
+  },
+  {
+    "n": 148,
+    "id": 6648,
+    "symbole": "CM",
+    "nom": "Canadian Imperial Bank of Commerce"
+  },
+  {
+    "n": 149,
+    "id": 6649,
+    "symbole": "6649",
+    "nom": "6649"
+  },
+  {
+    "n": 150,
+    "id": 6650,
+    "symbole": "CMRE",
+    "nom": "Costamare Inc"
+  },
+  {
+    "n": 151,
+    "id": 6651,
+    "symbole": "CNQ",
+    "nom": "Canadian Natural Resources Ltd"
+  },
+  {
+    "n": 152,
+    "id": 6652,
+    "symbole": "CO",
+    "nom": "Global Cord Blood Corp"
+  },
+  {
+    "n": 153,
+    "id": 6653,
+    "symbole": "COR.OLD",
+    "nom": "CoreSite Realty Corp"
+  },
+  {
+    "n": 154,
+    "id": 6654,
+    "symbole": "QS",
+    "nom": "QuantumScape Corporation"
+  },
+  {
+    "n": 155,
+    "id": 6655,
+    "symbole": "CPA",
+    "nom": "Copa Holdings SA"
+  },
+  {
+    "n": 156,
+    "id": 6656,
+    "symbole": "CPT",
+    "nom": "Camden Property Trust"
+  },
+  {
+    "n": 157,
+    "id": 6657,
+    "symbole": "CRK",
+    "nom": "Comstock Resources Inc"
+  },
+  {
+    "n": 158,
+    "id": 6658,
+    "symbole": "CTT",
+    "nom": "CatchMark Timber Trust Inc"
+  },
+  {
+    "n": 159,
+    "id": 6659,
+    "symbole": "CTVA",
+    "nom": "Corteva Inc"
+  },
+  {
+    "n": 160,
+    "id": 6660,
+    "symbole": "CUK",
+    "nom": "Carnival PLC"
+  },
+  {
+    "n": 161,
+    "id": 6661,
+    "symbole": "CUZ",
+    "nom": "Cousins Properties Inc"
+  },
+  {
+    "n": 162,
+    "id": 6662,
+    "symbole": "CVE",
+    "nom": "Cenovus Energy Inc"
+  },
+  {
+    "n": 163,
+    "id": 6663,
+    "symbole": "CWEN",
+    "nom": "Clearway Energy Inc"
+  },
+  {
+    "n": 164,
+    "id": 6664,
+    "symbole": "CWK.US",
+    "nom": "Cushman & Wakefield PLC"
+  },
+  {
+    "n": 165,
+    "id": 6665,
+    "symbole": "CXP",
+    "nom": "Columbia Property Trust Inc"
+  },
+  {
+    "n": 166,
+    "id": 6666,
+    "symbole": "DBDQQ",
+    "nom": "Diebold Nixdorf Inc"
+  },
+  {
+    "n": 167,
+    "id": 6667,
+    "symbole": "DBI",
+    "nom": "Designer Brands Inc"
+  },
+  {
+    "n": 168,
+    "id": 6668,
+    "symbole": "DEI",
+    "nom": "Douglas Emmett Inc"
+  },
+  {
+    "n": 169,
+    "id": 6669,
+    "symbole": "DHT",
+    "nom": "DHT Holdings Inc"
+  },
+  {
+    "n": 170,
+    "id": 6670,
+    "symbole": "DIN",
+    "nom": "Dine Brands Global Inc"
+  },
+  {
+    "n": 171,
+    "id": 6671,
+    "symbole": "DOC.Acquired",
+    "nom": "Physicians Realty Trust"
+  },
+  {
+    "n": 172,
+    "id": 6672,
+    "symbole": "6672",
+    "nom": "6672"
+  },
+  {
+    "n": 173,
+    "id": 6673,
+    "symbole": "DRH",
+    "nom": "DiamondRock Hospitality Co"
+  },
+  {
+    "n": 174,
+    "id": 6674,
+    "symbole": "GLFE",
+    "nom": "Golf Entertainment Group Inc"
+  },
+  {
+    "n": 175,
+    "id": 6675,
+    "symbole": "DX",
+    "nom": "Dynex Capital Inc"
+  },
+  {
+    "n": 176,
+    "id": 6676,
+    "symbole": "EB",
+    "nom": "Eventbrite Inc"
+  },
+  {
+    "n": 177,
+    "id": 6677,
+    "symbole": "EC",
+    "nom": "Ecopetrol SA-ADR"
+  },
+  {
+    "n": 178,
+    "id": 6678,
+    "symbole": "ZIM",
+    "nom": "ZIM Shipping Services Ltd"
+  },
+  {
+    "n": 179,
+    "id": 6679,
+    "symbole": "EGO",
+    "nom": "Eldorado Gold Corp"
+  },
+  {
+    "n": 180,
+    "id": 6680,
+    "symbole": "EGP.US",
+    "nom": "EastGroup Properties Inc"
+  },
+  {
+    "n": 181,
+    "id": 6681,
+    "symbole": "ELF",
+    "nom": "elf Beauty Inc"
+  },
+  {
+    "n": 182,
+    "id": 6682,
+    "symbole": "ELS",
+    "nom": "Equity LifeStyle Properties Inc"
+  },
+  {
+    "n": 183,
+    "id": 6683,
+    "symbole": "ENBL",
+    "nom": "Enable Midstream Partners LP"
+  },
+  {
+    "n": 184,
+    "id": 6684,
+    "symbole": "ENV",
+    "nom": "Envestnet Inc"
+  },
+  {
+    "n": 185,
+    "id": 6685,
+    "symbole": "EPR",
+    "nom": "EPR Properties"
+  },
+  {
+    "n": 186,
+    "id": 6686,
+    "symbole": "EPRT",
+    "nom": "Essential Properties Realty Trust Inc"
+  },
+  {
+    "n": 187,
+    "id": 6687,
+    "symbole": "EQC",
+    "nom": "Equity Commonwealth"
+  },
+  {
+    "n": 188,
+    "id": 6688,
+    "symbole": "EQNR",
+    "nom": "Equinor ASA-ADR"
+  },
+  {
+    "n": 189,
+    "id": 6689,
+    "symbole": "EQT",
+    "nom": "EQT Corp"
+  },
+  {
+    "n": 190,
+    "id": 6690,
+    "symbole": "EMWP",
+    "nom": "Eros International PLC"
+  },
+  {
+    "n": 191,
+    "id": 6691,
+    "symbole": "ESRT",
+    "nom": "Empire State Realty Trust Inc"
+  },
+  {
+    "n": 192,
+    "id": 6692,
+    "symbole": "ESTC",
+    "nom": "Elastic NV"
+  },
+  {
+    "n": 193,
+    "id": 6693,
+    "symbole": "AUDA.US",
+    "nom": "Audacy Inc"
+  },
+  {
+    "n": 194,
+    "id": 6694,
+    "symbole": "ETRN",
+    "nom": "Equitrans Midstream Corp"
+  },
+  {
+    "n": 195,
+    "id": 6695,
+    "symbole": "CMBT.BR",
+    "nom": "Euronav NV"
+  },
+  {
+    "n": 196,
+    "id": 6696,
+    "symbole": "EVRI",
+    "nom": "Everi Holdings Inc"
+  },
+  {
+    "n": 197,
+    "id": 6697,
+    "symbole": "EXK",
+    "nom": "Endeavour Silver Corp"
+  },
+  {
+    "n": 198,
+    "id": 6698,
+    "symbole": "FCAU",
+    "nom": "Fiat Chrysler Automobiles NV"
+  },
+  {
+    "n": 199,
+    "id": 6699,
+    "symbole": "FCN",
+    "nom": "FTI Consulting Inc"
+  },
+  {
+    "n": 200,
+    "id": 6700,
+    "symbole": "XPEV",
+    "nom": "XPeng Inc ADR"
+  },
+  {
+    "n": 201,
+    "id": 6701,
+    "symbole": "XPRO",
+    "nom": "Expro Group Holdings NV"
+  },
+  {
+    "n": 202,
+    "id": 6702,
+    "symbole": "FNV",
+    "nom": "Franco-Nevada Corp"
+  },
+  {
+    "n": 203,
+    "id": 6703,
+    "symbole": "COUR",
+    "nom": "Coursera Inc."
+  },
+  {
+    "n": 204,
+    "id": 6704,
+    "symbole": "FR.US",
+    "nom": "First Industrial Realty Trust Inc"
+  },
+  {
+    "n": 205,
+    "id": 6705,
+    "symbole": "FRO",
+    "nom": "Frontline PLC"
+  },
+  {
+    "n": 206,
+    "id": 6706,
+    "symbole": "FSK",
+    "nom": "FS KKR Capital Corp"
+  },
+  {
+    "n": 207,
+    "id": 6707,
+    "symbole": "FSM",
+    "nom": "Fortuna Silver Mines Inc"
+  },
+  {
+    "n": 208,
+    "id": 6708,
+    "symbole": "FTAI",
+    "nom": "FTAI Aviation Ltd"
+  },
+  {
+    "n": 209,
+    "id": 6709,
+    "symbole": "FUN.US",
+    "nom": "Six Flags Entertainment Corp"
+  },
+  {
+    "n": 210,
+    "id": 6710,
+    "symbole": "TDAY",
+    "nom": "USA TODAY Co Inc"
+  },
+  {
+    "n": 211,
+    "id": 6711,
+    "symbole": "GDOT",
+    "nom": "Green Dot Corp"
+  },
+  {
+    "n": 212,
+    "id": 6712,
+    "symbole": "GEL",
+    "nom": "Genesis Energy LP"
+  },
+  {
+    "n": 213,
+    "id": 6713,
+    "symbole": "GEO",
+    "nom": "GEO Group Inc"
+  },
+  {
+    "n": 214,
+    "id": 6714,
+    "symbole": "GFI.US",
+    "nom": "Gold Fields Ltd-ADR"
+  },
+  {
+    "n": 215,
+    "id": 6715,
+    "symbole": "GLOG",
+    "nom": "GasLog Ltd"
+  },
+  {
+    "n": 216,
+    "id": 6716,
+    "symbole": "GLOP",
+    "nom": "GasLog Partners LP"
+  },
+  {
+    "n": 217,
+    "id": 6717,
+    "symbole": "GMED",
+    "nom": "Globus Medical Inc"
+  },
+  {
+    "n": 218,
+    "id": 6718,
+    "symbole": "GMRE",
+    "nom": "Global Medical REIT Inc"
+  },
+  {
+    "n": 219,
+    "id": 6719,
+    "symbole": "GNL",
+    "nom": "Global Net Lease Inc"
+  },
+  {
+    "n": 220,
+    "id": 6720,
+    "symbole": "GOTU",
+    "nom": "Gaotu Techedu Inc."
+  },
+  {
+    "n": 221,
+    "id": 6721,
+    "symbole": "GTN",
+    "nom": "Gray Media Inc"
+  },
+  {
+    "n": 222,
+    "id": 6722,
+    "symbole": "6722",
+    "nom": "6722"
+  },
+  {
+    "n": 223,
+    "id": 6723,
+    "symbole": "GTY",
+    "nom": "Getty Realty Corp"
+  },
+  {
+    "n": 224,
+    "id": 6724,
+    "symbole": "GVA",
+    "nom": "Granite Construction Inc"
+  },
+  {
+    "n": 225,
+    "id": 6725,
+    "symbole": "HASI",
+    "nom": "Hannon Armstrong Sustainable Infrastructure Capital Inc"
+  },
+  {
+    "n": 226,
+    "id": 6726,
+    "symbole": "HEXO",
+    "nom": "HEXO Corp"
+  },
+  {
+    "n": 227,
+    "id": 6727,
+    "symbole": "HHH",
+    "nom": "Howard Hughes Holdings Inc"
+  },
+  {
+    "n": 228,
+    "id": 6728,
+    "symbole": "HIW",
+    "nom": "Highwoods Properties Inc"
+  },
+  {
+    "n": 229,
+    "id": 6729,
+    "symbole": "HLX",
+    "nom": "Helix Energy Solutions Group Inc"
+  },
+  {
+    "n": 230,
+    "id": 6730,
+    "symbole": "HMY",
+    "nom": "Harmony Gold Mining Co Ltd-ADR"
+  },
+  {
+    "n": 231,
+    "id": 6731,
+    "symbole": "HOME.old",
+    "nom": "At Home Group Inc"
+  },
+  {
+    "n": 232,
+    "id": 6732,
+    "symbole": "HP",
+    "nom": "Helmerich & Payne Inc"
+  },
+  {
+    "n": 233,
+    "id": 6733,
+    "symbole": "HPP",
+    "nom": "Hudson Pacific Properties Inc"
+  },
+  {
+    "n": 234,
+    "id": 6734,
+    "symbole": "TFII",
+    "nom": "TFI International Inc"
+  },
+  {
+    "n": 235,
+    "id": 6735,
+    "symbole": "HR.DELETE",
+    "nom": "Healthcare Realty Trust Inc"
+  },
+  {
+    "n": 236,
+    "id": 6736,
+    "symbole": "HRB",
+    "nom": "H&R Block Inc"
+  },
+  {
+    "n": 237,
+    "id": 6737,
+    "symbole": "HSC",
+    "nom": "Harsco Corp"
+  },
+  {
+    "n": 238,
+    "id": 6738,
+    "symbole": "HTGC",
+    "nom": "Hercules Capital Inc"
+  },
+  {
+    "n": 239,
+    "id": 6739,
+    "symbole": "HUD",
+    "nom": "Hudson Ltd"
+  },
+  {
+    "n": 240,
+    "id": 6740,
+    "symbole": "6740",
+    "nom": "6740"
+  },
+  {
+    "n": 241,
+    "id": 6741,
+    "symbole": "HWM",
+    "nom": "Howmet Aerospace Inc"
+  },
+  {
+    "n": 242,
+    "id": 6742,
+    "symbole": "HXL",
+    "nom": "Hexcel Corp"
+  },
+  {
+    "n": 243,
+    "id": 6743,
+    "symbole": "INCM",
+    "nom": "Franklin Income Focus ETF"
+  },
+  {
+    "n": 244,
+    "id": 6744,
+    "symbole": "IBN",
+    "nom": "ICICI Bank Ltd-ADR"
+  },
+  {
+    "n": 245,
+    "id": 6745,
+    "symbole": "6745",
+    "nom": "6745"
+  },
+  {
+    "n": 246,
+    "id": 6746,
+    "symbole": "BRSL",
+    "nom": "Brightstar Lottery"
+  },
+  {
+    "n": 247,
+    "id": 6747,
+    "symbole": "IMAX",
+    "nom": "IMAX Corp"
+  },
+  {
+    "n": 248,
+    "id": 6748,
+    "symbole": "ING",
+    "nom": "ING Groep NV-ADR"
+  },
+  {
+    "n": 249,
+    "id": 6749,
+    "symbole": "INN",
+    "nom": "Summit Hotel Properties Inc"
+  },
+  {
+    "n": 250,
+    "id": 6750,
+    "symbole": "INVH",
+    "nom": "Invitation Homes Inc"
+  },
+  {
+    "n": 251,
+    "id": 6751,
+    "symbole": "IRT",
+    "nom": "Independence Realty Trust Inc"
+  },
+  {
+    "n": 252,
+    "id": 6752,
+    "symbole": "IVR",
+    "nom": "Invesco Mortgage Capital Inc"
+  },
+  {
+    "n": 253,
+    "id": 6753,
+    "symbole": "JBGS",
+    "nom": "JBG SMITH Properties"
+  },
+  {
+    "n": 254,
+    "id": 6754,
+    "symbole": "JE.US",
+    "nom": "Just Energy Group Inc"
+  },
+  {
+    "n": 255,
+    "id": 6755,
+    "symbole": "JOE",
+    "nom": "The St. Joe Company"
+  },
+  {
+    "n": 256,
+    "id": 6756,
+    "symbole": "OPLN",
+    "nom": "OPENLANE Inc"
+  },
+  {
+    "n": 257,
+    "id": 6757,
+    "symbole": "KDMN",
+    "nom": "Kadmon Holdings Inc"
+  },
+  {
+    "n": 258,
+    "id": 6758,
+    "symbole": "KGC",
+    "nom": "Kinross Gold Corp"
+  },
+  {
+    "n": 259,
+    "id": 6759,
+    "symbole": "KIM",
+    "nom": "Kimco Realty Corp"
+  },
+  {
+    "n": 260,
+    "id": 6760,
+    "symbole": "KL",
+    "nom": "Kirkland Lake Gold Ltd"
+  },
+  {
+    "n": 261,
+    "id": 6761,
+    "symbole": "6761",
+    "nom": "6761"
+  },
+  {
+    "n": 262,
+    "id": 6762,
+    "symbole": "KOS",
+    "nom": "Kosmos Energy Ltd"
+  },
+  {
+    "n": 263,
+    "id": 6763,
+    "symbole": "KRC",
+    "nom": "Kilroy Realty Corp"
+  },
+  {
+    "n": 264,
+    "id": 6764,
+    "symbole": "KW",
+    "nom": "Kennedy-Wilson Holdings Inc"
+  },
+  {
+    "n": 265,
+    "id": 6765,
+    "symbole": "LBRT",
+    "nom": "Liberty Energy Inc"
+  },
+  {
+    "n": 266,
+    "id": 6766,
+    "symbole": "LFC",
+    "nom": "China Life Insurance Co Ltd"
+  },
+  {
+    "n": 267,
+    "id": 6767,
+    "symbole": "NSTB",
+    "nom": "Northern Star Investment Corp. II"
+  },
+  {
+    "n": 268,
+    "id": 6768,
+    "symbole": "VTLE",
+    "nom": "Vital Energy Inc"
+  },
+  {
+    "n": 269,
+    "id": 6769,
+    "symbole": "LRN",
+    "nom": "Stride Inc."
+  },
+  {
+    "n": 270,
+    "id": 6770,
+    "symbole": "LTHM",
+    "nom": "Livent Corp"
+  },
+  {
+    "n": 271,
+    "id": 6771,
+    "symbole": "LXP",
+    "nom": "Lexington Realty Trust"
+  },
+  {
+    "n": 272,
+    "id": 6772,
+    "symbole": "LYG",
+    "nom": "Lloyds Banking Group PLC"
+  },
+  {
+    "n": 273,
+    "id": 6773,
+    "symbole": "MAC",
+    "nom": "The Macerich Co"
+  },
+  {
+    "n": 274,
+    "id": 6774,
+    "symbole": "MAXR",
+    "nom": "Maxar Technologies Inc"
+  },
+  {
+    "n": 275,
+    "id": 6775,
+    "symbole": "MBT",
+    "nom": "Mobile TeleSystems PJSC"
+  },
+  {
+    "n": 276,
+    "id": 6776,
+    "symbole": "MDLA",
+    "nom": "Medallia Inc"
+  },
+  {
+    "n": 277,
+    "id": 6777,
+    "symbole": "MDP",
+    "nom": "Meredith Corp"
+  },
+  {
+    "n": 278,
+    "id": 6778,
+    "symbole": "MED.US",
+    "nom": "Medifast Inc"
+  },
+  {
+    "n": 279,
+    "id": 6779,
+    "symbole": "MFA",
+    "nom": "MFA Financial Inc"
+  },
+  {
+    "n": 280,
+    "id": 6780,
+    "symbole": "MFG",
+    "nom": "Mizuho Financial Group Inc-ADR"
+  },
+  {
+    "n": 281,
+    "id": 6781,
+    "symbole": "MGP",
+    "nom": "MGM Growth Properties LLC"
+  },
+  {
+    "n": 282,
+    "id": 6782,
+    "symbole": "MGY",
+    "nom": "Magnolia Oil & Gas Corp"
+  },
+  {
+    "n": 283,
+    "id": 6783,
+    "symbole": "MITT",
+    "nom": "AG Mortgage Investment Trust Inc"
+  },
+  {
+    "n": 284,
+    "id": 6784,
+    "symbole": "MNRL",
+    "nom": "Brigham Minerals Inc"
+  },
+  {
+    "n": 285,
+    "id": 6785,
+    "symbole": "MPLX.US",
+    "nom": "MPLX LP"
+  },
+  {
+    "n": 286,
+    "id": 6786,
+    "symbole": "MR",
+    "nom": "Montage Resources Corp"
+  },
+  {
+    "n": 287,
+    "id": 6787,
+    "symbole": "MSGS",
+    "nom": "Madison Square Garden Sports Corp"
+  },
+  {
+    "n": 288,
+    "id": 6788,
+    "symbole": "MT.US",
+    "nom": "ArcelorMittal ADR"
+  },
+  {
+    "n": 289,
+    "id": 6789,
+    "symbole": "MUFG",
+    "nom": "Mitsubishi UFJ Financial Group Inc-ADR"
+  },
+  {
+    "n": 290,
+    "id": 6790,
+    "symbole": "MUX",
+    "nom": "McEwen Mining Inc"
+  },
+  {
+    "n": 291,
+    "id": 6791,
+    "symbole": "NAT",
+    "nom": "Nordic American Tankers Ltd"
+  },
+  {
+    "n": 292,
+    "id": 6792,
+    "symbole": "NBR",
+    "nom": "Nabors Industries Ltd"
+  },
+  {
+    "n": 293,
+    "id": 6793,
+    "symbole": "NNN",
+    "nom": "National Retail Properties Inc"
+  },
+  {
+    "n": 294,
+    "id": 6794,
+    "symbole": "NOMD",
+    "nom": "Nomad Foods Ltd"
+  },
+  {
+    "n": 295,
+    "id": 6795,
+    "symbole": "NOVAQ",
+    "nom": "Sunnova Energy International Inc"
+  },
+  {
+    "n": 296,
+    "id": 6796,
+    "symbole": "RITM",
+    "nom": "New Residential Investment Corp"
+  },
+  {
+    "n": 297,
+    "id": 6797,
+    "symbole": "NS",
+    "nom": "NuStar Energy LP"
+  },
+  {
+    "n": 298,
+    "id": 6798,
+    "symbole": "NSA",
+    "nom": "National Storage Affiliates Trust"
+  },
+  {
+    "n": 299,
+    "id": 6799,
+    "symbole": "NUS",
+    "nom": "Nu Skin Enterprises Inc"
+  },
+  {
+    "n": 300,
+    "id": 6800,
+    "symbole": "NVGS",
+    "nom": "Navigator Holdings Ltd"
+  }
+]

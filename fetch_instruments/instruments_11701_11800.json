@@ -1,0 +1,602 @@
+[
+  {
+    "n": 1,
+    "id": 11701,
+    "symbole": "MTVW.L",
+    "nom": "Mountview Estates Plc"
+  },
+  {
+    "n": 2,
+    "id": 11702,
+    "symbole": "AOM.L",
+    "nom": "Activeops Plc"
+  },
+  {
+    "n": 3,
+    "id": 11703,
+    "symbole": "11703",
+    "nom": "11703"
+  },
+  {
+    "n": 4,
+    "id": 11704,
+    "symbole": "WATR.L",
+    "nom": "Water Intelligence Plc"
+  },
+  {
+    "n": 5,
+    "id": 11705,
+    "symbole": "MDZ.L",
+    "nom": "Mediazest Plc"
+  },
+  {
+    "n": 6,
+    "id": 11706,
+    "symbole": "AMOI.L",
+    "nom": "Anemoi International Ltd-Di"
+  },
+  {
+    "n": 7,
+    "id": 11707,
+    "symbole": "MII.L",
+    "nom": "Milton Capital Plc"
+  },
+  {
+    "n": 8,
+    "id": 11708,
+    "symbole": "SBDS.L",
+    "nom": "Silver Bullet Data Services Group P"
+  },
+  {
+    "n": 9,
+    "id": 11709,
+    "symbole": "REAT.L",
+    "nom": "React Group Plc"
+  },
+  {
+    "n": 10,
+    "id": 11710,
+    "symbole": "TAB.L",
+    "nom": "Becket Invest Plc"
+  },
+  {
+    "n": 11,
+    "id": 11711,
+    "symbole": "TGR.L",
+    "nom": "Tirupati Graphite Plc"
+  },
+  {
+    "n": 12,
+    "id": 11712,
+    "symbole": "TMOR.L",
+    "nom": "More Acquisitions Plc"
+  },
+  {
+    "n": 13,
+    "id": 11713,
+    "symbole": "SRAD.L",
+    "nom": "Stelrad Group Plc"
+  },
+  {
+    "n": 14,
+    "id": 11714,
+    "symbole": "NTOG.L",
+    "nom": "Nostra Terra Oil & Gas Co"
+  },
+  {
+    "n": 15,
+    "id": 11715,
+    "symbole": "PXEN.L",
+    "nom": "Prospex Energy Plc"
+  },
+  {
+    "n": 16,
+    "id": 11716,
+    "symbole": "ADF.L",
+    "nom": "Facilities By Adf Plc"
+  },
+  {
+    "n": 17,
+    "id": 11717,
+    "symbole": "ANCR.L",
+    "nom": "Animalcare Group Plc"
+  },
+  {
+    "n": 18,
+    "id": 11718,
+    "symbole": "CML.L",
+    "nom": "Cml Microsystems Plc"
+  },
+  {
+    "n": 19,
+    "id": 11719,
+    "symbole": "IKA.L",
+    "nom": "Ilika Plc"
+  },
+  {
+    "n": 20,
+    "id": 11720,
+    "symbole": "XPF.L",
+    "nom": "Xp Factory Plc"
+  },
+  {
+    "n": 21,
+    "id": 11721,
+    "symbole": "RCGH.L",
+    "nom": "Rc365 Holding Plc"
+  },
+  {
+    "n": 22,
+    "id": 11722,
+    "symbole": "LDG.L",
+    "nom": "Logistics Development Group Plc"
+  },
+  {
+    "n": 23,
+    "id": 11723,
+    "symbole": "LIKE.L",
+    "nom": "Likewise Group Plc"
+  },
+  {
+    "n": 24,
+    "id": 11724,
+    "symbole": "RLE.L",
+    "nom": "Real Estate Investors Plc"
+  },
+  {
+    "n": 25,
+    "id": 11725,
+    "symbole": "SAR.L",
+    "nom": "Sareum Holdings Plc"
+  },
+  {
+    "n": 26,
+    "id": 11726,
+    "symbole": "PTY.L",
+    "nom": "Partway Group Plc"
+  },
+  {
+    "n": 27,
+    "id": 11727,
+    "symbole": "OPTI.L",
+    "nom": "Optibiotix Health Plc"
+  },
+  {
+    "n": 28,
+    "id": 11728,
+    "symbole": "FORG.LN",
+    "nom": "Forgent Plc"
+  },
+  {
+    "n": 29,
+    "id": 11729,
+    "symbole": "CTAI.L",
+    "nom": "Catanae Innovation Plc"
+  },
+  {
+    "n": 30,
+    "id": 11730,
+    "symbole": "GUN.L",
+    "nom": "Gunsynd Plc"
+  },
+  {
+    "n": 31,
+    "id": 11731,
+    "symbole": "CTO.L",
+    "nom": "Tclarke Plc"
+  },
+  {
+    "n": 32,
+    "id": 11732,
+    "symbole": "ATOM.L",
+    "nom": "Atome Plc"
+  },
+  {
+    "n": 33,
+    "id": 11733,
+    "symbole": "GEM.L",
+    "nom": "Gemfields Group Ld"
+  },
+  {
+    "n": 34,
+    "id": 11734,
+    "symbole": "AEG.L",
+    "nom": "Active Energy Group Plc"
+  },
+  {
+    "n": 35,
+    "id": 11735,
+    "symbole": "MNRG.L",
+    "nom": "Metalnrg Plc"
+  },
+  {
+    "n": 36,
+    "id": 11736,
+    "symbole": "ECHO.L",
+    "nom": "Echo Energy Plc"
+  },
+  {
+    "n": 37,
+    "id": 11737,
+    "symbole": "IES.L",
+    "nom": "Invinity Energy Systems Plc"
+  },
+  {
+    "n": 38,
+    "id": 11738,
+    "symbole": "CRPR.L",
+    "nom": "Cropper(James) Plc"
+  },
+  {
+    "n": 39,
+    "id": 11739,
+    "symbole": "INSE.L",
+    "nom": "Inspired Plc"
+  },
+  {
+    "n": 40,
+    "id": 11740,
+    "symbole": "KLSO.L",
+    "nom": "Kelso Group Holdings Plc"
+  },
+  {
+    "n": 41,
+    "id": 11741,
+    "symbole": "FAB.L",
+    "nom": "Fusion Antibodies Plc"
+  },
+  {
+    "n": 42,
+    "id": 11742,
+    "symbole": "MAST.L",
+    "nom": "Mast Energy Developments Plc"
+  },
+  {
+    "n": 43,
+    "id": 11743,
+    "symbole": "SOS.L",
+    "nom": "Sosandar Plc"
+  },
+  {
+    "n": 44,
+    "id": 11744,
+    "symbole": "INSP.L",
+    "nom": "Inspirit Energy Holdings Plc"
+  },
+  {
+    "n": 45,
+    "id": 11745,
+    "symbole": "SBSI.L",
+    "nom": "Schroder Bsc Social Impact Trst Plc"
+  },
+  {
+    "n": 46,
+    "id": 11746,
+    "symbole": "POLX.L",
+    "nom": "Polarean Imaging Plc"
+  },
+  {
+    "n": 47,
+    "id": 11747,
+    "symbole": "MOTR.L",
+    "nom": "Motorpoint Group Plc"
+  },
+  {
+    "n": 48,
+    "id": 11748,
+    "symbole": "EML.L",
+    "nom": "Emmerson Plc"
+  },
+  {
+    "n": 49,
+    "id": 11749,
+    "symbole": "CRV.L",
+    "nom": "Craven House Capital Plc"
+  },
+  {
+    "n": 50,
+    "id": 11750,
+    "symbole": "PHAR.L",
+    "nom": "Pharos Energy Plc"
+  },
+  {
+    "n": 51,
+    "id": 11751,
+    "symbole": "IOFI.L",
+    "nom": "Iofina Plc"
+  },
+  {
+    "n": 52,
+    "id": 11752,
+    "symbole": "MIRI.L",
+    "nom": "Mirriad Advertising Plc"
+  },
+  {
+    "n": 53,
+    "id": 11753,
+    "symbole": "Dormant11753",
+    "nom": "Dormant11753"
+  },
+  {
+    "n": 54,
+    "id": 11754,
+    "symbole": "RSG.L",
+    "nom": "Resolute Mining Limited"
+  },
+  {
+    "n": 55,
+    "id": 11755,
+    "symbole": "DWHT.L",
+    "nom": "Dewhurst Group Plc"
+  },
+  {
+    "n": 56,
+    "id": 11756,
+    "symbole": "STAR.L",
+    "nom": "Star Energy Group Plc"
+  },
+  {
+    "n": 57,
+    "id": 11757,
+    "symbole": "PMP.L",
+    "nom": "Portmeirion Group Plc"
+  },
+  {
+    "n": 58,
+    "id": 11758,
+    "symbole": "GATC.L",
+    "nom": "Gattaca Plc"
+  },
+  {
+    "n": 59,
+    "id": 11759,
+    "symbole": "GMET.L",
+    "nom": "Golden Metal Resources Plc"
+  },
+  {
+    "n": 60,
+    "id": 11760,
+    "symbole": "AGTA.L",
+    "nom": "Agriterra Ltd"
+  },
+  {
+    "n": 61,
+    "id": 11761,
+    "symbole": "MKA.L",
+    "nom": "Mkango Resources Ltd"
+  },
+  {
+    "n": 62,
+    "id": 11762,
+    "symbole": "AEP.L",
+    "nom": "AEP Plantations Plc"
+  },
+  {
+    "n": 63,
+    "id": 11763,
+    "symbole": "CMX.L",
+    "nom": "Catalyst Media Group Plc"
+  },
+  {
+    "n": 64,
+    "id": 11764,
+    "symbole": "TERN.L",
+    "nom": "Tern Plc"
+  },
+  {
+    "n": 65,
+    "id": 11765,
+    "symbole": "SCLP.L",
+    "nom": "Scancell Holdings Plc"
+  },
+  {
+    "n": 66,
+    "id": 11766,
+    "symbole": "Dormant11766",
+    "nom": "Dormant11766"
+  },
+  {
+    "n": 67,
+    "id": 11767,
+    "symbole": "FEN.L",
+    "nom": "Frenkel Topping Group Plc"
+  },
+  {
+    "n": 68,
+    "id": 11768,
+    "symbole": "TRX.L",
+    "nom": "Tissue Regenix Group Plc"
+  },
+  {
+    "n": 69,
+    "id": 11769,
+    "symbole": "DVT.L",
+    "nom": "Davictus Plc"
+  },
+  {
+    "n": 70,
+    "id": 11770,
+    "symbole": "OPG.L",
+    "nom": "Opg Power Ventures Plc"
+  },
+  {
+    "n": 71,
+    "id": 11771,
+    "symbole": "VAL.L",
+    "nom": "Valirx Plc"
+  },
+  {
+    "n": 72,
+    "id": 11772,
+    "symbole": "IQAI.L",
+    "nom": "Iq-Ai Ld"
+  },
+  {
+    "n": 73,
+    "id": 11773,
+    "symbole": "PCIP.L",
+    "nom": "Pci-Pal Plc"
+  },
+  {
+    "n": 74,
+    "id": 11774,
+    "symbole": "BMK.L",
+    "nom": "Benchmark Holdings Plc"
+  },
+  {
+    "n": 75,
+    "id": 11775,
+    "symbole": "FMET.L",
+    "nom": "Fulcrum Metals Plc"
+  },
+  {
+    "n": 76,
+    "id": 11776,
+    "symbole": "CAL.L",
+    "nom": "Capital & Regional Plc"
+  },
+  {
+    "n": 77,
+    "id": 11777,
+    "symbole": "CHF.L",
+    "nom": "Chesterfield Resources Plc"
+  },
+  {
+    "n": 78,
+    "id": 11778,
+    "symbole": "Dormant11778",
+    "nom": "Dormant11778"
+  },
+  {
+    "n": 79,
+    "id": 11779,
+    "symbole": "Dormant11779",
+    "nom": "Dormant11779"
+  },
+  {
+    "n": 80,
+    "id": 11780,
+    "symbole": "VRCI.L",
+    "nom": "Verici Dx Plc"
+  },
+  {
+    "n": 81,
+    "id": 11781,
+    "symbole": "THX.L",
+    "nom": "Thor Explorations Ltd"
+  },
+  {
+    "n": 82,
+    "id": 11782,
+    "symbole": "JIM.L",
+    "nom": "Jarvis Securities Plc"
+  },
+  {
+    "n": 83,
+    "id": 11783,
+    "symbole": "SCGL.L",
+    "nom": "Sealand Capital Galaxy Ltd"
+  },
+  {
+    "n": 84,
+    "id": 11784,
+    "symbole": "EXR.L",
+    "nom": "Engage Xr Holdings Plc"
+  },
+  {
+    "n": 85,
+    "id": 11785,
+    "symbole": "DPP.L",
+    "nom": "Dp Poland Plc"
+  },
+  {
+    "n": 86,
+    "id": 11786,
+    "symbole": "Dormant11786",
+    "nom": "Dormant11786"
+  },
+  {
+    "n": 87,
+    "id": 11787,
+    "symbole": "AST.L",
+    "nom": "Ascent Resources Plc"
+  },
+  {
+    "n": 88,
+    "id": 11788,
+    "symbole": "FARN.L",
+    "nom": "Faron Pharmaceuticals Oy"
+  },
+  {
+    "n": 89,
+    "id": 11789,
+    "symbole": "ALK.L",
+    "nom": "Alkemy Capital Investments Plc"
+  },
+  {
+    "n": 90,
+    "id": 11790,
+    "symbole": "GEMR.L",
+    "nom": "GEM Resources PLC"
+  },
+  {
+    "n": 91,
+    "id": 11791,
+    "symbole": "CDFF.L",
+    "nom": "Cardiff Property Plc"
+  },
+  {
+    "n": 92,
+    "id": 11792,
+    "symbole": "PRO.L",
+    "nom": "ProService Building Services M"
+  },
+  {
+    "n": 93,
+    "id": 11793,
+    "symbole": "COG.L",
+    "nom": "Cambridge Cognition Holdings Plc"
+  },
+  {
+    "n": 94,
+    "id": 11794,
+    "symbole": "XLM.L",
+    "nom": "Xlmedia Plc"
+  },
+  {
+    "n": 95,
+    "id": 11795,
+    "symbole": "NWOR.L",
+    "nom": "National World Plc"
+  },
+  {
+    "n": 96,
+    "id": 11796,
+    "symbole": "PMG.L",
+    "nom": "Parkmead Group (The) Plc"
+  },
+  {
+    "n": 97,
+    "id": 11797,
+    "symbole": "PGH.L",
+    "nom": "Personal Group Holdings Plc"
+  },
+  {
+    "n": 98,
+    "id": 11798,
+    "symbole": "AUTG.L",
+    "nom": "Autins Group Plc"
+  },
+  {
+    "n": 99,
+    "id": 11799,
+    "symbole": "BELL.L",
+    "nom": "Belluscura Plc"
+  },
+  {
+    "n": 100,
+    "id": 11800,
+    "symbole": "TAVI.L",
+    "nom": "Tavistock Investments Plc"
+  }
+]

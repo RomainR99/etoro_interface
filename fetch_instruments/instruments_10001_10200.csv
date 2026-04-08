@@ -1,0 +1,201 @@
+﻿n°,id,symbole,nom
+1,10001,EMIRATESNBD.AE,Emirates NBD Bank PJSC
+2,10002,EMAAR.AE,Emaar Properties PJSC
+3,10003,DIB.AE,Dubai Islamic Bank PJSC
+4,10004,DU.AE,Emirates Integrated Telecommunications Company PJSC
+5,10005,EMAARDEV.AE,Emaar Development PJSC
+6,10006,SALIK.AE,Salik Company PJSC
+7,10007,EMPOWER.AE,Emirates Central Cooling Systems Corporation
+8,10008,CBD.AE,Commercial Bank of Dubai PSC
+9,10009,TECOM.AE,TECOM Group PJSC
+10,10010,AIRARABIA.AE,Air Arabia PJSC
+11,10011,DFM.AE,Dubai Financial Market PJSC
+12,10012,TABREED.AE,National Central Cooling Company PJSC
+13,10013,DIC.AE,Dubai Investments PJSC
+14,10014,ALANSARI.AE,Al Ansari Financial Services PJSC
+15,10015,GULFNAV.AE,Gulf Navigation Holding PJSC
+16,10016,AJMANBANK.AE,Ajman Bank PJSC
+17,10017,PARKIN.AE,Parkin Company PJSC
+18,10018,TAALEEM.AE,Taaleem Holdings PJSC
+19,10019,ARMX.AE,Aramex PJSC
+20,10020,AMANAT.AE,Amanat Holdings PJSC
+21,10021,DEYAAR.AE,Deyaar Development PJSC
+22,10022,UPP.AE,Union Properties Public Joint Stock Company
+23,10023,AMLAK.AE,Amlak Finance PJSC
+24,10024,ERC.AE,Emirates Reem Investments Company PJSC
+25,10025,SHUAA.AE,SHUAA Capital PSC
+26,10026,DSI.AE,Drake & Scull International PJSC
+27,10027,DTC.AE,Dubai Taxi Co PJSC
+28,10028,SPINNEYS.AE,Spinneys 1961 Holding PLC
+29,10029,PARAA,Paramount Global
+30,10030,IQ.US,iQIYI Inc
+31,10031,TFSL,TFS Financial Corporation
+32,10032,OLK,Olink Holding AB publ
+33,10033,HCM,HUTCHMED China Limited
+34,10034,RUSHB.US,Rush Enterprises Inc
+35,10035,ALVO,Alvotech
+36,10036,CENT,Central Garden & Pet Company
+37,10037,EVCM,EverCommerce Inc
+38,10038,CLBK,Columbia Financial Inc
+39,10039,AFYA,Afya Limited
+40,10040,PTVE,Pactiv Evergreen Inc
+41,10041,GCMG,Grosvenor Capital Management LP
+42,10042,MNTK,Montauk Renewables Inc
+43,10043,DSGR,Distribution Solutions Group Inc
+44,10044,CNXN,PC Connection Inc
+45,10045,ECX,ECARX Holdings Inc
+46,10046,CLBT,Cellebrite DI Ltd
+47,10047,HOLI,Hollysys Automation Technologies Ltd
+48,10048,HSAI,Hesai Group
+49,10049,SHEN,Shenandoah Telecommunications Company
+50,10050,IESC,IES Holdings Inc
+51,10051,MBIN,Merchants Bancorp
+52,10052,WALD,Waldencast plc
+53,10053,USLM,United States Lime & Minerals Inc
+54,10054,SAFT,Safety Insurance Group Inc
+55,10055,SRCE,1st Source Corporation
+56,10056,TCBK,TriCo Bancshares
+57,10057,BUSE,First Busey Corporation
+58,10058,BLTE,Belite Bio Inc
+59,10059,DADA,Dada Nexus Limited
+60,10060,MOR.US,MorphoSys AG
+61,10061,NRC,National Research Corporation
+62,10062,STBA,S&T Bancorp Inc
+63,10063,LION.US,Lionsgate Studios
+64,10064,SP,SP Plus Corporation
+65,10065,PEBO,Peoples Bancorp Inc
+66,10066,TRS,TriMas Corporation
+67,10067,ARCE,Arco Platform Limited
+68,10068,ARKO,Arko Corp
+69,10069,CMCO,Columbus McKinnon Corporation
+70,10070,RBCAA,Republic Bancorp Inc
+71,10071,SBSI,Southside Bancshares Inc
+72,10072,BFC,Bank First Corporation
+73,10073,TRNS,Transcat Inc
+74,10074,LNZA,LanzaTech Global Inc
+75,10075,QCRH,QCR Holdings Inc
+76,10076,GABC,German American Bancorp Inc
+77,10077,ARDX,Ardelyx Inc
+78,10078,SLRC,SLR Investment Corp
+79,10079,HSTM,HealthStream Inc
+80,10080,SCSC,ScanSource Inc
+81,10081,FBMS,The First Bancshares Inc
+82,10082,WEST,Westrock Coffee Company
+83,10083,LBAI,Lakeland Bancorp Inc
+84,10084,PHVS,Pharvaris NV
+85,10085,SRRK,Scholar Rock Holding Corporation
+86,10086,OFLX,Omega Flex Inc
+87,10087,DCOM,Dime Community Bancshares Inc
+88,10088,ASTS,AST SpaceMobile Inc
+89,10089,RMR,The RMR Group Inc
+90,10090,BIOX,Bioceres Crop Solutions Corp
+91,10091,CGBD,Carlyle Secured Lending Inc
+92,10092,CRAI,CRA International Inc
+93,10093,CTBI,Community Trust Bancorp Inc
+94,10094,CNTA,Centessa Pharmaceuticals plc
+95,10095,EXAI,Exscientia plc
+96,10096,AVO,Mission Produce Inc
+97,10097,PLPC,Preformed Line Products Company
+98,10098,CNOB,ConnectOne Bancorp Inc
+99,10099,FMBH,First Mid Bancshares Inc
+100,10100,KELYA.US,Kelly Services Inc
+101,10101,METC,Ramaco Resources Inc
+102,10102,KE,Kimball Electronics Inc
+103,10103,RDWR,Radware Ltd
+104,10104,PFC,Premier Financial Corp
+105,10105,IIIV,i3 Verticals Inc
+106,10106,OSBC,Old Second Bancorp Inc
+107,10107,HCKT,The Hackett Group Inc
+108,10108,TCPC,BlackRock TCP Capital Corp
+109,10109,FCBC,First Community Bankshares Inc
+110,10110,BBSI,Barrett Business Services Inc
+111,10111,ULH,Universal Logistics Holdings Inc
+112,10112,LQDT,Liquidity Services Inc
+113,10113,GSBC,Great Southern Bancorp Inc
+114,10114,CCAP,Crescent Capital BDC Inc
+115,10115,HFWA,Heritage Financial Corporation
+116,10116,ATRI,Atrion Corporation
+117,10117,CECO,CECO Environmental Corp
+118,10118,TIPT,Tiptree Inc
+119,10119,QNST,QuinStreet Inc
+120,10120,KIDS,OrthoPediatrics Corp
+121,10121,WVE,Wave Life Sciences Ltd
+122,10122,HAYN,Haynes International Inc
+123,10123,CCB,Coastal Financial Corporation
+124,10124,HLVX,HilleVax Inc
+125,10125,DMRC,Digimarc Corporation
+126,10126,OLMA,Olema Pharmaceuticals Inc
+127,10127,JRVR,James River Group Holdings Inc
+128,10128,MBWM,Mercantile Bank Corporation
+129,10129,NAMS,NewAmsterdam Pharma Company NV
+130,10130,OABI,OmniAb Inc
+131,10131,CASS,Cass Information Systems Inc
+132,10132,UFCS,United Fire Group Inc
+133,10133,YORW.US,The York Water Company
+134,10134,CVLG,Covenant Logistics Group Inc
+135,10135,TILE,Interface Inc
+136,10136,NRDS,NerdWallet Inc
+137,10137,SFWL,Shengfeng Development Limited
+138,10138,FORR,Forrester Research Inc
+139,10139,HTBK,Heritage Commerce Corp
+140,10140,CFB,CrossFirst Bankshares Inc
+141,10141,UVSP,Univest Financial Corporation
+142,10142,GLDD,Great Lakes Dredge & Dock Corporation
+143,10143,IRMD,IRadimed Corporation
+144,10144,ITRN,Ituran Location and Control Ltd
+145,10145,HSII,Heidrick & Struggles International Inc
+146,10146,RICK,RCI Hospitality Holdings Inc
+147,10147,ELVN,Enliven Therapeutics Inc
+148,10148,AMAL,Amalgamated Financial Corp
+149,10149,LAND,Gladstone Land Corporation
+150,10150,RWAY,Runway Growth Finance Corp
+151,10151,ATRO,Astronics Corporation
+152,10152,TRST,TrustCo Bank Corp NY
+153,10153,NN,NextNav Inc
+154,10154,CNSL,Consolidated Communications Holdings Inc
+155,10155,CCBG,Capital City Bank Group Inc
+156,10156,IGIC,International General Insurance Holdings Ltd
+157,10157,HNRG,Hallador Energy Company
+158,10158,GAMB,Gamblingcom Group Limited
+159,10159,ATNI,ATN International Inc
+160,10160,HONE,HarborOne Bancorp Inc
+161,10161,SVRA,Savara Inc
+162,10162,TYRA,Tyra Biosciences Inc
+163,10163,BFST,Business First Bancshares Inc
+164,10164,CTLP,Cantaloupe Inc
+165,10165,TRDA,Entrada Therapeutics Inc
+166,10166,VNET,VNET Group Inc
+167,10167,GPGI,GPGI Inc
+168,10168,SSP.US,The EW Scripps Company
+169,10169,SMBC,Southern Missouri Bancorp Inc
+170,10170,RGP,Resources Connection Inc
+171,10171,FDUS,Fidus Investment Corporation
+172,10172,KRNY,Kearny Financial Corp
+173,10173,CRESY,Cresud Sociedad Anónima Comercial Inmobiliaria Financiera y Agropecuaria CRESY
+174,10174,MSBI,Midland States Bancorp Inc
+175,10175,DHIL.US,Diamond Hill Investment Group Inc
+176,10176,GLRE,Greenlight Capital Re Ltd
+177,10177,GAIN,Gladstone Investment Corporation
+178,10178,LEGH,Legacy Housing Corporation
+179,10179,CATC,Cambridge Bancorp
+180,10180,ALNT,Allient Inc
+181,10181,GNLX,Genelux Corporation
+182,10182,ALEC,Alector Inc
+183,10183,PAHC,Phibro Animal Health Corporation
+184,10184,SPFI,South Plains Financial Inc
+185,10185,ANTX,AN2 Therapeutics Inc
+186,10186,HAFC,Hanmi Financial Corporation
+187,10187,DAKT,Daktronics Inc
+188,10188,PROK,ProKidney Corp
+189,10189,LYTS,LSI Industries Inc
+190,10190,SLAMF,Slam Corp
+191,10191,HBNC,Horizon Bancorp Inc
+192,10192,ALPN,Alpine Immune Sciences Inc
+193,10193,GRVY,Gravity Co Ltd
+194,10194,SENEA,Seneca Foods Corporation
+195,10195,ARTNA,Artesian Resources Corporation
+196,10196,FMNB,Farmers National Banc Corp
+197,10197,CAC,Camden National Corporation
+198,10198,CCSI,Consensus Cloud Solutions Inc
+199,10199,DJCO,Daily Journal Corporation
+200,10200,KRT,Karat Packaging Inc

@@ -1,0 +1,501 @@
+﻿n°,id,symbole,nom
+1,10501,RNGR,Ranger Energy Services Inc
+2,10502,PSTL,Postal Realty Trust Inc
+3,10503,CSV,Carriage Services Inc
+4,10504,BRT,BRT Apartments Corp
+5,10505,SAR.US,Saratoga Investment Corp
+6,10506,KODK.US,Eastman Kodak Company
+7,10507,PKE,Park Aerospace Corp
+8,10508,PACK,Ranpak Holdings Corp
+9,10509,FF,FutureFuel Corp
+10,10510,NXDT,NexPoint Diversified Real Estate Trust
+11,10511,OOMA,Ooma Inc
+12,10512,SCM,Stellus Capital Investment Corporation
+13,10513,GHL,Greenhill & Co Inc
+14,10514,AMPY,Amplify Energy Corp
+15,10515,RLGT,Radiant Logistics Inc
+16,10516,AGS,PlayAGS Inc
+17,10517,ONTF,ON24 Inc
+18,10518,AVD,American Vanguard Corporation
+19,10519,LOCC,Live Oak Crestview Climate Acquisition Corp
+20,10520,QUAD.US,Quad/Graphics Inc
+21,10521,CMT,Core Molding Technologies Inc
+22,10522,TLYS,Tillys Inc
+23,10523,APGB,Apollo Strategic Growth Capital II
+24,10524,EVCO,Everest Consolidator Acquisition Corporation
+25,10525,LXFR,Luxfer Holdings PLC
+26,10526,RM,Regional Management Corp
+27,10527,MEC,Mayville Engineering Company Inc
+28,10528,FET.US,Forum Energy Technologies Inc
+29,10529,OPAD,Offerpad Solutions Inc
+30,10530,CMCL,Caledonia Mining Corporation Plc
+31,10531,EPM,Evolution Petroleum Corporation
+32,10532,CPS,Cooper-Standard Holdings Inc
+33,10533,GPMT,Granite Point Mortgage Trust Inc
+34,10534,PINE,Alpine Income Property Trust Inc
+35,10535,HPAI,Helport AI Limited
+36,10536,ONIT,Onity Group Inc
+37,10537,CCRD,CoreCard Corporation
+38,10538,CURR,Currenc Group Inc
+39,10539,ACRO,Acropolis Infrastructure Acquisition Corp
+40,10540,MG,Mistras Group Inc
+41,10541,EVE,EVe Mobility Acquisition Corp
+42,10542,GAQ,Generation Asia I Acquisition Limited
+43,10543,TG,Tredegar Corporation
+44,10544,NFNT,Infinite Acquisition Corp
+45,10545,CTGO,Contango Ore Inc
+46,10546,SACH,Sachem Capital Corp
+47,10547,ATNM,Actinium Pharmaceuticals Inc
+48,10548,ZPTA,Zapata Quantum Inc
+49,10549,CIO,City Office REIT Inc
+50,10550,NINEQ,Nine Energy Service Inc
+51,10551,UFI,Unifi Inc
+52,10552,TCOA,Zalatoris Acquisition Corp
+53,10553,RPT,Rithm Property Trust Inc
+54,10554,XZMU.DE,Xtrackers MSCI USA ESG UCITS ETF
+55,10555,IBCF.DE,iShares S&P 500 EUR Hedged UCITS ETF Acc
+56,10556,XDEW.DE,Xtrackers S&P 500 Equal Weight UCITS ETF
+57,10557,IUSP.DE,iShares JP Morgan EM Local Govt Bond UCITS ETF
+58,10558,IQQH.DE,iShares Global Clean Energy UCITS ETF
+59,10559,XEON.DE,Xtrackers II EUR Overnight Rate Swap UCITS ETF
+60,10560,VGWD.DE,Vanguard FTSE All World High Dividend Yield UCITS ETF
+61,10561,QDVL.DE,iShares EUR Corp Bond 0-3yr ESG UCITS ETF
+62,10562,EDMW.DE,iShares MSCI World ESG Enhanced UCITS ETF
+63,10563,EDM2.DE,iShares MSCI EM ESG Enhanced UCITS ETF USD Acc
+64,10564,IUSN.DE,iShares MSCI World Small Cap UCITS ETF
+65,10565,IS3M.DE,iShares EUR Ultrashort Bond UCITS ETF
+66,10566,IBCS.DE,iShares EUR Corp Bond Large Cap UCITS ETF
+67,10567,XDWT.DE,Xtrackers MSCI World Information Technology UCITS ETF
+68,10568,36BZ.DE,iShares MSCI China A UCITS ETF
+69,10569,IBCN.DE,iShares EUR Govt Bond 3-5yr UCITS ETF
+70,10570,CEMS.DE,iShares Edge MSCI Europe Value Factor UCITS ETF
+71,10571,XCHA.DE,Xtrackers CSI300 Swap UCITS ETF
+72,10572,SDGPEX.DE,iShares STOXX Global Select Dividend 100 UCITS ETF
+73,10573,VERX.DE,Vanguard FTSE Developed Europe ex UK UCITS ETF
+74,10574,VGVE.DE,Vanguard FTSE Developed World UCITS ETF
+75,10575,SXRS.DE,iShares Diversified Commodity Swap UCITS ETF
+76,10576,EBMMEX.DE,iShares ebrexx Government Germany 0-1yr UCITS ETF
+77,10577,VNRT.DE,Vanguard FTSE North America UCITS ETF
+78,10578,LYTR.DE,Amundi Bloomberg Equal-weight Commodity ex-Agriculture UCITS ETF
+79,10579,ZPRI.DE,SPDR Morningstar Multi-Asset Global Infrastructure UCITS ETF
+80,10580,XDWH.DE,Xtrackers MSCI World Health Care UCITS ETF
+81,10581,OOEA.DE,WisdomTree Brent Crude Oil
+82,10582,DELG.DE,L&G US ESG  Paris Aligned UCITS ETF
+83,10583,SPY4.DE,SPDR S&P 400 US Mid Cap UCITS ETF
+84,10584,UCT2.DE,Lyxor US Curve Steepening 2-10 UCITS ETF
+85,10585,IBCI.DE,iShares EUR Inflation Linked Govt Bond UCITS ETF
+86,10586,EUNA.DE,iShares Core Global Aggregate Bond UCITS ETF
+87,10587,IBCQ.DE,iShares Global Corp Bond EUR Hedged UCITS ETF Dist
+88,10588,XDW0.DE,Xtrackers MSCI World Energy UCITS ETF
+89,10589,SECA.DE,iShares EUR Govt Bond Climate UCITS ETF
+90,10590,DJGTEEX.DE,iShares Dow Jones Global Titans 50 UCITS ETF
+91,10591,DELF.DE,L&G Europe ESG Exclusions Paris Aligned UCITS ETF
+92,10592,XSMI.DE,Xtrackers Switzerland UCITS ETF
+93,10593,UBUT.DE,Factor MSCI USA Quality ESG UCITS ETF
+94,10594,IUS6.DE,iShares EUR Covered Bond UCITS ETF
+95,10595,SX7PEX.DE,iShares STOXX Europe 600 Banks UCITS ETF
+96,10596,SPYN.DE,SS SPDR MSCI Europe Energy UCITS ETF
+97,10597,EUNR.DE,iShares EUR Corp Bond ex-Financials UCITS ETF
+98,10598,EUNS.DE,iShares EUR Corp Bond ex-Financials 1-5yr ESG UCITS ETF EUR Dist
+99,10599,IBCL.DE,iShares EUR Govt Bond 15-30yr UCITS ETF
+100,10600,EDMJ.DE,iShares MSCI Japan ESG Enhanced UCITS ETF
+101,10601,IUS3.DE,iShares S&P Small Cap 600 UCITS ETF USD Dist
+102,10602,ASRE.DE,BNP Paribas Easy JPM ESG EMU Government Bond IG 3-5Y
+103,10603,2B7S.DE,iShares $ Treasury Bond 1-3yr UCITS ETF
+104,10604,LCEU.DE,BNP Paribas Easy Low Carbon 100 Europe PAB
+105,10605,ZPDE.DE,SS SPDR S&P U.S. ENERGY SELECT SECTOR UCITS ETF
+106,10606,SXEPEX.DE,iShares STOXX Europe 600 Oil & Gas UCITS ETF
+107,10607,LYXNRJ.DE,Amundi MSCI New Energy ESG Screened UCITS ETF
+108,10608,OD7C.DE,WisdomTree Copper
+109,10609,LWCR.DE,Amundi MSCI World Climate Transition CTB UCITS ETF
+110,10610,GOAI.DE,Amundi MSCI Robotics & AI ESG Screened UCITS ETF
+111,10611,EMWE.DE,BNP Paribas Easy MSCI World SRI S-Series PAB 5% Capped
+112,10612,BATE.DE,L&G Battery Value-Chain UCITS ETF
+113,10613,XDWS.DE,Xtrackers MSCI World Consumer Staples UCITS ETF
+114,10614,XY4P.DE,Xtrackers II iBoxx Eurozone Government Bond Yield Plus UCITS ETF
+115,10615,QDVW.DE,iShares MSCI World Quality Dividend ESG UCITS ETF
+116,10616,USCP.DE,Ossiam Shiller Barclays Cape US Sector Value TR
+117,10617,TDXPEX.DE,iShares TecDAX UCITS ETF DE
+118,10618,SXDPEX.DE,iShares STOXX Europe 600 Health Care UCITS ETF
+119,10619,OD7F.DE,WisdomTree WTI Crude Oil
+120,10620,D5BK.DE,Xtrackers FTSE Developed Europe Real Estate UCITS ETF
+121,10621,R1JKEX.DE,iShares Pfandbriefe UCITS ETF DE
+122,10622,NQSE.DE,iShares NASDAQ 100 UCITS ETF EUR Hedged
+123,10623,LYXJPN.DE,Amundi Japan TOPIX II UCITS ETF
+124,10624,XGIN.DE,Xtrackers II Global Inflation-Linked Bond UCITS ETF
+125,10625,WTI2.DE,WisdomTree Artificial Intelligence UCITS ETF
+126,10626,ETL2.DE,L&G Longer Dated All Commodities UCITS ETF
+127,10627,GLUX.DE,Amundi S&P Global Luxury UCITS ETF
+128,10628,X03G.DE,Xtrackers II Germany Government Bond UCITS ETF
+129,10629,SD3EEX.DE,iShares EURO STOXX Select Dividend 30 UCITS ETF
+130,10630,ESP0.DE,VanEck Video Gaming and eSports UCITS ETF
+131,10631,IS06.DE,iShares EUR Corp Bond BBB-BB UCITS ETF EUR Dist
+132,10632,L8I7.DE,Amundi Nasdaq 100 Daily 2x Leveraged UCITS ETF
+133,10633,IBC5.DE,iShares $ TIPS UCITS ETF
+134,10634,SXPPEX.DE,iShares STOXX Europe 600 Basic Resources UCITS ETF
+135,10635,FGEQ.DE,Fidelity Global Quality Income ETF
+136,10636,IUSS.DE,iShares MSCI Saudi Arabia Capped UCITS ETF
+137,10637,IQQS.DE,iShares EURO STOXX Small UCITS ETF
+138,10638,XDWF.DE,Xtrackers MSCI World Financials UCITS ETF
+139,10639,QDVK.DE,iShares S&P 500 Consumer Discretionary Sector UCITS ETF USD Acc
+140,10640,EFRN.DE,iShares EUR Floating Rate Bond ESG UCITS ETF
+141,10641,SYBG.DE,SPDR Bloomberg UK Gilt UCITS ETF
+142,10642,WTEJ.DE,WisdomTree Cloud Computing UCITS ETF
+143,10643,IQQM.DE,iShares EURO STOXX Mid UCITS ETF
+144,10644,XFVT.DE,Xtrackers Vietnam Swap UCITS ETF
+145,10645,SXIPEX.DE,iShares STOXX Europe 600 Insurance UCITS ETF
+146,10646,IBCJ.DE,iShares MSCI Poland UCITS ETF
+147,10647,SXKPEX.DE,iShares STOXX Europe 600 Telecommunications UCITS ETF
+148,10648,XSVT.DE,Xtrackers Bloomberg Commodity ex-Agriculture & Livestock Swap UCITS ETF
+149,10649,DBPD.DE,Xtrackers ShortDAX x2 Daily Swap UCITS ETF
+150,10650,U3O8.DE,Sprott Uranium Miners UCITS ETF
+151,10651,LYXGRE.DE,Amundi MSCI Greece UCITS ETF
+152,10652,SXTPEX.DE,iShares STOXX Europe 600 Travel & Leisure UCITS ETF
+153,10653,DEL2.DE,L&G DAX Daily 2x Long UCITS ETF
+154,10654,LLAP,Terran Orbital Corp
+155,10655,RGTI,Rigetti Computing Inc
+156,10656,ASRT,Assertio Holdings Inc
+157,10657,MTC,Mmtec Inc
+158,10658,GWH,Ess Tech Inc
+159,10659,GDHG,Golden Heaven Group Holdings
+160,10660,EOSE,Eos Energy Enterprises Inc
+161,10661,LILMF,Lilium Nv
+162,10662,SLDP,Solid Power Inc
+163,10663,ESPR,Esperion Therapeutics Inc
+164,10664,HRTX,Heron Therapeutics Inc
+165,10665,REI,Ring Energy Inc
+166,10666,WULF,Terawulf Inc
+167,10667,GRTSQ,Gritstone Bio Inc
+168,10668,10668,10668
+169,10669,RMS.ASX,Ramelius Resources Ltd
+170,10670,10670,10670
+171,10671,RXT,Rackspace Technology Inc
+172,10672,TSHA,Taysha Gene Therapies Inc
+173,10673,NXDR,Nextdoor Holdings Inc
+174,10674,BBAI,Bigbear.Ai Holdings Inc
+175,10675,BIVI,Biovie Inc
+176,10676,ERAS,Erasca Inc
+177,10677,IMD.ASX,Imdex Ltd
+178,10678,MLGO,Microalgo Inc
+179,10679,GMD.ASX,Genesis Minerals Ltd
+180,10680,MRSN,Mersana Therapeutics Inc
+181,10681,XERS,Xeris Biopharma Holdings Inc
+182,10682,MREO,Mereo Biopha-Adr
+183,10683,SOUN,Soundhound Ai Inc-A
+184,10684,WGX.ASX,Westgold Resources Ltd
+185,10685,KNTE,Kinnate Biopharma Inc
+186,10686,NRGV,Energy Vault Holdings Inc
+187,10687,PMVP,Pmv Pharmaceuticals Inc
+188,10688,AMLIF,American Lithium Corp
+189,10689,TALK.US,Talkspace Inc
+190,10690,IAG.US,Iamgold Corp
+191,10691,REKR,Rekor Systems Inc
+192,10692,DHC,Diversified Heal
+193,10693,CVM,Cel-Sci Corp
+194,10694,10694,10694
+195,10695,NKTX,Nkarta Inc
+196,10696,MNY,Moneyhero Ltd-A
+197,10697,HOWL,Werewolf Therapeutics Inc
+198,10698,AUR,Aurora Innovation Inc
+199,10699,MSPR,Msp Recovery Inc
+200,10700,NRDY,Nerdy Inc
+201,10701,APLT,Applied Therapeutics Inc
+202,10702,EMR.ASX,Emerald Resources Nl
+203,10703,ALLK,Allakos Inc
+204,10704,TPST,Tempest Therapeutics Inc
+205,10705,CTT.ASX,Cettire Ltd
+206,10706,VNT.ASX,Ventia Services Group Pty Lt
+207,10707,10707,10707
+208,10708,BTAI,Bioxcel Therapeutics Inc
+209,10709,BTBT,Bit Digital Inc
+210,10710,ORGO,Organogenesis Holdings Inc
+211,10711,SMRT,Smartrent Inc
+212,10712,LLFLQ,Ll Flooring Holdings Inc
+213,10713,ENIC,Enel Chile Sa
+214,10714,AZS.ASX,Azure Minerals Ltd
+215,10715,STRO,Sutro Biopharma Inc
+216,10716,NG.US,Novagold Resources Inc
+217,10717,HIVE,Hive Digital Technologies Ltd
+218,10718,SMR.ASX,Stanmore Resources Ltd
+219,10719,ABB.ASX,Aussie Broadband Ltd
+220,10720,WBT.ASX,Weebit Nano Ltd
+221,10721,BOE.ASX,Boss Energy Ltd
+222,10722,AMPX,Amprius Technologies Inc
+223,10723,BNKK,Bonk Inc
+224,10724,RVPH,Reviva Pharmaceuticals Holdi
+225,10725,SERA,Sera Prognostics Inc-A
+226,10726,EJH,E-Home Household Service
+227,10727,LIAN,Lianbio-Adr
+228,10728,HLI.ASX,Helia Group Ltd
+229,10729,SAND.US,Sandstorm Gold Ltd
+230,10730,AUTL,Autolus Therapeu
+231,10731,STTK,Shattuck Labs In
+232,10732,YAL.ASX,Yancoal Australia Ltd
+233,10733,EQX,Equinox Gold Corp
+234,10734,10734,10734
+235,10735,SDR.ASX,Siteminder Ltd
+236,10736,IREN,Iris Energy Ltd
+237,10737,UIS,Unisys Corp
+238,10738,OPTX,Syntec Optics Holdings Inc
+239,10739,AONC,American Oncology Network In
+240,10740,SOAR,Volato Group Inc
+241,10741,INTS,Intensity Therapeutics Inc
+242,10742,SILV,Silvercrest Metals Inc
+243,10743,ENGN,Engene Holdings Inc
+244,10744,CCG,Cheche Group Inc
+245,10745,EXTOY,Almacenes Exito Sa
+246,10746,DTL.ASX,Data3 Limited
+247,10747,HRTG,Heritage Insurance Holdings
+248,10748,SIQ.ASX,Smartgroup Corp Ltd
+249,10749,CDA.ASX,Codan Ltd
+250,10750,MTRX,Matrix Service Co
+251,10751,QXO,QXO Inc
+252,10752,CDAQF,Compass Digital Acquisition
+253,10753,NFSCF,Enphys Acquisition Corp
+254,10754,KIDZ,Classover Hold-B Equity
+255,10755,NCK.ASX,Nick Scali Ltd
+256,10756,IVCBF,Investcorp Europe Acquisi-A
+257,10757,METV,Roundhill Ball Metaverse Etf
+258,10758,DRCT,Direct Digital Holdings In-A
+259,10759,OR.US,OR Royalties Ltd
+260,10760,PGF,Invesco Financial Preferred
+261,10761,AD8.ASX,Audinate Group Ltd
+262,10762,BLCO,Bausch + Lomb Corp
+263,10763,VRE,Veris Residentia
+264,10764,NEU.ASX,Neuren Pharmaceuticals Ltd
+265,10765,FPE.US,Ft-Preferred Secur & Inc Etf
+266,10766,RYLD,Global X Russell 2000 Cov Cl
+267,10767,PFXF,Vaneck Pref Sec X-Financials
+268,10768,MMS.ASX,Mcmillan Shakespeare Ltd
+269,10769,PCEF,Invesco Cef Income Composite
+270,10770,CSTR,Capstar Financial Holdings I
+271,10771,IFLN,Invesco Bloomberg Enhanced Fal
+272,10772,EWS,Ishares Msci Singapore Etf
+273,10773,HNDL,Nasdaq 7 Handl Index Etf
+274,10774,EUFN,Ishares Msci Europe Financia
+275,10775,APGE,Apogee Therapeutics Inc
+276,10776,FLCO,Franklin Investment Grade Co
+277,10777,EIDO,Ishares Msci Indonesia Etf
+278,10778,BUFD,Ft Cboe Vest Fund Deep Buff
+279,10779,CGCP,Capital Group Core Plus Inco
+280,10780,FTGC,First Trust Global Tactical
+281,10781,BWX,Spdr Bloomberg Int Treasury
+282,10782,SUSC,Ishares Esg Aware Usd Corpor
+283,10783,SVOL,Simplify Volatility Premium
+284,10784,VRP,Invesco Variable Rate Prefer
+285,10785,SPLB,SPDR Portfolio Long Term Corporate Bond ETF
+286,10786,UCON,First Trust Tcw Unconstraine
+287,10787,TLK,Telkom Indonesia Persero Tbk Pt
+288,10788,BOTZ,Global X Robotics & Artifici
+289,10789,XSOE,Wisdmtree Emerg Mkt Ex-St Ow
+290,10790,ILF.US,Ishares Latin America 40 Etf
+291,10791,ECH,Ishares Msci Chile Etf
+292,10792,GOVI,Invesco Equal Weight 0-30 Yr
+293,10793,PBW.US,Invesco Wilderhill Clean Ene
+294,10794,DBD,Diebold Nixdorf Inc
+295,10795,CBND,SPDR Portfolio Corporate Bond ETF
+296,10796,AIQ,Global X Art Intel & Tech
+297,10797,VNOM.US,Viper Energy Inc
+298,10798,INFL,Horizon Kinetics Infl Benef
+299,10799,EWP,Ishares Msci Spain Etf
+300,10800,MNA,Iq Merger Arbitrage Etf
+301,10801,PAUG,Innovator U.S. Equity Power
+302,10802,SCHC,Schwab Intl Small-Cap Equity
+303,10803,PRF,Invesco RAFI US 1000 ETF
+304,10804,HEZU,Ishares Currency Hedged Msci
+305,10805,COPX,Global X Copper Miners Etf
+306,10806,EWC,Ishares Msci Canada Etf
+307,10807,DFUV,Dimensional Us Marketwide Va
+308,10808,PJUL,Innovator U.S. Equity Power
+309,10809,IQLT,Ishares Msci International Q
+310,10810,DBEF,Xtrackers Msci Eafe Hedged E
+311,10811,SPYX,SPDR S&P 500 Fossil Fuel Reserves Free ETF
+312,10812,SLNO,Soleno Therapeutics Inc
+313,10813,VTMX,Corp Inmobiliaria Vesta Sab De Cv
+314,10814,XYLD,Global X S&P 500 Cove Call E
+315,10815,EPI,Wisdomtree India Earnings
+316,10816,KSA,Ishrs Msci Saudi Arabia Etf
+317,10817,AOM.US,Ishares Core Moderate Alloca
+318,10818,RWO,State Street SPDR Dow Jones Global
+319,10819,VNQI,Vanguard Glbl Ex-Us Real Est
+320,10820,HEDJ,Wisdomtree Europe Hedged Equ
+321,10821,KOMP,SPDR S&P Kensho New Economies Composite ETF
+322,10822,FIXD,First Trust Tcw Opp Fixed In
+323,10823,GNMA,Ishares Gnma Bond Etf
+324,10824,SECT,Main Sector Rotation Etf
+325,10825,KBWB,Invesco Kbw Bank Etf
+326,10826,XLSR,SPDR SSGA US Sector Rotation ETF
+327,10827,RSPD,Invesco S&P 500 Equal Weight
+328,10828,EAGG,Ishares Esg Aware Us Aggrega
+329,10829,SN,Sharkninja Inc
+330,10830,SHM,SPDR Nuveen ICE Short Term Municipal Bond ETF
+331,10831,DGS,Wisdomtree Em Small Cap
+332,10832,DFAT,Dimensional Us Target Value
+333,10833,SCHO,Schwab Short-Term Us Treas
+334,10834,RDVY,First Trust Rising Dividend
+335,10835,OMFL,Invesco Russell 1000 Dyn M/F
+336,10836,JEPQ,Jpm Nasdaq Equity Premium
+337,10837,COWZ,Pacer Us Cash Cows 100 Etf
+338,10838,JAAA,Janus Henderson Aaa Clo Etf
+339,10839,HYD,Vaneck High Yield Muni Etf
+340,10840,FNDA,Schwab Fundamental Small Cap
+341,10841,IGLB,Ishares 10+ Year Inv Gr Corp
+342,10842,EMXC,Ishares Msci Emr Mrk Ex Chna
+343,10843,SCHB,Schwab Us Broad Market Etf
+344,10844,GII,State Street SPDR S&P Global I
+345,10845,GNR,State Street SPDR S&P Global N
+346,10846,JEPI,Jpmorgan Equity Premium Inco
+347,10847,FTLS,First Trust Long/Short Eqty
+348,10848,AIA,Ishares Asia 50 Etf
+349,10849,XT,iShares Future Exponential Technologies ETF
+350,10850,SPTM,SPDR Portfolio S&P 1500 Composite Stock Market ETF
+351,10851,ONEQ,Fidelity Nasdaq Composite In
+352,10852,AIRR,First Trust Rba American Ind
+353,10853,REMX,Vaneck Rare Earth and Strategic Metals
+354,10854,JIRE,Jpmorgan Int Res Enh Eqty
+355,10855,TECL,Direxion Daily Tech Bull 3X
+356,10856,FTSM,First Trust Enh Short Mat Fd
+357,10857,BBCA,Jpmorgan Betabuilders Canada
+358,10858,EFAV,Ishares Msci Eafe Min Vol Fa
+359,10859,XRT,APDR S&P Retail ETF
+360,10860,MOO,Vaneck Agribusiness Etf
+361,10861,IOO,Ishares Global 100 Etf
+362,10862,PDP,Invesco Dorsey Wright Moment
+363,10863,XES,SPDR S&P Oil & Gas Equipment & Services ETF
+364,10864,ZROZ,Pimco 25+ Yr Zero Cpn Us Tif
+365,10865,XMMO,Invesco S&P Midcap Momentum
+366,10866,EQWL,Invesco S&P 100 Equal Weight
+367,10867,XHB,SPDR S&P Homebuilders ETF
+368,10868,DPST,Drx Dly Reg Bank Bull 3X
+369,10869,ITB,Ishares U.S. Home Constructi
+370,10870,HYS,Pimco 0-5 Year H/Y Corp Bond
+371,10871,PKW,Invesco Buyback Achievers Et
+372,10872,VTES,Vanguard Sh Term Tax-Ex Bond
+373,10873,SUB,Ishares Short-Term National
+374,10874,AGZ,Ishares Agency Bond Etf
+375,10875,EXI,Ishares Global Industrials E
+376,10876,XSW,SPDR S&P Software & Services ETF
+377,10877,IHE,Ishares Us Pharmaceuticals E
+378,10878,IYT,Ishares Us Transportation Et
+379,10879,IGV,Ishares Expanded Tech-Softwa
+380,10880,LCTX,Lineage Cell Therapeutics In
+381,10881,QBTS,D-Wave Quantum Inc
+382,10882,TMC,Tmc The Metals Co Inc
+383,10883,AKBA,Akebia Therapeutics Inc
+384,10884,PRPL,Purple Innovation Inc
+385,10885,PIII,P3 Health Partners Inc
+386,10886,TOI,Oncology Institute Inc/The
+387,10887,IMUX,Immunic Inc
+388,10888,NOTE,Fiscalnote Holdings Inc
+389,10889,BKSY,Blacksky Technology Inc
+390,10890,CCCC,C4 Therapeutics Inc
+391,10891,CRDF,Cardiff Oncology Inc
+392,10892,CTEV,Claritev Corp
+393,10893,SLQT,Selectquote Inc
+394,10894,NUVB,Nuvation Bio Inc
+395,10895,PSNL,Personalis Inc
+396,10896,TECX,Tectonic Therapeutic Inc
+397,10897,ACET,Adicet Bio Inc
+398,10898,GROY,Gold Royalty Corp
+399,10899,MAGN,Magnera Corp
+400,10900,PFIE,Profire Energy Inc
+401,10901,QSI,Quantum-Si Inc
+402,10902,KOPN,Kopin Corp
+403,10903,MRM.ASX,Mma Offshore Ltd
+404,10904,GBIO,Generation Bio Co
+405,10905,PLX,Protalix Biotherapeutics Inc
+406,10906,BCAB,Bioatla Inc
+407,10907,CMPX,Compass Therapeutics Inc
+408,10908,SEER,Seer Inc
+409,10909,LEVGQ,Lion Electric Co/The
+410,10910,SCYX,Scynexis Inc
+411,10911,UP,Wheels Up Experience Inc
+412,10912,HEPS,D-Market Elektronik Hizmetler Ve Ticaret As
+413,10913,WBX,Wallbox Nv
+414,10914,RBTC,Rubicon Technologies Inc
+415,10915,RMTI,Rockwell Medical Inc
+416,10916,AX1.ASX,Accent Group Ltd
+417,10917,LYEL,Lyell Immunopharma Inc
+418,10918,IDX.ASX,Integral Diagnostics Ltd
+419,10919,TCSGQ,Container Store Group Inc/Th
+420,10920,TNYA,Tenaya Therapeutics Inc
+421,10921,AQST,Aquestive Therapeutics Inc
+422,10922,POWW,Ammo Inc
+423,10923,LDI,Loandepot Inc -Class A
+424,10924,SMMT,Summit Therapeutics Inc
+425,10925,ABSI,Absci Corp
+426,10926,SES,Ses Ai Corp
+427,10927,VERI,Veritone Inc
+428,10928,RBBN,Ribbon Communications Inc
+429,10929,COOK,Traeger Inc
+430,10930,LAB,Standard Biotool
+431,10931,TDUP,Thredup Inc - Class A
+432,10932,10932,10932
+433,10933,AIOT,Powerfleet Inc
+434,10934,LGVN,Longeveron Inc-A
+435,10935,SGF.ASX,Sg Fleet Group Ltd
+436,10936,HNST,Honest Co Inc/The
+437,10937,DOUG,Douglas Elliman Inc
+438,10938,OMGAQ,Omega Therapeutics Inc
+439,10939,RIC.ASX,Ridley Corp Ltd
+440,10940,VLN,Valens Semiconductor Ltd
+441,10941,RDX.ASX,Redox Ltd/Australia
+442,10942,DSGN,Design Therapeutics Inc
+443,10943,EXFY,Expensify Inc - A
+444,10944,OMER,Omeros Corp
+445,10945,KOD,Kodiak Sciences Inc
+446,10946,AERT,Aeries Technology Inc
+447,10947,MYPS,Playstudios Inc
+448,10948,GGR,Gogoro Inc
+449,10949,CARM,Carisma Therapeutics Inc
+450,10950,RLMD,Relmada Therapeutics Inc
+451,10951,BMN.ASX,Bannerman Energy Ltd
+452,10952,ANNX,Annexon Inc
+453,10953,CYPH,Cypherpunk Technologies Inc
+454,10954,MKTW,Marketwise Inc
+455,10955,SJ,Scienjoy Holding Corp-A
+456,10956,IRD,Opus Genetics Inc
+457,10957,SGHT,Sight Sciences Inc
+458,10958,HUMA,Humacyte Inc
+459,10959,RDZN,Roadzen Inc
+460,10960,DVP.ASX,Develop Global Ltd
+461,10961,DCTH,Delcath Systems Inc
+462,10962,OXSQ,Oxford Square Capital Corp
+463,10963,RDW.US,Redwire Corp
+464,10964,PSTX,Poseida Therapeutics Inc
+465,10965,GSIT,Gsi Technology Inc
+466,10966,CUE,Cue Biopharma Inc
+467,10967,LUNR,Intuitive Machines Inc
+468,10968,DFTX,Definium Therapeutics Inc
+469,10969,SRTA,Strata Critical Medical Inc
+470,10970,RMNI,Rimini Street Inc
+471,10971,BDTX,Black Diamond Therapeutics I
+472,10972,NOTV,Inotiv Inc
+473,10973,GTHX,G1 Therapeutics Inc
+474,10974,ALUR,Allurion Technologies Inc
+475,10975,SLX.ASX,Silex Systems Ltd
+476,10976,CKPT,Checkpoint Therapeutics Inc
+477,10977,CDZI,Cadiz Inc
+478,10978,ADV,Advantage Solutions Inc
+479,10979,PRLD,Prelude Therapeutics Inc
+480,10980,10980,10980
+481,10981,NKGN,Nkgen Biotech Inc
+482,10982,CAPR,Capricor Therapeutics Inc
+483,10983,LUXE,LuxExperience BV
+484,10984,INZY,Inozyme Pharma Inc
+485,10985,LNAI,Lunai Bioworks Inc
+486,10986,ETON,Eton Pharmaceuticals Inc
+487,10987,LVOX,Livevox Holdings Inc
+488,10988,RHLD,Resolute Holdings Management Inc
+489,10989,SGMT,Sagimet Biosciences Inc-A
+490,10990,BRCC,Brc Inc-A
+491,10991,LYRA,Lyra Therapeutics Inc
+492,10992,BKCC,Blackrock Capital Investment
+493,10993,OPFI,Oppfi Inc
+494,10994,SUPV.US,Grupo Supervielle Sa
+495,10995,ABAT,American Battery Technology
+496,10996,GLUE,Monte Rosa Therapeutics Inc
+497,10997,MYO,Myomo Inc
+498,10998,EVC,Entravision Communications-A
+499,10999,AKYA,Akoya Biosciences Inc
+500,11000,CA867,CA867

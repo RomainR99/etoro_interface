@@ -1,0 +1,201 @@
+﻿n°,id,symbole,nom
+1,4001,B,Barrick Mining Corp
+2,4002,ACWI,iShares MSCI ACWI Index Fund
+3,4003,AGRO,Adecoagro S.A.
+4,4004,AKAM,Akamai Technologies
+5,4005,AKRX,Akorn
+6,4006,ALLE,Allegion
+7,4007,4007,4007
+8,4008,AMG,Affiliated Managers Group
+9,4009,AN,AutoNation
+10,4010,4010,4010
+11,4011,ANSS,ANSYS
+12,4012,4012,4012
+13,4013,ARII,American Railcar Industries Inc
+14,4014,4014,4014
+15,4015,AXTA,Axalta Coating Systems
+16,4016,BB,BlackBerry Limited
+17,4017,BITA,Bitauto Holdings Limited
+18,4018,BPY,Brookfield Property Partners L.P.
+19,4019,MTN dummy CVR,MTN DUMMY CVR for old delisting test units
+20,4020,BSAC,Banco Santander Chile-ADR
+21,4021,BUD,Anheuser-Busch Inbev Sa-ADR
+22,4022,4022,4022
+23,4023,CAA,CalAtlantic Group
+24,4024,CACQ,Caesars Acquisition
+25,4025,4025,4025
+26,4026,CAVM,Cavium Inc
+27,4027,CBPO,China Biologic
+28,4028,CERN,Cerner Corp.
+29,4029,CHDN,Churchill Downs Inc.
+30,4030,4030,4030
+31,4031,CIT,CIT Group
+32,4032,4032,4032
+33,4033,CME,CME Group
+34,4034,4034,4034
+35,4035,COO,The Cooper Companies Inc
+36,4036,CRI,Carter's
+37,4037,UNIT,Uniti Group Inc
+38,4038,4038,4038
+39,4039,CVI.US,CVR Energy
+40,4040,CVRR,CVR Refining
+41,4041,CYBR,CyberArk
+42,4042,DCI,Donaldson Company
+43,4043,4043,4043
+44,4044,4044,4044
+45,4045,DNOW,DNOW Inc
+46,4046,DPZ,Domino's Pizza Inc
+47,4047,EAT,Brinker Intl.
+48,4048,EPC,Edgewell Personal Care
+49,4049,4049,4049
+50,4050,ESNT,Essent Group
+51,4051,4051,4051
+52,4052,4052,4052
+53,4053,FDML,Federal-Mogul Corp.
+54,4054,MNDT,Mandiant Inc
+55,4055,4055,4055
+56,4056,4056,4056
+57,4057,FLO,Flowers Foods
+58,4058,CPAY,Corpay Inc
+59,4059,FTV,Fortive Corporation
+60,4060,4060,4060
+61,4061,GDDY,GoDaddy Inc.
+62,4062,GHC,Graham Holdings Co - Class B
+63,4063,GIB,CGI Group
+64,4064,GLPI,Gaming and Leisure
+65,4065,4065,4065
+66,4066,GRMN,Garmin Ltd.
+67,4067,GSAT,Globalstar
+68,4068,GWPH,GW Pharmaceuticals Plc
+69,4069,HAIN,Hain Celestial
+70,4070,HLF,Herbalife Nutrition Ltd.
+71,4071,HRI,Herc Holdings
+72,4072,HSY,Hershey Co
+73,4073,HTZ,Hertz Global Holdings Inc
+74,4074,HUBS,HubSpot
+75,4075,IBKR,Interactive Brokers Group
+76,4076,ICPT,Intercept Pharma
+77,4077,ILMN,Illumina
+78,4078,4078,4078
+79,4079,IMPV,Imperva
+80,4080,INCY,Incyte Corp.
+81,4081,INFY,Infosys Limited-ADR
+82,4082,4082,4082
+83,4083,INVN,InvenSense
+84,4084,IONS,Ionis Pharmaceuticals
+85,4085,IPGP,Ipg Photonics Corp.
+86,4086,TT,Trane Technologies
+87,4087,JAZZ,Jazz Pharmaceuticals
+88,4088,4088,4088
+89,4089,KHC,Kraft Heinz Co
+90,4090,4090,4090
+91,4091,KRO,Kronos Worldwide Inc
+92,4092,4092,4092
+93,4093,LAMR,Lamar Advertising Company
+94,4094,4094,4094
+95,4095,LBTYA,Liberty Global A
+96,4096,LBTYK,Liberty Global C
+97,4097,4097,4097
+98,4098,LILA,Liberty Latin America Ltd.
+99,4099,LLTC,Linear Technology Corporation
+100,4100,4100,4100
+101,4101,4101,4101
+102,4102,LNG,Cheniere Energy Inc
+103,4103,4103,4103
+104,4104,LSXMA,Liberty Media Corporation Series A Liberty SiriusXM Common Stock
+105,4105,MAA,Mid-America Apartment Communities Inc.
+106,4106,MCO,Moody's Corp.
+107,4107,MEG,Media General
+108,4108,MELI,MercadoLibre Inc
+109,4109,WBT,Welbilt Inc
+110,4110,MMYT,Makemytrip
+111,4111,MNST,Monster Beverage Corp
+112,4112,4112,4112
+113,4113,4113,4113
+114,4114,MWA,Mueller Water Products Inc
+115,4115,MXL,MaxLinear Inc
+116,4116,NATI,National Instruments Corporation
+117,4117,NEWR,New Relic
+118,4118,NLSN,Nielsen Holdings plc
+119,4119,NUAN,Nuance Communications
+120,4120,4120,4120
+121,4121,NXPI,NXP Semiconductors
+122,4122,P,Pandora Media
+123,4123,PAM,Pampa Energia S.A.-ADR
+124,4124,PANW,Palo Alto Networks
+125,4125,PBYI,Puma Biotechnology Inc
+126,4126,PF,Pinnacle Foods
+127,4127,4127,4127
+128,4128,POWI,Power Integrations
+129,4129,PPC,Pilgrim's Pride
+130,4130,PRGO,Perrigo Company
+131,4131,4131,4131
+132,4132,4132,4132
+133,4133,QSR,Restaurant Brands International Inc.
+134,4134,4134,4134
+135,4135,RHT,Red Hat
+136,4136,RIG,Transocean LTD
+137,4137,4137,4137
+138,4138,ROP,Roper Technologies Inc
+139,4139,4139,4139
+140,4140,SAVEQ,Spirit Airlines
+141,4141,SBAC,SBA Communications Corporation
+142,4142,SBNY,Signature Bank
+143,4143,SCI,Service Corp Intl
+144,4144,4144,4144
+145,4145,SEIC,SEI Investments Company
+146,4146,TMX,Terminix Global Holdings Inc
+147,4147,SGEN,Seagen Inc
+148,4148,SHOP,Shopify Inc.
+149,4149,SIG,Signet Jewelers LTD
+150,4150,4150,4150
+151,4151,4151,4151
+152,4152,4152,4152
+153,4153,SRCL,Stericycle
+154,4154,4154,4154
+155,4155,ST,Sensata Technologies Holding N.V.
+156,4156,4156,4156
+157,4157,SU,Suncor Energy Inc.
+158,4158,4158,4158
+159,4159,SWBI,Smith & Wesson Brands Inc
+160,4160,SWKS,Skyworks Solutions
+161,4161,SYNA,Synaptics Inc.
+162,4162,SYNT,Syntel
+163,4163,TDG,Transdigm Group Incorporated
+164,4164,TIVO,TiVo Corporation
+165,4165,TPH,Tri Pointe Homes Inc
+166,4166,SGI,Somnigroup
+167,4167,TRMB,Trimble Inc.
+168,4168,TVPT,Travelport
+169,4169,UA,Under Armour
+170,4170,UI,Ubiquiti Inc
+171,4171,USG,USG Corporation
+172,4172,VAR,Varian Medical Systems
+173,4173,VIAV,Viavi Solutions
+174,4174,VIPS,Vipshop Holdings Ltd-ADR
+175,4175,4175,4175
+176,4176,VMW,VMware
+177,4177,VRSK,Verisk Analytics
+178,4178,VRSN,Verisign
+179,4179,VRTX,Vertex Pharmaceuticals Incorporated
+180,4180,BHC,Bausch Health Companies Inc
+181,4181,VSTO,Vista Outdoor Inc
+182,4182,W.US,Wayfair Inc.
+183,4183,WAT,Waters Corporation
+184,4184,WBC,WABCO Holdings
+185,4185,WFT,Weatherford International plc
+186,4186,WTW,Willis Towers Watson Public Limited Company
+187,4187,4187,4187
+188,4188,WUBA,58.com Inc
+189,4189,XRAY,Dentsply Sirona Inc.
+190,4190,XXIA,Ixia
+191,4191,YELP,Yelp Inc.
+192,4192,4192,4192
+193,4193,ZEN.US,Zendesk
+194,4194,ZTS,Zoetis
+195,4195,4195,4195
+196,4196,BYD,Boyd Gaming
+197,4197,SIX,Six Flags Entertainment Corporation
+198,4198,GRA,W. R. Grace & Co.
+199,4199,WEN,Wendy's
+200,4200,LM,Legg Mason

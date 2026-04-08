@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Berkshire Hathaway Inc 13F Filings</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="NMdEOj5_Yp9ArEWOOgIZygLI-KNlKzXSlTCGftQoCyZ3hzj0fdnlJCZGWj40uiTGMMdRU1TwwyUn_7n-BV3Ohw" />
+
+<link rel="stylesheet" href="/packs/css/application-fc0a2738.css" />
+<script src="/packs/js/runtime-7895447f55e48a621145.js" defer="defer"></script>
+<script src="/packs/js/187-243fb8d5c1e3e587f26b.js" defer="defer"></script>
+<script src="/packs/js/application-283c1345850ddd38ead7.js" defer="defer"></script>
+<link rel="icon" type="image/x-icon" href="/packs/static/images/favicon-a16c0f81db70ae6a80d7.ico" />
+<link rel="apple-touch-icon" type="image/png" href="/packs/static/images/apple-touch-icon-cd26867e9dde773aa8af.png" />
+<meta property="og:title" content="Berkshire Hathaway Inc 13F Filings"><link href="https://13f.info/manager/0001067983-berkshire-hathaway-inc" rel="canonical"><meta property="og:url" content="https://13f.info/manager/0001067983-berkshire-hathaway-inc"><meta name="description" content="Berkshire Hathaway Inc reported 42 holdings with total value $274 B as of Q4 2025. Top holdings included AAPL, AXP, BAC, KO, and CVX"><meta property="og:description" content="Berkshire Hathaway Inc reported 42 holdings with total value $274 B as of Q4 2025. Top holdings included AAPL, AXP, BAC, KO, and CVX"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"name":"B","item":"https://13f.info/managers/B","@type":"ListItem","position":1},{"name":"Berkshire Hathaway Inc","item":"https://13f.info/manager/0001067983-berkshire-hathaway-inc","identifier":"0001067983","sameAs":"https://www.sec.gov/edgar/browse/?CIK=0001067983","@type":"ListItem","position":2}]}</script>
+<meta property="og:type" content="website">
+<meta name="format-detection" content="telephone=no">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4551758439748558" crossorigin="anonymous"></script>
+
+
+
+  </head>
+
+  <body class="bg-gray-100">
+    <div class="flex flex-col h-screen md:min-w-max">
+        <div class="w-full z-50 md:fixed">
+          <nav class="bg-gray-700 px-3 sm:px-8 py-2 flex items-center">
+  <div class="mr-4 sm:mr-8">
+    <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" aria-label="Home" href="/">
+      <svg class="w-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path xmlns="http://www.w3.org/2000/svg" d="M11.3356 2.25259C11.7145 1.9158 12.2855 1.9158 12.6644 2.25259L21.6644 10.2526C22.0772 10.6195 22.1143 11.2516 21.7474 11.6644C21.3805 12.0771 20.7484 12.1143 20.3356 11.7474L20 11.4491V19C20 20.1046 19.1046 21 18 21H6.00001C4.89544 21 4.00001 20.1046 4.00001 19V11.4491L3.66437 11.7474C3.25159 12.1143 2.61952 12.0771 2.2526 11.6644C1.88568 11.2516 1.92286 10.6195 2.33565 10.2526L11.3356 2.25259ZM6.00001 9.67129V19H9.00001V14C9.00001 13.4477 9.44773 13 10 13H14C14.5523 13 15 13.4477 15 14V19H18V9.67129L12 4.33795L6.00001 9.67129ZM13 19V15H11V19H13Z"></path>
+      </svg>
+</a>  </div>
+
+  <div class="flex-1 max-w-xs mr-4 sm:mr-8">
+    <form action="/search" accept-charset="UTF-8" method="get">
+      <input name="q" data-url="/data/autocomplete" class="w-full rounded shadow" placeholder="Search by manager or investment…" tabindex="1" type="search" id="autocomplete" />
+</form>    <div class="autocomplete-results"></div>
+  </div>
+
+  <div>
+    <a target="_blank" class="text-gray-100 visited:text-gray-100 hover:text-gray-300" aria-label="GitHub" href="https://github.com/toddwschneider/sec-13f-filings">
+      <svg class="w-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- Font Awesome Free 5.15.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+</a>  </div>
+</nav>
+
+        </div>
+
+      <div class="flex-1 p-3 sm:p-8 md:mt-14">
+        
+<div class="mb-4 md:mb-8 w-full lg:max-w-5xl lg:grid lg:grid-cols-3 lg:gap-2">
+  <div class="md:max-w-2xl lg:col-span-2">
+    <div class="bg-white shadow">
+      <div class="px-4 py-2">
+        <h1 class="leading-8 mb-2">
+          Berkshire Hathaway Inc
+        </h1>
+        <h2 class="text-2xl">
+          13F Portfolio Filings
+        </h2>
+      </div>
+      <div class="border-t border-gray-200">
+        <dl>
+    <div class="bg-gray-50 even:bg-white px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Most recent 13F
+      </dt>
+      <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <a href="/13f/000119312526054580-berkshire-hathaway-inc-q4-2025">Q4 2025</a>
+      </dd>
+    </div>
+    <div class="bg-gray-50 even:bg-white px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Notable people
+      </dt>
+      <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        Warren Buffett
+      </dd>
+    </div>
+    <div class="bg-gray-50 even:bg-white px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        Location
+      </dt>
+      <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        Omaha, NE
+      </dd>
+    </div>
+    <div class="bg-gray-50 even:bg-white px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        CIK
+      </dt>
+      <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        0001067983
+      </dd>
+    </div>
+    <div class="bg-gray-50 even:bg-white px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4">
+      <dt class="text-sm font-medium text-gray-500">
+        All SEC filings
+      </dt>
+      <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <a target="_blank" href="https://www.sec.gov/cgi-bin/browse-edgar?CIK=0001067983">View on sec.gov</a>
+      </dd>
+    </div>
+</dl>
+
+      </div>
+
+      <div class="px-4 pt-2 border-t border-gray-200 text-sm font-medium text-gray-500">
+        Holdings Value
+      </div>
+
+      <div class="h-64 px-4 py-2">
+        <canvas id="holdings-chart"></canvas>
+      </div>
+    </div>
+  </div>
+
+    <div class="h-full hidden lg:block lg:col-span-1">
+        <ins class="adsbygoogle desktop_manager_square_responsive hidden lg:block"
+  data-ad-client="ca-pub-4551758439748558"
+  data-ad-slot="7435807089"
+  data-ad-format="auto"
+  data-full-width-responsive="true"
+>
+</ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+    </div>
+</div>
+
+  <div class="md:hidden mb-4 w-full">
+      <ins class="adsbygoogle mobile_horizontal_responsive block md:hidden"
+  style="display:block;min-width:300px;max-width:640px;width:100%;height:100px;"
+  data-ad-client="ca-pub-4551758439748558"
+  data-ad-slot="4360272946"
+>
+</ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+  </div>
+
+<div class="w-max max-w-full">
+  <table id="managerFilings" class="border shadow table-fixed">
+    <thead>
+      <tr>
+        <th class="px-3 py-2 bg-white text-sm font-medium text-gray-500 uppercase">Quarter</th>
+        <th class="px-3 py-2 bg-white text-sm font-medium text-gray-500 uppercase">Holdings</th>
+        <th class="px-3 py-2 bg-white text-sm font-medium text-gray-500 uppercase">Value ($000)</th>
+        <th class="px-3 py-2 bg-white text-sm font-medium text-gray-500 uppercase">Top Holdings</th>
+        <th class="px-3 py-2 bg-white text-sm font-medium text-gray-500 uppercase">Form Type</th>
+        <th class="px-3 py-2 bg-white text-sm font-medium text-gray-500 uppercase">Date Filed</th>
+        <th class="px-3 py-2 bg-white text-sm font-medium text-gray-500 uppercase">Filing ID</th>
+      </tr>
+    </thead>
+    <tbody class="font-mono">
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2025-12-31">
+            <a href="/13f/000119312526054580-berkshire-hathaway-inc-q4-2025">Q4 2025</a>
+          </td>
+          <td class="px-3 py-2 text-right">42</td>
+          <td class="px-3 py-2 text-right">274,160,086</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, AXP, BAC, KO">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, AXP, BAC, KO
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2026-02-17">2/17/2026</td>
+          <td class="px-3 py-2 text-center">000119312526054580</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2025-09-30">
+            <a href="/13f/000119312525282901-berkshire-hathaway-inc-q3-2025">Q3 2025</a>
+          </td>
+          <td class="px-3 py-2 text-right">41</td>
+          <td class="px-3 py-2 text-right">267,334,501</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, AXP, BAC, KO">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, AXP, BAC, KO
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2025-11-14">11/14/2025</td>
+          <td class="px-3 py-2 text-center">000119312525282901</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2025-06-30">
+            <a href="/13f/000095012325008343-berkshire-hathaway-inc-q2-2025">Q2 2025</a>
+          </td>
+          <td class="px-3 py-2 text-right">41</td>
+          <td class="px-3 py-2 text-right">257,521,776</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, AXP, BAC, KO">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, AXP, BAC, KO
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2025-08-14">8/14/2025</td>
+          <td class="px-3 py-2 text-center">000095012325008343</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2025-03-31">
+            <a href="/13f/000095012325008361-berkshire-hathaway-inc-q1-2025-new-holdings">Q1 2025</a>
+          </td>
+          <td class="px-3 py-2 text-right">4</td>
+          <td class="px-3 py-2 text-right">1,106,550</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="NUE, LEN, DHI, LEN-B">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              NUE, LEN, DHI, LEN-B
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="NEW HOLDINGS">
+            NEW HOLDINGS
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2025-08-14">8/14/2025</td>
+          <td class="px-3 py-2 text-center">000095012325008361</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2025-03-31">
+            <a href="/13f/000095012325005701-berkshire-hathaway-inc-q1-2025">Q1 2025</a>
+          </td>
+          <td class="px-3 py-2 text-right">36</td>
+          <td class="px-3 py-2 text-right">258,701,144</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, AXP, KO, BAC">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, AXP, KO, BAC
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2025-05-15">5/15/2025</td>
+          <td class="px-3 py-2 text-center">000095012325005701</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2024-12-31">
+            <a href="/13f/000095012325002701-berkshire-hathaway-inc-q4-2024">Q4 2024</a>
+          </td>
+          <td class="px-3 py-2 text-right">38</td>
+          <td class="px-3 py-2 text-right">267,175,474</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, AXP, BAC, KO">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, AXP, BAC, KO
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2025-02-14">2/14/2025</td>
+          <td class="px-3 py-2 text-center">000095012325002701</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2024-09-30">
+            <a href="/13f/000095012324011775-berkshire-hathaway-inc-q3-2024">Q3 2024</a>
+          </td>
+          <td class="px-3 py-2 text-right">40</td>
+          <td class="px-3 py-2 text-right">266,378,900</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, AXP, BAC, KO">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, AXP, BAC, KO
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2024-11-14">11/14/2024</td>
+          <td class="px-3 py-2 text-center">000095012324011775</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2024-06-30">
+            <a href="/13f/000095012324008740-berkshire-hathaway-inc-q2-2024">Q2 2024</a>
+          </td>
+          <td class="px-3 py-2 text-right">41</td>
+          <td class="px-3 py-2 text-right">279,969,062</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, BAC, AXP, KO">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, BAC, AXP, KO
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2024-08-14">8/14/2024</td>
+          <td class="px-3 py-2 text-center">000095012324008740</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2024-03-31">
+            <a href="/13f/000095012324005622-berkshire-hathaway-inc-q1-2024">Q1 2024</a>
+          </td>
+          <td class="px-3 py-2 text-right">41</td>
+          <td class="px-3 py-2 text-right">331,680,406</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, BAC, AXP, KO">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, BAC, AXP, KO
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2024-05-15">5/15/2024</td>
+          <td class="px-3 py-2 text-center">000095012324005622</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2023-12-31">
+            <a href="/13f/000095012324005664-berkshire-hathaway-inc-q4-2023-new-holdings">Q4 2023</a>
+          </td>
+          <td class="px-3 py-2 text-right">1</td>
+          <td class="px-3 py-2 text-right">4,542,600</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="CB">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              CB
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="NEW HOLDINGS">
+            NEW HOLDINGS
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2024-05-15">5/15/2024</td>
+          <td class="px-3 py-2 text-center">000095012324005664</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2023-12-31">
+            <a href="/13f/000095012324002518-berkshire-hathaway-inc-q4-2023">Q4 2023</a>
+          </td>
+          <td class="px-3 py-2 text-right">41</td>
+          <td class="px-3 py-2 text-right">347,358,074</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, BAC, AXP, KO">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, BAC, AXP, KO
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2024-02-14">2/14/2024</td>
+          <td class="px-3 py-2 text-center">000095012324002518</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2023-09-30">
+            <a href="/13f/000095012324005653-berkshire-hathaway-inc-q3-2023-new-holdings">Q3 2023</a>
+          </td>
+          <td class="px-3 py-2 text-right">1</td>
+          <td class="px-3 py-2 text-right">1,695,320</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="CB">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              CB
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="NEW HOLDINGS">
+            NEW HOLDINGS
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2024-05-15">5/15/2024</td>
+          <td class="px-3 py-2 text-center">000095012324005653</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2023-09-30">
+            <a href="/13f/000095012323011029-berkshire-hathaway-inc-q3-2023-restatement">Q3 2023</a>
+          </td>
+          <td class="px-3 py-2 text-right">45</td>
+          <td class="px-3 py-2 text-right">313,257,308</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, BAC, AXP, KO">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, BAC, AXP, KO
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="RESTATEMENT">
+            RESTATEMENT
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2023-11-16">11/16/2023</td>
+          <td class="px-3 py-2 text-center">000095012323011029</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2023-06-30">
+            <a href="/13f/000095012323008074-berkshire-hathaway-inc-q2-2023">Q2 2023</a>
+          </td>
+          <td class="px-3 py-2 text-right">48</td>
+          <td class="px-3 py-2 text-right">348,194,055</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, BAC, AXP, KO">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, BAC, AXP, KO
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2023-08-14">8/14/2023</td>
+          <td class="px-3 py-2 text-center">000095012323008074</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2023-03-31">
+            <a href="/13f/000095012323005270-berkshire-hathaway-inc-q1-2023">Q1 2023</a>
+          </td>
+          <td class="px-3 py-2 text-right">48</td>
+          <td class="px-3 py-2 text-right">325,108,752</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, BAC, AXP, KO">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, BAC, AXP, KO
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2023-05-15">5/15/2023</td>
+          <td class="px-3 py-2 text-center">000095012323005270</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2022-12-31">
+            <a href="/13f/000095012323002585-berkshire-hathaway-inc-q4-2022">Q4 2022</a>
+          </td>
+          <td class="px-3 py-2 text-right">49</td>
+          <td class="px-3 py-2 text-right">299,007,622</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, BAC, CVX, KO">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, BAC, CVX, KO
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2023-02-14">2/14/2023</td>
+          <td class="px-3 py-2 text-center">000095012323002585</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2022-09-30">
+            <a href="/13f/000095012322012275-berkshire-hathaway-inc-q3-2022">Q3 2022</a>
+          </td>
+          <td class="px-3 py-2 text-right">49</td>
+          <td class="px-3 py-2 text-right">296,096,640</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, BAC, CVX, KO">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, BAC, CVX, KO
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2022-11-14">11/14/2022</td>
+          <td class="px-3 py-2 text-center">000095012322012275</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2022-06-30">
+            <a href="/13f/000095012322009450-berkshire-hathaway-inc-q2-2022">Q2 2022</a>
+          </td>
+          <td class="px-3 py-2 text-right">47</td>
+          <td class="px-3 py-2 text-right">300,130,772</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, BAC, KO, CVX">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, BAC, KO, CVX
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2022-08-15">8/15/2022</td>
+          <td class="px-3 py-2 text-center">000095012322009450</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2022-03-31">
+            <a href="/13f/000095012322006442-berkshire-hathaway-inc-q1-2022">Q1 2022</a>
+          </td>
+          <td class="px-3 py-2 text-right">49</td>
+          <td class="px-3 py-2 text-right">363,553,518</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, BAC, AXP, CVX">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, BAC, AXP, CVX
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2022-05-16">5/16/2022</td>
+          <td class="px-3 py-2 text-center">000095012322006442</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2021-12-31">
+            <a href="/13f/000095012322002973-berkshire-hathaway-inc-q4-2021">Q4 2021</a>
+          </td>
+          <td class="px-3 py-2 text-right">44</td>
+          <td class="px-3 py-2 text-right">330,952,724</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, BAC, AXP, KO">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, BAC, AXP, KO
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2022-02-14">2/14/2022</td>
+          <td class="px-3 py-2 text-center">000095012322002973</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2021-09-30">
+            <a href="/13f/000095012321015518-berkshire-hathaway-inc-q3-2021">Q3 2021</a>
+          </td>
+          <td class="px-3 py-2 text-right">43</td>
+          <td class="px-3 py-2 text-right">293,447,417</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, BAC, AXP, KO">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, BAC, AXP, KO
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2021-11-15">11/15/2021</td>
+          <td class="px-3 py-2 text-center">000095012321015518</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2021-06-30">
+            <a href="/13f/000095012321011396-berkshire-hathaway-inc-q2-2021">Q2 2021</a>
+          </td>
+          <td class="px-3 py-2 text-right">44</td>
+          <td class="px-3 py-2 text-right">293,023,412</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, BAC, AXP, KO">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, BAC, AXP, KO
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2021-08-16">8/16/2021</td>
+          <td class="px-3 py-2 text-center">000095012321011396</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2021-03-31">
+            <a href="/13f/000095012321007024-berkshire-hathaway-inc-q1-2021">Q1 2021</a>
+          </td>
+          <td class="px-3 py-2 text-right">46</td>
+          <td class="px-3 py-2 text-right">270,435,200</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, BAC, AXP, KO">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, BAC, AXP, KO
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2021-05-17">5/17/2021</td>
+          <td class="px-3 py-2 text-center">000095012321007024</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2020-12-31">
+            <a href="/13f/000095012321002786-berkshire-hathaway-inc-q4-2020">Q4 2020</a>
+          </td>
+          <td class="px-3 py-2 text-right">47</td>
+          <td class="px-3 py-2 text-right">269,927,528</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, BAC, KO, AXP">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, BAC, KO, AXP
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2021-02-16">2/16/2021</td>
+          <td class="px-3 py-2 text-center">000095012321002786</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2020-09-30">
+            <a href="/13f/000095012321002781-berkshire-hathaway-inc-q3-2020-new-holdings">Q3 2020</a>
+          </td>
+          <td class="px-3 py-2 text-right">3</td>
+          <td class="px-3 py-2 text-right">7,044,886</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="VZ, CVX, MMC">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              VZ, CVX, MMC
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="NEW HOLDINGS">
+            NEW HOLDINGS
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2021-02-16">2/16/2021</td>
+          <td class="px-3 py-2 text-center">000095012321002781</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2020-09-30">
+            <a href="/13f/000095012320012127-berkshire-hathaway-inc-q3-2020">Q3 2020</a>
+          </td>
+          <td class="px-3 py-2 text-right">49</td>
+          <td class="px-3 py-2 text-right">228,890,673</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, BAC, KO, AXP">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, BAC, KO, AXP
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2020-11-16">11/16/2020</td>
+          <td class="px-3 py-2 text-center">000095012320012127</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2020-06-30">
+            <a href="/13f/000095012320009058-berkshire-hathaway-inc-q2-2020">Q2 2020</a>
+          </td>
+          <td class="px-3 py-2 text-right">44</td>
+          <td class="px-3 py-2 text-right">202,411,166</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, BAC, KO, AXP">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, BAC, KO, AXP
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2020-08-14">8/14/2020</td>
+          <td class="px-3 py-2 text-center">000095012320009058</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2020-03-31">
+            <a href="/13f/000095012320005345-berkshire-hathaway-inc-q1-2020">Q1 2020</a>
+          </td>
+          <td class="px-3 py-2 text-right">50</td>
+          <td class="px-3 py-2 text-right">175,526,846</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, BAC, KO, AXP">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, BAC, KO, AXP
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2020-05-15">5/15/2020</td>
+          <td class="px-3 py-2 text-center">000095012320005345</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2019-12-31">
+            <a href="/13f/000095012320002466-berkshire-hathaway-inc-q4-2019">Q4 2019</a>
+          </td>
+          <td class="px-3 py-2 text-right">52</td>
+          <td class="px-3 py-2 text-right">242,050,717</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, BAC, KO, AXP">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, BAC, KO, AXP
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2020-02-14">2/14/2020</td>
+          <td class="px-3 py-2 text-center">000095012320002466</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2019-09-30">
+            <a href="/13f/000095012319011362-berkshire-hathaway-inc-q3-2019">Q3 2019</a>
+          </td>
+          <td class="px-3 py-2 text-right">48</td>
+          <td class="px-3 py-2 text-right">214,673,311</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, BAC, KO, WFC">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, BAC, KO, WFC
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2019-11-14">11/14/2019</td>
+          <td class="px-3 py-2 text-center">000095012319011362</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2019-06-30">
+            <a href="/13f/000095012319008356-berkshire-hathaway-inc-q2-2019">Q2 2019</a>
+          </td>
+          <td class="px-3 py-2 text-right">47</td>
+          <td class="px-3 py-2 text-right">208,101,077</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, BAC, KO, WFC">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, BAC, KO, WFC
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2019-08-14">8/14/2019</td>
+          <td class="px-3 py-2 text-center">000095012319008356</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2019-03-31">
+            <a href="/13f/000095012319005436-berkshire-hathaway-inc-q1-2019">Q1 2019</a>
+          </td>
+          <td class="px-3 py-2 text-right">48</td>
+          <td class="px-3 py-2 text-right">199,483,708</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, BAC, WFC, KO">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, BAC, WFC, KO
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2019-05-15">5/15/2019</td>
+          <td class="px-3 py-2 text-center">000095012319005436</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2018-12-31">
+            <a href="/13f/000095012319002221-berkshire-hathaway-inc-q4-2018">Q4 2018</a>
+          </td>
+          <td class="px-3 py-2 text-right">48</td>
+          <td class="px-3 py-2 text-right">183,066,067</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, BAC, WFC, KO">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, BAC, WFC, KO
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2019-02-14">2/14/2019</td>
+          <td class="px-3 py-2 text-center">000095012319002221</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2018-09-30">
+            <a href="/13f/000095012318011885-berkshire-hathaway-inc-q3-2018">Q3 2018</a>
+          </td>
+          <td class="px-3 py-2 text-right">46</td>
+          <td class="px-3 py-2 text-right">221,020,177</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, BAC, WFC, KO">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, BAC, WFC, KO
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2018-11-14">11/14/2018</td>
+          <td class="px-3 py-2 text-center">000095012318011885</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2018-06-30">
+            <a href="/13f/000095012318008866-berkshire-hathaway-inc-q2-2018">Q2 2018</a>
+          </td>
+          <td class="px-3 py-2 text-right">44</td>
+          <td class="px-3 py-2 text-right">195,615,793</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, WFC, KHC, BAC">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, WFC, KHC, BAC
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2018-08-14">8/14/2018</td>
+          <td class="px-3 py-2 text-center">000095012318008866</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2018-03-31">
+            <a href="/13f/000095012318005732-berkshire-hathaway-inc-q1-2018">Q1 2018</a>
+          </td>
+          <td class="px-3 py-2 text-right">46</td>
+          <td class="px-3 py-2 text-right">188,943,876</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, WFC, BAC, KHC">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, WFC, BAC, KHC
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2018-05-15">5/15/2018</td>
+          <td class="px-3 py-2 text-center">000095012318005732</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2017-12-31">
+            <a href="/13f/000095012318002390-berkshire-hathaway-inc-q4-2017">Q4 2017</a>
+          </td>
+          <td class="px-3 py-2 text-right">48</td>
+          <td class="px-3 py-2 text-right">191,242,697</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="AAPL, WFC, KHC, BAC">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              AAPL, WFC, KHC, BAC
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2018-02-14">2/14/2018</td>
+          <td class="px-3 py-2 text-center">000095012318002390</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2017-09-30">
+            <a href="/13f/000095012317010896-berkshire-hathaway-inc-q3-2017">Q3 2017</a>
+          </td>
+          <td class="px-3 py-2 text-right">47</td>
+          <td class="px-3 py-2 text-right">177,678,767</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="WFC, KHC, AAPL, KO">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              WFC, KHC, AAPL, KO
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2017-11-14">11/14/2017</td>
+          <td class="px-3 py-2 text-center">000095012317010896</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2017-06-30">
+            <a href="/13f/000095012317007953-berkshire-hathaway-inc-q2-2017">Q2 2017</a>
+          </td>
+          <td class="px-3 py-2 text-right">47</td>
+          <td class="px-3 py-2 text-right">162,143,689</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="KHC, WFC, AAPL, KO">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              KHC, WFC, AAPL, KO
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2017-08-14">8/14/2017</td>
+          <td class="px-3 py-2 text-center">000095012317007953</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2017-03-31">
+            <a href="/13f/000095012317005259-berkshire-hathaway-inc-q1-2017">Q1 2017</a>
+          </td>
+          <td class="px-3 py-2 text-right">46</td>
+          <td class="px-3 py-2 text-right">161,873,831</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="KHC, WFC, AAPL, KO">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              KHC, WFC, AAPL, KO
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2017-05-15">5/15/2017</td>
+          <td class="px-3 py-2 text-center">000095012317005259</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2016-12-31">
+            <a href="/13f/000095012317002417-berkshire-hathaway-inc-q4-2016">Q4 2016</a>
+          </td>
+          <td class="px-3 py-2 text-right">47</td>
+          <td class="px-3 py-2 text-right">147,985,198</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="KHC, WFC, KO, IBM">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              KHC, WFC, KO, IBM
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2017-02-14">2/14/2017</td>
+          <td class="px-3 py-2 text-center">000095012317002417</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2016-09-30">
+            <a href="/13f/000095012316022377-berkshire-hathaway-inc-q3-2016">Q3 2016</a>
+          </td>
+          <td class="px-3 py-2 text-right">50</td>
+          <td class="px-3 py-2 text-right">128,787,110</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="KHC, WFC, KO, IBM">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              KHC, WFC, KO, IBM
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2016-11-14">11/14/2016</td>
+          <td class="px-3 py-2 text-center">000095012316022377</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2016-06-30">
+            <a href="/13f/000095012316020120-berkshire-hathaway-inc-q2-2016">Q2 2016</a>
+          </td>
+          <td class="px-3 py-2 text-right">49</td>
+          <td class="px-3 py-2 text-right">129,704,731</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="KHC, WFC, KO, IBM">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              KHC, WFC, KO, IBM
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2016-08-15">8/15/2016</td>
+          <td class="px-3 py-2 text-center">000095012316020120</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2016-03-31">
+            <a href="/13f/000095012316017295-berkshire-hathaway-inc-q1-2016">Q1 2016</a>
+          </td>
+          <td class="px-3 py-2 text-right">47</td>
+          <td class="px-3 py-2 text-right">128,569,639</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="KHC, WFC, KO, IBM">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              KHC, WFC, KO, IBM
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2016-05-16">5/16/2016</td>
+          <td class="px-3 py-2 text-center">000095012316017295</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2015-12-31">
+            <a href="/13f/000095012316015025-berkshire-hathaway-inc-q4-2015">Q4 2015</a>
+          </td>
+          <td class="px-3 py-2 text-right">48</td>
+          <td class="px-3 py-2 text-right">131,855,536</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="WFC, KHC, KO, IBM">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              WFC, KHC, KO, IBM
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2016-02-16">2/16/2016</td>
+          <td class="px-3 py-2 text-center">000095012316015025</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2015-09-30">
+            <a href="/13f/000095012315011992-berkshire-hathaway-inc-q3-2015">Q3 2015</a>
+          </td>
+          <td class="px-3 py-2 text-right">48</td>
+          <td class="px-3 py-2 text-right">127,407,562</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="WFC, KHC, KO, IBM">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              WFC, KHC, KO, IBM
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2015-11-16">11/16/2015</td>
+          <td class="px-3 py-2 text-center">000095012315011992</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2015-06-30">
+            <a href="/13f/000095012315009742-berkshire-hathaway-inc-q2-2015-new-holdings">Q2 2015</a>
+          </td>
+          <td class="px-3 py-2 text-right">1</td>
+          <td class="px-3 py-2 text-right">2,392,467</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="PSX">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              PSX
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="NEW HOLDINGS">
+            NEW HOLDINGS
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2015-09-04">9/4/2015</td>
+          <td class="px-3 py-2 text-center">000095012315009742</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2015-06-30">
+            <a href="/13f/000095012315009404-berkshire-hathaway-inc-q2-2015">Q2 2015</a>
+          </td>
+          <td class="px-3 py-2 text-right">46</td>
+          <td class="px-3 py-2 text-right">107,182,425</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="WFC, KO, IBM, AXP">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              WFC, KO, IBM, AXP
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2015-08-14">8/14/2015</td>
+          <td class="px-3 py-2 text-center">000095012315009404</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2015-03-31">
+            <a href="/13f/000095012315006438-berkshire-hathaway-inc-q1-2015">Q1 2015</a>
+          </td>
+          <td class="px-3 py-2 text-right">47</td>
+          <td class="px-3 py-2 text-right">107,133,479</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="WFC, KO, IBM, AXP">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              WFC, KO, IBM, AXP
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2015-05-15">5/15/2015</td>
+          <td class="px-3 py-2 text-center">000095012315006438</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2014-12-31">
+            <a href="/13f/000095012315002961-berkshire-hathaway-inc-q4-2014">Q4 2014</a>
+          </td>
+          <td class="px-3 py-2 text-right">47</td>
+          <td class="px-3 py-2 text-right">109,365,274</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="WFC, KO, AXP, IBM">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              WFC, KO, AXP, IBM
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2015-02-17">2/17/2015</td>
+          <td class="px-3 py-2 text-center">000095012315002961</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2014-09-30">
+            <a href="/13f/000095012315002964-berkshire-hathaway-inc-q3-2014-new-holdings">Q3 2014</a>
+          </td>
+          <td class="px-3 py-2 text-right">1</td>
+          <td class="px-3 py-2 text-right">620,451</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="DE">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              DE
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="NEW HOLDINGS">
+            NEW HOLDINGS
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2015-02-17">2/17/2015</td>
+          <td class="px-3 py-2 text-center">000095012315002964</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2014-09-30">
+            <a href="/13f/000095012314012218-berkshire-hathaway-inc-q3-2014">Q3 2014</a>
+          </td>
+          <td class="px-3 py-2 text-right">47</td>
+          <td class="px-3 py-2 text-right">107,785,377</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="WFC, KO, IBM, AXP">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              WFC, KO, IBM, AXP
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2014-11-14">11/14/2014</td>
+          <td class="px-3 py-2 text-center">000095012314012218</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2014-06-30">
+            <a href="/13f/000095012314009048-berkshire-hathaway-inc-q2-2014">Q2 2014</a>
+          </td>
+          <td class="px-3 py-2 text-right">46</td>
+          <td class="px-3 py-2 text-right">107,580,386</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="WFC, KO, AXP, IBM">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              WFC, KO, AXP, IBM
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2014-08-14">8/14/2014</td>
+          <td class="px-3 py-2 text-center">000095012314009048</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2014-03-31">
+            <a href="/13f/000095012314006252-berkshire-hathaway-inc-q1-2014">Q1 2014</a>
+          </td>
+          <td class="px-3 py-2 text-right">45</td>
+          <td class="px-3 py-2 text-right">105,772,705</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="WFC, KO, AXP, IBM">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              WFC, KO, AXP, IBM
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2014-05-15">5/15/2014</td>
+          <td class="px-3 py-2 text-center">000095012314006252</td>
+        </tr>
+        <tr class="bg-gray-50 even:bg-white hover:bg-gray-200">
+          <td class="px-3 py-2 text-center" data-order="2013-12-31">
+            <a href="/13f/000095012314002615-berkshire-hathaway-inc-q4-2013">Q4 2013</a>
+          </td>
+          <td class="px-3 py-2 text-right">43</td>
+          <td class="px-3 py-2 text-right">104,836,593</td>
+          <td class="px-3 py-2 truncate group hover:overflow-visible" title="WFC, KO, AXP, IBM">
+            <span class="group-hover:bg-white group-hover:relative group-hover:px-1 group-hover:-ml-1 group-hover:rounded group-hover:shadow">
+              WFC, KO, AXP, IBM
+            </span>
+          </td>
+          <td class="px-3 py-2 text-center truncate" title="13F-HR">
+            13F-HR
+          </td>
+          <td class="px-3 py-2 text-right" data-order="2014-02-14">2/14/2014</td>
+          <td class="px-3 py-2 text-center">000095012314002615</td>
+        </tr>
+    </tbody>
+  </table>
+</div>
+
+  <details class="mt-2 ml-4">
+    <summary class="cursor-pointer">
+      Additional filings from Berkshire Hathaway Inc that have since been restated
+    </summary>
+
+    <ul class="list-disc ml-6">
+        <li><a href="/13f/000095012323010898-berkshire-hathaway-inc-q3-2023">Q3 2023</a></li>
+    </ul>
+  </details>
+
+<script>
+  var holdingsChartData = {"labels":["2013-12-31","2014-03-31","2014-06-30","2014-09-30","2014-12-31","2015-03-31","2015-06-30","2015-09-30","2015-12-31","2016-03-31","2016-06-30","2016-09-30","2016-12-31","2017-03-31","2017-06-30","2017-09-30","2017-12-31","2018-03-31","2018-06-30","2018-09-30","2018-12-31","2019-03-31","2019-06-30","2019-09-30","2019-12-31","2020-03-31","2020-06-30","2020-09-30","2020-12-31","2021-03-31","2021-06-30","2021-09-30","2021-12-31","2022-03-31","2022-06-30","2022-09-30","2022-12-31","2023-03-31","2023-06-30","2023-09-30","2023-12-31","2024-03-31","2024-06-30","2024-09-30","2024-12-31","2025-03-31","2025-06-30","2025-09-30","2025-12-31"],"data":[104836593000.0,105772705000.0,107580386000.0,107785377000.0,109365274000.0,107133479000.0,107182425000.0,127407562000.0,131855536000.0,128569639000.0,129704731000.0,128787110000.0,147985198000.0,161873831000.0,162143689000.0,177678767000.0,191242697000.0,188943876000.0,195615793000.0,221020177000.0,183066067000.0,199483708000.0,208101077000.0,214673311000.0,242050717000.0,175526846000.0,202411166000.0,228890673000.0,269927528000.0,270435200000.0,293023412000.0,293447417000.0,330952724000.0,363553518000.0,300130772000.0,296096640000.0,299007622119.0,325108752692.0,348194055552.0,313257308189.0,347358074461.0,331680406332.0,279969062343.0,266378900503.0,267175474248.9999,258701144516.0,257521776925.0,267334501955.0,274160086700.99997]};
+</script>
+
+      </div>
+
+      <footer class="bg-gray-700 text-gray-100 text-center py-3">
+  <div>
+    <span class="pr-2 inline">
+      <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers">All Managers</a>
+    </span>
+
+    <ul class="inline">
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/a">A</a>
+        </li>
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/b">B</a>
+        </li>
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/c">C</a>
+        </li>
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/d">D</a>
+        </li>
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/e">E</a>
+        </li>
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/f">F</a>
+        </li>
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/g">G</a>
+        </li>
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/h">H</a>
+        </li>
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/i">I</a>
+        </li>
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/j">J</a>
+        </li>
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/k">K</a>
+        </li>
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/l">L</a>
+        </li>
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/m">M</a>
+        </li>
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/n">N</a>
+        </li>
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/o">O</a>
+        </li>
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/p">P</a>
+        </li>
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/q">Q</a>
+        </li>
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/r">R</a>
+        </li>
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/s">S</a>
+        </li>
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/t">T</a>
+        </li>
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/u">U</a>
+        </li>
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/v">V</a>
+        </li>
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/w">W</a>
+        </li>
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/x">X</a>
+        </li>
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/y">Y</a>
+        </li>
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/z">Z</a>
+        </li>
+        <li class="hidden sm:inline pr-2">
+          <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/managers/0">0</a>
+        </li>
+    </ul>
+
+    <span class="inline pl-8">
+      <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="/newest">Latest Filings</a>
+    </span>
+
+    <span class="inline pl-8">
+      <a class="text-gray-100 visited:text-gray-100 hover:text-gray-300" href="https://13f.info/privacy">Privacy Policy</a>
+    </span>
+  </div>
+</footer>
+
+    </div>
+  </body>
+</html>

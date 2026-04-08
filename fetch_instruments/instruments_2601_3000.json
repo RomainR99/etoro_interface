@@ -1,0 +1,2402 @@
+[
+  {
+    "n": 1,
+    "id": 2601,
+    "symbole": "MGAM.L",
+    "nom": "Morgan Advanced Materials PLC"
+  },
+  {
+    "n": 2,
+    "id": 2602,
+    "symbole": "COA.L",
+    "nom": "Coats Group PLC"
+  },
+  {
+    "n": 3,
+    "id": 2603,
+    "symbole": "DPH.L",
+    "nom": "Dechra Pharmaceuticals PLC"
+  },
+  {
+    "n": 4,
+    "id": 2604,
+    "symbole": "MSLH.L",
+    "nom": "Marshalls PLC"
+  },
+  {
+    "n": 5,
+    "id": 2605,
+    "symbole": "HWDN.L",
+    "nom": "Howden Joinery Group PLC"
+  },
+  {
+    "n": 6,
+    "id": 2606,
+    "symbole": "INTU.L",
+    "nom": "Intu Properties PLC"
+  },
+  {
+    "n": 7,
+    "id": 2607,
+    "symbole": "SNR.L",
+    "nom": "Senior PLC"
+  },
+  {
+    "n": 8,
+    "id": 2608,
+    "symbole": "2608",
+    "nom": "2608"
+  },
+  {
+    "n": 9,
+    "id": 2609,
+    "symbole": "OSB.L",
+    "nom": "OSB Group PLC"
+  },
+  {
+    "n": 10,
+    "id": 2610,
+    "symbole": "SXS.L",
+    "nom": "Spectris PLC"
+  },
+  {
+    "n": 11,
+    "id": 2611,
+    "symbole": "SPX.L",
+    "nom": "Spirax-Sarco Engineering PLC"
+  },
+  {
+    "n": 12,
+    "id": 2612,
+    "symbole": "TCAP.L",
+    "nom": "TP ICAP PLC"
+  },
+  {
+    "n": 13,
+    "id": 2613,
+    "symbole": "FSJ.L",
+    "nom": "James Fisher & Sons PLC"
+  },
+  {
+    "n": 14,
+    "id": 2614,
+    "symbole": "BBY.L",
+    "nom": "Balfour Beatty PLC"
+  },
+  {
+    "n": 15,
+    "id": 2615,
+    "symbole": "COB.L",
+    "nom": "Cobham PLC"
+  },
+  {
+    "n": 16,
+    "id": 2616,
+    "symbole": "RMV.L",
+    "nom": "Rightmove PLC"
+  },
+  {
+    "n": 17,
+    "id": 2617,
+    "symbole": "SHI.L",
+    "nom": "SIG PLC"
+  },
+  {
+    "n": 18,
+    "id": 2618,
+    "symbole": "SYNT.L",
+    "nom": "Synthomer PLC"
+  },
+  {
+    "n": 19,
+    "id": 2619,
+    "symbole": "HAS.L",
+    "nom": "Hays PLC"
+  },
+  {
+    "n": 20,
+    "id": 2620,
+    "symbole": "2620",
+    "nom": "2620"
+  },
+  {
+    "n": 21,
+    "id": 2621,
+    "symbole": "RCP.L",
+    "nom": "RIT Capital Partners PLC"
+  },
+  {
+    "n": 22,
+    "id": 2622,
+    "symbole": "UTG.L",
+    "nom": "UNITE Group PLC"
+  },
+  {
+    "n": 23,
+    "id": 2623,
+    "symbole": "SMDS.L",
+    "nom": "DS Smith PLC"
+  },
+  {
+    "n": 24,
+    "id": 2624,
+    "symbole": "HTG.L",
+    "nom": "Hunting PLC"
+  },
+  {
+    "n": 25,
+    "id": 2625,
+    "symbole": "HSTG.L",
+    "nom": "Hastings Group Holdings PLC"
+  },
+  {
+    "n": 26,
+    "id": 2626,
+    "symbole": "BOY.L",
+    "nom": "Bodycote PLC"
+  },
+  {
+    "n": 27,
+    "id": 2627,
+    "symbole": "JLG.L",
+    "nom": "John Laing Group PLC"
+  },
+  {
+    "n": 28,
+    "id": 2628,
+    "symbole": "HSTN.L",
+    "nom": "Hansteen Holdings PLC"
+  },
+  {
+    "n": 29,
+    "id": 2629,
+    "symbole": "ESNT.L",
+    "nom": "Essentra PLC"
+  },
+  {
+    "n": 30,
+    "id": 2630,
+    "symbole": "IGG.L",
+    "nom": "IG Group Holdings PLC"
+  },
+  {
+    "n": 31,
+    "id": 2631,
+    "symbole": "DTY.L",
+    "nom": "Dignity PLC"
+  },
+  {
+    "n": 32,
+    "id": 2632,
+    "symbole": "RNK.L",
+    "nom": "Rank Group PLC"
+  },
+  {
+    "n": 33,
+    "id": 2633,
+    "symbole": "RSW.L",
+    "nom": "Renishaw PLC"
+  },
+  {
+    "n": 34,
+    "id": 2634,
+    "symbole": "PTEC.L",
+    "nom": "Playtech Plc"
+  },
+  {
+    "n": 35,
+    "id": 2635,
+    "symbole": "CRST.L",
+    "nom": "Crest Nicholson Holdings plc"
+  },
+  {
+    "n": 36,
+    "id": 2636,
+    "symbole": "RDW.L",
+    "nom": "Redrow PLC"
+  },
+  {
+    "n": 37,
+    "id": 2637,
+    "symbole": "DRX.L",
+    "nom": "Drax Group PLC"
+  },
+  {
+    "n": 38,
+    "id": 2638,
+    "symbole": "SIG.L",
+    "nom": "Signature Aviation Plc"
+  },
+  {
+    "n": 39,
+    "id": 2639,
+    "symbole": "CCC.L",
+    "nom": "Computacenter PLC"
+  },
+  {
+    "n": 40,
+    "id": 2640,
+    "symbole": "SOPH.L",
+    "nom": "Sophos Group PLC"
+  },
+  {
+    "n": 41,
+    "id": 2641,
+    "symbole": "ESKN.L",
+    "nom": "Esken Ltd"
+  },
+  {
+    "n": 42,
+    "id": 2642,
+    "symbole": "ISAT.L",
+    "nom": "Inmarsat PLC"
+  },
+  {
+    "n": 43,
+    "id": 2643,
+    "symbole": "DLN.L",
+    "nom": "Derwent London PLC"
+  },
+  {
+    "n": 44,
+    "id": 2644,
+    "symbole": "RTN.L",
+    "nom": "Restaurant Group PLC"
+  },
+  {
+    "n": 45,
+    "id": 2645,
+    "symbole": "BCPT.L",
+    "nom": "BMO Commercial Property Trust Ltd"
+  },
+  {
+    "n": 46,
+    "id": 2646,
+    "symbole": "2646",
+    "nom": "2646"
+  },
+  {
+    "n": 47,
+    "id": 2647,
+    "symbole": "POLY.L",
+    "nom": "Polymetal International PLC"
+  },
+  {
+    "n": 48,
+    "id": 2648,
+    "symbole": "IWG.L",
+    "nom": "IWG PLC"
+  },
+  {
+    "n": 49,
+    "id": 2649,
+    "symbole": "PLI.L",
+    "nom": "Perpetual Income and Growth Investment T"
+  },
+  {
+    "n": 50,
+    "id": 2650,
+    "symbole": "SHC.L",
+    "nom": "Shaftesbury Capital PLC"
+  },
+  {
+    "n": 51,
+    "id": 2651,
+    "symbole": "GFTU.L",
+    "nom": "Grafton Group PLC"
+  },
+  {
+    "n": 52,
+    "id": 2652,
+    "symbole": "TMPL.L",
+    "nom": "Temple Bar Investment Trust PLC"
+  },
+  {
+    "n": 53,
+    "id": 2653,
+    "symbole": "CKN.L",
+    "nom": "Clarkson PLC"
+  },
+  {
+    "n": 54,
+    "id": 2654,
+    "symbole": "GRG.L",
+    "nom": "Greggs PLC"
+  },
+  {
+    "n": 55,
+    "id": 2655,
+    "symbole": "ELM.L",
+    "nom": "Elementis PLC"
+  },
+  {
+    "n": 56,
+    "id": 2656,
+    "symbole": "RAT.L",
+    "nom": "Rathbone Brothers PLC"
+  },
+  {
+    "n": 57,
+    "id": 2657,
+    "symbole": "PAGE.L",
+    "nom": "Pagegroup PLC"
+  },
+  {
+    "n": 58,
+    "id": 2658,
+    "symbole": "SVS.L",
+    "nom": "Savills PLC"
+  },
+  {
+    "n": 59,
+    "id": 2659,
+    "symbole": "SDLF.L",
+    "nom": "Standard Life PLC"
+  },
+  {
+    "n": 60,
+    "id": 2660,
+    "symbole": "SGC.L",
+    "nom": "Stagecoach Group PLC"
+  },
+  {
+    "n": 61,
+    "id": 2661,
+    "symbole": "ULE.L",
+    "nom": "Ultra Electronics Holdings PLC"
+  },
+  {
+    "n": 62,
+    "id": 2662,
+    "symbole": "MCG.L",
+    "nom": "Mobico Group PLC"
+  },
+  {
+    "n": 63,
+    "id": 2663,
+    "symbole": "ASCL.L",
+    "nom": "Ascential PLC"
+  },
+  {
+    "n": 64,
+    "id": 2664,
+    "symbole": "CEY.L",
+    "nom": "Centamin PLC"
+  },
+  {
+    "n": 65,
+    "id": 2665,
+    "symbole": "LMP.L",
+    "nom": "LondonMetric Property PLC"
+  },
+  {
+    "n": 66,
+    "id": 2666,
+    "symbole": "AUTO.L",
+    "nom": "Autotrader Group PLC"
+  },
+  {
+    "n": 67,
+    "id": 2667,
+    "symbole": "ALW.L",
+    "nom": "Alliance Witan PLC"
+  },
+  {
+    "n": 68,
+    "id": 2668,
+    "symbole": "ESUR.L",
+    "nom": "esure Group PLC"
+  },
+  {
+    "n": 69,
+    "id": 2669,
+    "symbole": "2669",
+    "nom": "2669"
+  },
+  {
+    "n": 70,
+    "id": 2670,
+    "symbole": "HOC.L",
+    "nom": "Hochschild Mining PLC"
+  },
+  {
+    "n": 71,
+    "id": 2671,
+    "symbole": "ACA.L",
+    "nom": "Acacia Mining PLC"
+  },
+  {
+    "n": 72,
+    "id": 2672,
+    "symbole": "WG.L",
+    "nom": "John Wood Group PLC"
+  },
+  {
+    "n": 73,
+    "id": 2673,
+    "symbole": "2673",
+    "nom": "2673"
+  },
+  {
+    "n": 74,
+    "id": 2674,
+    "symbole": "GEN.L",
+    "nom": "Genuit Group PLC"
+  },
+  {
+    "n": 75,
+    "id": 2675,
+    "symbole": "JLT.L",
+    "nom": "Jardine Lloyd Thompson Group PLC"
+  },
+  {
+    "n": 76,
+    "id": 2676,
+    "symbole": "HIK.L",
+    "nom": "Hikma Pharmaceuticals PLC"
+  },
+  {
+    "n": 77,
+    "id": 2677,
+    "symbole": "FDSA.L",
+    "nom": "Fidessa Group PLC"
+  },
+  {
+    "n": 78,
+    "id": 2678,
+    "symbole": "2678",
+    "nom": "2678"
+  },
+  {
+    "n": 79,
+    "id": 2679,
+    "symbole": "CURY.L",
+    "nom": "Currys PLC"
+  },
+  {
+    "n": 80,
+    "id": 2680,
+    "symbole": "HICL.L",
+    "nom": "HICL Infrastructure Co Ltd"
+  },
+  {
+    "n": 81,
+    "id": 2681,
+    "symbole": "2681",
+    "nom": "2681"
+  },
+  {
+    "n": 82,
+    "id": 2682,
+    "symbole": "FDM.L",
+    "nom": "FDM Group Holdings PLC"
+  },
+  {
+    "n": 83,
+    "id": 2683,
+    "symbole": "CINE.L",
+    "nom": "Cineworld Group PLC"
+  },
+  {
+    "n": 84,
+    "id": 2684,
+    "symbole": "ROR.L",
+    "nom": "Rotork PLC"
+  },
+  {
+    "n": 85,
+    "id": 2685,
+    "symbole": "BKG.L",
+    "nom": "Berkeley Group Holdings PLC"
+  },
+  {
+    "n": 86,
+    "id": 2686,
+    "symbole": "TRIG.L",
+    "nom": "Renewables Infrastructure Group Ltd"
+  },
+  {
+    "n": 87,
+    "id": 2687,
+    "symbole": "EVR.L",
+    "nom": "Evraz PLC"
+  },
+  {
+    "n": 88,
+    "id": 2688,
+    "symbole": "IBST.L",
+    "nom": "Ibstock PLC"
+  },
+  {
+    "n": 89,
+    "id": 2689,
+    "symbole": "EMG.L",
+    "nom": "Man Group PLC"
+  },
+  {
+    "n": 90,
+    "id": 2690,
+    "symbole": "MLC.L",
+    "nom": "Millennium & Copthorne Hotels PLC"
+  },
+  {
+    "n": 91,
+    "id": 2691,
+    "symbole": "ZIG.L",
+    "nom": "Zigup PLC"
+  },
+  {
+    "n": 92,
+    "id": 2692,
+    "symbole": "VM.L",
+    "nom": "Virgin Money Holdings UK PLC"
+  },
+  {
+    "n": 93,
+    "id": 2693,
+    "symbole": "HSX.L",
+    "nom": "Hiscox Ltd"
+  },
+  {
+    "n": 94,
+    "id": 2694,
+    "symbole": "FXPO.L",
+    "nom": "Ferrexpo PLC"
+  },
+  {
+    "n": 95,
+    "id": 2695,
+    "symbole": "VSVS.L",
+    "nom": "Vesuvius PLC"
+  },
+  {
+    "n": 96,
+    "id": 2696,
+    "symbole": "GNK.L",
+    "nom": "Greene King PLC"
+  },
+  {
+    "n": 97,
+    "id": 2697,
+    "symbole": "UKCM.L",
+    "nom": "UK Commercial Property Trust Ltd"
+  },
+  {
+    "n": 98,
+    "id": 2698,
+    "symbole": "LRE.L",
+    "nom": "Lancashire Holdings Ltd"
+  },
+  {
+    "n": 99,
+    "id": 2699,
+    "symbole": "SMP.L_old",
+    "nom": "St Modwen Properties PLC"
+  },
+  {
+    "n": 100,
+    "id": 2700,
+    "symbole": "PZC.L",
+    "nom": "PZ Cussons PLC"
+  },
+  {
+    "n": 101,
+    "id": 2701,
+    "symbole": "2701",
+    "nom": "2701"
+  },
+  {
+    "n": 102,
+    "id": 2702,
+    "symbole": "RPC.L",
+    "nom": "RPC Group PLC"
+  },
+  {
+    "n": 103,
+    "id": 2703,
+    "symbole": "2703",
+    "nom": "2703"
+  },
+  {
+    "n": 104,
+    "id": 2704,
+    "symbole": "INCH.L",
+    "nom": "Inchcape PLC"
+  },
+  {
+    "n": 105,
+    "id": 2705,
+    "symbole": "DOM.L",
+    "nom": "Domino's Pizza Group PLC"
+  },
+  {
+    "n": 106,
+    "id": 2706,
+    "symbole": "HFD.L",
+    "nom": "Halfords Group PLC"
+  },
+  {
+    "n": 107,
+    "id": 2707,
+    "symbole": "MONY.L",
+    "nom": "Moneysupermarket.com Group PLC"
+  },
+  {
+    "n": 108,
+    "id": 2708,
+    "symbole": "2708",
+    "nom": "2708"
+  },
+  {
+    "n": 109,
+    "id": 2709,
+    "symbole": "QQ.L",
+    "nom": "QinetiQ Group PLC"
+  },
+  {
+    "n": 110,
+    "id": 2710,
+    "symbole": "BEZ.L",
+    "nom": "Beazley PLC"
+  },
+  {
+    "n": 111,
+    "id": 2711,
+    "symbole": "JUP.L",
+    "nom": "Jupiter Fund Management PLC"
+  },
+  {
+    "n": 112,
+    "id": 2712,
+    "symbole": "2712",
+    "nom": "2712"
+  },
+  {
+    "n": 113,
+    "id": 2713,
+    "symbole": "INVP.L",
+    "nom": "Investec PLC"
+  },
+  {
+    "n": 114,
+    "id": 2714,
+    "symbole": "CTY.L",
+    "nom": "City of London Investment Trust PLC"
+  },
+  {
+    "n": 115,
+    "id": 2715,
+    "symbole": "2715",
+    "nom": "2715"
+  },
+  {
+    "n": 116,
+    "id": 2716,
+    "symbole": "VED.L",
+    "nom": "Vedanta Resources PLC"
+  },
+  {
+    "n": 117,
+    "id": 2717,
+    "symbole": "BBOX.L",
+    "nom": "Tritax Big Box REIT Plc"
+  },
+  {
+    "n": 118,
+    "id": 2718,
+    "symbole": "2718",
+    "nom": "2718"
+  },
+  {
+    "n": 119,
+    "id": 2719,
+    "symbole": "SAFE.L",
+    "nom": "Safestore Holdings PLC"
+  },
+  {
+    "n": 120,
+    "id": 2720,
+    "symbole": "HLMA.L",
+    "nom": "Halma PLC"
+  },
+  {
+    "n": 121,
+    "id": 2721,
+    "symbole": "SMWH.L",
+    "nom": "WH Smith PLC"
+  },
+  {
+    "n": 122,
+    "id": 2722,
+    "symbole": "2722",
+    "nom": "2722"
+  },
+  {
+    "n": 123,
+    "id": 2723,
+    "symbole": "WKP.L",
+    "nom": "Workspace Group PLC"
+  },
+  {
+    "n": 124,
+    "id": 2724,
+    "symbole": "HSV.L",
+    "nom": "HomeServe PLC"
+  },
+  {
+    "n": 125,
+    "id": 2725,
+    "symbole": "PNN.L",
+    "nom": "Pennon Group PLC"
+  },
+  {
+    "n": 126,
+    "id": 2726,
+    "symbole": "BWNG.L",
+    "nom": "N Brown Group PLC"
+  },
+  {
+    "n": 127,
+    "id": 2727,
+    "symbole": "TEP.L",
+    "nom": "Telecom Plus PLC"
+  },
+  {
+    "n": 128,
+    "id": 2728,
+    "symbole": "ETO.L",
+    "nom": "Entertainment One Ltd"
+  },
+  {
+    "n": 129,
+    "id": 2729,
+    "symbole": "2729",
+    "nom": "2729"
+  },
+  {
+    "n": 130,
+    "id": 2730,
+    "symbole": "MNKS.L",
+    "nom": "Monks Investment Trust PLC"
+  },
+  {
+    "n": 131,
+    "id": 2731,
+    "symbole": "TALK.L",
+    "nom": "TalkTalk Telecom Group PLC"
+  },
+  {
+    "n": 132,
+    "id": 2732,
+    "symbole": "FCIT.L",
+    "nom": "Foreign & Colonial Investment Trust PLC"
+  },
+  {
+    "n": 133,
+    "id": 2733,
+    "symbole": "PAG.L",
+    "nom": "Paragon Group of Cos PLC"
+  },
+  {
+    "n": 134,
+    "id": 2734,
+    "symbole": "DCG.L",
+    "nom": "Dairy Crest Group PLC"
+  },
+  {
+    "n": 135,
+    "id": 2735,
+    "symbole": "2735",
+    "nom": "2735"
+  },
+  {
+    "n": 136,
+    "id": 2736,
+    "symbole": "2736",
+    "nom": "2736"
+  },
+  {
+    "n": 137,
+    "id": 2737,
+    "symbole": "NXG.L",
+    "nom": "NEX Group PLC"
+  },
+  {
+    "n": 138,
+    "id": 2738,
+    "symbole": "CWK.L",
+    "nom": "Cranswick PLC"
+  },
+  {
+    "n": 139,
+    "id": 2739,
+    "symbole": "BME.L",
+    "nom": "B&M European Value Retail SA"
+  },
+  {
+    "n": 140,
+    "id": 2740,
+    "symbole": "BGEO.L",
+    "nom": "Bank of Georgia Group PLC"
+  },
+  {
+    "n": 141,
+    "id": 2741,
+    "symbole": "2741",
+    "nom": "2741"
+  },
+  {
+    "n": 142,
+    "id": 2742,
+    "symbole": "BYG.L",
+    "nom": "Big Yellow Group PLC"
+  },
+  {
+    "n": 143,
+    "id": 2743,
+    "symbole": "PAY.L",
+    "nom": "PayPoint PLC"
+  },
+  {
+    "n": 144,
+    "id": 2744,
+    "symbole": "MTO.L",
+    "nom": "Mitie Group PLC"
+  },
+  {
+    "n": 145,
+    "id": 2745,
+    "symbole": "JD.L",
+    "nom": "JD Sports Fashion PLC"
+  },
+  {
+    "n": 146,
+    "id": 2746,
+    "symbole": "MRC.L",
+    "nom": "Mercantile Investment Trust PLC"
+  },
+  {
+    "n": 147,
+    "id": 2747,
+    "symbole": "2747",
+    "nom": "2747"
+  },
+  {
+    "n": 148,
+    "id": 2748,
+    "symbole": "RS1.L",
+    "nom": "Electrocomponents PLC"
+  },
+  {
+    "n": 149,
+    "id": 2749,
+    "symbole": "AGR.L",
+    "nom": "Assura PLC"
+  },
+  {
+    "n": 150,
+    "id": 2750,
+    "symbole": "TEM.L",
+    "nom": "Templeton Emerging Markets Investment Tr"
+  },
+  {
+    "n": 151,
+    "id": 2751,
+    "symbole": "INDV.L",
+    "nom": "Indivior PLC"
+  },
+  {
+    "n": 152,
+    "id": 2752,
+    "symbole": "2752",
+    "nom": "2752"
+  },
+  {
+    "n": 153,
+    "id": 2753,
+    "symbole": "3IN.L",
+    "nom": "3i Infrastructure PLC"
+  },
+  {
+    "n": 154,
+    "id": 2754,
+    "symbole": "ICG.L",
+    "nom": "Intermediate Capital Group PLC"
+  },
+  {
+    "n": 155,
+    "id": 2755,
+    "symbole": "SHB.L",
+    "nom": "Shaftesbury PLC"
+  },
+  {
+    "n": 156,
+    "id": 2756,
+    "symbole": "PETS.L",
+    "nom": "Pets at Home Group Plc"
+  },
+  {
+    "n": 157,
+    "id": 2757,
+    "symbole": "NRR.L",
+    "nom": "NewRiver REIT PLC"
+  },
+  {
+    "n": 158,
+    "id": 2758,
+    "symbole": "TBCG.L",
+    "nom": "TBC Bank Group PLC"
+  },
+  {
+    "n": 159,
+    "id": 2759,
+    "symbole": "2759",
+    "nom": "2759"
+  },
+  {
+    "n": 160,
+    "id": 2760,
+    "symbole": "VCT.L",
+    "nom": "Victrex PLC"
+  },
+  {
+    "n": 161,
+    "id": 2761,
+    "symbole": "2761",
+    "nom": "2761"
+  },
+  {
+    "n": 162,
+    "id": 2762,
+    "symbole": "RDI.L",
+    "nom": "RDI REIT P.L.C."
+  },
+  {
+    "n": 163,
+    "id": 2763,
+    "symbole": "SPI.L",
+    "nom": "Spire Healthcare Group PLC"
+  },
+  {
+    "n": 164,
+    "id": 2764,
+    "symbole": "GRI.L",
+    "nom": "Grainger PLC"
+  },
+  {
+    "n": 165,
+    "id": 2765,
+    "symbole": "ZPG.L",
+    "nom": "ZPG PLC"
+  },
+  {
+    "n": 166,
+    "id": 2766,
+    "symbole": "CSP.L",
+    "nom": "Countryside Properties PLC"
+  },
+  {
+    "n": 167,
+    "id": 2767,
+    "symbole": "UDG.L",
+    "nom": "UDG Healthcare PLC"
+  },
+  {
+    "n": 168,
+    "id": 2768,
+    "symbole": "GPE.L",
+    "nom": "Great Portland Estates PLC"
+  },
+  {
+    "n": 169,
+    "id": 2769,
+    "symbole": "GNC.L",
+    "nom": "Greencore Group PLC"
+  },
+  {
+    "n": 170,
+    "id": 2770,
+    "symbole": "SSPG.L",
+    "nom": "SSP Group Plc"
+  },
+  {
+    "n": 171,
+    "id": 2771,
+    "symbole": "BVIC.L",
+    "nom": "Britvic PLC"
+  },
+  {
+    "n": 172,
+    "id": 2772,
+    "symbole": "MAB.L",
+    "nom": "Mitchells & Butlers PLC"
+  },
+  {
+    "n": 173,
+    "id": 2773,
+    "symbole": "DPLM.L",
+    "nom": "Diploma PLC"
+  },
+  {
+    "n": 174,
+    "id": 2774,
+    "symbole": "ERM.L",
+    "nom": "Euromoney Institutional Investor PLC"
+  },
+  {
+    "n": 175,
+    "id": 2775,
+    "symbole": "MARS.L",
+    "nom": "Marston's PLC"
+  },
+  {
+    "n": 176,
+    "id": 2776,
+    "symbole": "BRW.L",
+    "nom": "Brewin Dolphin Holdings PLC"
+  },
+  {
+    "n": 177,
+    "id": 2777,
+    "symbole": "2777",
+    "nom": "2777"
+  },
+  {
+    "n": 178,
+    "id": 2778,
+    "symbole": "BWY.L",
+    "nom": "Bellway PLC"
+  },
+  {
+    "n": 179,
+    "id": 2779,
+    "symbole": "TED.L",
+    "nom": "Ted Baker PLC"
+  },
+  {
+    "n": 180,
+    "id": 2780,
+    "symbole": "BAG.L",
+    "nom": "A.G. Barr PLC"
+  },
+  {
+    "n": 181,
+    "id": 2781,
+    "symbole": "SAGA.L",
+    "nom": "Saga PLC"
+  },
+  {
+    "n": 182,
+    "id": 2782,
+    "symbole": "AA.L",
+    "nom": "AA PLC"
+  },
+  {
+    "n": 183,
+    "id": 2783,
+    "symbole": "NMC",
+    "nom": "NMC Health PLC"
+  },
+  {
+    "n": 184,
+    "id": 2784,
+    "symbole": "JUST.L",
+    "nom": "Just Group PLC"
+  },
+  {
+    "n": 185,
+    "id": 2785,
+    "symbole": "CARD.L",
+    "nom": "Card Factory PLC"
+  },
+  {
+    "n": 186,
+    "id": 2786,
+    "symbole": "JDW.L",
+    "nom": "J D Wetherspoon PLC"
+  },
+  {
+    "n": 187,
+    "id": 2787,
+    "symbole": "MCS.L_old",
+    "nom": "McCarthy & Stone PLC"
+  },
+  {
+    "n": 188,
+    "id": 2788,
+    "symbole": "INPP.L",
+    "nom": "International Public Partnerships Ltd"
+  },
+  {
+    "n": 189,
+    "id": 2789,
+    "symbole": "2789",
+    "nom": "2789"
+  },
+  {
+    "n": 190,
+    "id": 2790,
+    "symbole": "SNN.L",
+    "nom": "Sanne Group PLC"
+  },
+  {
+    "n": 191,
+    "id": 2791,
+    "symbole": "ENT.L",
+    "nom": "Entain PLC"
+  },
+  {
+    "n": 192,
+    "id": 2792,
+    "symbole": "KIE.L",
+    "nom": "Kier Group PLC"
+  },
+  {
+    "n": 193,
+    "id": 2793,
+    "symbole": "SCT.L",
+    "nom": "Softcat PLC"
+  },
+  {
+    "n": 194,
+    "id": 2794,
+    "symbole": "GOG.L",
+    "nom": "Go-Ahead Group PLC"
+  },
+  {
+    "n": 195,
+    "id": 2795,
+    "symbole": "CBG.L",
+    "nom": "Close Brothers Group PLC"
+  },
+  {
+    "n": 196,
+    "id": 2796,
+    "symbole": "2796",
+    "nom": "2796"
+  },
+  {
+    "n": 197,
+    "id": 2797,
+    "symbole": "2797",
+    "nom": "2797"
+  },
+  {
+    "n": 198,
+    "id": 2798,
+    "symbole": "DNLM.L",
+    "nom": "Dunelm Group PLC"
+  },
+  {
+    "n": 199,
+    "id": 2799,
+    "symbole": "VTY.L",
+    "nom": "Vistry Group PLC"
+  },
+  {
+    "n": 200,
+    "id": 2800,
+    "symbole": "GFRD.L",
+    "nom": "Galliford Try PLC"
+  },
+  {
+    "n": 201,
+    "id": 2801,
+    "symbole": "ASHM.L",
+    "nom": "Ashmore Group PLC"
+  },
+  {
+    "n": 202,
+    "id": 2802,
+    "symbole": "TCG.L",
+    "nom": "Thomas Cook Group PLC"
+  },
+  {
+    "n": 203,
+    "id": 2803,
+    "symbole": "GNS.L",
+    "nom": "Genus PLC"
+  },
+  {
+    "n": 204,
+    "id": 2804,
+    "symbole": "2804",
+    "nom": "2804"
+  },
+  {
+    "n": 205,
+    "id": 2805,
+    "symbole": "SRP.L",
+    "nom": "Serco Group PLC"
+  },
+  {
+    "n": 206,
+    "id": 2806,
+    "symbole": "PDL.L",
+    "nom": "Petra Diamonds Ltd"
+  },
+  {
+    "n": 207,
+    "id": 2807,
+    "symbole": "NOG.L",
+    "nom": "Nostrum Oil & Gas PLC"
+  },
+  {
+    "n": 208,
+    "id": 2808,
+    "symbole": "HVPE.L",
+    "nom": "HarbourVest Global Private Equity Ltd"
+  },
+  {
+    "n": 209,
+    "id": 2809,
+    "symbole": "KAZ.L",
+    "nom": "KAZ Minerals PLC"
+  },
+  {
+    "n": 210,
+    "id": 2810,
+    "symbole": "FGP.L",
+    "nom": "Firstgroup PLC"
+  },
+  {
+    "n": 211,
+    "id": 2811,
+    "symbole": "CNE.L",
+    "nom": "Capricorn Energy PLC"
+  },
+  {
+    "n": 212,
+    "id": 2812,
+    "symbole": "BTG.LS",
+    "nom": "BTG PLC - Aquired"
+  },
+  {
+    "n": 213,
+    "id": 2813,
+    "symbole": "2813",
+    "nom": "2813"
+  },
+  {
+    "n": 214,
+    "id": 2814,
+    "symbole": "2814",
+    "nom": "2814"
+  },
+  {
+    "n": 215,
+    "id": 2815,
+    "symbole": "FEML.L",
+    "nom": "Fidelity Emerging Markets Limited "
+  },
+  {
+    "n": 216,
+    "id": 2816,
+    "symbole": "WIZZ.L",
+    "nom": "Wizz Air Holdings Plc"
+  },
+  {
+    "n": 217,
+    "id": 2817,
+    "symbole": "OCDO.L",
+    "nom": "Ocado Group PLC"
+  },
+  {
+    "n": 218,
+    "id": 2818,
+    "symbole": "SXX.L",
+    "nom": "Sirius Minerals PLC"
+  },
+  {
+    "n": 219,
+    "id": 2819,
+    "symbole": "2819",
+    "nom": "2819"
+  },
+  {
+    "n": 220,
+    "id": 2820,
+    "symbole": "MTRO.L",
+    "nom": "Metro Bank PLC"
+  },
+  {
+    "n": 221,
+    "id": 2821,
+    "symbole": "AVV.L",
+    "nom": "AVEVA Group PLC"
+  },
+  {
+    "n": 222,
+    "id": 2822,
+    "symbole": "VEC.L",
+    "nom": "Vectura Group PLC"
+  },
+  {
+    "n": 223,
+    "id": 2823,
+    "symbole": "PSH.L",
+    "nom": "Pershing Square Holdings Ltd"
+  },
+  {
+    "n": 224,
+    "id": 2824,
+    "symbole": "VMUK.L",
+    "nom": "Virgin Money UK"
+  },
+  {
+    "n": 225,
+    "id": 2825,
+    "symbole": "JE.L",
+    "nom": "Just Eat PLC"
+  },
+  {
+    "n": 226,
+    "id": 2826,
+    "symbole": "2826",
+    "nom": "2826"
+  },
+  {
+    "n": 227,
+    "id": 2827,
+    "symbole": "IPO.L",
+    "nom": "IP Group PLC"
+  },
+  {
+    "n": 228,
+    "id": 2828,
+    "symbole": "VOF.L",
+    "nom": "VinaCapital Vietnam Opportunity Fund"
+  },
+  {
+    "n": 229,
+    "id": 2829,
+    "symbole": "IQQI.DE",
+    "nom": "iShares Global Infrastructure UCITS ETF"
+  },
+  {
+    "n": 230,
+    "id": 2830,
+    "symbole": "IS3R.DE",
+    "nom": "iShares Edge MSCI World Momentum Factor UCITS ETF"
+  },
+  {
+    "n": 231,
+    "id": 2831,
+    "symbole": "TIFS.L",
+    "nom": "TI Fluid Systems"
+  },
+  {
+    "n": 232,
+    "id": 2832,
+    "symbole": "SDRY.L",
+    "nom": "Superdry"
+  },
+  {
+    "n": 233,
+    "id": 2833,
+    "symbole": "SEQI.L",
+    "nom": "Sequoia Economic Infrastructure Income Fund"
+  },
+  {
+    "n": 234,
+    "id": 2834,
+    "symbole": "SDP.L",
+    "nom": "Schroder AsiaPacific Fund"
+  },
+  {
+    "n": 235,
+    "id": 2835,
+    "symbole": "RHIM.L",
+    "nom": "RHI Magnesita"
+  },
+  {
+    "n": 236,
+    "id": 2836,
+    "symbole": "RWI.L",
+    "nom": "Renewi"
+  },
+  {
+    "n": 237,
+    "id": 2837,
+    "symbole": "XUTC.DE",
+    "nom": "Xtrackers MSCI USA Information Technology UCITS ETF "
+  },
+  {
+    "n": 238,
+    "id": 2838,
+    "symbole": "PURE.L",
+    "nom": "Purecircle"
+  },
+  {
+    "n": 239,
+    "id": 2839,
+    "symbole": "VANQ.L",
+    "nom": "Vanquis Banking Group PLC"
+  },
+  {
+    "n": 240,
+    "id": 2840,
+    "symbole": "PHP.L",
+    "nom": "Primary Health Properties"
+  },
+  {
+    "n": 241,
+    "id": 2841,
+    "symbole": "PIN.L",
+    "nom": "Pantheon International"
+  },
+  {
+    "n": 242,
+    "id": 2842,
+    "symbole": "OTB.L",
+    "nom": "On the Beach"
+  },
+  {
+    "n": 243,
+    "id": 2843,
+    "symbole": "MERL.L",
+    "nom": "Merlin Entertainments"
+  },
+  {
+    "n": 244,
+    "id": 2844,
+    "symbole": "EOT.L",
+    "nom": "European Opportunities Trust"
+  },
+  {
+    "n": 245,
+    "id": 2845,
+    "symbole": "GAW.L",
+    "nom": "Games Workshop"
+  },
+  {
+    "n": 246,
+    "id": 2846,
+    "symbole": "2846",
+    "nom": "2846"
+  },
+  {
+    "n": 247,
+    "id": 2847,
+    "symbole": "2847",
+    "nom": "2847"
+  },
+  {
+    "n": 248,
+    "id": 2848,
+    "symbole": "EQN.L",
+    "nom": "Equiniti"
+  },
+  {
+    "n": 249,
+    "id": 2849,
+    "symbole": "DGN.L",
+    "nom": "Edinburgh Dragon Trust"
+  },
+  {
+    "n": 250,
+    "id": 2850,
+    "symbole": "CTEC.L",
+    "nom": "ConvaTec"
+  },
+  {
+    "n": 251,
+    "id": 2851,
+    "symbole": "GLO.L",
+    "nom": "ContourGlobal"
+  },
+  {
+    "n": 252,
+    "id": 2852,
+    "symbole": "CCFS.L",
+    "nom": "Charter Court Financial Services"
+  },
+  {
+    "n": 253,
+    "id": 2853,
+    "symbole": "ICGB.DE",
+    "nom": "iShares China CNY Bond UCITS ETF"
+  },
+  {
+    "n": 254,
+    "id": 2854,
+    "symbole": "BCA.L",
+    "nom": "BCA Marketplace"
+  },
+  {
+    "n": 255,
+    "id": 2855,
+    "symbole": "2855",
+    "nom": "2855"
+  },
+  {
+    "n": 256,
+    "id": 2856,
+    "symbole": "BAKK.L",
+    "nom": "Bakkavor"
+  },
+  {
+    "n": 257,
+    "id": 2857,
+    "symbole": "2857",
+    "nom": "2857"
+  },
+  {
+    "n": 258,
+    "id": 2858,
+    "symbole": "MDAXEX.DE",
+    "nom": "iShares MDAX UCITS ETF"
+  },
+  {
+    "n": 259,
+    "id": 2859,
+    "symbole": "EVOK.L",
+    "nom": "Evoke PLC"
+  },
+  {
+    "n": 260,
+    "id": 2860,
+    "symbole": "CSX5.LN",
+    "nom": "iShares Core EURO STOXX 50 UCITS ETF"
+  },
+  {
+    "n": 261,
+    "id": 2861,
+    "symbole": "IUAA.L",
+    "nom": "iShares US Aggregate Bond UCITS ETF"
+  },
+  {
+    "n": 262,
+    "id": 2862,
+    "symbole": "IS04.DE",
+    "nom": "iShares USD Treasury Bond 20+yr UCITS ETF"
+  },
+  {
+    "n": 263,
+    "id": 2863,
+    "symbole": "SPT.L",
+    "nom": "Spirent Communications PLC"
+  },
+  {
+    "n": 264,
+    "id": 2864,
+    "symbole": "SPY5.L",
+    "nom": "SS SPDR S&P 500 UCITS ETF"
+  },
+  {
+    "n": 265,
+    "id": 2865,
+    "symbole": "UDVD.L",
+    "nom": "SPDR S&P US Dividend Aristocrats UCITS ETF"
+  },
+  {
+    "n": 266,
+    "id": 2866,
+    "symbole": "FBK",
+    "nom": "Fb Financial Corporation"
+  },
+  {
+    "n": 267,
+    "id": 2867,
+    "symbole": "FIHL",
+    "nom": "Fidelis Insurance Holdings Ltd"
+  },
+  {
+    "n": 268,
+    "id": 2868,
+    "symbole": "KGS.US",
+    "nom": "Kodiak Gas Services Inc "
+  },
+  {
+    "n": 269,
+    "id": 2869,
+    "symbole": "SVV",
+    "nom": "Savers Value Village Inc"
+  },
+  {
+    "n": 270,
+    "id": 2870,
+    "symbole": "BRK.B.RTH",
+    "nom": "Berkshire Hathaway Inc"
+  },
+  {
+    "n": 271,
+    "id": 2871,
+    "symbole": "NKE.RTH",
+    "nom": "NIKE"
+  },
+  {
+    "n": 272,
+    "id": 2872,
+    "symbole": "MCD.RTH",
+    "nom": "McDonald's"
+  },
+  {
+    "n": 273,
+    "id": 2873,
+    "symbole": "UHAL.B",
+    "nom": "U-Haul Holding Co"
+  },
+  {
+    "n": 274,
+    "id": 2874,
+    "symbole": "GEHC",
+    "nom": "GE HealthCare Technologies Inc"
+  },
+  {
+    "n": 275,
+    "id": 2875,
+    "symbole": "SCLX",
+    "nom": "Scilex Holding Company \"Restricted Stock\""
+  },
+  {
+    "n": 276,
+    "id": 2876,
+    "symbole": "TORO",
+    "nom": "Toro Corp"
+  },
+  {
+    "n": 277,
+    "id": 2877,
+    "symbole": "JNJ.RTH",
+    "nom": "Johnson & Johnson"
+  },
+  {
+    "n": 278,
+    "id": 2878,
+    "symbole": "T.RTH",
+    "nom": "AT&T Inc"
+  },
+  {
+    "n": 279,
+    "id": 2879,
+    "symbole": "LLYVA",
+    "nom": "Liberty Live Holdings Inc-A "
+  },
+  {
+    "n": 280,
+    "id": 2880,
+    "symbole": "CA.Ops8",
+    "nom": "CA.Ops8"
+  },
+  {
+    "n": 281,
+    "id": 2881,
+    "symbole": "WBTN",
+    "nom": "WEBTOON Entertainment Inc"
+  },
+  {
+    "n": 282,
+    "id": 2882,
+    "symbole": "CXAI",
+    "nom": "CXApp Inc"
+  },
+  {
+    "n": 283,
+    "id": 2883,
+    "symbole": "INKT",
+    "nom": "Mink Therapeutics Inc"
+  },
+  {
+    "n": 284,
+    "id": 2884,
+    "symbole": "BA.RTH",
+    "nom": "Boeing"
+  },
+  {
+    "n": 285,
+    "id": 2885,
+    "symbole": "BIDU.RTH",
+    "nom": "Baidu, Inc.-ADR"
+  },
+  {
+    "n": 286,
+    "id": 2886,
+    "symbole": "BAC.RTH",
+    "nom": "Bank of America Corp"
+  },
+  {
+    "n": 287,
+    "id": 2887,
+    "symbole": "JPM.EXT",
+    "nom": "JPMorgan Chase & Co"
+  },
+  {
+    "n": 288,
+    "id": 2888,
+    "symbole": "BHVNold",
+    "nom": "Biohaven Ltd old"
+  },
+  {
+    "n": 289,
+    "id": 2889,
+    "symbole": "FG",
+    "nom": "F&G Annuities & Life Inc"
+  },
+  {
+    "n": 290,
+    "id": 2890,
+    "symbole": "VTS",
+    "nom": "Vitesse Energy Inc"
+  },
+  {
+    "n": 291,
+    "id": 2891,
+    "symbole": "OUST",
+    "nom": "Ouster Inc"
+  },
+  {
+    "n": 292,
+    "id": 2892,
+    "symbole": "RBA",
+    "nom": "RB Global INC"
+  },
+  {
+    "n": 293,
+    "id": 2893,
+    "symbole": "MSGE",
+    "nom": "Madison Square Garden Spinco"
+  },
+  {
+    "n": 294,
+    "id": 2894,
+    "symbole": "KNF",
+    "nom": "Knife River Corp"
+  },
+  {
+    "n": 295,
+    "id": 2895,
+    "symbole": "MMM.RTH",
+    "nom": "3M"
+  },
+  {
+    "n": 296,
+    "id": 2896,
+    "symbole": "QCOM.RTH",
+    "nom": "Qualcomm Inc"
+  },
+  {
+    "n": 297,
+    "id": 2897,
+    "symbole": "SNAP.RTH",
+    "nom": "Snapchat Inc"
+  },
+  {
+    "n": 298,
+    "id": 2898,
+    "symbole": "PG.RTH",
+    "nom": "Procter & Gamble Co"
+  },
+  {
+    "n": 299,
+    "id": 2899,
+    "symbole": "F.RTH",
+    "nom": "Ford Motor Co"
+  },
+  {
+    "n": 300,
+    "id": 2900,
+    "symbole": "MU.RTH",
+    "nom": "Micron Technology, Inc."
+  },
+  {
+    "n": 301,
+    "id": 2901,
+    "symbole": "WFC.RTH",
+    "nom": "Wells Fargo & Co"
+  },
+  {
+    "n": 302,
+    "id": 2902,
+    "symbole": "MRTX.CVR",
+    "nom": "Mirati Therapeutics Inc Merger CVR"
+  },
+  {
+    "n": 303,
+    "id": 2903,
+    "symbole": "2B78.DE",
+    "nom": "iShares Healthcare Innovation UCITS ETF "
+  },
+  {
+    "n": 304,
+    "id": 2904,
+    "symbole": "ICGA.DE",
+    "nom": "iShares MSCI China UCITS ETF"
+  },
+  {
+    "n": 305,
+    "id": 2905,
+    "symbole": "VVSM.DE",
+    "nom": "VanEck Semiconductor UCITS ETF"
+  },
+  {
+    "n": 306,
+    "id": 2906,
+    "symbole": "QDVH.DE",
+    "nom": "iShares S&P 500 Financials Sector UCITS ETF"
+  },
+  {
+    "n": 307,
+    "id": 2907,
+    "symbole": "SXR2.DE",
+    "nom": "iShares MSCI Canada UCITS ETF"
+  },
+  {
+    "n": 308,
+    "id": 2908,
+    "symbole": "IBC6.DE",
+    "nom": "iShares MSCI Australia UCITS ETF"
+  },
+  {
+    "n": 309,
+    "id": 2909,
+    "symbole": "CEBP.DE",
+    "nom": "iShares VII PLC - iShares MSCI EMU USD Hedged UCITS ETF"
+  },
+  {
+    "n": 310,
+    "id": 2910,
+    "symbole": "CEMG.DE",
+    "nom": "iShares MSCI EM Consumer Growth UCITS ETF"
+  },
+  {
+    "n": 311,
+    "id": 2911,
+    "symbole": "EUN3.DE11",
+    "nom": "iShares Global Govt Bond UCITS ETF11"
+  },
+  {
+    "n": 312,
+    "id": 2912,
+    "symbole": "EUNZ.DE",
+    "nom": "iShares Edge MSCI EM Minimum Volatility UCITS ETF"
+  },
+  {
+    "n": 313,
+    "id": 2913,
+    "symbole": "IQQL.DE",
+    "nom": "iShares Listed Private Equity UCITS ETF"
+  },
+  {
+    "n": 314,
+    "id": 2914,
+    "symbole": "IS3N.DE",
+    "nom": "iShares Core MSCI EM IMI UCITS ETF"
+  },
+  {
+    "n": 315,
+    "id": 2915,
+    "symbole": "UEEF.DE",
+    "nom": "iShares High Yield Corp Bond ESG UCITS ETF"
+  },
+  {
+    "n": 316,
+    "id": 2916,
+    "symbole": "IBCC.DE",
+    "nom": "iShares Treasury Bond 0-1yr UCITS ETF"
+  },
+  {
+    "n": 317,
+    "id": 2917,
+    "symbole": "ZPDT.DE",
+    "nom": "SS SPDR S&P U.S. TECHNOLOGY SELECT SECTOR   UCITS ETF"
+  },
+  {
+    "n": 318,
+    "id": 2918,
+    "symbole": "G2X.DE",
+    "nom": "VanEck Gold Miners UCITS ETF"
+  },
+  {
+    "n": 319,
+    "id": 2919,
+    "symbole": "GC40.DE",
+    "nom": "Amundi CAC 40"
+  },
+  {
+    "n": 320,
+    "id": 2920,
+    "symbole": "UBU5.DE",
+    "nom": "UBS MSCI USA Value UCITS ETF"
+  },
+  {
+    "n": 321,
+    "id": 2921,
+    "symbole": "VDIV.DE",
+    "nom": "VanEck Morningstar Developed Markets Dividend Leaders UCITS ETF"
+  },
+  {
+    "n": 322,
+    "id": 2922,
+    "symbole": "IQQK.DE",
+    "nom": "iShares MSCI Korea UCITS ETF"
+  },
+  {
+    "n": 323,
+    "id": 2923,
+    "symbole": "ZPDH.DE",
+    "nom": "SS SPDR S&P U.S. HEALTH CARE SELECT SECTOR UCITS ETF"
+  },
+  {
+    "n": 324,
+    "id": 2924,
+    "symbole": "3QQQ.DE",
+    "nom": "WisdomTree NASDAQ 100 3x Daily Leveraged ETF"
+  },
+  {
+    "n": 325,
+    "id": 2925,
+    "symbole": "WCO2.DE",
+    "nom": "WisdomTree Carbon ETF"
+  },
+  {
+    "n": 326,
+    "id": 2926,
+    "symbole": "INDUEX.DE",
+    "nom": "iShares Dow Jones Industrial Average UCITS ETF"
+  },
+  {
+    "n": 327,
+    "id": 2927,
+    "symbole": "PCOM.DE",
+    "nom": "WisdomTree Broad Commodities UCITS ETF"
+  },
+  {
+    "n": 328,
+    "id": 2928,
+    "symbole": "XAD6.DE",
+    "nom": "Xtrackers Physical Silver ETC "
+  },
+  {
+    "n": 329,
+    "id": 2929,
+    "symbole": "IS0D.DE11",
+    "nom": "iShares Oil & Gas Exploration & Production UCITS ETF11"
+  },
+  {
+    "n": 330,
+    "id": 2930,
+    "symbole": "IS3Q.DE11",
+    "nom": "iShares Edge MSCI World Quality Factor UCITS ETF11"
+  },
+  {
+    "n": 331,
+    "id": 2931,
+    "symbole": "IS0M.DE",
+    "nom": "iShares Italy Govt Bond UCITS ETF"
+  },
+  {
+    "n": 332,
+    "id": 2932,
+    "symbole": "IS0D.DE",
+    "nom": "iShares Oil & Gas Exploration & Production UCITS ETF"
+  },
+  {
+    "n": 333,
+    "id": 2933,
+    "symbole": "IS3Q.DE",
+    "nom": "iShares Edge MSCI World Quality Factor UCITS ETF"
+  },
+  {
+    "n": 334,
+    "id": 2934,
+    "symbole": "IS3S.DE",
+    "nom": "iShares Edge MSCI World Value Factor UCITS ETF"
+  },
+  {
+    "n": 335,
+    "id": 2935,
+    "symbole": "IS3T.DE",
+    "nom": "iShares MSCI World Mid-Cap Equ"
+  },
+  {
+    "n": 336,
+    "id": 2936,
+    "symbole": "IUSB.DE",
+    "nom": "iShares Global Timber & Forestry UCITS ETF"
+  },
+  {
+    "n": 337,
+    "id": 2937,
+    "symbole": "IUSC.DE",
+    "nom": "iShares MSCI EM Latin America UCITS ETF"
+  },
+  {
+    "n": 338,
+    "id": 2938,
+    "symbole": "IUSL.DE",
+    "nom": "iShares Dow Jones Global Sustainability Screened UCITS ETF"
+  },
+  {
+    "n": 339,
+    "id": 2939,
+    "symbole": "L0CK.DE",
+    "nom": "iShares Digital Security UCITS ETF"
+  },
+  {
+    "n": 340,
+    "id": 2940,
+    "symbole": "OPEN.DE",
+    "nom": "iShares Refinitiv Inclusion and Diversity UCITS ETF"
+  },
+  {
+    "n": 341,
+    "id": 2941,
+    "symbole": "PPFB.DE",
+    "nom": "iShares Physical Gold ETC"
+  },
+  {
+    "n": 342,
+    "id": 2942,
+    "symbole": "QDVA.DE",
+    "nom": "iShares Edge MSCI USA Momentum Factor UCITS ETF"
+  },
+  {
+    "n": 343,
+    "id": 2943,
+    "symbole": "QDVB.DE",
+    "nom": "iShares Edge MSCI USA Quality Factor UCITS ETF"
+  },
+  {
+    "n": 344,
+    "id": 2944,
+    "symbole": "QDVE.DE",
+    "nom": "iShares S&P 500 Information Technology Sector UCITS ETF"
+  },
+  {
+    "n": 345,
+    "id": 2945,
+    "symbole": "QDVI.DE",
+    "nom": "iShares Edge MSCI USA Value Factor UCITS ETF"
+  },
+  {
+    "n": 346,
+    "id": 2946,
+    "symbole": "QDVQ.DE",
+    "nom": "iShares Fallen Angels High Yield Corp Bond UCITS ETF"
+  },
+  {
+    "n": 347,
+    "id": 2947,
+    "symbole": "AMRZ.ZU",
+    "nom": "AMRIZE LTD"
+  },
+  {
+    "n": 348,
+    "id": 2948,
+    "symbole": "CA231.ZU",
+    "nom": "CA231"
+  },
+  {
+    "n": 349,
+    "id": 2949,
+    "symbole": "CA232.ZU",
+    "nom": "CA232"
+  },
+  {
+    "n": 350,
+    "id": 2950,
+    "symbole": "CA233.ZU",
+    "nom": "CA233"
+  },
+  {
+    "n": 351,
+    "id": 2951,
+    "symbole": "CA234.ZU",
+    "nom": "CA234"
+  },
+  {
+    "n": 352,
+    "id": 2952,
+    "symbole": "CA235.ZU",
+    "nom": "CA235"
+  },
+  {
+    "n": 353,
+    "id": 2953,
+    "symbole": "CA236.ZU",
+    "nom": "CA236"
+  },
+  {
+    "n": 354,
+    "id": 2954,
+    "symbole": "CA237.ZU",
+    "nom": "CA237"
+  },
+  {
+    "n": 355,
+    "id": 2955,
+    "symbole": "CA238.ZU",
+    "nom": "CA238"
+  },
+  {
+    "n": 356,
+    "id": 2956,
+    "symbole": "CA239.ZU",
+    "nom": "CA239"
+  },
+  {
+    "n": 357,
+    "id": 2957,
+    "symbole": "CA240.ZU",
+    "nom": "CA240"
+  },
+  {
+    "n": 358,
+    "id": 2958,
+    "symbole": "CA241.ZU",
+    "nom": "CA241"
+  },
+  {
+    "n": 359,
+    "id": 2959,
+    "symbole": "CA242.ZU",
+    "nom": "CA242"
+  },
+  {
+    "n": 360,
+    "id": 2960,
+    "symbole": "CA243.ZU",
+    "nom": "CA243"
+  },
+  {
+    "n": 361,
+    "id": 2961,
+    "symbole": "CA244.ZU",
+    "nom": "CA244"
+  },
+  {
+    "n": 362,
+    "id": 2962,
+    "symbole": "CS.ST",
+    "nom": "CoinShares International Limited"
+  },
+  {
+    "n": 363,
+    "id": 2963,
+    "symbole": "ERIC-B.ST",
+    "nom": "Telefonaktiebolaget LM Ericsson"
+  },
+  {
+    "n": 364,
+    "id": 2964,
+    "symbole": "VOLV-B.ST",
+    "nom": "Volvo AB ser. B"
+  },
+  {
+    "n": 365,
+    "id": 2965,
+    "symbole": "ASMDEE.ST",
+    "nom": "Asmodee Group AB"
+  },
+  {
+    "n": 366,
+    "id": 2966,
+    "symbole": "EQT.ST",
+    "nom": "EQT AB"
+  },
+  {
+    "n": 367,
+    "id": 2967,
+    "symbole": "SAVE.ST",
+    "nom": "Nordnet AB (publ)"
+  },
+  {
+    "n": 368,
+    "id": 2968,
+    "symbole": "CA251.ST",
+    "nom": "CA251"
+  },
+  {
+    "n": 369,
+    "id": 2969,
+    "symbole": "CA252.ST",
+    "nom": "CA252"
+  },
+  {
+    "n": 370,
+    "id": 2970,
+    "symbole": "DONE.ST",
+    "nom": "DONE.AI Group AB"
+  },
+  {
+    "n": 371,
+    "id": 2971,
+    "symbole": "COFFEEB.ST",
+    "nom": "Coffee Stain Group AB"
+  },
+  {
+    "n": 372,
+    "id": 2972,
+    "symbole": "CA255.ST",
+    "nom": "CA255"
+  },
+  {
+    "n": 373,
+    "id": 2973,
+    "symbole": "CA256.ST",
+    "nom": "CA256"
+  },
+  {
+    "n": 374,
+    "id": 2974,
+    "symbole": "CA257.ST",
+    "nom": "CA257"
+  },
+  {
+    "n": 375,
+    "id": 2975,
+    "symbole": "CA258.ST",
+    "nom": "CA258"
+  },
+  {
+    "n": 376,
+    "id": 2976,
+    "symbole": "CA259.ST",
+    "nom": "CA259"
+  },
+  {
+    "n": 377,
+    "id": 2977,
+    "symbole": "TRET.DE",
+    "nom": "VanEck Global Real Estate UCITS ETF"
+  },
+  {
+    "n": 378,
+    "id": 2978,
+    "symbole": "2B7A.DE",
+    "nom": "iShares S&P 500 Utilities Sector UCITS ETF"
+  },
+  {
+    "n": 379,
+    "id": 2979,
+    "symbole": "SXRY.DE",
+    "nom": "iShares FTSE MIB UCITS ETF"
+  },
+  {
+    "n": 380,
+    "id": 2980,
+    "symbole": "IMC.MC",
+    "nom": "Inmocemento"
+  },
+  {
+    "n": 381,
+    "id": 2981,
+    "symbole": "HAVAS.NV",
+    "nom": "Havas Bv"
+  },
+  {
+    "n": 382,
+    "id": 2982,
+    "symbole": "SXR4.DE",
+    "nom": "iShares MSCI USA UCITS ETF"
+  },
+  {
+    "n": 383,
+    "id": 2983,
+    "symbole": "SXRF.DE",
+    "nom": "iShares Intermediate Credit Bond UCITS ETF"
+  },
+  {
+    "n": 384,
+    "id": 2984,
+    "symbole": "SNA2.DE",
+    "nom": "iShares Treasury Bond UCITS ETF"
+  },
+  {
+    "n": 385,
+    "id": 2985,
+    "symbole": "IS0S.DE",
+    "nom": "iShares Emerging Asia Local Govt Bond UCITS ETF"
+  },
+  {
+    "n": 386,
+    "id": 2986,
+    "symbole": "IS0X.DE",
+    "nom": "iShares Global Corp Bond UCITS ETF"
+  },
+  {
+    "n": 387,
+    "id": 2987,
+    "symbole": "IBC9.DE",
+    "nom": "iShares Global High Yield Corp Bond UCITS ETF"
+  },
+  {
+    "n": 388,
+    "id": 2988,
+    "symbole": "IS0Z.DE",
+    "nom": "iShares Global AAA-AA Govt Bond UCITS ETF"
+  },
+  {
+    "n": 389,
+    "id": 2989,
+    "symbole": "EUN3.DE",
+    "nom": "iShares Global Govt Bond UCITS ETF "
+  },
+  {
+    "n": 390,
+    "id": 2990,
+    "symbole": "IQQ6.D11",
+    "nom": "iShares Developed Markets Property Yield UCITS ETF11"
+  },
+  {
+    "n": 391,
+    "id": 2991,
+    "symbole": "D26A.DE",
+    "nom": "iShares iBonds Dec 2026 Term $ Corp UCITS ETF"
+  },
+  {
+    "n": 392,
+    "id": 2992,
+    "symbole": "LTMC.MI",
+    "nom": "Lottomatica Group Spa"
+  },
+  {
+    "n": 393,
+    "id": 2993,
+    "symbole": "SPM.MI",
+    "nom": "Saipem Spa"
+  },
+  {
+    "n": 394,
+    "id": 2994,
+    "symbole": "NEXI.MI",
+    "nom": "Nexi S.P.A"
+  },
+  {
+    "n": 395,
+    "id": 2995,
+    "symbole": "IVG.MI",
+    "nom": "Iveco Group N.V"
+  },
+  {
+    "n": 396,
+    "id": 2996,
+    "symbole": "BMPS.MI",
+    "nom": "Banca Monte Dei Paschi Di Siena S.P.A"
+  },
+  {
+    "n": 397,
+    "id": 2997,
+    "symbole": "SRS.MI",
+    "nom": "Saras S.P.A"
+  },
+  {
+    "n": 398,
+    "id": 2998,
+    "symbole": "BMED.MI",
+    "nom": "Banca Mediolanum S.P.A"
+  },
+  {
+    "n": 399,
+    "id": 2999,
+    "symbole": "INW.MI",
+    "nom": "Infrastrutture Wireless Italiane S.P.A"
+  },
+  {
+    "n": 400,
+    "id": 3000,
+    "symbole": "SPY",
+    "nom": "State Street SPDR S&P 500 ETF"
+  }
+]

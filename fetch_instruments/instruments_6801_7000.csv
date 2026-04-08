@@ -1,0 +1,201 @@
+﻿n°,id,symbole,nom
+1,6801,NYT,The New York Times Co
+2,6802,CDP,COPT Defense Properties
+3,6803,6803,6803
+4,6804,ONTO,Onto Innovation Inc
+5,6805,OTIS,Otis Worldwide Corp
+6,6806,PAA,Plains All American Pipeline LP
+7,6807,PACDQ,Pacific Drilling SA
+8,6808,PBA,Pembina Pipeline Corp
+9,6809,PBI,Pitney Bowes Inc
+10,6810,PD,PagerDuty Inc
+11,6811,PDM,Piedmont Realty Trust Inc
+12,6812,RVLV,Revolve Group Inc
+13,6813,DOC,Healthpeak Properties Inc
+14,6814,PEI,Pennsylvania Real Estate Investment Trust
+15,6815,PGRE,Paramount Group Inc
+16,6816,PHK,PIMCO High Income Fund
+17,6817,PHR,Phreesia Inc
+18,6818,PK,Park Hotels & Resorts Inc
+19,6819,PLAN,Anaplan Inc
+20,6820,POLY.US,Plantronics Inc
+21,6821,PRTYQ,Party City Holdco Inc
+22,6822,PSB,PS Business Parks Inc
+23,6823,PSTG,Pure Storage Inc
+24,6824,PSV,Hermitage Offshore Services Ltd
+25,6825,PTY,PIMCO Corporate & Income Opportunity Fund
+26,6826,PUMP.US,ProPetro Holding Corp
+27,6827,PVG,Pretium Resources Inc
+28,6828,QTS,QTS Realty Trust Inc
+29,6829,6829,6829
+30,6830,REV,Revlon Inc
+31,6831,RGS,Regis Corp
+32,6832,RLJ,RLJ Lodging Trust
+33,6833,ZWS,Zurn Elkay Water Solutions Corporation
+34,6834,RPAI,Retail Properties of America Inc
+35,6835,RRC,Range Resources Corp
+36,6836,RWT,Redwood Trust Inc
+37,6837,RY,Royal Bank of Canada
+38,6838,RYAM,Rayonier Advanced Materials Inc
+39,6839,RYN,Rayonier Inc
+40,6840,SA,Seabridge Gold Inc
+41,6841,SAFE.US,Safehold Inc
+42,6842,NETI,Eneti Inc.
+43,6843,SBSW,Sibanye Stillwater Ltd-ADR
+44,6844,NVO,Novo-Nordisk A/S SPONS ADR
+45,6845,SCS,Steelcase Inc
+46,6846,HYLN,Hyliion Holdings Corp
+47,6847,SHLX,Shell Midstream Partners LP
+48,6848,SHO,Sunstone Hotel Investors Inc
+49,6849,SITC,SITE Centers Corp
+50,6850,SKX,Skechers USA Inc
+51,6851,SLCA,US Silica Holdings Inc
+52,6852,SOGO,Sogou Inc
+53,6853,SOL.US,Emeren Group Ltd-ADR
+54,6854,FSRNQ,Fisker Inc
+55,6855,SPCE,Virgin Galactic Holdings Inc
+56,6856,6856,6856
+57,6857,SII,Sprott Inc
+58,6858,SRC,Spirit Realty Capital Inc
+59,6859,SRG.US,Seritage Growth Properties
+60,6860,SSL,Sasol Ltd-ADR
+61,6861,6861,6861
+62,6862,STNG,Scorpio Tankers Inc
+63,6863,STWD,Starwood Property Trust Inc
+64,6864,SUN,Sunoco LP
+65,6865,6865,6865
+66,6866,SWCH,Switch Inc
+67,6867,TAK,Takeda Pharmaceutical Co Ltd-ADR
+68,6868,TALO,Talos Energy Inc
+69,6869,WTRG,Essential Utilities Inc
+70,6870,TD,Toronto-Dominion Bank
+71,6871,TDC,Teradata Corp
+72,6872,TECK,Teck Resources Ltd
+73,6873,TGNA,TEGNA Inc
+74,6874,TRNO,Terreno Realty Corp
+75,6875,TROX,Tronox Holdings PLC
+76,6876,MGA,Magna International Inc
+77,6877,6877,6877
+78,6878,TTI,TETRA Technologies Inc
+79,6879,TUPBQ,Tupperware Brands Corp
+80,6880,TWI,Titan International Inc
+81,6881,TWO,Two Harbors Investment Corp
+82,6882,UAA,Under Armour Inc
+83,6883,UE,Urban Edge Properties
+84,6884,UHT,Universal Health Realty Income Trust
+85,6885,UMC,United Microelectronics Corporation-ADR
+86,6886,UL.US,Unilever PLC-ADR
+87,6887,USAC,USA Compression Partners LP
+88,6888,USNA,USANA Health Sciences Inc
+89,6889,USX,US Xpress Enterprises Inc
+90,6890,UVV,Universal Corp/VA
+91,6891,VALPQ,Valaris plc
+92,6892,VEDL,Vedanta Ltd
+93,6893,VER,VEREIT Inc
+94,6894,VHC,VirnetX Holding Corp
+95,6895,VICI,VICI Properties Inc
+96,6896,VLRS,Controladora Vuela Cia de Aviacion SAB de CV
+97,6897,ZXZZT,MotiTest
+98,6898,WES,Western Midstream Partners LP
+99,6899,WEX,WEX Inc
+100,6900,WH,Wyndham Hotels & Resorts Inc
+101,6901,WMC,Western Asset Mortgage Capital Corp
+102,6902,ZH,Zhihu Inc-ADR
+103,6903,WPM,Wheaton Precious Metals Corp
+104,6904,CPNG,Coupang Inc.
+105,6905,ELME,Elme Communities
+106,6906,WRI,Weingarten Realty Investors
+107,6907,WTI,W&T Offshore Inc
+108,6908,TKO,TKO Group Holdings Inc
+109,6909,XIN,Xinyuan Real Estate Co Ltd
+110,6910,YETI,YETI Holdings Inc
+111,6911,YEXT,Yext Inc
+112,6912,ZUO,Zuora Inc
+113,6913,AIM,AIM ImmunoTech Inc
+114,6914,AMPE,Ampio Pharmaceuticals Inc
+115,6915,RLX,RLX Technology Inc-ADR
+116,6916,RBLX,Roblox Corp.
+117,6917,AXU,Alexco Resource Corp
+118,6918,SEMR,Semrush Holdings Inc
+119,6919,BTG.US,B2Gold Corp
+120,6920,CQP,Cheniere Energy Partners LP
+121,6921,PATH,UiPath Inc.
+122,6922,EAD,Wells Fargo Income Opportunities Fund
+123,6923,EMAN,eMagin Corp
+124,6924,ENSV,Enservco Corp
+125,6925,GORO,Gold Resource Corp
+126,6926,GPL,Great Panther Mining Ltd
+127,6927,GTE,Gran Tierra Energy Inc
+128,6928,IBIO,iBio Inc
+129,6929,INUV,Inuvo Inc
+130,6930,MAG,MAG Silver Corp
+131,6931,MTNB,Matinas BioPharma Holdings Inc
+132,6932,NAK,Northern Dynasty Minerals Ltd
+133,6933,NBY,NovaBay Pharmaceuticals Inc
+134,6934,NGD,New Gold Inc
+135,6935,NRO,Neuberger Real Estate Securities Income Fund Inc
+136,6936,NSPR,InspireMD Inc
+137,6937,OGEN,Oragenics Inc
+138,6938,PLM,PolyMet Mining Corp
+139,6939,PTN,Palatin Technologies Inc
+140,6940,SQM,Sociedad Quimica y Minera de Chile SA-ADR
+141,6941,6941,6941
+142,6942,SVM,Silvercorp Metals Inc
+143,6943,TGB,Taseko Mines Ltd
+144,6944,UAVS,AgEagle Aerial Systems Inc
+145,6945,EFR,Eaton Vance Senior Floating-Rate Trust
+146,6946,YCBD,cbdMD Inc
+147,6947,ZOMDF,Zomedica Corp
+148,6948,6948,6948
+149,6949,6949,6949
+150,6950,6950,6950
+151,6951,6951,6951
+152,6952,6952,6952
+153,6953,6953,6953
+154,6954,6954,6954
+155,6955,6955,6955
+156,6956,6956,6956
+157,6957,6957,6957
+158,6958,6958,6958
+159,6959,6959,6959
+160,6960,GOVT,iShares US Treasury Bond ETF
+161,6961,ITA,iShares US Aerospace & Defense ETF
+162,6962,NOBL,ProShares S&P 500 Dividend Aristocrats ETF
+163,6963,FLQM,Franklin U.S. Mid Cap Multifactor Index ETF
+164,6964,ARKX,ARK Space And Innovation ETF
+165,6965,6965,6965
+166,6966,RO.ZU,Roche bearer shares
+167,6967,KRG,Kite Realty Group Trust
+168,6968,6968,6968
+169,6969,TIGO,Millicom International Cellular SA
+170,6970,COK.DE,CANCOM SE
+171,6971,DEQB.DE,Deutsche Euroshop Rights
+172,6972,DRW3.DE,Draegerwerk AG & Co KGaA
+173,6973,EUZ.DE,Eckert & Ziegler Strahlen- und Medizintechnik AG
+174,6974,PBB.DE,Deutsche Pfandbriefbank AG
+175,6975,VAR1.DE,Varta AG
+176,6976,NOEJ.DE,Norma Group SE
+177,6977,6977,6977
+178,6978,6978,6978
+179,6979,6979,6979
+180,6980,6980,6980
+181,6981,6981,6981
+182,6982,6982,6982
+183,6983,6983,6983
+184,6984,6984,6984
+185,6985,6985,6985
+186,6986,6986,6986
+187,6987,6987,6987
+188,6988,6988,6988
+189,6989,6989,6989
+190,6990,6990,6990
+191,6991,6991,6991
+192,6992,6992,6992
+193,6993,6993,6993
+194,6994,6994,6994
+195,6995,6995,6995
+196,6996,6996,6996
+197,6997,6997,6997
+198,6998,6998,6998
+199,6999,6999,6999
+200,7000,7000,7000

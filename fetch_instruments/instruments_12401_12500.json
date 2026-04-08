@@ -1,0 +1,602 @@
+[
+  {
+    "n": 1,
+    "id": 12401,
+    "symbole": "BNN.DE",
+    "nom": "BRAIN Biotech AG"
+  },
+  {
+    "n": 2,
+    "id": 12402,
+    "symbole": "PBY.DE",
+    "nom": "Publity AG"
+  },
+  {
+    "n": 3,
+    "id": 12403,
+    "symbole": "C43.DE",
+    "nom": "Cosmo Pharmaceuticals NV"
+  },
+  {
+    "n": 4,
+    "id": 12404,
+    "symbole": "B7E.DE",
+    "nom": "Blue Cap AG"
+  },
+  {
+    "n": 5,
+    "id": 12405,
+    "symbole": "4DS.DE",
+    "nom": "Daldrup & Soehne AG"
+  },
+  {
+    "n": 6,
+    "id": 12406,
+    "symbole": "LIK.DE",
+    "nom": "Limes Schlosskliniken AG"
+  },
+  {
+    "n": 7,
+    "id": 12407,
+    "symbole": "SYT.DE",
+    "nom": "Softing AG"
+  },
+  {
+    "n": 8,
+    "id": 12408,
+    "symbole": "O3P.DE",
+    "nom": "Oesterreichische Post AG"
+  },
+  {
+    "n": 9,
+    "id": 12409,
+    "symbole": "CEA.DE",
+    "nom": "Friwo AG"
+  },
+  {
+    "n": 10,
+    "id": 12410,
+    "symbole": "PGN.DE",
+    "nom": "Paragon GmbH & Co KGaA"
+  },
+  {
+    "n": 11,
+    "id": 12411,
+    "symbole": "E4C.DE",
+    "nom": "Ecotel Communication AG"
+  },
+  {
+    "n": 12,
+    "id": 12412,
+    "symbole": "N4G0.DE",
+    "nom": "Naga Group AG"
+  },
+  {
+    "n": 13,
+    "id": 12413,
+    "symbole": "SYZ.DE",
+    "nom": "Syzygy AG"
+  },
+  {
+    "n": 14,
+    "id": 12414,
+    "symbole": "SHWK.DE",
+    "nom": "SHS Viveon AG"
+  },
+  {
+    "n": 15,
+    "id": 12415,
+    "symbole": "MA10.DE",
+    "nom": "Binect AG"
+  },
+  {
+    "n": 16,
+    "id": 12416,
+    "symbole": "81D.DE",
+    "nom": "Beaconsmind AG"
+  },
+  {
+    "n": 17,
+    "id": 12417,
+    "symbole": "FC9.DE",
+    "nom": "FCR Immobilien AG"
+  },
+  {
+    "n": 18,
+    "id": 12418,
+    "symbole": "NN6.DE",
+    "nom": "NanoRepro AG"
+  },
+  {
+    "n": 19,
+    "id": 12419,
+    "symbole": "2INV.DE",
+    "nom": "2Invest AG"
+  },
+  {
+    "n": 20,
+    "id": 12420,
+    "symbole": "FPH.DE",
+    "nom": "Francotyp Postalia Holding AG"
+  },
+  {
+    "n": 21,
+    "id": 12421,
+    "symbole": "SLL.DE",
+    "nom": "Schoeller-Bleckmann Oilfield Equipment AG"
+  },
+  {
+    "n": 22,
+    "id": 12422,
+    "symbole": "CA1.DE",
+    "nom": "Circus SE"
+  },
+  {
+    "n": 23,
+    "id": 12423,
+    "symbole": "MS1.DE",
+    "nom": "Marley Spoon Group SE"
+  },
+  {
+    "n": 24,
+    "id": 12424,
+    "symbole": "SNG.DE",
+    "nom": "Singulus Technologies AG"
+  },
+  {
+    "n": 25,
+    "id": 12425,
+    "symbole": "SVE.DE",
+    "nom": "Shareholder Value Beteiligungen AG"
+  },
+  {
+    "n": 26,
+    "id": 12426,
+    "symbole": "DLX.DE",
+    "nom": "Delignit AG"
+  },
+  {
+    "n": 27,
+    "id": 12427,
+    "symbole": "B4B3.DE",
+    "nom": "METRO AG"
+  },
+  {
+    "n": 28,
+    "id": 12428,
+    "symbole": "GMM.DE",
+    "nom": "Grammer AG"
+  },
+  {
+    "n": 29,
+    "id": 12429,
+    "symbole": "PSG.DE",
+    "nom": "PharmaSGP Holding SE"
+  },
+  {
+    "n": 30,
+    "id": 12430,
+    "symbole": "BST.DE",
+    "nom": "Bastei Luebbe AG"
+  },
+  {
+    "n": 31,
+    "id": 12431,
+    "symbole": "7V0.DE",
+    "nom": "Darwin AG"
+  },
+  {
+    "n": 32,
+    "id": 12432,
+    "symbole": "MSAG.DE",
+    "nom": "MS Industrie AG"
+  },
+  {
+    "n": 33,
+    "id": 12433,
+    "symbole": "R1B.DE",
+    "nom": "Rubean AG"
+  },
+  {
+    "n": 34,
+    "id": 12434,
+    "symbole": "12434",
+    "nom": "12434"
+  },
+  {
+    "n": 35,
+    "id": 12435,
+    "symbole": "H2A.DE",
+    "nom": "H2APEX Group SCA"
+  },
+  {
+    "n": 36,
+    "id": 12436,
+    "symbole": "CYR.DE",
+    "nom": "Cyan AG"
+  },
+  {
+    "n": 37,
+    "id": 12437,
+    "symbole": "BIO.DE",
+    "nom": "Biotest AG"
+  },
+  {
+    "n": 38,
+    "id": 12438,
+    "symbole": "SUR.DE",
+    "nom": "Surteco Group SE"
+  },
+  {
+    "n": 39,
+    "id": 12439,
+    "symbole": "TGHN.DE",
+    "nom": "Logwin AG SA"
+  },
+  {
+    "n": 40,
+    "id": 12440,
+    "symbole": "12440",
+    "nom": "12440"
+  },
+  {
+    "n": 41,
+    "id": 12441,
+    "symbole": "RSL2.DE",
+    "nom": "R Stahl AG"
+  },
+  {
+    "n": 42,
+    "id": 12442,
+    "symbole": "PAL.DE",
+    "nom": "Pantaflix AG"
+  },
+  {
+    "n": 43,
+    "id": 12443,
+    "symbole": "UZU.DE",
+    "nom": "Uzin Utz SE"
+  },
+  {
+    "n": 44,
+    "id": 12444,
+    "symbole": "V3V.DE",
+    "nom": "Vita 34 AG"
+  },
+  {
+    "n": 45,
+    "id": 12445,
+    "symbole": "DAR.DE",
+    "nom": "Datron AG"
+  },
+  {
+    "n": 46,
+    "id": 12446,
+    "symbole": "CFC.DE",
+    "nom": "UET United Electronic Technology AG"
+  },
+  {
+    "n": 47,
+    "id": 12447,
+    "symbole": "3SQ1.DE",
+    "nom": "AHT Syngas Technology NV"
+  },
+  {
+    "n": 48,
+    "id": 12448,
+    "symbole": "ECF.DE",
+    "nom": "Mountain Alliance AG"
+  },
+  {
+    "n": 49,
+    "id": 12449,
+    "symbole": "VEZ.DE",
+    "nom": "Planethic Group AG"
+  },
+  {
+    "n": 50,
+    "id": 12450,
+    "symbole": "UN9.DE",
+    "nom": "Uniqa Insurance Group AG"
+  },
+  {
+    "n": 51,
+    "id": 12451,
+    "symbole": "H9Y.DE",
+    "nom": "HanseYachts AG"
+  },
+  {
+    "n": 52,
+    "id": 12452,
+    "symbole": "HGEA.DE",
+    "nom": "hGears AG"
+  },
+  {
+    "n": 53,
+    "id": 12453,
+    "symbole": "P4N.DE",
+    "nom": "Polytec Holding AG"
+  },
+  {
+    "n": 54,
+    "id": 12454,
+    "symbole": "EDL.DE",
+    "nom": "Edel SE & Co KgaA"
+  },
+  {
+    "n": 55,
+    "id": 12455,
+    "symbole": "APM.DE",
+    "nom": "Ad Pepper Media International NV"
+  },
+  {
+    "n": 56,
+    "id": 12456,
+    "symbole": "BOG.DE",
+    "nom": "Stock3 AG"
+  },
+  {
+    "n": 57,
+    "id": 12457,
+    "symbole": "PWO.DE",
+    "nom": "PWO AG"
+  },
+  {
+    "n": 58,
+    "id": 12458,
+    "symbole": "SLSA.DE",
+    "nom": "Solutiance AG"
+  },
+  {
+    "n": 59,
+    "id": 12459,
+    "symbole": "LMIA.DE",
+    "nom": "Lion E Mobility AG"
+  },
+  {
+    "n": 60,
+    "id": 12460,
+    "symbole": "FRS.DE",
+    "nom": "Foris AG"
+  },
+  {
+    "n": 61,
+    "id": 12461,
+    "symbole": "M3B.DE",
+    "nom": "Pyramid AG"
+  },
+  {
+    "n": 62,
+    "id": 12462,
+    "symbole": "NFN.DE",
+    "nom": "Nfon AG"
+  },
+  {
+    "n": 63,
+    "id": 12463,
+    "symbole": "SEW.DE",
+    "nom": "Semperit Holding AG"
+  },
+  {
+    "n": 64,
+    "id": 12464,
+    "symbole": "DGR.DE",
+    "nom": "Deutsche Grundstuecksauktionen vormals Berliner Grundstuecksauktionen AG"
+  },
+  {
+    "n": 65,
+    "id": 12465,
+    "symbole": "75S.DE",
+    "nom": "Sdm SE"
+  },
+  {
+    "n": 66,
+    "id": 12466,
+    "symbole": "BIG1.DE",
+    "nom": "Bio-Gate AG"
+  },
+  {
+    "n": 67,
+    "id": 12467,
+    "symbole": "MYM.DE",
+    "nom": "Mayr-Melnhof Karton AG"
+  },
+  {
+    "n": 68,
+    "id": 12468,
+    "symbole": "CDZ0.DE",
+    "nom": "MHP Hotel AG"
+  },
+  {
+    "n": 69,
+    "id": 12469,
+    "symbole": "MBK.DE",
+    "nom": "Merkur Privatbank KGaA"
+  },
+  {
+    "n": 70,
+    "id": 12470,
+    "symbole": "XD4.DE",
+    "nom": "STRABAG SE"
+  },
+  {
+    "n": 71,
+    "id": 12471,
+    "symbole": "AMA.DE",
+    "nom": "Altech Advanced Materials AG"
+  },
+  {
+    "n": 72,
+    "id": 12472,
+    "symbole": "EBEN.DE",
+    "nom": "Aifinyo AG"
+  },
+  {
+    "n": 73,
+    "id": 12473,
+    "symbole": "AMI.DE",
+    "nom": "Medondo Holding AG"
+  },
+  {
+    "n": 74,
+    "id": 12474,
+    "symbole": "ART.DE",
+    "nom": "Artnet AG"
+  },
+  {
+    "n": 75,
+    "id": 12475,
+    "symbole": "ACX.DE",
+    "nom": "bet at home com AG"
+  },
+  {
+    "n": 76,
+    "id": 12476,
+    "symbole": "P4O.DE",
+    "nom": "Plan Optik AG"
+  },
+  {
+    "n": 77,
+    "id": 12477,
+    "symbole": "QB7.DE",
+    "nom": "Quirin Privatbank AG"
+  },
+  {
+    "n": 78,
+    "id": 12478,
+    "symbole": "ULC.DE",
+    "nom": "United Labels AG"
+  },
+  {
+    "n": 79,
+    "id": 12479,
+    "symbole": "3ITN.DE",
+    "nom": "audius SE"
+  },
+  {
+    "n": 80,
+    "id": 12480,
+    "symbole": "SWA.DE",
+    "nom": "Schloss Wachenheim AG"
+  },
+  {
+    "n": 81,
+    "id": 12481,
+    "symbole": "NUVA.DE",
+    "nom": "Noratis AG"
+  },
+  {
+    "n": 82,
+    "id": 12482,
+    "symbole": "MLL.DE",
+    "nom": "Mueller Die lila Logistik SE"
+  },
+  {
+    "n": 83,
+    "id": 12483,
+    "symbole": "MBQ.DE",
+    "nom": "Mobotix AG"
+  },
+  {
+    "n": 84,
+    "id": 12484,
+    "symbole": "GME.DE",
+    "nom": "Geratherm Medical AG"
+  },
+  {
+    "n": 85,
+    "id": 12485,
+    "symbole": "ECK.DE",
+    "nom": "LUDWIG BECK am Rathauseck Textilhaus Feldmeier AG"
+  },
+  {
+    "n": 86,
+    "id": 12486,
+    "symbole": "GAI.DE",
+    "nom": "SGT German Private Equity GmbH & Co KgaA"
+  },
+  {
+    "n": 87,
+    "id": 12487,
+    "symbole": "SCE.DE",
+    "nom": "Schweizer Electronic AG"
+  },
+  {
+    "n": 88,
+    "id": 12488,
+    "symbole": "SZ50.DE",
+    "nom": "Luebke Kelber AG"
+  },
+  {
+    "n": 89,
+    "id": 12489,
+    "symbole": "ALG.DE",
+    "nom": "Albis Leasing AG"
+  },
+  {
+    "n": 90,
+    "id": 12490,
+    "symbole": "WFA.DE",
+    "nom": "Weng Fine Art AG"
+  },
+  {
+    "n": 91,
+    "id": 12491,
+    "symbole": "WOLF.DE",
+    "nom": "Meta Wolf AG"
+  },
+  {
+    "n": 92,
+    "id": 12492,
+    "symbole": "IUR.DE",
+    "nom": "Kap AG"
+  },
+  {
+    "n": 93,
+    "id": 12493,
+    "symbole": "M3V.DE",
+    "nom": "Mevis Medical Solutions AG"
+  },
+  {
+    "n": 94,
+    "id": 12494,
+    "symbole": "LSX.DE",
+    "nom": "Ls Telcom AG"
+  },
+  {
+    "n": 95,
+    "id": 12495,
+    "symbole": "BYW.DE",
+    "nom": "BayWa AG"
+  },
+  {
+    "n": 96,
+    "id": 12496,
+    "symbole": "KWG.DE",
+    "nom": "KHD Humboldt Wedag International AG"
+  },
+  {
+    "n": 97,
+    "id": 12497,
+    "symbole": "JZ60.DE",
+    "nom": "Eigenheim Union 1898 Beteiligungs AG"
+  },
+  {
+    "n": 98,
+    "id": 12498,
+    "symbole": "ISHA.DE",
+    "nom": "Intershop Communications AG"
+  },
+  {
+    "n": 99,
+    "id": 12499,
+    "symbole": "ABS2.DE",
+    "nom": "Porr AG"
+  },
+  {
+    "n": 100,
+    "id": 12500,
+    "symbole": "ALI1.DE",
+    "nom": "Almonty Industries Inc"
+  }
+]

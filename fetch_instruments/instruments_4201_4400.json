@@ -1,0 +1,1202 @@
+[
+  {
+    "n": 1,
+    "id": 4201,
+    "symbole": "CC.US",
+    "nom": "The Chemours"
+  },
+  {
+    "n": 2,
+    "id": 4202,
+    "symbole": "LAZ",
+    "nom": "Lazard Inc"
+  },
+  {
+    "n": 3,
+    "id": 4203,
+    "symbole": "CACC",
+    "nom": "Credit Acceptance"
+  },
+  {
+    "n": 4,
+    "id": 4204,
+    "symbole": "RNR",
+    "nom": "RenaissanceRe Holdings Ltd"
+  },
+  {
+    "n": 5,
+    "id": 4205,
+    "symbole": "AON",
+    "nom": "Aon plc"
+  },
+  {
+    "n": 6,
+    "id": 4206,
+    "symbole": "VISN",
+    "nom": "Vistance Networks Inc"
+  },
+  {
+    "n": 7,
+    "id": 4207,
+    "symbole": "SBH",
+    "nom": "Sally Beauty Holdings Inc."
+  },
+  {
+    "n": 8,
+    "id": 4208,
+    "symbole": "DNB",
+    "nom": "The Dun & Bradstreet"
+  },
+  {
+    "n": 9,
+    "id": 4209,
+    "symbole": "POST",
+    "nom": "Post holdings"
+  },
+  {
+    "n": 10,
+    "id": 4210,
+    "symbole": "OUT",
+    "nom": "Outfront Media Inc"
+  },
+  {
+    "n": 11,
+    "id": 4211,
+    "symbole": "MMI",
+    "nom": "Marcus & Millichap"
+  },
+  {
+    "n": 12,
+    "id": 4212,
+    "symbole": "FAST",
+    "nom": "Fastenal Company"
+  },
+  {
+    "n": 13,
+    "id": 4213,
+    "symbole": "CCU",
+    "nom": "Cia Cervecerias unidas-ADR"
+  },
+  {
+    "n": 14,
+    "id": 4214,
+    "symbole": "FCPT",
+    "nom": "Four Corners Property Trust"
+  },
+  {
+    "n": 15,
+    "id": 4215,
+    "symbole": "RMAX",
+    "nom": "RE/MAX Holdings"
+  },
+  {
+    "n": 16,
+    "id": 4216,
+    "symbole": "HAWK",
+    "nom": "Blackhawk Network Holdings"
+  },
+  {
+    "n": 17,
+    "id": 4217,
+    "symbole": "4217",
+    "nom": "4217"
+  },
+  {
+    "n": 18,
+    "id": 4218,
+    "symbole": "AMP.MI",
+    "nom": "Amplifon"
+  },
+  {
+    "n": 19,
+    "id": 4219,
+    "symbole": "BGN.MI",
+    "nom": "Banca Generali"
+  },
+  {
+    "n": 20,
+    "id": 4220,
+    "symbole": "BAMI.MI",
+    "nom": "Banco Bpm"
+  },
+  {
+    "n": 21,
+    "id": 4221,
+    "symbole": "BRE.MI",
+    "nom": "Brembo"
+  },
+  {
+    "n": 22,
+    "id": 4222,
+    "symbole": "DIA.MI",
+    "nom": "Diasorin"
+  },
+  {
+    "n": 23,
+    "id": 4223,
+    "symbole": "FBK.MI",
+    "nom": "FinecoBank"
+  },
+  {
+    "n": 24,
+    "id": 4224,
+    "symbole": "IG.MI",
+    "nom": "Italgas"
+  },
+  {
+    "n": 25,
+    "id": 4225,
+    "symbole": "JUVE.MI",
+    "nom": "Juventus Football Club"
+  },
+  {
+    "n": 26,
+    "id": 4226,
+    "symbole": "PIRC.MI",
+    "nom": "Pirelli & C"
+  },
+  {
+    "n": 27,
+    "id": 4227,
+    "symbole": "PST.MI",
+    "nom": "Poste Italiane"
+  },
+  {
+    "n": 28,
+    "id": 4228,
+    "symbole": "REC.MI",
+    "nom": "Recordati"
+  },
+  {
+    "n": 29,
+    "id": 4229,
+    "symbole": "4229",
+    "nom": "4229"
+  },
+  {
+    "n": 30,
+    "id": 4230,
+    "symbole": "UNI.MI",
+    "nom": "Unipol"
+  },
+  {
+    "n": 31,
+    "id": 4231,
+    "symbole": "RDS.A",
+    "nom": "Royal Dutch Shell A (ADR)"
+  },
+  {
+    "n": 32,
+    "id": 4232,
+    "symbole": "NVS",
+    "nom": "Novartis ADR"
+  },
+  {
+    "n": 33,
+    "id": 4233,
+    "symbole": "4233",
+    "nom": "4233"
+  },
+  {
+    "n": 34,
+    "id": 4234,
+    "symbole": "4234",
+    "nom": "4234"
+  },
+  {
+    "n": 35,
+    "id": 4235,
+    "symbole": "BHP",
+    "nom": "BHP Group Ltd ADR"
+  },
+  {
+    "n": 36,
+    "id": 4236,
+    "symbole": "AVGO",
+    "nom": "Broadcom Inc"
+  },
+  {
+    "n": 37,
+    "id": 4237,
+    "symbole": "VTI",
+    "nom": "Vanguard Total Stock Market ETF"
+  },
+  {
+    "n": 38,
+    "id": 4238,
+    "symbole": "VOO",
+    "nom": "Vanguard S&P 500 ETF"
+  },
+  {
+    "n": 39,
+    "id": 4239,
+    "symbole": "AZN",
+    "nom": "AstraZeneca PLC ADR"
+  },
+  {
+    "n": 40,
+    "id": 4240,
+    "symbole": "RIO",
+    "nom": "Rio Tinto PLC ADR"
+  },
+  {
+    "n": 41,
+    "id": 4241,
+    "symbole": "LIN",
+    "nom": "Linde PLC"
+  },
+  {
+    "n": 42,
+    "id": 4242,
+    "symbole": "PBR.A",
+    "nom": "Petroleo Brasileiro ADR"
+  },
+  {
+    "n": 43,
+    "id": 4243,
+    "symbole": "BTI",
+    "nom": "British American Tobacco PLC ADR"
+  },
+  {
+    "n": 44,
+    "id": 4244,
+    "symbole": "ASML",
+    "nom": "ASML Holding NV"
+  },
+  {
+    "n": 45,
+    "id": 4245,
+    "symbole": "DD",
+    "nom": "DuPont de Nemours Inc."
+  },
+  {
+    "n": 46,
+    "id": 4246,
+    "symbole": "ITUB",
+    "nom": "Itau Unibanco Holding ADR"
+  },
+  {
+    "n": 47,
+    "id": 4247,
+    "symbole": "ENB",
+    "nom": "Enbridge Inc"
+  },
+  {
+    "n": 48,
+    "id": 4248,
+    "symbole": "VEA",
+    "nom": "Vanguard FTSE Developed Market ETF"
+  },
+  {
+    "n": 49,
+    "id": 4249,
+    "symbole": "ABEV",
+    "nom": "Ambev ADR"
+  },
+  {
+    "n": 50,
+    "id": 4250,
+    "symbole": "BBD",
+    "nom": "Banco Bradesco ADR"
+  },
+  {
+    "n": 51,
+    "id": 4251,
+    "symbole": "ISRG",
+    "nom": "Intuitive Surgical Inc"
+  },
+  {
+    "n": 52,
+    "id": 4252,
+    "symbole": "VWO",
+    "nom": "Vanguard FTSE Emerging Markets"
+  },
+  {
+    "n": 53,
+    "id": 4253,
+    "symbole": "SLB",
+    "nom": "SLB Ltd"
+  },
+  {
+    "n": 54,
+    "id": 4254,
+    "symbole": "TMUS",
+    "nom": "T-Mobile Us Inc"
+  },
+  {
+    "n": 55,
+    "id": 4255,
+    "symbole": "CCI",
+    "nom": "Crown Castle International"
+  },
+  {
+    "n": 56,
+    "id": 4256,
+    "symbole": "4256",
+    "nom": "4256"
+  },
+  {
+    "n": 57,
+    "id": 4257,
+    "symbole": "OXY",
+    "nom": "Occidental Petroleum Corp"
+  },
+  {
+    "n": 58,
+    "id": 4258,
+    "symbole": "VTV",
+    "nom": "Vanguard Value ETF"
+  },
+  {
+    "n": 59,
+    "id": 4259,
+    "symbole": "PLD",
+    "nom": "Prologis Inc"
+  },
+  {
+    "n": 60,
+    "id": 4260,
+    "symbole": "NOW",
+    "nom": "ServiceNow Inc"
+  },
+  {
+    "n": 61,
+    "id": 4261,
+    "symbole": "DELL",
+    "nom": "Dell Technologies Inc C"
+  },
+  {
+    "n": 62,
+    "id": 4262,
+    "symbole": "IWF",
+    "nom": "iShares Russell 1000 Growth ETF"
+  },
+  {
+    "n": 63,
+    "id": 4263,
+    "symbole": "WDAY",
+    "nom": "Workday Inc A"
+  },
+  {
+    "n": 64,
+    "id": 4264,
+    "symbole": "ADI.US",
+    "nom": "Analog Devices Inc"
+  },
+  {
+    "n": 65,
+    "id": 4265,
+    "symbole": "EW",
+    "nom": "Edwards Lifesciences Corp"
+  },
+  {
+    "n": 66,
+    "id": 4266,
+    "symbole": "PRU",
+    "nom": "Prudential Financial Inc"
+  },
+  {
+    "n": 67,
+    "id": 4267,
+    "symbole": "VUG",
+    "nom": "Vanguard Growth ETF"
+  },
+  {
+    "n": 68,
+    "id": 4268,
+    "symbole": "EQIX",
+    "nom": "Equinix Inc"
+  },
+  {
+    "n": 69,
+    "id": 4269,
+    "symbole": "IWD",
+    "nom": "iShares Russell 1000 Value ETF"
+  },
+  {
+    "n": 70,
+    "id": 4270,
+    "symbole": "PSA",
+    "nom": "Public Storage"
+  },
+  {
+    "n": 71,
+    "id": 4271,
+    "symbole": "BND",
+    "nom": "Vanguard Total Bond Market ETF"
+  },
+  {
+    "n": 72,
+    "id": 4272,
+    "symbole": "CCL",
+    "nom": "Carnival Corp"
+  },
+  {
+    "n": 73,
+    "id": 4273,
+    "symbole": "ETN",
+    "nom": "Eaton Corp PLC"
+  },
+  {
+    "n": 74,
+    "id": 4274,
+    "symbole": "VNQ",
+    "nom": "Vanguard Real Estate ETF"
+  },
+  {
+    "n": 75,
+    "id": 4275,
+    "symbole": "LYB",
+    "nom": "LyondellBasell Industries NV"
+  },
+  {
+    "n": 76,
+    "id": 4276,
+    "symbole": "XLNX",
+    "nom": "Xilinx Inc"
+  },
+  {
+    "n": 77,
+    "id": 4277,
+    "symbole": "ALXN",
+    "nom": "Alexion Pharmaceuticals Inc"
+  },
+  {
+    "n": 78,
+    "id": 4278,
+    "symbole": "WELL.US",
+    "nom": "Welltower Inc"
+  },
+  {
+    "n": 79,
+    "id": 4279,
+    "symbole": "4279",
+    "nom": "4279"
+  },
+  {
+    "n": 80,
+    "id": 4280,
+    "symbole": "AMTD",
+    "nom": "TD Ameritrade Holding Corp"
+  },
+  {
+    "n": 81,
+    "id": 4281,
+    "symbole": "PAYX",
+    "nom": "Paychex Inc"
+  },
+  {
+    "n": 82,
+    "id": 4282,
+    "symbole": "4282",
+    "nom": "4282"
+  },
+  {
+    "n": 83,
+    "id": 4283,
+    "symbole": "SIRI",
+    "nom": "Sirius XM Holdings Inc"
+  },
+  {
+    "n": 84,
+    "id": 4284,
+    "symbole": "AVB",
+    "nom": "AvalonBay Communities Inc"
+  },
+  {
+    "n": 85,
+    "id": 4285,
+    "symbole": "EQR",
+    "nom": "Equity Residential"
+  },
+  {
+    "n": 86,
+    "id": 4286,
+    "symbole": "TEAM",
+    "nom": "Atlassian Corp PLC A"
+  },
+  {
+    "n": 87,
+    "id": 4287,
+    "symbole": "BKR",
+    "nom": "Baker Hughes Company"
+  },
+  {
+    "n": 88,
+    "id": 4288,
+    "symbole": "4288",
+    "nom": "4288"
+  },
+  {
+    "n": 89,
+    "id": 4289,
+    "symbole": "DLR",
+    "nom": "Digital Realty Trust Inc"
+  },
+  {
+    "n": 90,
+    "id": 4290,
+    "symbole": "ZBH",
+    "nom": "Zimmer Biomet Holdings Inc"
+  },
+  {
+    "n": 91,
+    "id": 4291,
+    "symbole": "FDC",
+    "nom": "First Data Corp A"
+  },
+  {
+    "n": 92,
+    "id": 4292,
+    "symbole": "USMV",
+    "nom": "iShares Edge MSCI Min Vol USA"
+  },
+  {
+    "n": 93,
+    "id": 4293,
+    "symbole": "RCL",
+    "nom": "Royal Caribbean Cruises Ltd"
+  },
+  {
+    "n": 94,
+    "id": 4294,
+    "symbole": "ANET",
+    "nom": "Arista Networks Inc"
+  },
+  {
+    "n": 95,
+    "id": 4295,
+    "symbole": "VCSH",
+    "nom": "Vanguard Short-Term Corporate"
+  },
+  {
+    "n": 96,
+    "id": 4296,
+    "symbole": "BSV",
+    "nom": "Vanguard Short-Term Bond ETF"
+  },
+  {
+    "n": 97,
+    "id": 4297,
+    "symbole": "ADM",
+    "nom": "Archer-Daniels-Midland Co"
+  },
+  {
+    "n": 98,
+    "id": 4298,
+    "symbole": "VEU",
+    "nom": "Vanguard FTSE All-World ex-US"
+  },
+  {
+    "n": 99,
+    "id": 4299,
+    "symbole": "ALGN",
+    "nom": "Align Technology Inc"
+  },
+  {
+    "n": 100,
+    "id": 4300,
+    "symbole": "SYF",
+    "nom": "Synchrony Financial"
+  },
+  {
+    "n": 101,
+    "id": 4301,
+    "symbole": "IVW",
+    "nom": "iShares S&P 500 Growth ETF"
+  },
+  {
+    "n": 102,
+    "id": 4302,
+    "symbole": "VCIT",
+    "nom": "Vanguard Intermediate-Term Corp"
+  },
+  {
+    "n": 103,
+    "id": 4303,
+    "symbole": "DTE",
+    "nom": "DTE Energy Co"
+  },
+  {
+    "n": 104,
+    "id": 4304,
+    "symbole": "VTR",
+    "nom": "Ventas Inc"
+  },
+  {
+    "n": 105,
+    "id": 4305,
+    "symbole": "INFO",
+    "nom": "IHS Markit Ltd"
+  },
+  {
+    "n": 106,
+    "id": 4306,
+    "symbole": "APTV",
+    "nom": "Aptiv PLC"
+  },
+  {
+    "n": 107,
+    "id": 4307,
+    "symbole": "O",
+    "nom": "Realty Income Corp"
+  },
+  {
+    "n": 108,
+    "id": 4308,
+    "symbole": "CXO",
+    "nom": "Concho Resources Inc"
+  },
+  {
+    "n": 109,
+    "id": 4309,
+    "symbole": "LULU",
+    "nom": "Lululemon Athletica Inc"
+  },
+  {
+    "n": 110,
+    "id": 4310,
+    "symbole": "GPN",
+    "nom": "Global Payments Inc"
+  },
+  {
+    "n": 111,
+    "id": 4311,
+    "symbole": "TIP",
+    "nom": "iShares TIPS Bond ETF"
+  },
+  {
+    "n": 112,
+    "id": 4312,
+    "symbole": "HPE",
+    "nom": "Hewlett Packard Enterprise Co"
+  },
+  {
+    "n": 113,
+    "id": 4313,
+    "symbole": "MCHP",
+    "nom": "Microchip Technology Inc"
+  },
+  {
+    "n": 114,
+    "id": 4314,
+    "symbole": "BXP",
+    "nom": "Boston Properties Inc"
+  },
+  {
+    "n": 115,
+    "id": 4315,
+    "symbole": "TAL",
+    "nom": "TAL Education Group ADR"
+  },
+  {
+    "n": 116,
+    "id": 4316,
+    "symbole": "ULTA",
+    "nom": "Ulta Beauty Inc"
+  },
+  {
+    "n": 117,
+    "id": 4317,
+    "symbole": "KLAC",
+    "nom": "KLA Corp"
+  },
+  {
+    "n": 118,
+    "id": 4318,
+    "symbole": "VGT",
+    "nom": "Vanguard Information Technology"
+  },
+  {
+    "n": 119,
+    "id": 4319,
+    "symbole": "IWB",
+    "nom": "iShares Russell 1000 ETF"
+  },
+  {
+    "n": 120,
+    "id": 4320,
+    "symbole": "IDXX",
+    "nom": "IDEXX Laboratories Inc"
+  },
+  {
+    "n": 121,
+    "id": 4321,
+    "symbole": "SHV",
+    "nom": "iShares 0-1 Year Treasury Bond"
+  },
+  {
+    "n": 122,
+    "id": 4322,
+    "symbole": "SPLK",
+    "nom": "Splunk Inc"
+  },
+  {
+    "n": 123,
+    "id": 4323,
+    "symbole": "VEEV",
+    "nom": "Veeva Systems Inc A"
+  },
+  {
+    "n": 124,
+    "id": 4324,
+    "symbole": "IWR",
+    "nom": "iShares Russell Mid-Cap ETF"
+  },
+  {
+    "n": 125,
+    "id": 4325,
+    "symbole": "AWK",
+    "nom": "American Water Works Co Inc"
+  },
+  {
+    "n": 126,
+    "id": 4326,
+    "symbole": "CDNS",
+    "nom": "Cadence Design Systems Inc"
+  },
+  {
+    "n": 127,
+    "id": 4327,
+    "symbole": "IAC",
+    "nom": "IAC Inc"
+  },
+  {
+    "n": 128,
+    "id": 4328,
+    "symbole": "CHD",
+    "nom": "Church & Dwight Co Inc"
+  },
+  {
+    "n": 129,
+    "id": 4329,
+    "symbole": "SNPS",
+    "nom": "Synopsys Inc"
+  },
+  {
+    "n": 130,
+    "id": 4330,
+    "symbole": "DXC",
+    "nom": "DXC Technology Co"
+  },
+  {
+    "n": 131,
+    "id": 4331,
+    "symbole": "MSCI",
+    "nom": "MSCI Inc"
+  },
+  {
+    "n": 132,
+    "id": 4332,
+    "symbole": "4332",
+    "nom": "4332"
+  },
+  {
+    "n": 133,
+    "id": 4333,
+    "symbole": "FRCB",
+    "nom": "First Republic Bank/CA"
+  },
+  {
+    "n": 134,
+    "id": 4334,
+    "symbole": "EMB",
+    "nom": "iShares J.P. Morgan USD Emerging Markets Bond ETF"
+  },
+  {
+    "n": 135,
+    "id": 4335,
+    "symbole": "YUMC",
+    "nom": "Yum China Holdings Inc"
+  },
+  {
+    "n": 136,
+    "id": 4336,
+    "symbole": "TEVA",
+    "nom": "Teva Pharmaceutical Industries ADR"
+  },
+  {
+    "n": 137,
+    "id": 4337,
+    "symbole": "TSS",
+    "nom": "Total System Services Inc"
+  },
+  {
+    "n": 138,
+    "id": 4338,
+    "symbole": "KEYS",
+    "nom": "Keysight Technologies Inc"
+  },
+  {
+    "n": 139,
+    "id": 4339,
+    "symbole": "FANG",
+    "nom": "Diamondback Energy Inc"
+  },
+  {
+    "n": 140,
+    "id": 4340,
+    "symbole": "TWLO",
+    "nom": "Twilio Inc A"
+  },
+  {
+    "n": 141,
+    "id": 4341,
+    "symbole": "OPTU",
+    "nom": "Optimum Communications Inc A"
+  },
+  {
+    "n": 142,
+    "id": 4342,
+    "symbole": "VMC",
+    "nom": "Vulcan Materials Co"
+  },
+  {
+    "n": 143,
+    "id": 4343,
+    "symbole": "CFG",
+    "nom": "Citizens Financial Group Inc"
+  },
+  {
+    "n": 144,
+    "id": 4344,
+    "symbole": "MXIM",
+    "nom": "Maxim Integrated Products Inc"
+  },
+  {
+    "n": 145,
+    "id": 4345,
+    "symbole": "4345",
+    "nom": "4345"
+  },
+  {
+    "n": 146,
+    "id": 4346,
+    "symbole": "FTNT",
+    "nom": "Fortinet Inc"
+  },
+  {
+    "n": 147,
+    "id": 4347,
+    "symbole": "CGC",
+    "nom": "Canopy Growth Corp"
+  },
+  {
+    "n": 148,
+    "id": 4348,
+    "symbole": "PFF",
+    "nom": "iShares Preferred & Income Sec"
+  },
+  {
+    "n": 149,
+    "id": 4349,
+    "symbole": "EVRG",
+    "nom": "Evergy Inc"
+  },
+  {
+    "n": 150,
+    "id": 4350,
+    "symbole": "NLY",
+    "nom": "Annaly Capital Management Inc"
+  },
+  {
+    "n": 151,
+    "id": 4351,
+    "symbole": "EDU",
+    "nom": "New Oriental Education & Technology Group Inc-ADR"
+  },
+  {
+    "n": 152,
+    "id": 4352,
+    "symbole": "IFF",
+    "nom": "International Flavors & Fragra"
+  },
+  {
+    "n": 153,
+    "id": 4353,
+    "symbole": "VTRS",
+    "nom": "Viatris Inc"
+  },
+  {
+    "n": 154,
+    "id": 4354,
+    "symbole": "HBAN",
+    "nom": "Huntington Bancshares Inc"
+  },
+  {
+    "n": 155,
+    "id": 4355,
+    "symbole": "MRO",
+    "nom": "Marathon Oil Corp"
+  },
+  {
+    "n": 156,
+    "id": 4356,
+    "symbole": "STX.US",
+    "nom": "Seagate Technology PLC"
+  },
+  {
+    "n": 157,
+    "id": 4357,
+    "symbole": "VGK",
+    "nom": "Vanguard FTSE Europe ETF"
+  },
+  {
+    "n": 158,
+    "id": 4358,
+    "symbole": "MRVL",
+    "nom": "Marvell Technology Group Ltd"
+  },
+  {
+    "n": 159,
+    "id": 4359,
+    "symbole": "CTXS",
+    "nom": "Citrix Systems Inc"
+  },
+  {
+    "n": 160,
+    "id": 4360,
+    "symbole": "4360",
+    "nom": "4360"
+  },
+  {
+    "n": 161,
+    "id": 4361,
+    "symbole": "TRU.US",
+    "nom": "TransUnion"
+  },
+  {
+    "n": 162,
+    "id": 4362,
+    "symbole": "ABMD",
+    "nom": "ABIOMED Inc"
+  },
+  {
+    "n": 163,
+    "id": 4363,
+    "symbole": "VST",
+    "nom": "Vistra Corp"
+  },
+  {
+    "n": 164,
+    "id": 4364,
+    "symbole": "MLM",
+    "nom": "Martin Marietta Materials Inc"
+  },
+  {
+    "n": 165,
+    "id": 4365,
+    "symbole": "IAU",
+    "nom": "iShares Gold Trust"
+  },
+  {
+    "n": 166,
+    "id": 4366,
+    "symbole": "BR",
+    "nom": "Broadridge Financial Solutions"
+  },
+  {
+    "n": 167,
+    "id": 4367,
+    "symbole": "NCLH",
+    "nom": "Norwegian Cruise Line Holdings"
+  },
+  {
+    "n": 168,
+    "id": 4368,
+    "symbole": "SIVBQ",
+    "nom": "SVB Financial Group"
+  },
+  {
+    "n": 169,
+    "id": 4369,
+    "symbole": "WAB",
+    "nom": "Wabtec Corp"
+  },
+  {
+    "n": 170,
+    "id": 4370,
+    "symbole": "CMA",
+    "nom": "Comerica Inc"
+  },
+  {
+    "n": 171,
+    "id": 4371,
+    "symbole": "ELAN",
+    "nom": "Elanco Animal Health Inc"
+  },
+  {
+    "n": 172,
+    "id": 4372,
+    "symbole": "TSCO",
+    "nom": "Tractor Supply Co"
+  },
+  {
+    "n": 173,
+    "id": 4373,
+    "symbole": "ETFC",
+    "nom": "E*TRADE Financial Corp"
+  },
+  {
+    "n": 174,
+    "id": 4374,
+    "symbole": "KSU",
+    "nom": "Kansas City Southern"
+  },
+  {
+    "n": 175,
+    "id": 4375,
+    "symbole": "MINT",
+    "nom": "PIMCO Enhanced Short Maturity"
+  },
+  {
+    "n": 176,
+    "id": 4376,
+    "symbole": "EXAS",
+    "nom": "Exact Sciences Corp"
+  },
+  {
+    "n": 177,
+    "id": 4377,
+    "symbole": "DATA",
+    "nom": "Tableau Software Inc A"
+  },
+  {
+    "n": 178,
+    "id": 4378,
+    "symbole": "PAYC",
+    "nom": "Paycom Software Inc"
+  },
+  {
+    "n": 179,
+    "id": 4379,
+    "symbole": "CTRA",
+    "nom": "Coterra EnerCoterra Energy Inc"
+  },
+  {
+    "n": 180,
+    "id": 4380,
+    "symbole": "STNE",
+    "nom": "StoneCo Ltd A"
+  },
+  {
+    "n": 181,
+    "id": 4381,
+    "symbole": "LW",
+    "nom": "Lamb Weston Holdings Inc"
+  },
+  {
+    "n": 182,
+    "id": 4382,
+    "symbole": "DXCM",
+    "nom": "DexCom Inc"
+  },
+  {
+    "n": 183,
+    "id": 4383,
+    "symbole": "ULTI",
+    "nom": "Ultimate Software Group Inc"
+  },
+  {
+    "n": 184,
+    "id": 4384,
+    "symbole": "QUAL",
+    "nom": "iShares Edge MSCI USA Quality"
+  },
+  {
+    "n": 185,
+    "id": 4385,
+    "symbole": "4385",
+    "nom": "4385"
+  },
+  {
+    "n": 186,
+    "id": 4386,
+    "symbole": "OVV",
+    "nom": "Ovintiv Inc"
+  },
+  {
+    "n": 187,
+    "id": 4387,
+    "symbole": "SW",
+    "nom": "Smurfit Westrock Plc"
+  },
+  {
+    "n": 188,
+    "id": 4388,
+    "symbole": "SPLV",
+    "nom": "Invesco S&P 500 Low Volatility"
+  },
+  {
+    "n": 189,
+    "id": 4389,
+    "symbole": "OKTA",
+    "nom": "Okta Inc"
+  },
+  {
+    "n": 190,
+    "id": 4390,
+    "symbole": "GG",
+    "nom": "Goldcorp Inc"
+  },
+  {
+    "n": 191,
+    "id": 4391,
+    "symbole": "FFIV",
+    "nom": "F5 Networks Inc"
+  },
+  {
+    "n": 192,
+    "id": 4392,
+    "symbole": "JNK",
+    "nom": "SPDR Bloomberg High Yield Bond ETF"
+  },
+  {
+    "n": 193,
+    "id": 4393,
+    "symbole": "BFH",
+    "nom": "Bread Financial Holdings Inc"
+  },
+  {
+    "n": 194,
+    "id": 4394,
+    "symbole": "IWO",
+    "nom": "iShares Russell 2000 Growth ETF"
+  },
+  {
+    "n": 195,
+    "id": 4395,
+    "symbole": "AMLP",
+    "nom": "Alerian MLP ETF"
+  },
+  {
+    "n": 196,
+    "id": 4396,
+    "symbole": "IWN",
+    "nom": "iShares Russell 2000 Value ETF"
+  },
+  {
+    "n": 197,
+    "id": 4397,
+    "symbole": "ON",
+    "nom": "ON Semiconductor Corp"
+  },
+  {
+    "n": 198,
+    "id": 4398,
+    "symbole": "DOCU",
+    "nom": "DocuSign Inc"
+  },
+  {
+    "n": 199,
+    "id": 4399,
+    "symbole": "TTD",
+    "nom": "Trade Desk Inc"
+  },
+  {
+    "n": 200,
+    "id": 4400,
+    "symbole": "SRPT",
+    "nom": "Sarepta Therapeutics Inc"
+  }
+]

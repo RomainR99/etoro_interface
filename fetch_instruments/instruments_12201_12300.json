@@ -1,0 +1,602 @@
+[
+  {
+    "n": 1,
+    "id": 12201,
+    "symbole": "NMAX",
+    "nom": "Newsmax Inc"
+  },
+  {
+    "n": 2,
+    "id": 12202,
+    "symbole": "CHA",
+    "nom": "Chagee Holdings Limited"
+  },
+  {
+    "n": 3,
+    "id": 12203,
+    "symbole": "HOOD.RTH",
+    "nom": "Robinhood Markets Inc"
+  },
+  {
+    "n": 4,
+    "id": 12204,
+    "symbole": "IBKR.RTH",
+    "nom": "Interactive Brokers Group, Inc."
+  },
+  {
+    "n": 5,
+    "id": 12205,
+    "symbole": "CA12205",
+    "nom": "CA12205"
+  },
+  {
+    "n": 6,
+    "id": 12206,
+    "symbole": "WSLV.L",
+    "nom": "WisdomTree Core Physical Silver UCITS ETF"
+  },
+  {
+    "n": 7,
+    "id": 12207,
+    "symbole": "HNGE",
+    "nom": "Hinge Health Inc"
+  },
+  {
+    "n": 8,
+    "id": 12208,
+    "symbole": "MNTN",
+    "nom": "MNTN Inc"
+  },
+  {
+    "n": 9,
+    "id": 12209,
+    "symbole": "GLXY",
+    "nom": "Galaxy Digital"
+  },
+  {
+    "n": 10,
+    "id": 12210,
+    "symbole": "DKL",
+    "nom": "Delek Logistics Partners LP"
+  },
+  {
+    "n": 11,
+    "id": 12211,
+    "symbole": "BMR",
+    "nom": "Beamr Imaging Ltd"
+  },
+  {
+    "n": 12,
+    "id": 12212,
+    "symbole": "CHYM",
+    "nom": "Chime Financial Inc"
+  },
+  {
+    "n": 13,
+    "id": 12213,
+    "symbole": "SLDE",
+    "nom": "Slide Insurance Holdings Inc"
+  },
+  {
+    "n": 14,
+    "id": 12214,
+    "symbole": "CAI",
+    "nom": "Caris Life Sciences Inc"
+  },
+  {
+    "n": 15,
+    "id": 12215,
+    "symbole": "KLAR",
+    "nom": "Klarna Group plc"
+  },
+  {
+    "n": 16,
+    "id": 12216,
+    "symbole": "CEPU Escrow asset",
+    "nom": "CEPU SPIN OFF CVR"
+  },
+  {
+    "n": 17,
+    "id": 12217,
+    "symbole": "IGMS CVR",
+    "nom": "IGMS CVR delisting"
+  },
+  {
+    "n": 18,
+    "id": 12218,
+    "symbole": "WGLD.L",
+    "nom": "WisdomTree Core Physical Gold"
+  },
+  {
+    "n": 19,
+    "id": 12219,
+    "symbole": "SAGE CVR",
+    "nom": "Sage CVR delisting"
+  },
+  {
+    "n": 20,
+    "id": 12220,
+    "symbole": "BTC.US",
+    "nom": "Grayscale Bitcoin Mini Trust"
+  },
+  {
+    "n": 21,
+    "id": 12221,
+    "symbole": "12221",
+    "nom": "12221"
+  },
+  {
+    "n": 22,
+    "id": 12222,
+    "symbole": "12222",
+    "nom": "12222"
+  },
+  {
+    "n": 23,
+    "id": 12223,
+    "symbole": "12223",
+    "nom": "12223"
+  },
+  {
+    "n": 24,
+    "id": 12224,
+    "symbole": "12224",
+    "nom": "12224"
+  },
+  {
+    "n": 25,
+    "id": 12225,
+    "symbole": "12225",
+    "nom": "12225"
+  },
+  {
+    "n": 26,
+    "id": 12226,
+    "symbole": "12226",
+    "nom": "12226"
+  },
+  {
+    "n": 27,
+    "id": 12227,
+    "symbole": "12227",
+    "nom": "12227"
+  },
+  {
+    "n": 28,
+    "id": 12228,
+    "symbole": "12228",
+    "nom": "12228"
+  },
+  {
+    "n": 29,
+    "id": 12229,
+    "symbole": "12229",
+    "nom": "12229"
+  },
+  {
+    "n": 30,
+    "id": 12230,
+    "symbole": "TUI1.DE",
+    "nom": "TUI AG"
+  },
+  {
+    "n": 31,
+    "id": 12231,
+    "symbole": "R3NK.DE",
+    "nom": "RENK Group AG"
+  },
+  {
+    "n": 32,
+    "id": 12232,
+    "symbole": "LIN.DE",
+    "nom": "Linde PLC"
+  },
+  {
+    "n": 33,
+    "id": 12233,
+    "symbole": "DOU.DE",
+    "nom": "Douglas AG"
+  },
+  {
+    "n": 34,
+    "id": 12234,
+    "symbole": "BMW3.DE",
+    "nom": "Bayerische Motoren Werke AG"
+  },
+  {
+    "n": 35,
+    "id": 12235,
+    "symbole": "22UA.DE",
+    "nom": "Biontech SE"
+  },
+  {
+    "n": 36,
+    "id": 12236,
+    "symbole": "1SXP.DE",
+    "nom": "SCHOTT Pharma AG & Co KgaA"
+  },
+  {
+    "n": 37,
+    "id": 12237,
+    "symbole": "SMHN.DE",
+    "nom": "SUSS MicroTec SE"
+  },
+  {
+    "n": 38,
+    "id": 12238,
+    "symbole": "FPE3.DE",
+    "nom": "Fuchs Se"
+  },
+  {
+    "n": 39,
+    "id": 12239,
+    "symbole": "ADE.DE",
+    "nom": "Bitcoin Group SE"
+  },
+  {
+    "n": 40,
+    "id": 12240,
+    "symbole": "TPE.DE",
+    "nom": "PVA TePla AG"
+  },
+  {
+    "n": 41,
+    "id": 12241,
+    "symbole": "SFQ.DE",
+    "nom": "Saf-Holland Se"
+  },
+  {
+    "n": 42,
+    "id": 12242,
+    "symbole": "SIX3.DE",
+    "nom": "Sixt SE"
+  },
+  {
+    "n": 43,
+    "id": 12243,
+    "symbole": "BBZA.DE",
+    "nom": "BB Biotech AG"
+  },
+  {
+    "n": 44,
+    "id": 12244,
+    "symbole": "F3C.DE",
+    "nom": "SFC Energy AG"
+  },
+  {
+    "n": 45,
+    "id": 12245,
+    "symbole": "KTA.DE",
+    "nom": "Knaus Tabbert AG"
+  },
+  {
+    "n": 46,
+    "id": 12246,
+    "symbole": "SBX.DE",
+    "nom": "SynBiotic SE"
+  },
+  {
+    "n": 47,
+    "id": 12247,
+    "symbole": "ILM1.DE",
+    "nom": "Medios AG"
+  },
+  {
+    "n": 48,
+    "id": 12248,
+    "symbole": "CLIQ.DE",
+    "nom": "CLIQ Digital AG"
+  },
+  {
+    "n": 49,
+    "id": 12249,
+    "symbole": "DBAN.DE",
+    "nom": "Deutsche Beteiligungs AG"
+  },
+  {
+    "n": 50,
+    "id": 12250,
+    "symbole": "2GB.DE",
+    "nom": "2G Energy AG"
+  },
+  {
+    "n": 51,
+    "id": 12251,
+    "symbole": "BDT.DE",
+    "nom": "Bertrandt AG"
+  },
+  {
+    "n": 52,
+    "id": 12252,
+    "symbole": "D6H.DE",
+    "nom": "Datagroup SE"
+  },
+  {
+    "n": 53,
+    "id": 12253,
+    "symbole": "ACT.DE",
+    "nom": "Alzchem Group AG"
+  },
+  {
+    "n": 54,
+    "id": 12254,
+    "symbole": "RY4C.DE",
+    "nom": "Ryanair Holdings PLC"
+  },
+  {
+    "n": 55,
+    "id": 12255,
+    "symbole": "VOS.DE",
+    "nom": "Vossloh AG"
+  },
+  {
+    "n": 56,
+    "id": 12256,
+    "symbole": "INH.DE",
+    "nom": "Indus Holding AG"
+  },
+  {
+    "n": 57,
+    "id": 12257,
+    "symbole": "BRNK.DE",
+    "nom": "Branicks Group AG"
+  },
+  {
+    "n": 58,
+    "id": 12258,
+    "symbole": "KTE.DE",
+    "nom": "Katek Se"
+  },
+  {
+    "n": 59,
+    "id": 12259,
+    "symbole": "STO3.DE",
+    "nom": "Sto SE & Co KgaA"
+  },
+  {
+    "n": 60,
+    "id": 12260,
+    "symbole": "WUW.DE",
+    "nom": "Wuestenrot & Wuerttembergische AG"
+  },
+  {
+    "n": 61,
+    "id": 12261,
+    "symbole": "OMV.DE",
+    "nom": "Omv AG"
+  },
+  {
+    "n": 62,
+    "id": 12262,
+    "symbole": "DR0.DE",
+    "nom": "Deutsche Rohstoff AG"
+  },
+  {
+    "n": 63,
+    "id": 12263,
+    "symbole": "CWC.DE",
+    "nom": "Cewe Stiftung & Co KGaA"
+  },
+  {
+    "n": 64,
+    "id": 12264,
+    "symbole": "M12.DE",
+    "nom": "M1 Kliniken AG"
+  },
+  {
+    "n": 65,
+    "id": 12265,
+    "symbole": "SKB.DE",
+    "nom": "Koenig & Bauer AG"
+  },
+  {
+    "n": 66,
+    "id": 12266,
+    "symbole": "HRPK.DE",
+    "nom": "7C Solarparken AG"
+  },
+  {
+    "n": 67,
+    "id": 12267,
+    "symbole": "KSB3.DE",
+    "nom": "KSB SE & Co KGaA"
+  },
+  {
+    "n": 68,
+    "id": 12268,
+    "symbole": "690D.DE",
+    "nom": "Haier Smart Home Co Ltd"
+  },
+  {
+    "n": 69,
+    "id": 12269,
+    "symbole": "BSL.DE",
+    "nom": "Basler AG"
+  },
+  {
+    "n": 70,
+    "id": 12270,
+    "symbole": "TTK.DE",
+    "nom": "Takkt AG"
+  },
+  {
+    "n": 71,
+    "id": 12271,
+    "symbole": "5CV.DE",
+    "nom": "CureVac NV"
+  },
+  {
+    "n": 72,
+    "id": 12272,
+    "symbole": "NXU.DE",
+    "nom": "Nexus AG"
+  },
+  {
+    "n": 73,
+    "id": 12273,
+    "symbole": "MUM.DE",
+    "nom": "Mensch und Maschine Software SE"
+  },
+  {
+    "n": 74,
+    "id": 12274,
+    "symbole": "IXX.DE",
+    "nom": "init innovation in traffic systems SE"
+  },
+  {
+    "n": 75,
+    "id": 12275,
+    "symbole": "CHG.DE",
+    "nom": "CHAPTERS Group AG"
+  },
+  {
+    "n": 76,
+    "id": 12276,
+    "symbole": "TIMA.DE",
+    "nom": "ZEAL Network SE"
+  },
+  {
+    "n": 77,
+    "id": 12277,
+    "symbole": "WSU.DE",
+    "nom": "Washtec AG"
+  },
+  {
+    "n": 78,
+    "id": 12278,
+    "symbole": "A1OS.DE",
+    "nom": "All for One Group SE"
+  },
+  {
+    "n": 79,
+    "id": 12279,
+    "symbole": "PSAN.DE",
+    "nom": "PSI Software SE"
+  },
+  {
+    "n": 80,
+    "id": 12280,
+    "symbole": "AEIN.DE",
+    "nom": "Allgeier SE"
+  },
+  {
+    "n": 81,
+    "id": 12281,
+    "symbole": "BIJ.DE",
+    "nom": "Bijou Brigitte modische Accessoires AG"
+  },
+  {
+    "n": 82,
+    "id": 12282,
+    "symbole": "INS.DE",
+    "nom": "Instone Real Estate Group SE"
+  },
+  {
+    "n": 83,
+    "id": 12283,
+    "symbole": "EIN.DE",
+    "nom": "Einhell Germany AG"
+  },
+  {
+    "n": 84,
+    "id": 12284,
+    "symbole": "GIL.DE",
+    "nom": "DMG Mori AG"
+  },
+  {
+    "n": 85,
+    "id": 12285,
+    "symbole": "OHB0.DE",
+    "nom": "OHB SE"
+  },
+  {
+    "n": 86,
+    "id": 12286,
+    "symbole": "VIB3.DE",
+    "nom": "Villeroy & Boch AG"
+  },
+  {
+    "n": 87,
+    "id": 12287,
+    "symbole": "NTG.DE",
+    "nom": "Nabaltec AG"
+  },
+  {
+    "n": 88,
+    "id": 12288,
+    "symbole": "TNIE.DE",
+    "nom": "tonies SE"
+  },
+  {
+    "n": 89,
+    "id": 12289,
+    "symbole": "RAW.DE",
+    "nom": "Raiffeisen Bank International AG"
+  },
+  {
+    "n": 90,
+    "id": 12290,
+    "symbole": "HHF.DE",
+    "nom": "Hamburger Hafen und Logistik AG"
+  },
+  {
+    "n": 91,
+    "id": 12291,
+    "symbole": "C3RY.DE",
+    "nom": "Cherry SE"
+  },
+  {
+    "n": 92,
+    "id": 12292,
+    "symbole": "JY0.DE",
+    "nom": "ParTec AG"
+  },
+  {
+    "n": 93,
+    "id": 12293,
+    "symbole": "PCZ.DE",
+    "nom": "ProCredit Holding AG"
+  },
+  {
+    "n": 94,
+    "id": 12294,
+    "symbole": "NWO.DE",
+    "nom": "New Work SE"
+  },
+  {
+    "n": 95,
+    "id": 12295,
+    "symbole": "H2O.DE",
+    "nom": "Enapter AG"
+  },
+  {
+    "n": 96,
+    "id": 12296,
+    "symbole": "IVU.DE",
+    "nom": "IVU Traffic Technologies AG"
+  },
+  {
+    "n": 97,
+    "id": 12297,
+    "symbole": "FAA.DE",
+    "nom": "Fabasoft AG"
+  },
+  {
+    "n": 98,
+    "id": 12298,
+    "symbole": "GSC1.DE",
+    "nom": "Gesco SE"
+  },
+  {
+    "n": 99,
+    "id": 12299,
+    "symbole": "ERAG.DE",
+    "nom": "Ernst Russ AG"
+  },
+  {
+    "n": 100,
+    "id": 12300,
+    "symbole": "CEK.DE",
+    "nom": "CeoTronics Audio Video Data Communication AG"
+  }
+]
