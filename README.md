@@ -8,6 +8,7 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
   - [Limiter les requêtes (rate limit par visiteur)](#limiter-les-requêtes-rate-limit-par-visiteur)
   - [CAPTCHA (anti-bots)](#captcha-anti-bots)
   - [Récupérer les données du chatbot](#récupérer-les-données-du-chatbot)
+  - [Consentements cookies (SQLite)](#consentements-cookies-sqlite)
 - [Corrections à apporter](#corrections-à-apporter)
 - [Sécurité et déploiement](#sécurité-et-déploiement)
 - [Apple / iOS](#apple--ios)
@@ -111,6 +112,57 @@ Chaque question posée et chaque réponse sont enregistrées dans `data/chat_que
 | `GET /api/chat-questions?format=csv` | CSV | Télécharge un fichier CSV `chat_questions.csv` (colonnes : timestamp, question, reply) |
 
 Exemple : `curl http://127.0.0.1:5001/api/chat-questions` ou ouvrir l’URL dans le navigateur pour le JSON. Pour l’export CSV : `http://127.0.0.1:5001/api/chat-questions?format=csv`.
+
+### Consentements cookies (SQLite)
+
+#### Base SQLite — `data/cookie_consent.sqlite`
+
+Table **`cookie_consent_log`** :
+
+| Colonne | Contenu |
+|---------|---------|
+| `id` | Identifiant auto |
+| `created_at` | Horodatage UTC (ISO) |
+| `choice` | `accepted` ou `necessary` |
+| `visitor_id` | Cookie `visitor_id` (lien avec le reste du site) |
+| `lang` | Langue envoyée par le front (`page_lang`) |
+| `user_agent` | User-Agent (tronqué à 512 car.) |
+| `client_ip` | IP client (`X-Forwarded-For` ou `remote_addr`) |
+
+Le fichier est créé au premier consentement. Il est listé dans **`.gitignore`** pour ne pas versionner les données.
+
+#### API — `POST /api/cookie-consent`
+
+- **Corps JSON** : `{"choice": "accepted"|"necessary", "lang": "fr"|"en"}`
+- **Comportement** : enregistre une ligne en base, pose le cookie **`visitor_id`** si besoin (comme sur le profil).
+- **Réponse** : `{"ok": true}` ou erreur **400** / **500**.
+
+#### Front — `templates/partials/cookie_banner.html`
+
+Après enregistrement du consentement côté navigateur (cookie HTTP `cookieConsent`), un **`fetch`** envoie le même choix au serveur **sans bloquer l’UI** si la requête échoue.
+
+**Consulter les traces** (exemple) :
+
+```bash
+sqlite3 data/cookie_consent.sqlite "SELECT * FROM cookie_consent_log ORDER BY id DESC LIMIT 20;"
+```
+
+**Mode interactif** (depuis la racine du projet, avec `sqlite3` installé — souvent déjà présent sur macOS/Linux) :
+
+```bash
+sqlite3 data/cookie_consent.sqlite
+```
+
+Puis dans le shell SQLite :
+
+```sql
+.tables
+.schema cookie_consent_log
+SELECT id, created_at, choice, visitor_id, lang FROM cookie_consent_log ORDER BY id DESC;
+.quit
+```
+
+> **Note** : conserver l’IP et le user-agent relève du **traitement de données** ; prévois l’information dans ta **politique de confidentialité** / **RGPD** si besoin.
 
 ## Corrections à apporter
 
