@@ -11,6 +11,7 @@ import csv
 import io
 import json
 import os
+import sqlite3
 import re
 import time
 import uuid
@@ -50,6 +51,8 @@ TRADER_POSTS_PATH = os.path.join(os.path.dirname(__file__), "data", "trader_post
 TRADER_POST_IMAGES_DIR = os.path.join(os.path.dirname(__file__), "data", "trader_post_images")
 LEXIQUE_PATH = os.path.join(os.path.dirname(__file__), "data", "lexique.json")
 FAQ_PATH = os.path.join(os.path.dirname(__file__), "data", "faq.json")
+COOKIE_CONSENT_DB_PATH = os.path.join(os.path.dirname(__file__), "data", "cookie_consent.sqlite")
+_cookie_consent_db_ready = False
 _lexique_json_cache: list | None = None
 _faq_json_cache: list | None = None
 _trader_posts_cache: list[dict] | None = None
@@ -130,6 +133,66 @@ def _get_client_ip() -> str:
     if forwarded:
         return forwarded.split(",")[0].strip()
     return request.remote_addr or "unknown"
+
+
+def _ensure_cookie_consent_db() -> None:
+    """Crée la base SQLite et la table si besoin."""
+    global _cookie_consent_db_ready
+    if _cookie_consent_db_ready:
+        return
+    os.makedirs(os.path.dirname(COOKIE_CONSENT_DB_PATH), exist_ok=True)
+    conn = sqlite3.connect(COOKIE_CONSENT_DB_PATH)
+    try:
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS cookie_consent_log (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                created_at TEXT NOT NULL,
+                choice TEXT NOT NULL,
+                visitor_id TEXT,
+                lang TEXT,
+                user_agent TEXT,
+                client_ip TEXT
+            )
+            """
+        )
+        conn.execute(
+            "CREATE INDEX IF NOT EXISTS idx_cookie_consent_created ON cookie_consent_log(created_at)"
+        )
+        conn.commit()
+        _cookie_consent_db_ready = True
+    finally:
+        conn.close()
+
+
+def _log_cookie_consent_to_db(
+    choice: str,
+    visitor_id: str | None,
+    lang: str | None,
+    user_agent: str | None,
+    client_ip: str | None,
+) -> None:
+    """Enregistre une ligne de consentement cookies (trace en base)."""
+    _ensure_cookie_consent_db()
+    conn = sqlite3.connect(COOKIE_CONSENT_DB_PATH)
+    try:
+        conn.execute(
+            """
+            INSERT INTO cookie_consent_log (created_at, choice, visitor_id, lang, user_agent, client_ip)
+            VALUES (?, ?, ?, ?, ?, ?)
+            """,
+            (
+                datetime.now(timezone.utc).isoformat(),
+                choice,
+                visitor_id or "",
+                (lang or "")[:16],
+                (user_agent or "")[:512],
+                (client_ip or "")[:64],
+            ),
+        )
+        conn.commit()
+    finally:
+        conn.close()
 
 
 def _check_chat_rate_limit(visitor_id: str) -> bool:
@@ -781,6 +844,26 @@ def api_trader_posts():
             "has_more": offset + limit < len(filtered),
         }
     )
+
+
+@app.route("/api/cookie-consent", methods=["POST"])
+def api_cookie_consent():
+    """Enregistre le choix de consentement cookies en base (SQLite) et pose visitor_id si besoin."""
+    data = request.get_json(silent=True) or {}
+    choice = (data.get("choice") or "").strip().lower()
+    if choice not in ("accepted", "necessary"):
+        return jsonify({"ok": False, "error": "invalid choice"}), 400
+    lang = (data.get("lang") or "").strip()[:16]
+    ua = (request.headers.get("User-Agent") or "")[:512]
+    ip = _get_client_ip()
+    resp = make_response(jsonify({"ok": True}))
+    visitor_id = _get_or_set_visitor_id(resp)
+    try:
+        _log_cookie_consent_to_db(choice, visitor_id, lang, ua, ip)
+    except Exception:
+        app.logger.exception("cookie_consent_db")
+        return jsonify({"ok": False, "error": "storage"}), 500
+    return resp
 
 
 @app.route("/lexique")

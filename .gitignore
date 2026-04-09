@@ -7,3 +7,4 @@ __pycache__/
 .json
 .csv
 data/zonebourse_images/
+data/cookie_consent.sqlite

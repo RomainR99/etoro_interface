@@ -58,6 +58,7 @@
     </style>
 </head>
 <body>
+    {% include 'partials/cookie_banner.html' %}
     <div class="container" id="lexPageRoot">
         <a class="back show-fr" href="/">← Retour au profil</a>
         <a class="back show-en" href="/">← Back to profile</a>
@@ -96,6 +97,7 @@
         (function () {
             var lang = localStorage.getItem("page_lang") || "fr";
             if (lang === "en") document.getElementById("lexPageRoot").classList.add("lang-en");
+            if (typeof window.refreshCookieBannerLang === "function") window.refreshCookieBannerLang();
         })();
     </script>
 </body>

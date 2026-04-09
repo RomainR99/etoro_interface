@@ -608,6 +608,7 @@
     </style>
 </head>
 <body>
+    {% include 'partials/cookie_banner.html' %}
     <div class="container">
         <header>
             <a href="https://www.etoro.com/people/{{ username }}" class="header-etoro-hit" target="_blank" rel="noopener noreferrer" aria-label="Profil eToro — {{ username }}"></a>
@@ -1383,6 +1384,10 @@
                 }
                 window.__postEmptyI18n = { noPost: t.noPost, noPostsInLanguage: t.noPostsInLanguage };
                 if (typeof window.resetTraderPostsList === "function") window.resetTraderPostsList();
+                const cookieBn = document.getElementById("cookieConsentBanner");
+                if (cookieBn && !cookieBn.hasAttribute("hidden") && typeof window.refreshCookieBannerLang === "function") {
+                    window.refreshCookieBannerLang();
+                }
             }
 
             const savedLang = localStorage.getItem("page_lang") || "en";

@@ -1,0 +1,213 @@
+<style>
+    #cookieConsentBanner.cookie-consent-banner {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 200;
+        padding: 1rem 1.25rem calc(1rem + env(safe-area-inset-bottom, 0px));
+        background: var(--card, #161b22);
+        border-top: 1px solid var(--border, #30363d);
+        box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.35);
+    }
+    #cookieConsentBanner.cookie-consent-banner[hidden] {
+        display: none !important;
+    }
+    .cookie-consent-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+    .cookie-consent-text {
+        flex: 1 1 280px;
+        margin: 0;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        color: var(--text, #e6edf3);
+    }
+    .cookie-consent-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        flex-shrink: 0;
+    }
+    .cookie-consent-btn {
+        font-family: inherit;
+        font-size: 0.9rem;
+        font-weight: 600;
+        padding: 0.55rem 1.1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        border: 2px solid var(--border, #30363d);
+        transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+    }
+    .cookie-consent-btn-secondary {
+        background: transparent;
+        color: var(--text, #e6edf3);
+    }
+    .cookie-consent-btn-secondary:hover {
+        border-color: var(--muted, #8b949e);
+    }
+    .cookie-consent-btn-primary {
+        background: var(--accent, #58a6ff);
+        color: var(--bg, #0d1117);
+        border-color: var(--accent, #58a6ff);
+    }
+    .cookie-consent-btn-primary:hover {
+        filter: brightness(1.08);
+    }
+    @media (max-width: 540px) {
+        .cookie-consent-actions {
+            width: 100%;
+        }
+        .cookie-consent-btn {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+    }
+</style>
+<div id="cookieConsentBanner" class="cookie-consent-banner" role="dialog" aria-modal="false" aria-labelledby="cookieConsentText" hidden>
+    <div class="cookie-consent-inner">
+        <p id="cookieConsentText" class="cookie-consent-text" aria-live="polite"></p>
+        <div class="cookie-consent-actions">
+            <button type="button" id="cookieAcceptNecessary" class="cookie-consent-btn cookie-consent-btn-secondary"></button>
+            <button type="button" id="cookieAcceptAll" class="cookie-consent-btn cookie-consent-btn-primary"></button>
+        </div>
+    </div>
+</div>
+<script>
+(function () {
+    /** Nom du cookie HTTP (lisible côté JS à chaque visite, et par le serveur via l’en-tête Cookie) */
+    var CONSENT_COOKIE_NAME = "cookieConsent";
+    /** Ancienne clé localStorage — migrée vers le cookie si présente */
+    var STORAGE_KEY = "cookie_consent";
+    var COOKIE_I18N = {
+        en: {
+            text: "We use cookies to enable the proper functioning and security of our website, and to offer you the best possible user experience.",
+            necessary: "Accept only necessary",
+            all: "Accept all"
+        },
+        fr: {
+            text: "Nous utilisons des cookies pour assurer le bon fonctionnement et la sécurité de notre site, et pour vous offrir la meilleure expérience utilisateur possible.",
+            necessary: "Accepter uniquement les nécessaires",
+            all: "Tout accepter"
+        }
+    };
+    function cookieLang() {
+        return localStorage.getItem("page_lang") === "en" ? "en" : "fr";
+    }
+    function applyCookieTexts() {
+        var t = COOKIE_I18N[cookieLang()] || COOKIE_I18N.en;
+        var textEl = document.getElementById("cookieConsentText");
+        var btnN = document.getElementById("cookieAcceptNecessary");
+        var btnA = document.getElementById("cookieAcceptAll");
+        if (textEl) textEl.textContent = t.text;
+        if (btnN) btnN.textContent = t.necessary;
+        if (btnA) btnA.textContent = t.all;
+    }
+    function showCookieBanner() {
+        var banner = document.getElementById("cookieConsentBanner");
+        if (!banner) return;
+        banner.removeAttribute("hidden");
+        applyCookieTexts();
+    }
+    function hideCookieBanner() {
+        var banner = document.getElementById("cookieConsentBanner");
+        if (banner) banner.setAttribute("hidden", "");
+    }
+    function getCookie(name) {
+        var parts = ("; " + document.cookie).split("; " + name + "=");
+        if (parts.length === 2) {
+            return decodeURIComponent(parts.pop().split(";").shift() || "");
+        }
+        return "";
+    }
+    /** Écrit le cookie de consentement (1 an, path=/, SameSite=Lax, Secure en HTTPS) */
+    function setConsentCookie(value) {
+        var maxAge = 365 * 24 * 60 * 60;
+        var secure = location.protocol === "https:" ? "; Secure" : "";
+        document.cookie =
+            CONSENT_COOKIE_NAME +
+            "=" +
+            encodeURIComponent(value) +
+            "; path=/; max-age=" +
+            maxAge +
+            "; SameSite=Lax" +
+            secure;
+    }
+    /**
+     * Valeur actuelle du consentement lue sur document.cookie à chaque chargement.
+     * — "accepted" : tout accepter
+     * — "necessary" : uniquement les cookies nécessaires
+     * — "" : pas encore choisi
+     */
+    function getConsentFromCookie() {
+        return getCookie(CONSENT_COOKIE_NAME);
+    }
+    function migrateLegacyStorage() {
+        try {
+            var fromCookie = getConsentFromCookie();
+            if (fromCookie === "accepted" || fromCookie === "necessary") return true;
+            var old = localStorage.getItem(STORAGE_KEY);
+            if (old === "all") {
+                setConsentCookie("accepted");
+                return true;
+            }
+            if (old === "necessary") {
+                setConsentCookie("necessary");
+                return true;
+            }
+        } catch (e) {}
+        return false;
+    }
+    function hasConsentAlready() {
+        if (migrateLegacyStorage()) return true;
+        var v = getConsentFromCookie();
+        return v === "accepted" || v === "necessary";
+    }
+    function saveConsent(choice) {
+        if (choice === "all") {
+            setConsentCookie("accepted");
+            try {
+                localStorage.setItem(STORAGE_KEY, "all");
+            } catch (e) {}
+        } else {
+            setConsentCookie("necessary");
+            try {
+                localStorage.setItem(STORAGE_KEY, "necessary");
+            } catch (e) {}
+        }
+        hideCookieBanner();
+        var apiChoice = choice === "all" ? "accepted" : "necessary";
+        var lang = "fr";
+        try {
+            lang = localStorage.getItem("page_lang") || "fr";
+        } catch (e) {}
+        fetch("/api/cookie-consent", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify({ choice: apiChoice, lang: lang }),
+            credentials: "same-origin",
+        }).catch(function () {});
+    }
+    function initCookieBanner() {
+        if (hasConsentAlready()) return;
+        showCookieBanner();
+    }
+    window.getCookieConsent = getConsentFromCookie;
+    var btnNec = document.getElementById("cookieAcceptNecessary");
+    var btnAll = document.getElementById("cookieAcceptAll");
+    if (btnNec) btnNec.addEventListener("click", function () { saveConsent("necessary"); });
+    if (btnAll) btnAll.addEventListener("click", function () { saveConsent("all"); });
+    window.refreshCookieBannerLang = applyCookieTexts;
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initCookieBanner);
+    } else {
+        initCookieBanner();
+    }
+})();
+</script>
