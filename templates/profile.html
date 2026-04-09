@@ -49,7 +49,7 @@
         }
         header {
             display: grid;
-            grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+            grid-template-columns: minmax(0, 1fr) auto;
             align-items: center;
             column-gap: 1.25rem;
             row-gap: 0.75rem;
@@ -356,6 +356,14 @@
             opacity: 0.6;
             cursor: not-allowed;
         }
+        .posts-load-more-wrap {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 0.8rem;
+        }
+        .posts-load-more-wrap .btn-load-more-posts {
+            margin-top: 0;
+        }
         /* Chatbot bas-droite */
         .chat-toggle-wrap {
             position: fixed;
@@ -392,15 +400,6 @@
             min-width: 0;
             position: relative;
             z-index: 5;
-            pointer-events: auto;
-        }
-        .header-center {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-width: 0;
-            position: relative;
-            z-index: 10;
             pointer-events: auto;
         }
         .header-right {
@@ -443,27 +442,12 @@
             padding: 0.7rem 1rem;
             border-radius: 12px;
             border-width: 2px;
-        }
-        .btn-search-icon {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 3.2rem;
-            height: 3.2rem;
-            padding: 0;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            background: var(--card);
-            color: var(--text);
-            cursor: pointer;
-            transition: border-color 0.15s ease, color 0.15s ease;
-        }
-        .btn-search-icon:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-        .btn-search-icon svg {
-            display: block;
+            line-height: 1;
+            box-sizing: border-box;
+            min-height: calc(1.7rem + 1.4rem + 4px);
         }
         .nav-help-btn {
             min-width: 3.2rem;
@@ -473,114 +457,6 @@
             font-size: 1.7rem;
             text-decoration: none;
             color: inherit;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .search-modal {
-            position: fixed;
-            inset: 0;
-            z-index: 200;
-            display: none;
-            align-items: flex-start;
-            justify-content: center;
-            padding: 8vh 1rem 2rem;
-        }
-        .search-modal.open {
-            display: flex;
-        }
-        .search-modal-backdrop {
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.55);
-            cursor: pointer;
-        }
-        .search-modal-panel {
-            position: relative;
-            width: min(520px, 100%);
-            max-height: min(80vh, 640px);
-            overflow: auto;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 1.1rem 1.25rem 1.25rem;
-            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
-        }
-        .search-modal-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 0.75rem;
-            margin-bottom: 0.85rem;
-        }
-        .search-modal-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin: 0;
-        }
-        .search-modal-close {
-            background: none;
-            border: none;
-            color: var(--muted);
-            font-size: 1.5rem;
-            line-height: 1;
-            cursor: pointer;
-            padding: 0.2rem;
-        }
-        .search-modal-close:hover {
-            color: var(--text);
-        }
-        .modal-search-input {
-            width: 100%;
-            padding: 0.65rem 0.9rem;
-            font-size: 1.05rem;
-            border: 2px solid var(--border);
-            border-radius: 10px;
-            background: var(--bg);
-            color: var(--text);
-            margin-bottom: 1rem;
-            box-sizing: border-box;
-        }
-        .search-modal-scopes {
-            display: flex;
-            flex-direction: column;
-            gap: 0.55rem;
-            margin-bottom: 0.75rem;
-        }
-        .search-scope {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-            font-size: 0.95rem;
-            color: var(--text);
-        }
-        .search-scope input {
-            accent-color: var(--accent);
-        }
-        .lexicon-modal-results {
-            border-top: 1px solid var(--border);
-            padding-top: 0.75rem;
-            margin-top: 0.25rem;
-            max-height: 220px;
-            overflow-y: auto;
-            font-size: 0.9rem;
-        }
-        .lexicon-modal-results .lex-row {
-            padding: 0.5rem 0;
-            border-bottom: 1px solid var(--border);
-        }
-        .lexicon-modal-results .lex-row:last-child {
-            border-bottom: none;
-        }
-        .lexicon-modal-results strong {
-            color: var(--accent);
-            display: block;
-            margin-bottom: 0.2rem;
-        }
-        .lexicon-modal-empty {
-            color: var(--muted);
-            font-size: 0.9rem;
         }
         .chat-panel {
             display: none;
@@ -725,11 +601,6 @@
                     {% if current_copiers is not none %}<span class="badge" id="copiersBadge" style="background: rgba(139,148,158,0.2); color: var(--muted);" data-count="{{ current_copiers }}">{{ current_copiers }} copieur{% if current_copiers > 1 %}s{% endif %}</span>{% endif %}
                 </div>
             </div>
-            <div class="header-center">
-                <button type="button" id="btnOpenSearchModal" class="btn-search-icon" title="Rechercher" aria-label="Rechercher">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                </button>
-            </div>
             <div class="header-right">
                 <button type="button" id="navHomeBtn" class="lang-btn nav-header-btn" title="Haut de page">Accueil</button>
                 <button type="button" id="navPostsBtn" class="lang-btn nav-header-btn" title="Section posts">Posts</button>
@@ -740,23 +611,6 @@
                 </div>
             </div>
         </header>
-
-        <div id="searchModal" class="search-modal" aria-hidden="true">
-            <div class="search-modal-backdrop" id="searchModalBackdrop" tabindex="-1"></div>
-            <div class="search-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalSearchTitle">
-                <div class="search-modal-top">
-                    <h2 id="modalSearchTitle" class="search-modal-title">Recherche</h2>
-                    <button type="button" id="searchModalClose" class="search-modal-close" aria-label="Fermer">×</button>
-                </div>
-                <input type="search" id="modalSearchInput" class="modal-search-input" autocomplete="off" enterkeyhint="search" placeholder="Rechercher…" />
-                <div class="search-modal-scopes">
-                    <label class="search-scope"><input type="radio" name="searchScope" value="title" checked /> <span id="lblScopeTitle">Titres des posts</span></label>
-                    <label class="search-scope"><input type="radio" name="searchScope" value="body" /> <span id="lblScopeBody">Contenus des posts</span></label>
-                    <label class="search-scope"><input type="radio" name="searchScope" value="lexicon" /> <span id="lblScopeLex">Lexique</span></label>
-                </div>
-                <div id="lexiconModalResults" class="lexicon-modal-results" style="display:none;"></div>
-            </div>
-        </div>
 
         {% if not profile and not gain and not portfolio %}
             <div class="error-box">
@@ -851,7 +705,9 @@
         <div class="card" id="section-posts" style="margin-top: 1.5rem; grid-column: 1 / -1;">
             <ul id="traderPostsList" class="trader-posts-list"></ul>
             <p id="traderPostsEmpty" class="empty-state" style="display:none;">Aucun post disponible.</p>
-            <button type="button" id="loadMorePostsBtn" class="btn-load-more-posts" style="display:none;">Charger plus</button>
+            <div class="posts-load-more-wrap">
+                <button type="button" id="loadMorePostsBtn" class="btn-load-more-posts" style="display:none;">Charger plus</button>
+            </div>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -1108,20 +964,14 @@
                 var listEl = document.getElementById('traderPostsList');
                 var emptyEl = document.getElementById('traderPostsEmpty');
                 var loadBtn = document.getElementById('loadMorePostsBtn');
-                var modalSearchInput = document.getElementById('modalSearchInput');
-                var searchModal = document.getElementById('searchModal');
-                var lexiconModalResults = document.getElementById('lexiconModalResults');
                 if (!listEl || !loadBtn) return;
                 var INITIAL_POSTS = 4;
                 var LOAD_MORE_CHUNK = 2;
-                var SEARCH_DEBOUNCE_MS = 300;
                 var displayedPosts = [];
                 var browseNextOffset = 0;
                 var browseHasMore = false;
                 var browseTotal = 0;
                 var browseTotalAll = 0;
-                var searchMode = false;
-                var searchTimer = null;
                 var isLoading = false;
                 var postsFetchAbort = null;
 
@@ -1218,18 +1068,10 @@
                     if (emptyEl) {
                         if (displayedPosts.length === 0) {
                             emptyEl.style.display = 'block';
-                            if (searchMode) {
-                                emptyEl.textContent = lang === "fr" ? "Aucun résultat pour cette recherche." : "No results for this search.";
-                            } else {
-                                emptyEl.textContent = browseTotalAll === 0 ? msgs.none : msgs.noLang;
-                            }
+                            emptyEl.textContent = browseTotalAll === 0 ? msgs.none : msgs.noLang;
                         } else {
                             emptyEl.style.display = 'none';
                         }
-                    }
-                    if (searchMode) {
-                        loadBtn.style.display = 'none';
-                        return;
                     }
                     if (displayedPosts.length === 0) {
                         loadBtn.style.display = 'none';
@@ -1246,24 +1088,12 @@
                     return fetch('/api/trader-posts?offset=' + offset + '&limit=' + limit + '&lang=' + getUiLang(), { signal: signal })
                         .then(function (r) { if (!r.ok) throw new Error('posts'); return r.json(); });
                 }
-                function fetchPostSearch(q, scope, signal) {
-                    var sc = scope === 'body' ? 'body' : 'title';
-                    return fetch('/api/trader-posts/search?q=' + encodeURIComponent(q) + '&lang=' + getUiLang() + '&limit=80&scope=' + sc, { signal: signal })
-                        .then(function (r) { if (!r.ok) throw new Error('search'); return r.json(); });
-                }
-
-                function getModalScope() {
-                    var r = document.querySelector('input[name="searchScope"]:checked');
-                    return r ? r.value : 'title';
-                }
 
                 function loadBrowseInitial() {
                     abortPostsFetch();
                     postsFetchAbort = new AbortController();
                     var signal = postsFetchAbort.signal;
                     isLoading = true;
-                    searchMode = false;
-                    window.__postsSearchState = null;
                     displayedPosts = [];
                     browseNextOffset = 0;
                     listEl.innerHTML = '';
@@ -1289,7 +1119,7 @@
                 }
 
                 function loadBrowseMore() {
-                    if (searchMode || !browseHasMore || isLoading) return;
+                    if (!browseHasMore || isLoading) return;
                     abortPostsFetch();
                     postsFetchAbort = new AbortController();
                     var signal = postsFetchAbort.signal;
@@ -1312,140 +1142,12 @@
                         });
                 }
 
-                function runPostSearch(q, scope) {
-                    var trimmed = (q || '').trim();
-                    if (!trimmed) {
-                        return loadBrowseInitial();
-                    }
-                    abortPostsFetch();
-                    postsFetchAbort = new AbortController();
-                    var signal = postsFetchAbort.signal;
-                    isLoading = true;
-                    searchMode = true;
-                    listEl.innerHTML = '';
-                    displayedPosts = [];
-                    return fetchPostSearch(trimmed, scope, signal)
-                        .then(function (data) {
-                            displayedPosts = data.posts || [];
-                            displayedPosts.forEach(appendPostLi);
-                            window.__postsSearchState = { query: trimmed, scope: scope };
-                        })
-                        .catch(function (e) { if (e.name !== 'AbortError') console.error(e); })
-                        .finally(function () {
-                            isLoading = false;
-                            updateEmptyAndLoadBtn();
-                        });
-                }
-
-                function runLexiconSearch(q) {
-                    var trimmed = (q || '').trim();
-                    if (!lexiconModalResults) return;
-                    if (!trimmed) {
-                        lexiconModalResults.style.display = 'none';
-                        lexiconModalResults.innerHTML = '';
-                        return;
-                    }
-                    fetch('/api/lexique/search?q=' + encodeURIComponent(trimmed) + '&lang=' + getUiLang())
-                        .then(function (r) { return r.json(); })
-                        .then(function (data) {
-                            var entries = data.entries || [];
-                            lexiconModalResults.style.display = 'block';
-                            if (entries.length === 0) {
-                                var emptyMsg = getUiLang() === 'fr' ? 'Aucun terme trouvé.' : 'No glossary entries found.';
-                                lexiconModalResults.innerHTML = '<p class="lexicon-modal-empty">' + escapeHtml(emptyMsg) + '</p>';
-                                return;
-                            }
-                            lexiconModalResults.innerHTML = entries.map(function (e) {
-                                return '<div class="lex-row"><strong>' + escapeHtml(e.term || '') + '</strong><div>' + escapeHtml(e.definition || '') + '</div></div>';
-                            }).join('');
-                        })
-                        .catch(function (e) { console.error(e); });
-                }
-
-                function openSearchModal() {
-                    if (!searchModal) return;
-                    searchModal.classList.add('open');
-                    searchModal.setAttribute('aria-hidden', 'false');
-                    document.body.style.overflow = 'hidden';
-                    if (modalSearchInput) {
-                        setTimeout(function () { modalSearchInput.focus(); }, 50);
-                    }
-                }
-
-                function closeSearchModal() {
-                    if (!searchModal) return;
-                    searchModal.classList.remove('open');
-                    searchModal.setAttribute('aria-hidden', 'true');
-                    document.body.style.overflow = '';
-                }
-
-                function onModalSearchDebounced() {
-                    if (!modalSearchInput) return;
-                    var v = modalSearchInput.value;
-                    var scope = getModalScope();
-                    if (scope === 'lexicon') {
-                        runLexiconSearch(v);
-                        return;
-                    }
-                    if (lexiconModalResults) {
-                        lexiconModalResults.style.display = 'none';
-                        lexiconModalResults.innerHTML = '';
-                    }
-                    if (!v.trim()) {
-                        loadBrowseInitial();
-                        return;
-                    }
-                    runPostSearch(v.trim(), scope === 'body' ? 'body' : 'title');
-                }
-
-                function onModalSearchInput() {
-                    clearTimeout(searchTimer);
-                    searchTimer = setTimeout(onModalSearchDebounced, SEARCH_DEBOUNCE_MS);
-                }
-
                 window.resetTraderPostsList = function () {
-                    var st = window.__postsSearchState;
-                    if (st && st.query && (st.scope === 'title' || st.scope === 'body')) {
-                        return runPostSearch(st.query, st.scope);
-                    }
                     return loadBrowseInitial();
                 };
                 window.__postsRefreshLoadBtn = updateEmptyAndLoadBtn;
 
                 loadBtn.addEventListener('click', loadBrowseMore);
-
-                var btnOpenSearchModal = document.getElementById('btnOpenSearchModal');
-                var searchModalBackdrop = document.getElementById('searchModalBackdrop');
-                var searchModalClose = document.getElementById('searchModalClose');
-                if (btnOpenSearchModal) btnOpenSearchModal.addEventListener('click', openSearchModal);
-                if (searchModalBackdrop) searchModalBackdrop.addEventListener('click', closeSearchModal);
-                if (searchModalClose) searchModalClose.addEventListener('click', closeSearchModal);
-                if (modalSearchInput) {
-                    modalSearchInput.addEventListener('input', onModalSearchInput);
-                    modalSearchInput.addEventListener('keydown', function (e) {
-                        if (e.key === 'Escape') {
-                            e.preventDefault();
-                            closeSearchModal();
-                            return;
-                        }
-                        if (e.key === 'Enter') {
-                            e.preventDefault();
-                            clearTimeout(searchTimer);
-                            onModalSearchDebounced();
-                            if (getModalScope() !== 'lexicon') {
-                                closeSearchModal();
-                                var sec = document.getElementById('section-posts');
-                                if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                            }
-                        }
-                    });
-                }
-                document.querySelectorAll('input[name="searchScope"]').forEach(function (radio) {
-                    radio.addEventListener('change', function () {
-                        clearTimeout(searchTimer);
-                        onModalSearchDebounced();
-                    });
-                });
 
                 loadBrowseInitial();
             })();
@@ -1522,13 +1224,6 @@
                     navPosts: "Posts",
                     navHomeTitle: "Haut de page",
                     navPostsTitle: "Section posts",
-                    postsSearchPlaceholder: "Rechercher…",
-                    postsSearchAriaLabel: "Rechercher dans les publications",
-                    searchModalTitle: "Recherche",
-                    searchScopeTitle: "Titres des posts",
-                    searchScopeBody: "Contenus des posts",
-                    searchScopeLex: "Lexique",
-                    btnSearchOpenTitle: "Ouvrir la recherche",
                     navHelpLexTitle: "Lexique et questions courantes",
                     readPost: "Lire",
                     collapsePost: "Réduire",
@@ -1561,13 +1256,6 @@
                     navPosts: "Posts",
                     navHomeTitle: "Top of page",
                     navPostsTitle: "Posts section",
-                    postsSearchPlaceholder: "Search…",
-                    postsSearchAriaLabel: "Search publications",
-                    searchModalTitle: "Search",
-                    searchScopeTitle: "Post titles",
-                    searchScopeBody: "Post content",
-                    searchScopeLex: "Glossary",
-                    btnSearchOpenTitle: "Open search",
                     navHelpLexTitle: "Glossary & FAQ",
                     readPost: "Read",
                     collapsePost: "Collapse",
@@ -1611,24 +1299,6 @@
                 if (navPostsBtn) {
                     navPostsBtn.textContent = t.navPosts;
                     navPostsBtn.title = t.navPostsTitle;
-                }
-                const modalSearchInputEl = document.getElementById("modalSearchInput");
-                if (modalSearchInputEl) {
-                    modalSearchInputEl.placeholder = t.postsSearchPlaceholder;
-                    modalSearchInputEl.setAttribute("aria-label", t.postsSearchAriaLabel);
-                }
-                const modalSearchTitleEl = document.getElementById("modalSearchTitle");
-                if (modalSearchTitleEl) modalSearchTitleEl.textContent = t.searchModalTitle;
-                const lblScopeTitle = document.getElementById("lblScopeTitle");
-                const lblScopeBody = document.getElementById("lblScopeBody");
-                const lblScopeLex = document.getElementById("lblScopeLex");
-                if (lblScopeTitle) lblScopeTitle.textContent = t.searchScopeTitle;
-                if (lblScopeBody) lblScopeBody.textContent = t.searchScopeBody;
-                if (lblScopeLex) lblScopeLex.textContent = t.searchScopeLex;
-                const btnOpenSearchModal = document.getElementById("btnOpenSearchModal");
-                if (btnOpenSearchModal) {
-                    btnOpenSearchModal.setAttribute("title", t.btnSearchOpenTitle);
-                    btnOpenSearchModal.setAttribute("aria-label", t.btnSearchOpenTitle);
                 }
                 const navHelpLexBtn = document.getElementById("navHelpLexBtn");
                 if (navHelpLexBtn) navHelpLexBtn.setAttribute("title", t.navHelpLexTitle);
