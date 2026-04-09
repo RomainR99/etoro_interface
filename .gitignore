@@ -2,6 +2,8 @@
 .env.local
 .venv
 venv/
+__pycache__/
+*.pyc
 .json
 .csv
 data/zonebourse_images/
