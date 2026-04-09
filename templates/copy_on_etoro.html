@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CopyOnEtoro — RomainRoth</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d1117;
+            --card: #161b22;
+            --border: #30363d;
+            --text: #e6edf3;
+            --muted: #8b949e;
+            --accent: #58a6ff;
+            --join-green: #238636;
+            --join-green-hover: #2ea043;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.65;
+        }
+        .container { max-width: 720px; margin: 0 auto; padding: 2rem; }
+        .back {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back:hover { text-decoration: underline; }
+        h1 {
+            font-size: 1.65rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            line-height: 1.35;
+        }
+        .lead {
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            color: var(--text);
+        }
+        h2 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin: 1.75rem 0 0.85rem;
+            color: var(--text);
+        }
+        .advantages {
+            list-style: disc;
+            padding-left: 1.35rem;
+            margin-bottom: 0.5rem;
+        }
+        .advantages li { margin-bottom: 0.5rem; }
+        .join-wrap {
+            margin: 1.75rem 0 1.25rem;
+        }
+        .btn-join-etoro {
+            display: inline-block;
+            background: var(--join-green);
+            color: #ffffff !important;
+            font-weight: 600;
+            font-size: 1.05rem;
+            padding: 0.75rem 1.75rem;
+            border-radius: 8px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background 0.15s ease, filter 0.15s ease;
+        }
+        .btn-join-etoro:hover {
+            background: var(--join-green-hover);
+            color: #ffffff;
+        }
+        .disclaimer {
+            font-size: 0.82rem;
+            color: var(--muted);
+            line-height: 1.5;
+            max-width: 52ch;
+        }
+        .card-page {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem 1.35rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    {% include 'partials/cookie_banner.html' %}
+    <div class="container">
+        <a class="back" href="/">← Back to profile</a>
+        <div class="card-page">
+            <h1>Investing with Christophe with eToro Copytrading</h1>
+            <p class="lead">
+                Copytrading means that you choose to copy a trader, and whenever he or she executes a trade, you will automatically do the same.
+                Once you have found a trader you would like to copy with your funds, you do not have to take any further action.
+                eToro is a platform that allows you to do that.
+            </p>
+            <h2>Advantages of copytrading:</h2>
+            <ul class="advantages">
+                <li>It's easy to sign up here (it only takes 15 minutes).</li>
+                <li>It can be done for as little as $200.</li>
+                <li>Many different investors to choose from. Pick one that you are comfortable with.</li>
+                <li>Only takes one click, and you don't have to do anything else.</li>
+            </ul>
+            <div class="join-wrap">
+                <a class="btn-join-etoro" href="{{ etoro_join_url }}" target="_blank" rel="noopener noreferrer">Join eToro</a>
+            </div>
+            <p class="disclaimer">
+                Copy Trading does not amount to investment advice. The value of your investments may go up or down. Your capital is at risk.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

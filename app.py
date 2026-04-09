@@ -876,6 +876,13 @@ def page_lexique():
     )
 
 
+@app.route("/copy-on-etoro")
+def page_copy_on_etoro():
+    """Page CopyOnEtoro (copy trading eToro)."""
+    join_url = (os.getenv("ETORO_JOIN_URL") or "https://etoro.tw/46rrJQC").strip()
+    return render_template("copy_on_etoro.html", etoro_join_url=join_url)
+
+
 def _compute_posts_chart_data(traders: list[str], years: int = 1) -> tuple[list[str], list[dict]]:
     """Calcule les posts par mois par trader (dernière année). Même logique que _compute_chart_data."""
     from datetime import datetime, timezone, timedelta

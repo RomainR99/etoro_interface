@@ -446,6 +446,93 @@
             flex-shrink: 0;
             margin-left: 30px;
         }
+        .header-nav-burger {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 3.2rem;
+            height: 3.2rem;
+            min-height: calc(1.7rem + 1.4rem + 4px);
+            padding: 0;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: var(--card);
+            color: var(--text);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .header-nav-burger:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .header-nav-burger-icon {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: currentColor;
+            border-radius: 1px;
+            box-shadow: 0 -7px 0 currentColor, 0 7px 0 currentColor;
+        }
+        .header-nav-menu {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        @media (max-width: 1199px) {
+            .header-right {
+                position: relative;
+            }
+            .header-lang-flags {
+                margin-left: 0.5rem;
+            }
+            .header-nav-burger {
+                display: inline-flex;
+            }
+            .header-nav-menu {
+                display: none;
+                position: absolute;
+                top: calc(100% + 8px);
+                right: 0;
+                z-index: 120;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.35rem;
+                min-width: min(280px, calc(100vw - 2.5rem));
+                padding: 0.5rem;
+                background: var(--card);
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+            }
+            .header-nav-menu.header-nav-menu--open {
+                display: flex;
+            }
+            .header-nav-menu .nav-header-btn {
+                width: 100%;
+                justify-content: flex-start;
+                font-size: 1.05rem;
+                min-height: 2.75rem;
+            }
+        }
+        @media (min-width: 1200px) {
+            .header-nav-burger {
+                display: none !important;
+            }
+            .header-nav-menu {
+                display: flex !important;
+                flex-direction: row;
+                position: static;
+                background: transparent;
+                border: none;
+                padding: 0;
+                box-shadow: none;
+                min-width: 0;
+            }
+            .header-nav-menu.header-nav-menu--open {
+                display: flex !important;
+            }
+        }
         #section-posts {
             scroll-margin-top: 8rem;
         }
@@ -628,9 +715,15 @@
                 </div>
             </div>
             <div class="header-right">
-                <button type="button" id="navHomeBtn" class="lang-btn nav-header-btn" title="Haut de page">Accueil</button>
-                <button type="button" id="navPostsBtn" class="lang-btn nav-header-btn" title="Section posts">Posts</button>
-                <a href="/lexique" id="navHelpLexBtn" class="lang-btn nav-header-btn nav-help-btn" title="Lexique et questions courantes">?</a>
+                <button type="button" id="headerNavToggle" class="header-nav-burger" aria-expanded="false" aria-controls="headerNavMenu" title="Menu">
+                    <span class="header-nav-burger-icon" aria-hidden="true"></span>
+                </button>
+                <nav id="headerNavMenu" class="header-nav-menu" role="navigation" aria-label="Navigation">
+                    <button type="button" id="navHomeBtn" class="lang-btn nav-header-btn" title="Haut de page">Accueil</button>
+                    <button type="button" id="navPostsBtn" class="lang-btn nav-header-btn" title="Section posts">Posts</button>
+                    <a href="/copy-on-etoro" id="navCopyEtoroBtn" class="lang-btn nav-header-btn" title="Copy trading on eToro">CopyOnEtoro</a>
+                    <a href="/lexique" id="navHelpLexBtn" class="lang-btn nav-header-btn nav-help-btn" title="Lexique et questions courantes">?</a>
+                </nav>
                 <div class="header-lang-flags">
                     <button type="button" id="langFrBtn" class="lang-btn">🇫🇷 FR</button>
                     <button type="button" id="langEnBtn" class="lang-btn">🇬🇧 EN</button>
@@ -1250,6 +1343,9 @@
                     navPosts: "Posts",
                     navHomeTitle: "Haut de page",
                     navPostsTitle: "Section posts",
+                    navCopyEtoro: "CopyOnEtoro",
+                    navCopyEtoroTitle: "Copy trading sur eToro",
+                    navBurgerTitle: "Menu",
                     navHelpLexTitle: "Lexique et questions courantes",
                     readPost: "Lire",
                     collapsePost: "Réduire",
@@ -1282,6 +1378,9 @@
                     navPosts: "Posts",
                     navHomeTitle: "Top of page",
                     navPostsTitle: "Posts section",
+                    navCopyEtoro: "CopyOnEtoro",
+                    navCopyEtoroTitle: "Copy trading on eToro",
+                    navBurgerTitle: "Menu",
                     navHelpLexTitle: "Glossary & FAQ",
                     readPost: "Read",
                     collapsePost: "Collapse",
@@ -1326,8 +1425,15 @@
                     navPostsBtn.textContent = t.navPosts;
                     navPostsBtn.title = t.navPostsTitle;
                 }
+                const navCopyEtoroBtn = document.getElementById("navCopyEtoroBtn");
+                if (navCopyEtoroBtn) {
+                    navCopyEtoroBtn.textContent = t.navCopyEtoro;
+                    navCopyEtoroBtn.setAttribute("title", t.navCopyEtoroTitle);
+                }
                 const navHelpLexBtn = document.getElementById("navHelpLexBtn");
                 if (navHelpLexBtn) navHelpLexBtn.setAttribute("title", t.navHelpLexTitle);
+                const headerNavToggle = document.getElementById("headerNavToggle");
+                if (headerNavToggle) headerNavToggle.setAttribute("title", t.navBurgerTitle);
                 document.querySelectorAll(".trader-post-read-btn").forEach((btn) => {
                     const item = btn.closest(".trader-post-item");
                     const body = item && item.querySelector(".trader-post-body");
@@ -1400,15 +1506,43 @@
             (function () {
                 const navHomeBtn = document.getElementById("navHomeBtn");
                 const navPostsBtn = document.getElementById("navPostsBtn");
+                const headerNavMenu = document.getElementById("headerNavMenu");
+                const headerNavToggle = document.getElementById("headerNavToggle");
+                function closeHeaderNavMenu() {
+                    if (!headerNavMenu || !headerNavToggle) return;
+                    headerNavMenu.classList.remove("header-nav-menu--open");
+                    headerNavToggle.setAttribute("aria-expanded", "false");
+                }
                 if (navHomeBtn) {
                     navHomeBtn.addEventListener("click", function () {
+                        closeHeaderNavMenu();
                         window.scrollTo({ top: 0, behavior: "smooth" });
                     });
                 }
                 if (navPostsBtn) {
                     navPostsBtn.addEventListener("click", function () {
+                        closeHeaderNavMenu();
                         const section = document.getElementById("section-posts");
                         if (section) section.scrollIntoView({ behavior: "smooth", block: "start" });
+                    });
+                }
+                if (headerNavMenu) {
+                    headerNavMenu.querySelectorAll("a").forEach(function (a) {
+                        a.addEventListener("click", closeHeaderNavMenu);
+                    });
+                    headerNavMenu.addEventListener("click", function (e) {
+                        e.stopPropagation();
+                    });
+                }
+                if (headerNavToggle && headerNavMenu) {
+                    headerNavToggle.addEventListener("click", function (e) {
+                        e.stopPropagation();
+                        const open = headerNavMenu.classList.toggle("header-nav-menu--open");
+                        headerNavToggle.setAttribute("aria-expanded", open ? "true" : "false");
+                    });
+                    document.addEventListener("click", closeHeaderNavMenu);
+                    document.addEventListener("keydown", function (e) {
+                        if (e.key === "Escape") closeHeaderNavMenu();
                     });
                 }
             })();
