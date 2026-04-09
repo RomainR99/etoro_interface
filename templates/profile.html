@@ -160,6 +160,12 @@
         .perf-table .perf-bg-positive { background-color: rgba(63, 185, 80, 0.08); }
         .perf-table .perf-bg-negative { background-color: rgba(248, 81, 73, 0.08); }
         .perf-table .perf-bg-neutral { background-color: rgba(139, 148, 158, 0.06); }
+        @media (max-width: 1150px) {
+            .perf-table .perf-col-month,
+            .perf-table .perf-col-months-merged {
+                display: none;
+            }
+        }
         .gain-list {
             max-height: 360px;
             overflow-y: auto;
@@ -379,8 +385,25 @@
             align-items: flex-end;
             justify-content: flex-end;
             padding: 0 0 2px 2px;
+            transition: width 2s ease, height 2s ease, padding 2s ease, border-radius 2s ease,
+                box-shadow 2s ease, background-size 2s ease, background-color 2s ease;
         }
         .chat-toggle-wrap:hover { opacity: 0.95; }
+        /* Quand le footer est visible : pas d’image robot, seulement le rond bleu */
+        .chat-toggle-wrap.chat-toggle-compact {
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border-radius: 50%;
+            background-color: transparent;
+            background-image: none;
+            box-shadow: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .chat-toggle-wrap.chat-toggle-compact .chat-toggle {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+        }
         .chat-toggle {
             width: 44px;
             height: 44px;
@@ -391,6 +414,8 @@
             cursor: pointer;
             font-size: 1.25rem;
             flex-shrink: 0;
+            box-shadow: none;
+            transition: box-shadow 2s ease;
         }
         .chat-toggle:hover { opacity: 0.9; }
         .header-left {
@@ -645,19 +670,19 @@
                 <table class="perf-table" style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
                     <thead>
                         <tr style="border-bottom: 1px solid var(--border); text-align: left;">
-                            <th data-i18n="year" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Année</th>
-                            <th data-i18n="mJan" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Jan</th>
-                            <th data-i18n="mFeb" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Fév</th>
-                            <th data-i18n="mMar" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Mar</th>
-                            <th data-i18n="mApr" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Avr</th>
-                            <th data-i18n="mMay" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Mai</th>
-                            <th data-i18n="mJun" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Juin</th>
-                            <th data-i18n="mJul" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Juil</th>
-                            <th data-i18n="mAug" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Août</th>
-                            <th data-i18n="mSep" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Sep</th>
-                            <th data-i18n="mOct" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Oct</th>
-                            <th data-i18n="mNov" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Nov</th>
-                            <th data-i18n="mDec" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Déc</th>
+                            <th data-i18n="year" class="perf-col-year" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Année</th>
+                            <th data-i18n="mJan" class="perf-col-month" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Jan</th>
+                            <th data-i18n="mFeb" class="perf-col-month" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Fév</th>
+                            <th data-i18n="mMar" class="perf-col-month" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Mar</th>
+                            <th data-i18n="mApr" class="perf-col-month" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Avr</th>
+                            <th data-i18n="mMay" class="perf-col-month" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Mai</th>
+                            <th data-i18n="mJun" class="perf-col-month" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Juin</th>
+                            <th data-i18n="mJul" class="perf-col-month" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Juil</th>
+                            <th data-i18n="mAug" class="perf-col-month" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Août</th>
+                            <th data-i18n="mSep" class="perf-col-month" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Sep</th>
+                            <th data-i18n="mOct" class="perf-col-month" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Oct</th>
+                            <th data-i18n="mNov" class="perf-col-month" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Nov</th>
+                            <th data-i18n="mDec" class="perf-col-month" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Déc</th>
                             <th data-i18n="total" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Total</th>
                             <th style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">S&P 500</th>
                             <th style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Écart</th>
@@ -668,7 +693,7 @@
                         <tr style="border-bottom: 1px solid var(--border);">
                             <td style="padding: 0.4rem 0.5rem;" class="{% if row.trader_pct is not none %}{% if row.trader_pct >= 0 %}perf-year-positive{% else %}perf-year-negative{% endif %}{% endif %}">{{ row.year }}</td>
                             {% for pct in row.trader_months %}
-                            <td style="padding: 0.4rem 0.5rem; font-family: ui-monospace, monospace; min-width: 2.5rem;" class="stat-value{% if pct is not none %} {{ 'positive' if pct >= 0 else 'negative' }}{% endif %}">{% if pct is not none %}{{ "%.2f"|format(pct) }}%{% endif %}</td>
+                            <td style="padding: 0.4rem 0.5rem; font-family: ui-monospace, monospace; min-width: 2.5rem;" class="perf-col-month stat-value{% if pct is not none %} {{ 'positive' if pct >= 0 else 'negative' }}{% endif %}">{% if pct is not none %}{{ "%.2f"|format(pct) }}%{% endif %}</td>
                             {% endfor %}
                             <td style="padding: 0.4rem 0.5rem; font-family: ui-monospace, monospace;" class="stat-value{% if row.trader_pct is not none %} {{ 'positive' if row.trader_pct >= 0 else 'negative' }} {% if row.trader_pct > 0 %}perf-bg-positive{% elif row.trader_pct < 0 %}perf-bg-negative{% else %}perf-bg-neutral{% endif %}{% endif %}">{% if row.trader_pct is not none %}{{ "%.2f"|format(row.trader_pct) }}%{% endif %}</td>
                             <td style="padding: 0.4rem 0.5rem; font-family: ui-monospace, monospace;" class="stat-value{% if row.sp500_pct is not none %} {{ 'positive' if row.sp500_pct >= 0 else 'negative' }}{% endif %}">{% if row.sp500_pct is not none %}{{ "%.2f"|format(row.sp500_pct) }}%{% endif %}</td>
@@ -677,8 +702,8 @@
                         {% endfor %}
                         {% if performance_total %}
                         <tr style="border-top: 2px solid var(--border); font-weight: 600;">
-                            <td data-i18n="total" style="padding: 0.5rem 0.5rem;">Total</td>
-                            <td colspan="12" style="padding: 0.5rem 0.5rem; color: var(--muted); font-size: 0.8rem;">—</td>
+                            <td data-i18n="total" class="perf-col-year" style="padding: 0.5rem 0.5rem;">Total</td>
+                            <td colspan="12" class="perf-col-months-merged" style="padding: 0.5rem 0.5rem; color: var(--muted); font-size: 0.8rem;">—</td>
                             <td style="padding: 0.5rem 0.5rem; font-family: ui-monospace, monospace;" class="stat-value {{ 'positive' if performance_total.trader_pct is not none and performance_total.trader_pct >= 0 else 'negative' }} {{ 'perf-bg-positive' if performance_total.trader_pct is not none and performance_total.trader_pct > 0 else 'perf-bg-negative' if performance_total.trader_pct is not none and performance_total.trader_pct < 0 else 'perf-bg-neutral' if performance_total.trader_pct is not none else '' }}">{{ "%.2f"|format(performance_total.trader_pct) if performance_total.trader_pct is not none else "—" }}%</td>
                             <td style="padding: 0.5rem 0.5rem; font-family: ui-monospace, monospace;" class="stat-value {{ 'positive' if performance_total.sp500_pct is not none and performance_total.sp500_pct >= 0 else 'negative' }}">{{ "%.2f"|format(performance_total.sp500_pct) if performance_total.sp500_pct is not none else "—" }}%</td>
                             <td style="padding: 0.5rem 0.5rem; font-family: ui-monospace, monospace;" class="stat-value {{ 'positive' if performance_total.ecart is not none and performance_total.ecart >= 0 else 'negative' }}">{{ "%.2f"|format(performance_total.ecart) if performance_total.ecart is not none else "—" }}%</td>
@@ -1153,7 +1178,7 @@
             })();
         </script>
 
-        <footer class="site-footer">
+        <footer class="site-footer" id="siteFooter">
             <p class="risk-warning">
                 <span id="riskTitleFr">⚠️ Avertissement sur les risques :</span><br>
                 <span class="risk-text" id="riskTextFr">Les informations publiées sur ce site sont fournies à titre informatif et éducatif uniquement et ne constituent pas un conseil en investissement. Chaque lecteur reste seul responsable de ses décisions financières. Les performances passées ne préjugent pas des performances futures.</span>
@@ -1496,6 +1521,17 @@
             }
             window.addEventListener('scroll', syncHeaderCompact, { passive: true });
             syncHeaderCompact();
+        })();
+        (function () {
+            var footer = document.getElementById('siteFooter');
+            var wrap = document.getElementById('chatToggleWrap');
+            if (!footer || !wrap || !window.IntersectionObserver) return;
+            var io = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    wrap.classList.toggle('chat-toggle-compact', entry.isIntersecting);
+                });
+            }, { root: null, threshold: 0, rootMargin: '0px' });
+            io.observe(footer);
         })();
     </script>
 </body>
