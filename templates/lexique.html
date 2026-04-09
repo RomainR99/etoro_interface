@@ -6,34 +6,14 @@
     <title>Lexique & FAQ — RomainRoth</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    {% include 'partials/site_chrome_styles.html' %}
     <style>
-        :root {
-            --bg: #0d1117;
-            --card: #161b22;
-            --border: #30363d;
-            --text: #e6edf3;
-            --muted: #8b949e;
-            --accent: #58a6ff;
+        .lexique-main {
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            line-height: 1.6;
-        }
-        .container { max-width: 800px; margin: 0 auto; padding: 2rem; }
-        .back {
-            display: inline-block;
-            margin-bottom: 1.5rem;
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 600;
-        }
-        .back:hover { text-decoration: underline; }
-        h1 { font-size: 1.75rem; margin-bottom: 0.5rem; }
-        h2 {
+        h2.lexique-section-title {
             font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 0.06em;
@@ -55,50 +35,51 @@
         .lang-en .show-fr { display: none !important; }
         .lang-en .show-en { display: block !important; }
         .show-en { display: none; }
+        .lexique-main > h1 {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
     </style>
 </head>
 <body>
     {% include 'partials/cookie_banner.html' %}
-    <div class="container" id="lexPageRoot">
-        <a class="back show-fr" href="/">← Retour au profil</a>
-        <a class="back show-en" href="/">← Back to profile</a>
-        <h1 class="show-fr">Lexique & questions courantes</h1>
-        <h1 class="show-en">Glossary & FAQ</h1>
-        <p class="show-fr" style="color: var(--muted); font-size: 0.95rem; margin-bottom: 0.5rem;">Définitions utiles et réponses aux questions fréquentes.</p>
-        <p class="show-en" style="color: var(--muted); font-size: 0.95rem; margin-bottom: 0.5rem;">Useful definitions and answers to common questions.</p>
+    <div class="container">
+        {% include 'partials/site_header.html' %}
+        <div id="lexPageRoot" class="lexique-main">
+            <h1 class="show-fr">Lexique & questions courantes</h1>
+            <h1 class="show-en">Glossary & FAQ</h1>
+            <p class="show-fr" style="color: var(--muted); font-size: 0.95rem; margin-bottom: 0.5rem;">Définitions utiles et réponses aux questions fréquentes.</p>
+            <p class="show-en" style="color: var(--muted); font-size: 0.95rem; margin-bottom: 0.5rem;">Useful definitions and answers to common questions.</p>
 
-        <h2 class="show-fr">Lexique</h2>
-        <h2 class="show-en">Glossary</h2>
-        {% for e in lexique_entries %}
-        <div class="card">
-            <h3 class="show-fr">{{ e.term_fr or e.term_en }}</h3>
-            <h3 class="show-en">{{ e.term_en or e.term_fr }}</h3>
-            <p class="show-fr">{{ e.def_fr or e.def_en }}</p>
-            <p class="show-en">{{ e.def_en or e.def_fr }}</p>
-        </div>
-        {% else %}
-        <p style="color: var(--muted);">—</p>
-        {% endfor %}
+            <h2 class="lexique-section-title show-fr">Lexique</h2>
+            <h2 class="lexique-section-title show-en">Glossary</h2>
+            {% for e in lexique_entries %}
+            <div class="card">
+                <h3 class="show-fr">{{ e.term_fr or e.term_en }}</h3>
+                <h3 class="show-en">{{ e.term_en or e.term_fr }}</h3>
+                <p class="show-fr">{{ e.def_fr or e.def_en }}</p>
+                <p class="show-en">{{ e.def_en or e.def_fr }}</p>
+            </div>
+            {% else %}
+            <p style="color: var(--muted);">—</p>
+            {% endfor %}
 
-        <h2 class="show-fr">Questions courantes</h2>
-        <h2 class="show-en">Frequently asked questions</h2>
-        {% for f in faq_entries %}
-        <div class="card faq-item">
-            <p class="faq-q show-fr">{{ f.q_fr }}</p>
-            <p class="show-fr">{{ f.a_fr }}</p>
-            <p class="faq-q show-en">{{ f.q_en }}</p>
-            <p class="show-en">{{ f.a_en }}</p>
+            <h2 class="lexique-section-title show-fr">Questions courantes</h2>
+            <h2 class="lexique-section-title show-en">Frequently asked questions</h2>
+            {% for f in faq_entries %}
+            <div class="card faq-item">
+                <p class="faq-q show-fr">{{ f.q_fr }}</p>
+                <p class="show-fr">{{ f.a_fr }}</p>
+                <p class="faq-q show-en">{{ f.q_en }}</p>
+                <p class="show-en">{{ f.a_en }}</p>
+            </div>
+            {% else %}
+            <p style="color: var(--muted);">—</p>
+            {% endfor %}
         </div>
-        {% else %}
-        <p style="color: var(--muted);">—</p>
-        {% endfor %}
+        {% include 'partials/site_footer.html' %}
     </div>
-    <script>
-        (function () {
-            var lang = localStorage.getItem("page_lang") || "fr";
-            if (lang === "en") document.getElementById("lexPageRoot").classList.add("lang-en");
-            if (typeof window.refreshCookieBannerLang === "function") window.refreshCookieBannerLang();
-        })();
-    </script>
+{% include 'partials/site_layout_script.html' %}
 </body>
 </html>

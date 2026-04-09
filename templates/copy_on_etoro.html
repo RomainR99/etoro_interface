@@ -6,35 +6,18 @@
     <title>CopyOnEtoro — RomainRoth</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    {% include 'partials/site_chrome_styles.html' %}
     <style>
         :root {
-            --bg: #0d1117;
-            --card: #161b22;
-            --border: #30363d;
-            --text: #e6edf3;
-            --muted: #8b949e;
-            --accent: #58a6ff;
             --join-green: #238636;
             --join-green-hover: #2ea043;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            line-height: 1.65;
+        .copy-page-inner {
+            max-width: 720px;
+            margin: 0 auto;
+            width: 100%;
         }
-        .container { max-width: 720px; margin: 0 auto; padding: 2rem; }
-        .back {
-            display: inline-block;
-            margin-bottom: 1.5rem;
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 600;
-        }
-        .back:hover { text-decoration: underline; }
-        h1 {
+        h1.page-copy-title {
             font-size: 1.65rem;
             font-weight: 700;
             margin-bottom: 1.25rem;
@@ -45,7 +28,7 @@
             font-size: 1rem;
             color: var(--text);
         }
-        h2 {
+        h2.copy-sub {
             font-size: 1.05rem;
             font-weight: 600;
             margin: 1.75rem 0 0.85rem;
@@ -95,28 +78,32 @@
 <body>
     {% include 'partials/cookie_banner.html' %}
     <div class="container">
-        <a class="back" href="/">← Back to profile</a>
-        <div class="card-page">
-            <h1>Investing with Christophe with eToro Copytrading</h1>
-            <p class="lead">
-                Copytrading means that you choose to copy a trader, and whenever he or she executes a trade, you will automatically do the same.
-                Once you have found a trader you would like to copy with your funds, you do not have to take any further action.
-                eToro is a platform that allows you to do that.
-            </p>
-            <h2>Advantages of copytrading:</h2>
-            <ul class="advantages">
-                <li>It's easy to sign up here (it only takes 15 minutes).</li>
-                <li>It can be done for as little as $200.</li>
-                <li>Many different investors to choose from. Pick one that you are comfortable with.</li>
-                <li>Only takes one click, and you don't have to do anything else.</li>
-            </ul>
-            <div class="join-wrap">
-                <a class="btn-join-etoro" href="{{ etoro_join_url }}" target="_blank" rel="noopener noreferrer">Join eToro</a>
+        {% include 'partials/site_header.html' %}
+        <div class="copy-page-inner">
+            <div class="card-page">
+                <h1 class="page-copy-title">Investing with Christophe with eToro Copytrading</h1>
+                <p class="lead">
+                    Copytrading means that you choose to copy a trader, and whenever he or she executes a trade, you will automatically do the same.
+                    Once you have found a trader you would like to copy with your funds, you do not have to take any further action.
+                    eToro is a platform that allows you to do that.
+                </p>
+                <h2 class="copy-sub">Advantages of copytrading:</h2>
+                <ul class="advantages">
+                    <li>It's easy to sign up here (it only takes 15 minutes).</li>
+                    <li>It can be done for as little as $200.</li>
+                    <li>Many different investors to choose from. Pick one that you are comfortable with.</li>
+                    <li>Only takes one click, and you don't have to do anything else.</li>
+                </ul>
+                <div class="join-wrap">
+                    <a class="btn-join-etoro" href="{{ etoro_join_url }}" target="_blank" rel="noopener noreferrer">Join eToro</a>
+                </div>
+                <p class="disclaimer">
+                    Copy Trading does not amount to investment advice. The value of your investments may go up or down. Your capital is at risk.
+                </p>
             </div>
-            <p class="disclaimer">
-                Copy Trading does not amount to investment advice. The value of your investments may go up or down. Your capital is at risk.
-            </p>
         </div>
+        {% include 'partials/site_footer.html' %}
     </div>
+{% include 'partials/site_layout_script.html' %}
 </body>
 </html>

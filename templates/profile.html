@@ -7,121 +7,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans&display=swap" rel="stylesheet"></noscript>
+    {% include 'partials/site_chrome_styles.html' %}
     <style>
-        :root {
-            --bg: #0d1117;
-            --card: #161b22;
-            --border: #30363d;
-            --text: #e6edf3;
-            --muted: #8b949e;
-            --accent: #58a6ff;
-            --success: #3fb950;
-            --danger: #f85149;
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            line-height: 1.6;
-        }
-        /* Masque le contenu qui défile dans le créneau sticky (top: 5px) */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: var(--bg);
-            z-index: 101;
-            pointer-events: none;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        header {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) auto;
-            align-items: center;
-            column-gap: 1.25rem;
-            row-gap: 0.75rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 2rem;
-            position: sticky;
-            top: 5px;
-            z-index: 100;
-            background: var(--bg);
-            transition: padding-bottom 0.22s ease, margin-bottom 0.22s ease, gap 0.22s ease;
-        }
-        header.header--compact {
-            padding-bottom: 5px;
-            margin-bottom: 1rem;
-            gap: 0.75rem;
-        }
-        .header-etoro-hit {
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 25%;
-            z-index: 1;
-            cursor: pointer;
-        }
-        .avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--border);
-        }
-        .avatar-placeholder {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: var(--card);
-            border: 3px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: var(--muted);
-        }
-        h1 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
         .username {
             color: var(--muted);
             font-family: ui-monospace, monospace;
             font-size: 1rem;
         }
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            padding: 0.25rem 0.6rem;
-            border-radius: 999px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-top: 0.5rem;
-        }
         .badge-verified {
             background: rgba(63, 185, 80, 0.2);
             color: var(--success);
-        }
-        .badge-pi {
-            background: rgba(88, 166, 255, 0.2);
-            color: var(--accent);
         }
         .grid {
             display: grid;
@@ -250,25 +145,6 @@
             padding: 0 0.15rem;
         }
         .added-traders .remove:hover { opacity: 0.8; }
-        a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-        a:hover { text-decoration: underline; }
-        .site-footer {
-            position: relative;
-            z-index: 99;
-            margin-top: 2rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border);
-        }
-        .risk-warning {
-            padding: 0.75rem 0;
-            font-size: 0.75rem;
-            line-height: 1.5;
-            color: var(--muted);
-        }
-        .risk-warning .risk-text { font-style: italic; }
         .trader-posts-list {
             list-style: none;
             margin: 0;
@@ -418,158 +294,6 @@
             transition: box-shadow 2s ease;
         }
         .chat-toggle:hover { opacity: 0.9; }
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            min-width: 0;
-            position: relative;
-            z-index: 5;
-            pointer-events: auto;
-        }
-        .header-right {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            flex-wrap: nowrap;
-            gap: 0.35rem;
-            min-width: 0;
-            position: relative;
-            z-index: 5;
-            pointer-events: auto;
-        }
-        .header-lang-flags {
-            display: inline-flex;
-            flex-wrap: nowrap;
-            align-items: center;
-            gap: 0.35rem;
-            flex-shrink: 0;
-            margin-left: 30px;
-        }
-        .header-nav-burger {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            width: 3.2rem;
-            height: 3.2rem;
-            min-height: calc(1.7rem + 1.4rem + 4px);
-            padding: 0;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            background: var(--card);
-            color: var(--text);
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-        .header-nav-burger:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-        .header-nav-burger-icon {
-            display: block;
-            width: 20px;
-            height: 2px;
-            background: currentColor;
-            border-radius: 1px;
-            box-shadow: 0 -7px 0 currentColor, 0 7px 0 currentColor;
-        }
-        .header-nav-menu {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 0.35rem;
-        }
-        @media (max-width: 1199px) {
-            .header-right {
-                position: relative;
-            }
-            .header-lang-flags {
-                margin-left: 0.5rem;
-            }
-            .header-nav-burger {
-                display: inline-flex;
-            }
-            .header-nav-menu {
-                display: none;
-                position: absolute;
-                top: calc(100% + 8px);
-                right: 0;
-                z-index: 120;
-                flex-direction: column;
-                align-items: stretch;
-                gap: 0.35rem;
-                min-width: min(280px, calc(100vw - 2.5rem));
-                padding: 0.5rem;
-                background: var(--card);
-                border: 1px solid var(--border);
-                border-radius: 12px;
-                box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
-            }
-            .header-nav-menu.header-nav-menu--open {
-                display: flex;
-            }
-            .header-nav-menu .nav-header-btn {
-                width: 100%;
-                justify-content: flex-start;
-                font-size: 1.05rem;
-                min-height: 2.75rem;
-            }
-        }
-        @media (min-width: 1200px) {
-            .header-nav-burger {
-                display: none !important;
-            }
-            .header-nav-menu {
-                display: flex !important;
-                flex-direction: row;
-                position: static;
-                background: transparent;
-                border: none;
-                padding: 0;
-                box-shadow: none;
-                min-width: 0;
-            }
-            .header-nav-menu.header-nav-menu--open {
-                display: flex !important;
-            }
-        }
-        #section-posts {
-            scroll-margin-top: 8rem;
-        }
-        .lang-btn {
-            border: 1px solid var(--border);
-            background: var(--card);
-            color: var(--text);
-            border-radius: 6px;
-            padding: 0.35rem 0.5rem;
-            cursor: pointer;
-            font-size: 0.85rem;
-        }
-        .lang-btn.active {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-        .header-right .nav-header-btn {
-            font-size: 1.7rem;
-            padding: 0.7rem 1rem;
-            border-radius: 12px;
-            border-width: 2px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            line-height: 1;
-            box-sizing: border-box;
-            min-height: calc(1.7rem + 1.4rem + 4px);
-        }
-        .nav-help-btn {
-            min-width: 3.2rem;
-            padding-left: 0.85rem;
-            padding-right: 0.85rem;
-            font-weight: 700;
-            font-size: 1.7rem;
-            text-decoration: none;
-            color: inherit;
-        }
         .chat-panel {
             display: none;
             position: fixed;
@@ -697,39 +421,7 @@
 <body>
     {% include 'partials/cookie_banner.html' %}
     <div class="container">
-        <header>
-            <a href="https://www.etoro.com/people/{{ username }}" class="header-etoro-hit" target="_blank" rel="noopener noreferrer" aria-label="Profil eToro — {{ username }}"></a>
-            <div class="header-left">
-                {% if profile and profile.avatars and profile.avatars|length > 0 %}
-                    {% set avatar_url = profile.avatars[-1].url if profile.avatars[-1].url else profile.avatars[0].url %}
-                    <img src="{{ avatar_url }}" alt="{{ username }}" class="avatar">
-                {% else %}
-                    <div class="avatar-placeholder">{{ username[0]|upper }}</div>
-                {% endif %}
-                <div>
-                    <h1>{{ username }}</h1>
-                    {% if profile %}
-                        {% if profile.isPi %}<span class="badge badge-pi">Pro Investor</span>{% endif %}
-                    {% endif %}
-                    {% if current_copiers is not none %}<span class="badge" id="copiersBadge" style="background: rgba(139,148,158,0.2); color: var(--muted);" data-count="{{ current_copiers }}">{{ current_copiers }} copieur{% if current_copiers > 1 %}s{% endif %}</span>{% endif %}
-                </div>
-            </div>
-            <div class="header-right">
-                <button type="button" id="headerNavToggle" class="header-nav-burger" aria-expanded="false" aria-controls="headerNavMenu" title="Menu">
-                    <span class="header-nav-burger-icon" aria-hidden="true"></span>
-                </button>
-                <nav id="headerNavMenu" class="header-nav-menu" role="navigation" aria-label="Navigation">
-                    <button type="button" id="navHomeBtn" class="lang-btn nav-header-btn" title="Haut de page">Accueil</button>
-                    <button type="button" id="navPostsBtn" class="lang-btn nav-header-btn" title="Section posts">Posts</button>
-                    <a href="/copy-on-etoro" id="navCopyEtoroBtn" class="lang-btn nav-header-btn" title="Copy trading on eToro">CopyOnEtoro</a>
-                    <a href="/lexique" id="navHelpLexBtn" class="lang-btn nav-header-btn nav-help-btn" title="Lexique et questions courantes">?</a>
-                </nav>
-                <div class="header-lang-flags">
-                    <button type="button" id="langFrBtn" class="lang-btn">🇫🇷 FR</button>
-                    <button type="button" id="langEnBtn" class="lang-btn">🇬🇧 EN</button>
-                </div>
-            </div>
-        </header>
+        {% include 'partials/site_header.html' %}
 
         {% if not profile and not gain and not portfolio %}
             <div class="error-box">
@@ -1272,15 +964,7 @@
             })();
         </script>
 
-        <footer class="site-footer" id="siteFooter">
-            <p class="risk-warning">
-                <span id="riskTitleFr">⚠️ Avertissement sur les risques :</span><br>
-                <span class="risk-text" id="riskTextFr">Les informations publiées sur ce site sont fournies à titre informatif et éducatif uniquement et ne constituent pas un conseil en investissement. Chaque lecteur reste seul responsable de ses décisions financières. Les performances passées ne préjugent pas des performances futures.</span>
-                <span id="riskFrBreak"><br></span>
-                <span id="riskTitleEn">⚠️ Risk Warning:</span><br>
-                <span class="risk-text" id="riskTextEn">The information published on this website is provided for informational and educational purposes only and does not constitute investment advice. Each reader remains solely responsible for their financial decisions. Past performance does not guarantee future results.</span>
-            </p>
-        </footer>
+        {% include 'partials/site_footer.html' %}
     </div>
 
     <!-- Chatbot bas-droite -->

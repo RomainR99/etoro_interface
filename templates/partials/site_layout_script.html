@@ -1,0 +1,156 @@
+    <script>
+        (function () {
+            var I18N = {
+                fr: {
+                    copieur: "copieur",
+                    copieurs: "copieurs",
+                    navHome: "Accueil",
+                    navPosts: "Posts",
+                    navHomeTitle: "Haut de page",
+                    navPostsTitle: "Section posts",
+                    navCopyEtoro: "CopyOnEtoro",
+                    navCopyEtoroTitle: "Copy trading sur eToro",
+                    navBurgerTitle: "Menu",
+                    navHelpLexTitle: "Lexique et questions courantes",
+                },
+                en: {
+                    copieur: "copier",
+                    copieurs: "copiers",
+                    navHome: "Home",
+                    navPosts: "Posts",
+                    navHomeTitle: "Top of page",
+                    navPostsTitle: "Posts section",
+                    navCopyEtoro: "CopyOnEtoro",
+                    navCopyEtoroTitle: "Copy trading on eToro",
+                    navBurgerTitle: "Menu",
+                    navHelpLexTitle: "Glossary & FAQ",
+                }
+            };
+
+            function applyLanguage(lang) {
+                var t = I18N[lang] || I18N.en;
+                try {
+                    localStorage.setItem("page_lang", lang);
+                } catch (e) {}
+                var frBtn = document.getElementById("langFrBtn");
+                var enBtn = document.getElementById("langEnBtn");
+                if (frBtn) frBtn.classList.toggle("active", lang === "fr");
+                if (enBtn) enBtn.classList.toggle("active", lang === "en");
+                var navHomeBtn = document.getElementById("navHomeBtn");
+                var navPostsBtn = document.getElementById("navPostsBtn");
+                if (navHomeBtn) {
+                    navHomeBtn.textContent = t.navHome;
+                    navHomeBtn.title = t.navHomeTitle;
+                }
+                if (navPostsBtn) {
+                    navPostsBtn.textContent = t.navPosts;
+                    navPostsBtn.title = t.navPostsTitle;
+                }
+                var navCopyEtoroBtn = document.getElementById("navCopyEtoroBtn");
+                if (navCopyEtoroBtn) {
+                    navCopyEtoroBtn.textContent = t.navCopyEtoro;
+                    navCopyEtoroBtn.setAttribute("title", t.navCopyEtoroTitle);
+                }
+                var navHelpLexBtn = document.getElementById("navHelpLexBtn");
+                if (navHelpLexBtn) navHelpLexBtn.setAttribute("title", t.navHelpLexTitle);
+                var headerNavToggle = document.getElementById("headerNavToggle");
+                if (headerNavToggle) headerNavToggle.setAttribute("title", t.navBurgerTitle);
+                var cb = document.getElementById("copiersBadge");
+                if (cb) {
+                    var n = Number(cb.getAttribute("data-count") || "0");
+                    cb.textContent = n + " " + (n > 1 ? t.copieurs : t.copieur);
+                }
+                var frIds = ["riskTitleFr", "riskTextFr", "riskFrBreak"];
+                var enIds = ["riskTitleEn", "riskTextEn"];
+                frIds.forEach(function (id) {
+                    var el = document.getElementById(id);
+                    if (el) el.style.display = lang === "fr" ? "" : "none";
+                });
+                enIds.forEach(function (id) {
+                    var el = document.getElementById(id);
+                    if (el) el.style.display = lang === "en" ? "" : "none";
+                });
+                var lexRoot = document.getElementById("lexPageRoot");
+                if (lexRoot) lexRoot.classList.toggle("lang-en", lang === "en");
+                var cookieBn = document.getElementById("cookieConsentBanner");
+                if (cookieBn && !cookieBn.hasAttribute("hidden") && typeof window.refreshCookieBannerLang === "function") {
+                    window.refreshCookieBannerLang();
+                }
+            }
+
+            var savedLang = localStorage.getItem("page_lang") || "en";
+            applyLanguage(savedLang);
+            var frBtn = document.getElementById("langFrBtn");
+            var enBtn = document.getElementById("langEnBtn");
+            if (frBtn) frBtn.addEventListener("click", function () { applyLanguage("fr"); });
+            if (enBtn) enBtn.addEventListener("click", function () { applyLanguage("en"); });
+
+            (function () {
+                var navHomeBtn = document.getElementById("navHomeBtn");
+                var navPostsBtn = document.getElementById("navPostsBtn");
+                var headerNavMenu = document.getElementById("headerNavMenu");
+                var headerNavToggle = document.getElementById("headerNavToggle");
+                function closeHeaderNavMenu() {
+                    if (!headerNavMenu || !headerNavToggle) return;
+                    headerNavMenu.classList.remove("header-nav-menu--open");
+                    headerNavToggle.setAttribute("aria-expanded", "false");
+                }
+                function isHomePath() {
+                    var p = (window.location.pathname || "").replace(/\/+$/, "") || "/";
+                    return p === "/" || p === "";
+                }
+                if (navHomeBtn) {
+                    navHomeBtn.addEventListener("click", function () {
+                        closeHeaderNavMenu();
+                        if (isHomePath()) {
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                        } else {
+                            window.location.href = "/";
+                        }
+                    });
+                }
+                if (navPostsBtn) {
+                    navPostsBtn.addEventListener("click", function () {
+                        closeHeaderNavMenu();
+                        if (isHomePath()) {
+                            var section = document.getElementById("section-posts");
+                            if (section) section.scrollIntoView({ behavior: "smooth", block: "start" });
+                            else window.location.href = "/#section-posts";
+                        } else {
+                            window.location.href = "/#section-posts";
+                        }
+                    });
+                }
+                if (headerNavMenu) {
+                    headerNavMenu.querySelectorAll("a").forEach(function (a) {
+                        a.addEventListener("click", closeHeaderNavMenu);
+                    });
+                    headerNavMenu.addEventListener("click", function (e) {
+                        e.stopPropagation();
+                    });
+                }
+                if (headerNavToggle && headerNavMenu) {
+                    headerNavToggle.addEventListener("click", function (e) {
+                        e.stopPropagation();
+                        var open = headerNavMenu.classList.toggle("header-nav-menu--open");
+                        headerNavToggle.setAttribute("aria-expanded", open ? "true" : "false");
+                    });
+                    document.addEventListener("click", closeHeaderNavMenu);
+                    document.addEventListener("keydown", function (e) {
+                        if (e.key === "Escape") closeHeaderNavMenu();
+                    });
+                }
+            })();
+
+            (function () {
+                var header = document.querySelector("header");
+                if (!header) return;
+                var threshold = 32;
+                function syncHeaderCompact() {
+                    header.classList.toggle("header--compact", window.scrollY > threshold);
+                }
+                window.addEventListener("scroll", syncHeaderCompact, { passive: true });
+                syncHeaderCompact();
+            })();
+        })();
+    </script>

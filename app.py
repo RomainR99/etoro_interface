@@ -866,21 +866,51 @@ def api_cookie_consent():
     return resp
 
 
+def _site_layout_context() -> dict:
+    """Profil + copieurs pour le header partagé (toutes les pages)."""
+    try:
+        profile = get_user_profile(TRADER_USERNAME)
+    except Exception:
+        profile = None
+    try:
+        current_copiers = get_current_copiers(TRADER_USERNAME)
+    except Exception:
+        current_copiers = None
+    return {
+        "username": TRADER_USERNAME,
+        "profile": profile,
+        "current_copiers": current_copiers,
+    }
+
+
 @app.route("/lexique")
 def page_lexique():
     """Lexique et questions courantes."""
-    return render_template(
-        "lexique.html",
-        lexique_entries=_load_lexique_entries(),
-        faq_entries=_load_faq_entries(),
+    resp = make_response(
+        render_template(
+            "lexique.html",
+            lexique_entries=_load_lexique_entries(),
+            faq_entries=_load_faq_entries(),
+            **_site_layout_context(),
+        )
     )
+    _get_or_set_visitor_id(resp)
+    return resp
 
 
 @app.route("/copy-on-etoro")
 def page_copy_on_etoro():
     """Page CopyOnEtoro (copy trading eToro)."""
     join_url = (os.getenv("ETORO_JOIN_URL") or "https://etoro.tw/46rrJQC").strip()
-    return render_template("copy_on_etoro.html", etoro_join_url=join_url)
+    resp = make_response(
+        render_template(
+            "copy_on_etoro.html",
+            etoro_join_url=join_url,
+            **_site_layout_context(),
+        )
+    )
+    _get_or_set_visitor_id(resp)
+    return resp
 
 
 def _compute_posts_chart_data(traders: list[str], years: int = 1) -> tuple[list[str], list[dict]]:
