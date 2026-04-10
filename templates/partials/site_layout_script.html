@@ -39,6 +39,8 @@
                 if (lexRoot) lexRoot.classList.toggle("lang-en", lang === "en");
                 var learningRoot = document.getElementById("learningPageRoot");
                 if (learningRoot) learningRoot.classList.toggle("lang-en", lang === "en");
+                var aboutRoot = document.getElementById("aboutPageRoot");
+                if (aboutRoot) aboutRoot.classList.toggle("lang-en", lang === "en");
                 var cookieBn = document.getElementById("cookieConsentBanner");
                 if (cookieBn && !cookieBn.hasAttribute("hidden") && typeof window.refreshCookieBannerLang === "function") {
                     window.refreshCookieBannerLang();

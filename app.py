@@ -948,6 +948,19 @@ def page_lexique():
     return resp
 
 
+@app.route("/about")
+def page_about():
+    """Présentation personnelle (qui suis-je, pourquoi suivre le profil)."""
+    resp = make_response(
+        render_template(
+            "about.html",
+            **_site_layout_context(),
+        )
+    )
+    _get_or_set_visitor_id(resp)
+    return resp
+
+
 @app.route("/learning")
 def page_learning():
     """Livres recommandés (finance & investissement)."""

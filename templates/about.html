@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About — RomainRoth</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    {% include 'partials/site_chrome_styles.html' %}
+    <style>
+        .about-main {
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .about-main > h1 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            line-height: 1.35;
+        }
+        .about-pin { margin-right: 0.25rem; }
+        .about-main h2 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin: 1.75rem 0 0.75rem;
+        }
+        .about-main p {
+            color: var(--text);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin: 0 0 1rem;
+        }
+        .about-main ul {
+            margin: 0 0 1rem;
+            padding-left: 1.25rem;
+            color: var(--text);
+            font-size: 0.95rem;
+            line-height: 1.55;
+        }
+        .about-main li { margin-bottom: 0.5rem; }
+        .about-books li { margin-bottom: 0.85rem; }
+        .about-books em {
+            font-style: normal;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .lang-en .show-fr { display: none !important; }
+        .lang-en .show-en { display: block !important; }
+        .show-en { display: none; }
+    </style>
+</head>
+<body>
+    {% include 'partials/cookie_banner.html' %}
+    <div class="container">
+        {% include 'partials/site_header.html' %}
+        <div id="aboutPageRoot" class="about-main">
+            <h1 class="show-fr"><span class="about-pin" aria-hidden="true">📌</span> Qui est Romain Roth&nbsp;? Pourquoi suivre mon profil&nbsp;?</h1>
+            <h1 class="show-en"><span class="about-pin" aria-hidden="true">📌</span> Who is Romain Roth? Why follow my profile?</h1>
+
+            <div class="show-fr">
+                <p>Je suis un investisseur passionné, avec une solide expérience, une vision claire et un objectif structuré.</p>
+                <p>Je m’appelle Romain, j’ai 40 ans, et depuis plus de quatre ans sur eToro je me suis investi dans l’étude des marchés financiers. Mes décisions d’investissement s’appuient avant tout sur l’analyse financière et technique pour repérer des points d’entrée optimaux.</p>
+                <p>J’ai rejoint eToro en 2021, mais pour des besoins de liquidité j’ai commencé à investir activement en septembre 2022. Mon implication dans l’univers de l’investissement remonte toutefois bien plus loin.</p>
+                <p>Mes résultats reflètent la cohérence de ma démarche&nbsp;: +5,99&nbsp;% sur les trois derniers mois de 2022, puis +28,7&nbsp;% en 2023, +14,44&nbsp;% en 2024, et enfin +54&nbsp;% sur les six premiers mois de 2025 — soit un total de +141&nbsp;%, contre +60,5&nbsp;% pour le S&amp;P&nbsp;500 sur la même période.</p>
+                <p>Ces performances ne tiennent pas à la chance, mais à un processus méthodique, une exécution disciplinée et une gestion rigoureuse des risques.</p>
+                <p>Ma démarche est aussi nourrie par des lectures fondatrices qui ont fortement influencé ma philosophie d’investissement. Parmi mes références&nbsp;:</p>
+                <ul class="about-books">
+                    <li><em>Security Analysis</em> de Benjamin Graham et David Dodd — un ouvrage de référence sur l’analyse financière approfondie et une valorisation sérieuse.</li>
+                    <li><em>The Intelligent Investor</em> de Benjamin Graham — un véritable manuel de prudence et de rationalité pour l’investissement long terme.</li>
+                    <li><em>The Snowball</em> d’Alice Schroeder — la biographie officielle de Warren Buffett, une grande source d’inspiration pour sa patience, sa discipline et sa stratégie axée sur la valeur.</li>
+                    <li><em>The Black Swan</em> de Nassim Nicholas Taleb — un rappel crucial du rôle démesuré des événements rares et imprévisibles, de l’impossibilité d’estimer précisément leurs probabilités, et des biais cognitifs qui nous empêchent d’en mesurer l’impact potentiel.</li>
+                </ul>
+                <p>Ces ouvrages renforcent ma conviction que le contrôle du risque, l’humilité face à l’incertitude et une discipline sans faille sont les piliers d’une stratégie d’investissement durable.</p>
+            </div>
+
+            <div class="show-en">
+                <p>I’m a passionate investor with solid experience, a clear vision, and a structured objective.</p>
+                <p>My name is Romain, I’m 40 years old, and for over four years on eToro, I’ve been deeply committed to studying financial markets. My investment decisions are primarily based on financial and technical analysis to identify optimal entry points.</p>
+                <p>I joined eToro in 2021, but due to liquidity needs, I began actively investing in September 2022. My involvement in the world of investing, however, goes back much further.</p>
+                <p>My results reflect the consistency of my approach: +5.99% over the last 3 months of 2022, then +28.7% in 2023, +14.44% in 2024, and finally +54% over the first six months of 2025 — that's a total of +141%, compared to +60.5% for the S&amp;P 500 over the same period.</p>
+                <p>These results are not due to luck, but to a methodical process, disciplined execution, and rigorous risk management.</p>
+                <p>My approach is also shaped by foundational readings that have greatly influenced my investment philosophy. Among my go-to books:</p>
+                <ul class="about-books">
+                    <li><em>Security Analysis</em> by Benjamin Graham and David Dodd — a reference work on in-depth financial analysis and sound valuation.</li>
+                    <li><em>The Intelligent Investor</em> by Benjamin Graham — a true manual of prudence and rationality for long-term investing.</li>
+                    <li><em>The Snowball</em> by Alice Schroeder — the official biography of Warren Buffett, a great source of inspiration for his patience, discipline, and value-based strategy.</li>
+                    <li><em>The Black Swan</em> by Nassim Nicholas Taleb — a crucial reminder of the outsized role of rare, unpredictable events, the impossibility of accurately estimating their probabilities, and the cognitive biases that blind us to their potential impact.</li>
+                </ul>
+                <p>These works reinforce my conviction that risk control, humility in the face of uncertainty, and unwavering discipline are the cornerstones of a successful investment strategy.</p>
+            </div>
+
+            <h2 class="show-fr">Pourquoi me suivre&nbsp;?</h2>
+            <h2 class="show-en">Why follow me?</h2>
+
+            <ul class="show-fr">
+                <li><strong>Stratégie réfléchie et équilibrée&nbsp;:</strong> je privilégie des rendements réguliers et durables plutôt que les gains rapides.</li>
+                <li><strong>Zéro effet de levier&nbsp;:</strong> les positions sont ouvertes sans exposition excessive, pour une sécurité maximale.</li>
+                <li><strong>Approche prudente&nbsp;:</strong> la préservation du capital est centrale&nbsp;; le portefeuille vise la stabilité sur le long terme.</li>
+                <li><strong>Pas d’investissement en cryptomonnaies&nbsp;:</strong> non pas par mépris pour la technologie — je crois que la blockchain est une innovation majeure, aujourd’hui et demain — mais parce que je ne peux pas attribuer une valorisation fiable à ces actifs.</li>
+                <li><strong>Gestion de portefeuille professionnelle&nbsp;:</strong> diversification stratégique, rééquilibrage régulier et surveillance continue des risques.</li>
+            </ul>
+            <ul class="show-en">
+                <li><strong>Thoughtful, balanced strategy:</strong> I prioritize steady and sustainable returns over quick wins.</li>
+                <li><strong>Zero leverage:</strong> Positions are opened without excessive exposure, ensuring maximum security.</li>
+                <li><strong>Conservative approach:</strong> Capital preservation is key; the portfolio is focused on long-term stability.</li>
+                <li><strong>No investments in cryptocurrencies:</strong> Not because I dismiss the technology — I believe blockchain is a transformative innovation, now and in the future — but because I cannot assign a reliable valuation to these assets.</li>
+                <li><strong>Professional portfolio management:</strong> Strategic diversification, regular rebalancing, and continuous risk monitoring.</li>
+            </ul>
+
+            <div class="show-fr">
+                <p>Mon ambition est de construire un track record solide et durable, avec une croissance cohérente et sans mauvaises surprises.</p>
+                <p>Mon objectif&nbsp;? Atteindre le niveau Elite sur eToro, par la constance et la discipline.</p>
+                <p>Pas à pas, on ira loin.</p>
+                <p>Si vous recherchez une approche d’investissement sécurisée, structurée et tournée vers le long terme, ajoutez-moi à votre portefeuille.</p>
+                <p>La tranquillité d’esprit avant tout.</p>
+            </div>
+            <div class="show-en">
+                <p>My ambition is to build a solid and lasting track record, with consistent growth and no surprises.</p>
+                <p>My goal? To reach the Elite level on eToro, through consistency and discipline.</p>
+                <p>Step by step, we’ll go far.</p>
+                <p>If you’re looking for a secure, structured, and long-term-focused investment approach, add me to your portfolio.</p>
+                <p>Peace of mind comes first.</p>
+            </div>
+        </div>
+        {% include 'partials/site_footer.html' %}
+    </div>
+{% include 'partials/site_layout_script.html' %}
+</body>
+</html>
