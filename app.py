@@ -18,7 +18,7 @@ import uuid
 from datetime import datetime, timezone
 
 import requests
-from flask import Flask, Response, g, make_response, jsonify, render_template, request, send_from_directory
+from flask import Flask, Response, g, make_response, jsonify, redirect, render_template, request, send_from_directory, url_for
 from etoro_client import (
     get_user_profile,
     get_user_gain,
@@ -881,7 +881,7 @@ def api_cookie_consent():
     return resp
 
 
-# Livres recommandés (page /learning) — titres et notes FR/EN
+# Livres recommandés (page /reading) — titres et notes FR/EN
 RECOMMENDED_BOOKS: list[dict] = [
     {
         "title_fr": "L'investisseur intelligent",
@@ -966,8 +966,8 @@ def page_about():
     return resp
 
 
-@app.route("/learning")
-def page_learning():
+@app.route("/reading")
+def page_reading():
     """Livres recommandés (finance & investissement)."""
     resp = make_response(
         render_template(
@@ -978,6 +978,12 @@ def page_learning():
     )
     _get_or_set_visitor_id(resp)
     return resp
+
+
+@app.route("/learning")
+def page_learning_redirect():
+    """Ancienne URL : redirige vers /reading."""
+    return redirect(url_for("page_reading"), code=301)
 
 
 @app.route("/copy-on-etoro")
