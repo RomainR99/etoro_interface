@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include 'partials/favicon.html' %}
     <title>romainroth.com/Reading</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     {% include 'partials/site_chrome_styles.html' %}
     <style>
-        .learning-main {
+        .reading-main {
             max-width: 800px;
             margin: 0 auto;
             width: 100%;
         }
-        .learning-main > h1 {
+        .reading-main > h1 {
             font-size: 1.75rem;
             margin-bottom: 0.5rem;
             font-weight: 700;
         }
-        .learning-lead {
+        .reading-lead {
             color: var(--muted);
             font-size: 0.95rem;
             margin-bottom: 1.5rem;
@@ -57,11 +58,11 @@
     {% include 'partials/cookie_banner.html' %}
     <div class="container">
         {% include 'partials/site_header.html' %}
-        <div id="learningPageRoot" class="learning-main">
+        <div id="readingPageRoot" class="reading-main">
             <h1 class="show-fr">Livres recommandés</h1>
             <h1 class="show-en">Recommended books</h1>
-            <p class="learning-lead show-fr">Une sélection de lectures utiles pour la finance personnelle et l’investissement.</p>
-            <p class="learning-lead show-en">A short reading list for personal finance and investing.</p>
+            <p class="reading-lead show-fr">Une sélection de lectures utiles pour la finance personnelle et l’investissement.</p>
+            <p class="reading-lead show-en">A short reading list for personal finance and investing.</p>
 
             {% for book in books %}
             <article class="book-card">

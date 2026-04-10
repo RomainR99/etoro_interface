@@ -897,27 +897,6 @@ RECOMMENDED_BOOKS: list[dict] = [
         "note_fr": "Comment repérer des opportunités à partir de ce que vous observez au quotidien.",
         "note_en": "How to spot opportunities from what you already notice in everyday life.",
     },
-    {
-        "title_fr": "Le petit livre de l'investissement intelligent",
-        "title_en": "The Little Book of Common Sense Investing",
-        "author": "John C. Bogle",
-        "note_fr": "Indexation, frais bas et discipline sur le long terme.",
-        "note_en": "Indexing, low costs, and long-term discipline.",
-    },
-    {
-        "title_fr": "Marchés aléatoires",
-        "title_en": "A Random Walk Down Wall Street",
-        "author": "Burton G. Malkiel",
-        "note_fr": "Panorama accessible des marchés, de l'efficience et des stratégies.",
-        "note_en": "An accessible tour of markets, efficiency, and strategies.",
-    },
-    {
-        "title_fr": "Système 1 / Système 2 : les deux vitesses de la pensée",
-        "title_en": "Thinking, Fast and Slow",
-        "author": "Daniel Kahneman",
-        "note_fr": "Biais cognitifs utiles pour comprendre décisions financières et risques.",
-        "note_en": "Cognitive biases that matter for financial decisions and risk.",
-    },
 ]
 
 
@@ -971,7 +950,7 @@ def page_reading():
     """Livres recommandés (finance & investissement)."""
     resp = make_response(
         render_template(
-            "learning.html",
+            "reading.html",
             books=RECOMMENDED_BOOKS,
             **_site_layout_context(),
         )
