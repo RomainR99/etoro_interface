@@ -1,5 +1,5 @@
         <header>
-            <a href="https://www.etoro.com/people/{{ username }}" class="header-etoro-hit" target="_blank" rel="noopener noreferrer" aria-label="Profil eToro — {{ username }}"></a>
+            <button type="button" id="headerHomeHit" class="header-home-hit" aria-label="Home"></button>
             <div class="header-left">
                 {% if profile and profile.avatars and profile.avatars|length > 0 %}
                     {% set avatar_url = profile.avatars[-1].url if profile.avatars[-1].url else profile.avatars[0].url %}
@@ -7,23 +7,31 @@
                 {% else %}
                     <div class="avatar-placeholder">{{ username[0]|upper }}</div>
                 {% endif %}
-                <div>
-                    <h1>{{ username }}</h1>
-                    {% if profile %}
-                        {% if profile.isPi %}<span class="badge badge-pi">Pro Investor</span>{% endif %}
-                    {% endif %}
-                    {% if current_copiers is not none %}<span class="badge" id="copiersBadge" style="background: rgba(139,148,158,0.2); color: var(--muted);" data-count="{{ current_copiers }}">{{ current_copiers }} copieur{% if current_copiers > 1 %}s{% endif %}</span>{% endif %}
+                <div class="header-left-text">
+                    <h1>{{ username | username_display }}</h1>
+                    <div class="header-badges-etoro-wrap">
+                        <div class="header-badges-row">
+                            {% if profile %}
+                                {% if profile.isPi %}<span class="badge badge-pi">Pro Investor</span>{% endif %}
+                            {% endif %}
+                            {% if current_copiers is not none %}<span class="badge" id="copiersBadge" style="background: rgba(139,148,158,0.2); color: var(--muted);" data-count="{{ current_copiers }}">{{ current_copiers }} copieur{% if current_copiers > 1 %}s{% endif %}</span>{% endif %}
+                        </div>
+                        <a href="https://www.etoro.com/people/{{ username|lower }}" class="btn-etoro-header" target="_blank" rel="noopener noreferrer" aria-label="eToro — profil">
+                            <img src="/images/etoro_logo.png" alt="" class="btn-etoro-header__logo" width="168" height="36" decoding="async">
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="header-right">
                 <button type="button" id="headerNavToggle" class="header-nav-burger" aria-expanded="false" aria-controls="headerNavMenu" title="Menu">
                     <span class="header-nav-burger-icon" aria-hidden="true"></span>
                 </button>
-                <nav id="headerNavMenu" class="header-nav-menu" role="navigation" aria-label="Navigation">
-                    <button type="button" id="navHomeBtn" class="lang-btn nav-header-btn" title="Haut de page">Accueil</button>
-                    <button type="button" id="navPostsBtn" class="lang-btn nav-header-btn" title="Section posts">Posts</button>
+                <nav id="headerNavMenu" class="header-nav-menu" role="navigation" aria-label="Main">
+                    <button type="button" id="navHomeBtn" class="lang-btn nav-header-btn" title="Top of page">Home</button>
+                    <button type="button" id="navPostsBtn" class="lang-btn nav-header-btn" title="Posts section">Posts</button>
                     <a href="/copy-on-etoro" id="navCopyEtoroBtn" class="lang-btn nav-header-btn" title="Copy trading on eToro">CopyOnEtoro</a>
-                    <a href="/lexique" id="navHelpLexBtn" class="lang-btn nav-header-btn nav-help-btn" title="Lexique et questions courantes">?</a>
+                    <a href="/learning" id="navLearningBtn" class="lang-btn nav-header-btn" title="Recommended books">Learning</a>
+                    <a href="/lexique" id="navHelpLexBtn" class="lang-btn nav-header-btn nav-help-btn" title="Glossary &amp; FAQ">?</a>
                 </nav>
                 <div class="header-lang-flags">
                     <button type="button" id="langFrBtn" class="lang-btn">🇫🇷 FR</button>

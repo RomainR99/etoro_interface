@@ -4,26 +4,10 @@
                 fr: {
                     copieur: "copieur",
                     copieurs: "copieurs",
-                    navHome: "Accueil",
-                    navPosts: "Posts",
-                    navHomeTitle: "Haut de page",
-                    navPostsTitle: "Section posts",
-                    navCopyEtoro: "CopyOnEtoro",
-                    navCopyEtoroTitle: "Copy trading sur eToro",
-                    navBurgerTitle: "Menu",
-                    navHelpLexTitle: "Lexique et questions courantes",
                 },
                 en: {
                     copieur: "copier",
                     copieurs: "copiers",
-                    navHome: "Home",
-                    navPosts: "Posts",
-                    navHomeTitle: "Top of page",
-                    navPostsTitle: "Posts section",
-                    navCopyEtoro: "CopyOnEtoro",
-                    navCopyEtoroTitle: "Copy trading on eToro",
-                    navBurgerTitle: "Menu",
-                    navHelpLexTitle: "Glossary & FAQ",
                 }
             };
 
@@ -36,25 +20,6 @@
                 var enBtn = document.getElementById("langEnBtn");
                 if (frBtn) frBtn.classList.toggle("active", lang === "fr");
                 if (enBtn) enBtn.classList.toggle("active", lang === "en");
-                var navHomeBtn = document.getElementById("navHomeBtn");
-                var navPostsBtn = document.getElementById("navPostsBtn");
-                if (navHomeBtn) {
-                    navHomeBtn.textContent = t.navHome;
-                    navHomeBtn.title = t.navHomeTitle;
-                }
-                if (navPostsBtn) {
-                    navPostsBtn.textContent = t.navPosts;
-                    navPostsBtn.title = t.navPostsTitle;
-                }
-                var navCopyEtoroBtn = document.getElementById("navCopyEtoroBtn");
-                if (navCopyEtoroBtn) {
-                    navCopyEtoroBtn.textContent = t.navCopyEtoro;
-                    navCopyEtoroBtn.setAttribute("title", t.navCopyEtoroTitle);
-                }
-                var navHelpLexBtn = document.getElementById("navHelpLexBtn");
-                if (navHelpLexBtn) navHelpLexBtn.setAttribute("title", t.navHelpLexTitle);
-                var headerNavToggle = document.getElementById("headerNavToggle");
-                if (headerNavToggle) headerNavToggle.setAttribute("title", t.navBurgerTitle);
                 var cb = document.getElementById("copiersBadge");
                 if (cb) {
                     var n = Number(cb.getAttribute("data-count") || "0");
@@ -72,6 +37,8 @@
                 });
                 var lexRoot = document.getElementById("lexPageRoot");
                 if (lexRoot) lexRoot.classList.toggle("lang-en", lang === "en");
+                var learningRoot = document.getElementById("learningPageRoot");
+                if (learningRoot) learningRoot.classList.toggle("lang-en", lang === "en");
                 var cookieBn = document.getElementById("cookieConsentBanner");
                 if (cookieBn && !cookieBn.hasAttribute("hidden") && typeof window.refreshCookieBannerLang === "function") {
                     window.refreshCookieBannerLang();
@@ -99,15 +66,20 @@
                     var p = (window.location.pathname || "").replace(/\/+$/, "") || "/";
                     return p === "/" || p === "";
                 }
+                function goHomeLikeNav() {
+                    closeHeaderNavMenu();
+                    if (isHomePath()) {
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                    } else {
+                        window.location.href = "/";
+                    }
+                }
                 if (navHomeBtn) {
-                    navHomeBtn.addEventListener("click", function () {
-                        closeHeaderNavMenu();
-                        if (isHomePath()) {
-                            window.scrollTo({ top: 0, behavior: "smooth" });
-                        } else {
-                            window.location.href = "/";
-                        }
-                    });
+                    navHomeBtn.addEventListener("click", goHomeLikeNav);
+                }
+                var headerHomeHit = document.getElementById("headerHomeHit");
+                if (headerHomeHit) {
+                    headerHomeHit.addEventListener("click", goHomeLikeNav);
                 }
                 if (navPostsBtn) {
                     navPostsBtn.addEventListener("click", function () {

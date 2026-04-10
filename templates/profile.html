@@ -1023,14 +1023,6 @@
                     captchaHelp: "Veuillez valider le CAPTCHA puis cliquer sur Renvoyer.",
                     captchaResend: "Renvoyer",
                     chatWelcome: "Besoin d'aide ? Pose une question. Ex. : Où trouver des actions à fort dividende ? Quels secteurs ont la plus forte croissance ? Pourquoi diversifier ?",
-                    navHome: "Accueil",
-                    navPosts: "Posts",
-                    navHomeTitle: "Haut de page",
-                    navPostsTitle: "Section posts",
-                    navCopyEtoro: "CopyOnEtoro",
-                    navCopyEtoroTitle: "Copy trading sur eToro",
-                    navBurgerTitle: "Menu",
-                    navHelpLexTitle: "Lexique et questions courantes",
                     readPost: "Lire",
                     collapsePost: "Réduire",
                     postImageAlt: "Illustration du post",
@@ -1058,14 +1050,6 @@
                     captchaHelp: "Please validate the CAPTCHA then click Resend.",
                     captchaResend: "Resend",
                     chatWelcome: "Need help? Ask a question. E.g.: Where to find high-dividend stocks? Which sectors have the strongest growth? Why diversify?",
-                    navHome: "Home",
-                    navPosts: "Posts",
-                    navHomeTitle: "Top of page",
-                    navPostsTitle: "Posts section",
-                    navCopyEtoro: "CopyOnEtoro",
-                    navCopyEtoroTitle: "Copy trading on eToro",
-                    navBurgerTitle: "Menu",
-                    navHelpLexTitle: "Glossary & FAQ",
                     readPost: "Read",
                     collapsePost: "Collapse",
                     postImageAlt: "Post image",
@@ -1099,25 +1083,6 @@
                     const el = document.getElementById(id);
                     if (el) el.textContent = t[key];
                 });
-                const navHomeBtn = document.getElementById("navHomeBtn");
-                const navPostsBtn = document.getElementById("navPostsBtn");
-                if (navHomeBtn) {
-                    navHomeBtn.textContent = t.navHome;
-                    navHomeBtn.title = t.navHomeTitle;
-                }
-                if (navPostsBtn) {
-                    navPostsBtn.textContent = t.navPosts;
-                    navPostsBtn.title = t.navPostsTitle;
-                }
-                const navCopyEtoroBtn = document.getElementById("navCopyEtoroBtn");
-                if (navCopyEtoroBtn) {
-                    navCopyEtoroBtn.textContent = t.navCopyEtoro;
-                    navCopyEtoroBtn.setAttribute("title", t.navCopyEtoroTitle);
-                }
-                const navHelpLexBtn = document.getElementById("navHelpLexBtn");
-                if (navHelpLexBtn) navHelpLexBtn.setAttribute("title", t.navHelpLexTitle);
-                const headerNavToggle = document.getElementById("headerNavToggle");
-                if (headerNavToggle) headerNavToggle.setAttribute("title", t.navBurgerTitle);
                 document.querySelectorAll(".trader-post-read-btn").forEach((btn) => {
                     const item = btn.closest(".trader-post-item");
                     const body = item && item.querySelector(".trader-post-body");
@@ -1197,11 +1162,16 @@
                     headerNavMenu.classList.remove("header-nav-menu--open");
                     headerNavToggle.setAttribute("aria-expanded", "false");
                 }
+                function goHomeLikeNav() {
+                    closeHeaderNavMenu();
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                }
                 if (navHomeBtn) {
-                    navHomeBtn.addEventListener("click", function () {
-                        closeHeaderNavMenu();
-                        window.scrollTo({ top: 0, behavior: "smooth" });
-                    });
+                    navHomeBtn.addEventListener("click", goHomeLikeNav);
+                }
+                const headerHomeHit = document.getElementById("headerHomeHit");
+                if (headerHomeHit) {
+                    headerHomeHit.addEventListener("click", goHomeLikeNav);
                 }
                 if (navPostsBtn) {
                     navPostsBtn.addEventListener("click", function () {

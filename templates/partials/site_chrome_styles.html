@@ -58,19 +58,22 @@
             gap: 0.75rem;
         }
         /*
-         * Zone eToro (25 % gauche) : doit être AU-DESSUS de .header-left (z-index 5),
-         * sinon toute la colonne gauche capte les clics et le lien ne reçoit jamais rien.
+         * 25 % gauche = Home : calque sous .header-left ; les clics traversent la colonne
+         * (pointer-events: none) sauf le bouton Etoro (pointer-events: auto).
          */
-        .header-etoro-hit {
+        .header-home-hit {
             position: absolute;
             left: 0;
             top: 0;
             bottom: 0;
             width: 25%;
-            display: block;
-            z-index: 10;
+            z-index: 4;
+            margin: 0;
+            padding: 0;
+            border: none;
+            background: transparent;
             cursor: pointer;
-            pointer-events: auto;
+            display: block;
         }
         .avatar {
             width: 100px;
@@ -122,6 +125,68 @@
             padding-top: 1rem;
             border-top: 1px solid var(--border);
         }
+        .header-left-text {
+            min-width: 0;
+        }
+        .header-left-text > h1 {
+            margin-left: 5px;
+            margin-bottom: 0.05rem;
+        }
+        .header-badges-etoro-wrap {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: stretch;
+            width: max-content;
+            max-width: 100%;
+            margin-top: 0.1rem;
+        }
+        .header-badges-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .header-badges-row .badge {
+            margin-top: 0;
+        }
+        .btn-etoro-header {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 5px;
+            padding: 0.06rem 0.35rem;
+            border-radius: 4px;
+            text-decoration: none;
+            background: var(--card);
+            border: 1px solid var(--success);
+            box-shadow: none;
+            transition: border-color 0.15s ease, filter 0.15s ease;
+            width: 100%;
+            align-self: stretch;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 7;
+            pointer-events: auto;
+            line-height: 0;
+            overflow: hidden;
+        }
+        /* Logo agrandi visuellement (~×2,25) sans augmenter la hauteur du cadre */
+        .btn-etoro-header__logo {
+            display: block;
+            height: 36px;
+            width: auto;
+            max-width: 100%;
+            margin: 0 auto;
+            object-fit: contain;
+            object-position: center;
+            transform: scale(2.25);
+            transform-origin: center center;
+        }
+        .btn-etoro-header:hover {
+            text-decoration: none;
+            border-color: #4fd670;
+            filter: brightness(1.06);
+        }
         .risk-warning {
             padding: 0.75rem 0;
             font-size: 0.75rem;
@@ -137,7 +202,7 @@
             min-width: 0;
             position: relative;
             z-index: 5;
-            pointer-events: auto;
+            pointer-events: none;
         }
         .header-right {
             display: flex;
@@ -282,5 +347,11 @@
             font-size: 1.7rem;
             text-decoration: none;
             color: inherit;
+        }
+        /* Onglets header : survol = texte vert, pas de soulignement (override a:hover global) */
+        .header-nav-menu .lang-btn:hover {
+            text-decoration: none;
+            color: var(--success);
+            border-color: rgba(63, 185, 80, 0.45);
         }
 </style>

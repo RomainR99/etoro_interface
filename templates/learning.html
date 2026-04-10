@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning — RomainRoth</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    {% include 'partials/site_chrome_styles.html' %}
+    <style>
+        .learning-main {
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .learning-main > h1 {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        .learning-lead {
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+        .book-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+        .book-card h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin: 0 0 0.35rem;
+            line-height: 1.35;
+        }
+        .book-author {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin-bottom: 0.5rem;
+        }
+        .book-note {
+            font-size: 0.95rem;
+            color: var(--text);
+            line-height: 1.5;
+            margin: 0;
+        }
+        .lang-en .show-fr { display: none !important; }
+        .lang-en .show-en { display: block !important; }
+        .show-en { display: none; }
+    </style>
+</head>
+<body>
+    {% include 'partials/cookie_banner.html' %}
+    <div class="container">
+        {% include 'partials/site_header.html' %}
+        <div id="learningPageRoot" class="learning-main">
+            <h1 class="show-fr">Livres recommandés</h1>
+            <h1 class="show-en">Recommended books</h1>
+            <p class="learning-lead show-fr">Une sélection de lectures utiles pour la finance personnelle et l’investissement.</p>
+            <p class="learning-lead show-en">A short reading list for personal finance and investing.</p>
+
+            {% for book in books %}
+            <article class="book-card">
+                <h2 class="show-fr">{{ book.title_fr }}</h2>
+                <h2 class="show-en">{{ book.title_en }}</h2>
+                <p class="book-author">{{ book.author }}</p>
+                <p class="book-note show-fr">{{ book.note_fr }}</p>
+                <p class="book-note show-en">{{ book.note_en }}</p>
+            </article>
+            {% else %}
+            <p style="color: var(--muted);">—</p>
+            {% endfor %}
+        </div>
+        {% include 'partials/site_footer.html' %}
+    </div>
+{% include 'partials/site_layout_script.html' %}
+</body>
+</html>

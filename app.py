@@ -41,6 +41,16 @@ except ImportError:
     HAS_YFINANCE = False
 
 app = Flask(__name__)
+
+
+@app.template_filter("username_display")
+def username_display_filter(name: str) -> str:
+    """Affichage du pseudo : espace avant les majuscules (ex. RomainRoth → Romain Roth)."""
+    if not name:
+        return name
+    return re.sub(r"([a-z\d])([A-Z])", r"\1 \2", name)
+
+
 TRADER_USERNAME = "RomainRoth"
 DATE_FROM = "2022-09"  # Données à partir de septembre 2022
 COPIERS_VS_PERF_CACHE = os.path.join(os.path.dirname(__file__), "data", "copiers_vs_performance.json")
@@ -866,6 +876,46 @@ def api_cookie_consent():
     return resp
 
 
+# Livres recommandés (page /learning) — titres et notes FR/EN
+RECOMMENDED_BOOKS: list[dict] = [
+    {
+        "title_fr": "L'investisseur intelligent",
+        "title_en": "The Intelligent Investor",
+        "author": "Benjamin Graham",
+        "note_fr": "Référence historique sur l'investissement de valeur et la marge de sécurité.",
+        "note_en": "The classic text on value investing and margin of safety.",
+    },
+    {
+        "title_fr": "Battez le marché financier",
+        "title_en": "One Up On Wall Street",
+        "author": "Peter Lynch",
+        "note_fr": "Comment repérer des opportunités à partir de ce que vous observez au quotidien.",
+        "note_en": "How to spot opportunities from what you already notice in everyday life.",
+    },
+    {
+        "title_fr": "Le petit livre de l'investissement intelligent",
+        "title_en": "The Little Book of Common Sense Investing",
+        "author": "John C. Bogle",
+        "note_fr": "Indexation, frais bas et discipline sur le long terme.",
+        "note_en": "Indexing, low costs, and long-term discipline.",
+    },
+    {
+        "title_fr": "Marchés aléatoires",
+        "title_en": "A Random Walk Down Wall Street",
+        "author": "Burton G. Malkiel",
+        "note_fr": "Panorama accessible des marchés, de l'efficience et des stratégies.",
+        "note_en": "An accessible tour of markets, efficiency, and strategies.",
+    },
+    {
+        "title_fr": "Système 1 / Système 2 : les deux vitesses de la pensée",
+        "title_en": "Thinking, Fast and Slow",
+        "author": "Daniel Kahneman",
+        "note_fr": "Biais cognitifs utiles pour comprendre décisions financières et risques.",
+        "note_en": "Cognitive biases that matter for financial decisions and risk.",
+    },
+]
+
+
 def _site_layout_context() -> dict:
     """Profil + copieurs pour le header partagé (toutes les pages)."""
     try:
@@ -891,6 +941,20 @@ def page_lexique():
             "lexique.html",
             lexique_entries=_load_lexique_entries(),
             faq_entries=_load_faq_entries(),
+            **_site_layout_context(),
+        )
+    )
+    _get_or_set_visitor_id(resp)
+    return resp
+
+
+@app.route("/learning")
+def page_learning():
+    """Livres recommandés (finance & investissement)."""
+    resp = make_response(
+        render_template(
+            "learning.html",
+            books=RECOMMENDED_BOOKS,
             **_site_layout_context(),
         )
     )
