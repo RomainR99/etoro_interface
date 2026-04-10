@@ -228,12 +228,12 @@
             display: none;
             align-items: center;
             justify-content: center;
-            width: 3.2rem;
-            height: 3.2rem;
-            min-height: calc(1.7rem + 1.4rem + 4px);
+            width: calc(3.2rem * 2 / 3);
+            height: calc(3.2rem * 2 / 3);
+            min-height: calc(2.07rem + 3px);
             padding: 0;
             border: 2px solid var(--border);
-            border-radius: 12px;
+            border-radius: calc(12px * 2 / 3);
             background: var(--card);
             color: var(--text);
             cursor: pointer;
@@ -245,11 +245,11 @@
         }
         .header-nav-burger-icon {
             display: block;
-            width: 20px;
+            width: 14px;
             height: 2px;
             background: currentColor;
             border-radius: 1px;
-            box-shadow: 0 -7px 0 currentColor, 0 7px 0 currentColor;
+            box-shadow: 0 -5px 0 currentColor, 0 5px 0 currentColor;
         }
         .header-nav-menu {
             display: flex;
@@ -289,8 +289,8 @@
             .header-nav-menu .nav-header-btn {
                 width: 100%;
                 justify-content: flex-start;
-                font-size: 1.05rem;
-                min-height: 2.75rem;
+                font-size: calc(1.05rem * 2 / 3);
+                min-height: calc(2.75rem * 2 / 3);
             }
         }
         @media (min-width: 1200px) {
@@ -328,23 +328,23 @@
             color: var(--accent);
         }
         .header-right .nav-header-btn {
-            font-size: 1.7rem;
-            padding: 0.7rem 1rem;
-            border-radius: 12px;
+            font-size: calc(1.7rem * 2 / 3);
+            padding: calc(0.7rem * 2 / 3) calc(1rem * 2 / 3);
+            border-radius: calc(12px * 2 / 3);
             border-width: 2px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             line-height: 1;
             box-sizing: border-box;
-            min-height: calc(1.7rem + 1.4rem + 4px);
+            min-height: calc(2.07rem + 3px);
         }
         .nav-help-btn {
-            min-width: 3.2rem;
-            padding-left: 0.85rem;
-            padding-right: 0.85rem;
+            min-width: calc(3.2rem * 2 / 3);
+            padding-left: calc(0.85rem * 2 / 3);
+            padding-right: calc(0.85rem * 2 / 3);
             font-weight: 700;
-            font-size: 1.7rem;
+            font-size: calc(1.7rem * 2 / 3);
             text-decoration: none;
             color: inherit;
         }
