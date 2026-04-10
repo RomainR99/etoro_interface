@@ -1,0 +1,179 @@
+    {% if recaptcha_site_key %}
+    <script>
+    window.chatRecaptchaReady = false;
+    window.chatRenderCaptcha = null;
+    function onRecaptchaLoad() {
+        window.chatRecaptchaReady = true;
+        if (window.chatRenderCaptcha) window.chatRenderCaptcha();
+    }
+    </script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad&render=explicit" async defer></script>
+    {% endif %}
+    <script>
+        (function () {
+            var CHAT_I18N = {
+                fr: {
+                    chatTitle: "Votre assistant financier",
+                    chatPlaceholder: "Votre message…",
+                    chatSend: "Envoyer",
+                    captchaHelp: "Veuillez valider le CAPTCHA puis cliquer sur Renvoyer.",
+                    captchaResend: "Renvoyer",
+                    chatWelcome: "Besoin d'aide ? Pose une question. Ex. : Où trouver des actions à fort dividende ? Quels secteurs ont la plus forte croissance ? Pourquoi diversifier ?",
+                },
+                en: {
+                    chatTitle: "Your Financial Assistant",
+                    chatPlaceholder: "Your message…",
+                    chatSend: "Send",
+                    captchaHelp: "Please validate the CAPTCHA then click Resend.",
+                    captchaResend: "Resend",
+                    chatWelcome: "Need help? Ask a question. E.g.: Where to find high-dividend stocks? Which sectors have the strongest growth? Why diversify?",
+                }
+            };
+
+            var recaptchaSiteKey = {{ recaptcha_site_key | default('') | tojson }};
+            var savedLang = (function () {
+                try { return localStorage.getItem("page_lang") || "en"; } catch (e) { return "en"; }
+            })();
+            var t0 = CHAT_I18N[savedLang] || CHAT_I18N.en;
+            var messages = [{ role: "assistant", content: t0.chatWelcome }];
+            var panel = document.getElementById("chatPanel");
+            var msgsEl = document.getElementById("chatMessages");
+            var inputEl = document.getElementById("chatInput");
+            var captchaWrap = document.getElementById("chatCaptchaWrap");
+            var captchaWidget = document.getElementById("chatCaptchaWidget");
+            var captchaResendBtn = document.getElementById("chatCaptchaResend");
+            var pendingForCaptcha = null;
+
+            function escapeHtml(s) {
+                var d = document.createElement("div");
+                d.textContent = s;
+                return d.innerHTML;
+            }
+            function formatBotContent(content) {
+                if (!content) return "";
+                var linkRe = /\[([^\]]*)\]\((https?:\/\/[^\)]+)\)/g;
+                var out = "";
+                var lastIdx = 0;
+                var match;
+                while ((match = linkRe.exec(content)) !== null) {
+                    out += escapeHtml(content.slice(lastIdx, match.index));
+                    out += "<a href=\"" + escapeHtml(match[2]) + "\" target=\"_blank\" rel=\"noopener noreferrer\">" + escapeHtml(match[1]) + "</a>";
+                    lastIdx = linkRe.lastIndex;
+                }
+                out += escapeHtml(content.slice(lastIdx));
+                return out;
+            }
+            function renderMessages() {
+                if (!msgsEl) return;
+                msgsEl.innerHTML = messages.map(function (m) {
+                    var c = m.role === "user" ? "user" : "bot";
+                    var label = m.role === "user" ? "Vous: " : "";
+                    var body = m.role === "user" ? escapeHtml(m.content) : formatBotContent(m.content);
+                    return "<div class=\"chat-msg " + c + "\">" + (label ? "<strong>" + label + "</strong> " : "") + body + "</div>";
+                }).join("");
+                msgsEl.scrollTop = msgsEl.scrollHeight;
+            }
+            function doFetch(msgs, captchaToken) {
+                var payload = { messages: msgs };
+                if (captchaToken) payload.captcha_token = captchaToken;
+                return fetch("/api/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                }).then(function (r) {
+                    return r.json().then(function (data) { return { ok: r.ok, status: r.status, data: data }; });
+                });
+            }
+            function sendToApi(optCaptchaToken) {
+                if (!inputEl) return;
+                var text = (inputEl.value || "").trim();
+                if (pendingForCaptcha) text = pendingForCaptcha.text;
+                if (!text) return;
+                var msgsToSend = messages;
+                if (!pendingForCaptcha) {
+                    messages.push({ role: "user", content: text });
+                    inputEl.value = "";
+                } else {
+                    msgsToSend = messages.concat([{ role: "user", content: text }]);
+                }
+                renderMessages();
+                if (captchaWrap) captchaWrap.style.display = "none";
+                pendingForCaptcha = null;
+                doFetch(msgsToSend, optCaptchaToken).then(function (res) {
+                    if (!res.ok && res.status === 429 && res.data.require_captcha && recaptchaSiteKey) {
+                        if (!pendingForCaptcha) {
+                            messages.pop();
+                            pendingForCaptcha = { messages: messages.slice(), text: text };
+                            messages.push({ role: "assistant", content: "Veuillez valider le CAPTCHA pour continuer." });
+                            function renderCaptcha() {
+                                if (!captchaWidget || !recaptchaSiteKey) return;
+                                captchaWidget.innerHTML = "";
+                                if (typeof grecaptcha !== "undefined" && grecaptcha.render) {
+                                    grecaptcha.render(captchaWidget, { sitekey: recaptchaSiteKey });
+                                }
+                            }
+                            window.chatRenderCaptcha = renderCaptcha;
+                            if (window.chatRecaptchaReady) renderCaptcha();
+                            if (captchaWrap) captchaWrap.style.display = "block";
+                            if (captchaResendBtn) captchaResendBtn.onclick = function () {
+                                var token = (typeof grecaptcha !== "undefined" && grecaptcha.getResponse) ? grecaptcha.getResponse() : "";
+                                if (!token) return;
+                                sendToApi(token);
+                            };
+                        }
+                        renderMessages();
+                        return;
+                    }
+                    if (res.data.error) {
+                        messages.push({ role: "assistant", content: "Erreur: " + res.data.error });
+                    } else {
+                        messages.push({ role: "assistant", content: res.data.reply || "" });
+                    }
+                    renderMessages();
+                }).catch(function () {
+                    if (!pendingForCaptcha) messages.pop();
+                    messages.push({ role: "assistant", content: "Erreur de connexion." });
+                    renderMessages();
+                });
+            }
+
+            window.applyChatWidgetLang = function (lang) {
+                var t = CHAT_I18N[lang] || CHAT_I18N.en;
+                var titleEl = document.getElementById("chatPanelTitle");
+                if (titleEl) titleEl.textContent = t.chatTitle;
+                if (inputEl) inputEl.placeholder = t.chatPlaceholder;
+                var sendBtn = document.getElementById("chatSend");
+                if (sendBtn) sendBtn.textContent = t.chatSend;
+                var helpEl = document.getElementById("captchaHelp");
+                if (helpEl) helpEl.textContent = t.captchaHelp;
+                if (captchaResendBtn) captchaResendBtn.textContent = t.captchaResend;
+                var known = [CHAT_I18N.fr.chatWelcome, CHAT_I18N.en.chatWelcome];
+                if (messages && messages.length > 0 && messages[0].role === "assistant" && known.indexOf(messages[0].content) !== -1) {
+                    messages[0].content = t.chatWelcome;
+                    renderMessages();
+                }
+            };
+
+            var toggleWrap = document.getElementById("chatToggleWrap");
+            if (toggleWrap) toggleWrap.onclick = function () { if (panel) panel.classList.add("open"); };
+            var closeBtn = document.getElementById("chatClose");
+            if (closeBtn) closeBtn.onclick = function () { if (panel) panel.classList.remove("open"); };
+            var sendBtn = document.getElementById("chatSend");
+            if (sendBtn) sendBtn.onclick = sendToApi;
+            if (inputEl) inputEl.addEventListener("keydown", function (e) { if (e.key === "Enter") sendToApi(); });
+            renderMessages();
+            window.applyChatWidgetLang(savedLang);
+
+            (function () {
+                var footer = document.getElementById("siteFooter");
+                var wrap = document.getElementById("chatToggleWrap");
+                if (!footer || !wrap || !window.IntersectionObserver) return;
+                var io = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        wrap.classList.toggle("chat-toggle-compact", entry.isIntersecting);
+                    });
+                }, { root: null, threshold: 0, rootMargin: "0px" });
+                io.observe(footer);
+            })();
+        })();
+    </script>

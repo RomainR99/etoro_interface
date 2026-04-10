@@ -1,0 +1,20 @@
+    <!-- Chatbot bas-droite (identique sur toutes les pages) -->
+    <div class="chat-toggle-wrap" id="chatToggleWrap" title="Ouvrir l'assistant">
+        <button type="button" class="chat-toggle" id="chatToggle">💬</button>
+    </div>
+    <div class="chat-panel" id="chatPanel">
+        <div class="chat-panel-header">
+            <span id="chatPanelTitle">Your Financial Assistant</span>
+            <button type="button" class="chat-panel-close" id="chatClose" aria-label="Fermer">×</button>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input-wrap">
+            <input type="text" id="chatInput" placeholder="Your message…" maxlength="500" autocomplete="off" />
+            <button type="button" id="chatSend">Send</button>
+        </div>
+        <div id="chatCaptchaWrap" style="display:none; margin-top:0.5rem; padding:0.5rem; background:var(--card-bg); border-radius:6px;">
+            <p style="font-size:0.85rem; color:var(--muted); margin-bottom:0.5rem;" id="captchaHelp">Veuillez valider le CAPTCHA puis cliquer sur Renvoyer.</p>
+            <div id="chatCaptchaWidget"></div>
+            <button type="button" id="chatCaptchaResend" class="chart-controls button" style="margin-top:0.5rem; padding:0.4rem 0.8rem; font-size:0.85rem;">Renvoyer</button>
+        </div>
+    </div>

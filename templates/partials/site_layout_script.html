@@ -41,6 +41,9 @@
                 if (learningRoot) learningRoot.classList.toggle("lang-en", lang === "en");
                 var aboutRoot = document.getElementById("aboutPageRoot");
                 if (aboutRoot) aboutRoot.classList.toggle("lang-en", lang === "en");
+                if (typeof window.applyChatWidgetLang === "function") {
+                    window.applyChatWidgetLang(lang);
+                }
                 var cookieBn = document.getElementById("cookieConsentBanner");
                 if (cookieBn && !cookieBn.hasAttribute("hidden") && typeof window.refreshCookieBannerLang === "function") {
                     window.refreshCookieBannerLang();

@@ -43,6 +43,12 @@ except ImportError:
 app = Flask(__name__)
 
 
+@app.context_processor
+def inject_recaptcha_site_key():
+    """reCAPTCHA site key pour le chatbot (toutes les pages)."""
+    return {"recaptcha_site_key": (os.getenv("RECAPTCHA_SITE_KEY") or "").strip()}
+
+
 @app.template_filter("username_display")
 def username_display_filter(name: str) -> str:
     """Affichage du pseudo : espace avant les majuscules (ex. RomainRoth → Romain Roth)."""
@@ -793,7 +799,6 @@ def index():
         dca_total_invested=dca_total_invested,
         trader_posts=trader_posts,
         current_copiers=current_copiers,
-        recaptcha_site_key=os.getenv("RECAPTCHA_SITE_KEY", ""),
     ))
     _get_or_set_visitor_id(resp)
     return resp
