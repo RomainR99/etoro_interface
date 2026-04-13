@@ -177,10 +177,57 @@
                 });
             }
 
+            function isCompactLayoutChrome() {
+                try {
+                    /* ≤1024 : iPhone sans meta viewport peut annoncer ~980px de large */
+                    if (window.innerWidth > 0 && window.innerWidth <= 1024) return true;
+                    if (
+                        window.innerHeight > 0 &&
+                        window.innerHeight <= 560 &&
+                        window.innerWidth > 0 &&
+                        window.innerWidth <= 1100
+                    ) {
+                        return true;
+                    }
+                    if (
+                        window.matchMedia &&
+                        window.matchMedia("(pointer: coarse)").matches &&
+                        window.innerWidth <= 1024
+                    ) {
+                        return true;
+                    }
+                } catch (e) {}
+                if (!window.matchMedia) return false;
+                try {
+                    if (window.matchMedia("(max-width: 1024px)").matches) return true;
+                } catch (e2) {}
+                return false;
+            }
+
+            function clearChatFabForcedLayout() {
+                var wrap = document.getElementById("chatToggleWrap");
+                var panel = document.getElementById("chatPanel");
+                var avatar = wrap && wrap.querySelector(".chat-toggle-avatar");
+                var btn = document.getElementById("chatToggle");
+                if (wrap) wrap.removeAttribute("style");
+                if (panel) {
+                    panel.style.removeProperty("z-index");
+                    panel.style.removeProperty("bottom");
+                    panel.style.removeProperty("right");
+                }
+                if (avatar) avatar.removeAttribute("style");
+                if (btn) btn.removeAttribute("style");
+            }
+
             window.applyChatWidgetLang = function (lang) {
                 var t = CHAT_I18N[lang] || CHAT_I18N.en;
                 var titleEl = document.getElementById("chatPanelTitle");
                 if (titleEl) titleEl.textContent = t.chatTitle;
+                var footerChatBtn = document.getElementById("siteFooterChatBtn");
+                if (footerChatBtn && t.chatTitle) {
+                    footerChatBtn.setAttribute("aria-label", t.chatTitle);
+                    footerChatBtn.setAttribute("title", t.chatTitle);
+                }
                 if (inputEl) inputEl.placeholder = t.chatPlaceholder;
                 var sendBtn = document.getElementById("chatSend");
                 if (sendBtn) sendBtn.textContent = t.chatSend;
@@ -194,10 +241,101 @@
                 }
             };
 
+            function resetChatPanelDockStyles() {
+                if (!panel) return;
+                panel.removeAttribute("data-chat-dock");
+                [
+                    "bottom",
+                    "left",
+                    "right",
+                    "top",
+                    "transform",
+                    "max-height",
+                ].forEach(function (prop) {
+                    panel.style.removeProperty(prop);
+                });
+            }
+
+            function positionChatPanelAboveFooterButton() {
+                var btn = document.getElementById("siteFooterChatBtn");
+                if (!panel || !btn) return;
+                var gap = 12;
+                var r = btn.getBoundingClientRect();
+                var vw = window.innerWidth;
+                var vh = window.innerHeight;
+                if (r.width === 0 && r.height === 0) return;
+                var bottomPx = vh - r.top + gap;
+                var panelW = Math.min(340, vw - 32);
+                var leftPx = r.left + r.width / 2 - panelW / 2;
+                var pad = 12;
+                leftPx = Math.max(pad, Math.min(leftPx, vw - panelW - pad));
+                var maxH = Math.min(420, Math.max(120, r.top - gap - pad));
+                panel.style.setProperty("bottom", bottomPx + "px", "important");
+                panel.style.setProperty("left", leftPx + "px", "important");
+                panel.style.setProperty("right", "auto", "important");
+                panel.style.setProperty("transform", "none", "important");
+                panel.style.setProperty("max-height", maxH + "px", "important");
+            }
+
+            function openChatPanelFromFab() {
+                resetChatPanelDockStyles();
+                if (panel) panel.classList.add("open");
+            }
+
+            function openChatPanelFromFooter() {
+                if (!panel) return;
+                panel.setAttribute("data-chat-dock", "footer");
+                positionChatPanelAboveFooterButton();
+                panel.classList.add("open");
+                requestAnimationFrame(function () {
+                    requestAnimationFrame(positionChatPanelAboveFooterButton);
+                });
+            }
+
+            function closeChatPanel() {
+                if (!panel) return;
+                panel.classList.remove("open");
+                resetChatPanelDockStyles();
+            }
+
             var toggleWrap = document.getElementById("chatToggleWrap");
-            if (toggleWrap) toggleWrap.onclick = function () { if (panel) panel.classList.add("open"); };
+            if (toggleWrap) toggleWrap.onclick = openChatPanelFromFab;
+            var footerChatBtn = document.getElementById("siteFooterChatBtn");
+            if (footerChatBtn) footerChatBtn.onclick = openChatPanelFromFooter;
             var closeBtn = document.getElementById("chatClose");
-            if (closeBtn) closeBtn.onclick = function () { if (panel) panel.classList.remove("open"); };
+            if (closeBtn) closeBtn.onclick = closeChatPanel;
+
+            var _footerDockResizeT;
+            var _footerDockScrollRaf = null;
+            function repositionFooterDockedPanel() {
+                if (
+                    panel &&
+                    panel.classList.contains("open") &&
+                    panel.getAttribute("data-chat-dock") === "footer"
+                ) {
+                    positionChatPanelAboveFooterButton();
+                }
+            }
+            function scheduleFooterDockRepositionOnScroll() {
+                if (_footerDockScrollRaf != null) return;
+                _footerDockScrollRaf = requestAnimationFrame(function () {
+                    _footerDockScrollRaf = null;
+                    repositionFooterDockedPanel();
+                });
+            }
+            /* Au scroll de la page, le bouton footer bouge : on recalcule pour garder la fenêtre juste au-dessus */
+            window.addEventListener("scroll", scheduleFooterDockRepositionOnScroll, { passive: true });
+            window.addEventListener(
+                "resize",
+                function () {
+                    clearTimeout(_footerDockResizeT);
+                    _footerDockResizeT = setTimeout(repositionFooterDockedPanel, 100);
+                },
+                { passive: true }
+            );
+            window.addEventListener("orientationchange", function () {
+                setTimeout(repositionFooterDockedPanel, 250);
+            });
             var sendBtn = document.getElementById("chatSend");
             if (sendBtn) sendBtn.onclick = sendToApi;
             if (inputEl) inputEl.addEventListener("keydown", function (e) { if (e.key === "Enter") sendToApi(); });
@@ -208,6 +346,8 @@
                 var footer = document.getElementById("siteFooter");
                 var wrap = document.getElementById("chatToggleWrap");
                 if (!footer || !wrap || !window.IntersectionObserver) return;
+                /* Phone / small viewports: keep robot avatar (compact hides image on desktop) */
+                if (isCompactLayoutChrome()) return;
                 var io = new IntersectionObserver(function (entries) {
                     entries.forEach(function (entry) {
                         wrap.classList.toggle("chat-toggle-compact", entry.isIntersecting);
@@ -215,5 +355,79 @@
                 }, { root: null, threshold: 0, rootMargin: "0px" });
                 io.observe(footer);
             })();
+
+            function syncMobileLayoutChrome() {
+                var root = document.documentElement;
+                if (!isCompactLayoutChrome()) {
+                    clearChatFabForcedLayout();
+                    root.style.removeProperty("--mobile-bottom-clearance");
+                    return;
+                }
+                var wrap = document.getElementById("chatToggleWrap");
+                var clearancePx = 148;
+                if (wrap && wrap.getBoundingClientRect) {
+                    var r = wrap.getBoundingClientRect();
+                    if (r.height > 0) {
+                        clearancePx = Math.max(
+                            clearancePx,
+                            Math.ceil(window.innerHeight - r.top + 40)
+                        );
+                    }
+                }
+                var bhRaw = (getComputedStyle(root).getPropertyValue("--cookie-banner-height") || "").trim();
+                if (bhRaw) {
+                    var bn = parseFloat(bhRaw);
+                    if (!isNaN(bn)) {
+                        clearancePx = Math.max(clearancePx, Math.ceil(bn + 88));
+                    }
+                }
+                root.style.setProperty("--mobile-bottom-clearance", clearancePx + "px");
+            }
+            window.syncMobileLayoutChrome = syncMobileLayoutChrome;
+            window.addEventListener("layout-chrome-sync", syncMobileLayoutChrome);
+            document.addEventListener("DOMContentLoaded", syncMobileLayoutChrome);
+            if (document.readyState !== "loading") {
+                syncMobileLayoutChrome();
+            }
+            var _layoutChromeTimer;
+            window.addEventListener(
+                "resize",
+                function () {
+                    clearTimeout(_layoutChromeTimer);
+                    _layoutChromeTimer = setTimeout(syncMobileLayoutChrome, 120);
+                },
+                { passive: true }
+            );
+            window.addEventListener("orientationchange", function () {
+                setTimeout(syncMobileLayoutChrome, 280);
+            });
+            requestAnimationFrame(function () {
+                requestAnimationFrame(syncMobileLayoutChrome);
+            });
+        })();
+    </script>
+    <script>
+        /* Indépendant du script principal : si une erreur JS casse le bloc ci-dessus, le FAB reste cliquable et au-dessus de la bannière cookies (z-index 200). */
+        (function () {
+            function ensureChatFabOnTop() {
+                try {
+                    var w = document.getElementById("chatToggleWrap");
+                    var p = document.getElementById("chatPanel");
+                    if (w) {
+                        w.style.setProperty("z-index", "10050", "important");
+                        w.style.setProperty("position", "fixed", "important");
+                    }
+                    if (p) {
+                        p.style.setProperty("z-index", "10051", "important");
+                    }
+                } catch (e) {}
+            }
+            ensureChatFabOnTop();
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", ensureChatFabOnTop);
+            }
+            setTimeout(ensureChatFabOnTop, 0);
+            setTimeout(ensureChatFabOnTop, 500);
+            window.addEventListener("layout-chrome-sync", ensureChatFabOnTop);
         })();
     </script>

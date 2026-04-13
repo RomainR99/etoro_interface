@@ -37,6 +37,18 @@
             margin: 0 auto;
             padding: 2rem;
         }
+        /* --mobile-bottom-clearance set by chat_widget_scripts (measured); fallback if JS late */
+        /* ≤1024px : inclut téléphones en « site bureau » (~980px de large) où 768px ne matchait pas */
+        @media (max-width: 1024px) {
+            .container {
+                padding-bottom: calc(
+                    2rem + var(--mobile-bottom-clearance, 148px) + env(safe-area-inset-bottom, 0px)
+                );
+            }
+            .site-footer {
+                padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+            }
+        }
         header {
             display: grid;
             grid-template-columns: minmax(0, 1fr) auto;
@@ -232,6 +244,65 @@
             margin-top: 2rem;
             padding-top: 1rem;
             border-top: 1px solid var(--border);
+        }
+        .site-footer-chat-row {
+            display: none;
+            margin: 0 0 1rem;
+            text-align: center;
+        }
+        @media (max-width: 1024px) {
+            .site-footer-chat-row {
+                display: block;
+            }
+        }
+        .site-footer-chat-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.35rem 0.45rem;
+            font-family: inherit;
+            color: var(--bg);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: 12px;
+            cursor: pointer;
+            background: linear-gradient(
+                180deg,
+                rgba(255, 255, 255, 0.14) 0%,
+                var(--accent) 42%,
+                #4493d4 100%
+            );
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.35),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.12),
+                0 4px 8px rgba(0, 0, 0, 0.32),
+                0 2px 3px rgba(0, 0, 0, 0.22);
+            transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+        }
+        .site-footer-chat-btn-avatar {
+            width: 64px;
+            height: 64px;
+            object-fit: contain;
+            display: block;
+            flex-shrink: 0;
+            border-radius: 8px;
+            pointer-events: none;
+            filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.25));
+        }
+        .site-footer-chat-btn:hover {
+            filter: brightness(1.05);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.4),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1),
+                0 6px 12px rgba(0, 0, 0, 0.35),
+                0 3px 5px rgba(0, 0, 0, 0.2);
+        }
+        .site-footer-chat-btn:active {
+            transform: translateY(2px);
+            filter: brightness(0.97);
+            box-shadow:
+                inset 0 2px 4px rgba(0, 0, 0, 0.22),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.08),
+                0 1px 3px rgba(0, 0, 0, 0.28);
         }
         .header-left-text {
             min-width: 0;
@@ -605,7 +676,7 @@
             color: var(--success);
             border-color: rgba(63, 185, 80, 0.45);
         }
-        /* Chatbot bas-droite (profil + pages annexes) */
+        /* Chatbot bas-droite — toujours au-dessus de la bannière cookies (200), quel que soit le viewport */
         .chat-toggle-wrap {
             position: fixed;
             bottom: 1.5rem;
@@ -615,13 +686,16 @@
             border-radius: 16px;
             background: url('/images/chatbot.png') center / cover no-repeat;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            z-index: 98;
+            z-index: 10050 !important;
             display: flex;
             align-items: flex-end;
             justify-content: flex-end;
             padding: 0 0 2px 2px;
             transition: width 2s ease, height 2s ease, padding 2s ease, border-radius 2s ease,
                 box-shadow 2s ease, background-size 2s ease, background-color 2s ease;
+        }
+        .chat-toggle-avatar {
+            display: none;
         }
         .chat-toggle-wrap:hover { opacity: 0.95; }
         .chat-toggle-wrap.chat-toggle-compact {
@@ -637,6 +711,90 @@
         }
         .chat-toggle-wrap.chat-toggle-compact .chat-toggle {
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+        }
+        @media (max-width: 1024px) {
+            /*
+             * z-index > cookie banner (200) so the FAB is never painted under the full-width bar
+             * if --cookie-banner-height lags or is wrong on first paint.
+             */
+            .chat-toggle-wrap {
+                width: 50px;
+                height: 50px;
+                bottom: calc(
+                    0.75rem + env(safe-area-inset-bottom, 0px) + var(--cookie-banner-height, 0px)
+                );
+                right: calc(0.75rem + env(safe-area-inset-right, 0px));
+                border-radius: 10px;
+                padding: 0;
+                align-items: center;
+                justify-content: center;
+                background-color: var(--card);
+                background-image: none;
+                z-index: 10050 !important;
+                cursor: pointer;
+            }
+            .chat-toggle-avatar {
+                display: block;
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                object-fit: contain;
+                object-position: center;
+                pointer-events: none;
+                border-radius: 10px;
+            }
+            /*
+             * .chat-toggle comes later with solid background — it was covering the robot
+             * (opacity:0 is flaky). Transparent layer + pointer-events:none → clicks hit the wrap.
+             */
+            .chat-toggle-wrap .chat-toggle {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                border-radius: 10px;
+                background: transparent;
+                box-shadow: none;
+                color: transparent;
+                font-size: 0;
+                line-height: 0;
+                text-indent: -9999px;
+                overflow: hidden;
+                pointer-events: none;
+                opacity: 1;
+            }
+            .chat-toggle-wrap .chat-toggle:hover {
+                opacity: 1;
+            }
+            .chat-toggle-wrap.chat-toggle-compact {
+                width: 50px;
+                height: 50px;
+                border-radius: 10px;
+                background-image: none;
+                background-color: var(--card);
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            }
+            .chat-toggle-wrap.chat-toggle-compact .chat-toggle-avatar {
+                display: block;
+            }
+            .chat-toggle-wrap.chat-toggle-compact .chat-toggle {
+                background: transparent;
+                box-shadow: none;
+                pointer-events: none;
+            }
+            .chat-panel {
+                bottom: calc(
+                    0.75rem + 50px + 0.75rem + env(safe-area-inset-bottom, 0px) +
+                        var(--cookie-banner-height, 0px)
+                );
+                right: calc(0.75rem + env(safe-area-inset-right, 0px));
+                z-index: 10051 !important;
+            }
         }
         .chat-toggle {
             width: 44px;
@@ -664,7 +822,7 @@
             border: 1px solid var(--border);
             border-radius: 12px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-            z-index: 98;
+            z-index: 10051 !important;
             flex-direction: column;
         }
         .chat-panel.open { display: flex; }

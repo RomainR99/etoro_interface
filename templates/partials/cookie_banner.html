@@ -108,16 +108,37 @@
         if (textEl) textEl.textContent = t.text;
         if (btnN) btnN.textContent = t.necessary;
         if (btnA) btnA.textContent = t.all;
+        requestAnimationFrame(function () {
+            requestAnimationFrame(syncBodyPaddingForCookieBanner);
+        });
+    }
+    function syncBodyPaddingForCookieBanner() {
+        var banner = document.getElementById("cookieConsentBanner");
+        var root = document.documentElement;
+        if (!banner || banner.hasAttribute("hidden")) {
+            document.body.style.removeProperty("padding-bottom");
+            root.style.removeProperty("--cookie-banner-height");
+            window.dispatchEvent(new Event("layout-chrome-sync"));
+            return;
+        }
+        var h = Math.ceil(banner.getBoundingClientRect().height);
+        document.body.style.paddingBottom = h + 16 + "px";
+        root.style.setProperty("--cookie-banner-height", h + "px");
+        window.dispatchEvent(new Event("layout-chrome-sync"));
     }
     function showCookieBanner() {
         var banner = document.getElementById("cookieConsentBanner");
         if (!banner) return;
         banner.removeAttribute("hidden");
         applyCookieTexts();
+        requestAnimationFrame(function () {
+            requestAnimationFrame(syncBodyPaddingForCookieBanner);
+        });
     }
     function hideCookieBanner() {
         var banner = document.getElementById("cookieConsentBanner");
         if (banner) banner.setAttribute("hidden", "");
+        syncBodyPaddingForCookieBanner();
     }
     function getCookie(name) {
         var parts = ("; " + document.cookie).split("; " + name + "=");
@@ -209,5 +230,17 @@
     } else {
         initCookieBanner();
     }
+    var _cookiePadT;
+    window.addEventListener(
+        "resize",
+        function () {
+            clearTimeout(_cookiePadT);
+            _cookiePadT = setTimeout(syncBodyPaddingForCookieBanner, 100);
+        },
+        { passive: true }
+    );
+    window.addEventListener("orientationchange", function () {
+        setTimeout(syncBodyPaddingForCookieBanner, 200);
+    });
 })();
 </script>
