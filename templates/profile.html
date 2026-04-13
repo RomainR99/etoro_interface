@@ -190,6 +190,10 @@
             font-size: 0.8rem;
             line-height: 1.2;
         }
+        .dca-card-title .dca-card-title-prefix,
+        .dca-card-title .dca-card-title-rest {
+            display: inline;
+        }
         @media (max-width: 640px) {
             .portfolio-instruments-inner {
                 display: flex;
@@ -228,6 +232,10 @@
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 font-size: 0.75rem;
+            }
+            .dca-card-title .dca-card-title-prefix,
+            .dca-card-title .dca-card-title-rest {
+                display: block;
             }
         }
         .trader-posts-list {
@@ -513,7 +521,9 @@
 
         {% if dca_labels and (dca_romainroth or dca_sp500) %}
         <div class="card" style="grid-column: 1 / -1;">
-            <h2 id="dcaTitle">Simulation DCA — {{ username }} vs S&P 500</h2>
+            <h2 id="dcaTitle" class="dca-card-title">
+                <span class="dca-card-title-prefix">Simulation DCA — </span><span class="dca-card-title-rest">{{ username }} vs S&P 500</span>
+            </h2>
             <div class="dca-params" style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end; margin-bottom: 1rem;">
                 <label style="display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.9rem; color: var(--muted);">
                     <span id="dcaLabelInitial">Montant initial ($)</span>
@@ -1288,7 +1298,14 @@
                 if (pTitle) pTitle.textContent = t.portfolio;
                 const dcaTitle = document.getElementById("dcaTitle");
                 if (dcaTitle) {
-                    dcaTitle.textContent = `${t.dcaTitlePrefix}{{ username }}${t.dcaTitleSuffix}`;
+                    const dcaPrefix = dcaTitle.querySelector(".dca-card-title-prefix");
+                    const dcaRest = dcaTitle.querySelector(".dca-card-title-rest");
+                    if (dcaPrefix && dcaRest) {
+                        dcaPrefix.textContent = t.dcaTitlePrefix;
+                        dcaRest.textContent = `{{ username }}${t.dcaTitleSuffix}`;
+                    } else {
+                        dcaTitle.textContent = `${t.dcaTitlePrefix}{{ username }}${t.dcaTitleSuffix}`;
+                    }
                 }
                 refreshPerfSinceCard(lang);
                 if (langChanged && typeof window.__rebuildDcaChart === "function" && window.__dcaLastSeries) {
