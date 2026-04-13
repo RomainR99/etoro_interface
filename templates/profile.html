@@ -170,6 +170,66 @@
             overflow-wrap: anywhere;
             word-break: break-word;
         }
+        .portfolio-instrument-chip-link {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.12rem;
+            color: inherit;
+            text-decoration: none;
+            min-width: 0;
+            max-width: 100%;
+        }
+        .portfolio-instrument-symbol {
+            font-family: ui-monospace, monospace;
+            color: var(--accent);
+            font-weight: 600;
+        }
+        .portfolio-instrument-name {
+            color: var(--muted);
+            font-size: 0.8rem;
+            line-height: 1.2;
+        }
+        @media (max-width: 640px) {
+            .portfolio-instruments-inner {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-items: stretch;
+                gap: 0.45rem;
+            }
+            .portfolio-instrument-chip {
+                flex: 1 1 calc(50% - 0.225rem);
+                max-width: calc(50% - 0.225rem);
+                min-width: 0;
+                flex-direction: row;
+                align-items: center;
+                gap: 0.35rem;
+                overflow: hidden;
+                overflow-wrap: normal;
+                word-break: normal;
+            }
+            .portfolio-instrument-chip-link {
+                flex-direction: row;
+                align-items: center;
+                gap: 0.35rem;
+                flex: 1;
+                min-width: 0;
+                overflow: hidden;
+                width: 100%;
+            }
+            .portfolio-instrument-symbol {
+                flex-shrink: 0;
+            }
+            .portfolio-instrument-name {
+                flex: 1;
+                min-width: 0;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                font-size: 0.75rem;
+            }
+        }
         .trader-posts-list {
             list-style: none;
             margin: 0;
@@ -436,11 +496,11 @@
                     {% for item in portfolio_instruments %}
                     <span class="portfolio-instrument-chip">
                         {% if item.url %}
-                        <a href="{{ item.url }}" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">
+                        <a href="{{ item.url }}" target="_blank" rel="noopener noreferrer" class="portfolio-instrument-chip-link">
                         {% endif %}
-                        <span style="font-family: ui-monospace, monospace; color: var(--accent); font-weight: 600;">{{ item.symbol }}</span>
+                        <span class="portfolio-instrument-symbol">{{ item.symbol }}</span>
                         {% if item.displayname and item.displayname != item.symbol %}
-                        <span style="color: var(--muted); font-size: 0.8rem; line-height: 1.2;">{{ item.displayname }}</span>
+                        <span class="portfolio-instrument-name">{{ item.displayname }}</span>
                         {% endif %}
                         {% if item.url %}</a>{% endif %}
                     </span>
