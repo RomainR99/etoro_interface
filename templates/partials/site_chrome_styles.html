@@ -566,6 +566,25 @@
         .chat-msg { margin-bottom: 0.75rem; }
         .chat-msg.bot { color: var(--muted); }
         .chat-msg.user { text-align: right; color: var(--accent); }
+        .chat-msg-loading {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            color: var(--muted);
+            font-style: italic;
+        }
+        .chat-loading-clock {
+            display: inline-flex;
+            flex-shrink: 0;
+            color: var(--accent);
+            animation: chat-clock-spin 1s linear infinite;
+        }
+        .chat-loading-clock svg {
+            display: block;
+        }
+        @keyframes chat-clock-spin {
+            to { transform: rotate(360deg); }
+        }
         .chat-input-wrap {
             padding: 0.75rem;
             border-top: 1px solid var(--border);

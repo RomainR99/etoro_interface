@@ -46,7 +46,7 @@ app = Flask(__name__)
 
 @app.context_processor
 def inject_recaptcha_site_key():
-    """reCAPTCHA site key pour le chatbot (toutes les pages)."""
+    """reCAPTCHA v2 « case à cocher » uniquement (voir README si Google affiche « Type de clé non valide »)."""
     return {"recaptcha_site_key": (os.getenv("RECAPTCHA_SITE_KEY") or "").strip()}
 
 
@@ -96,6 +96,7 @@ SUSPICIOUS_UA_SUBSTRINGS = ("curl", "python", "wget", "httpie", "bot", "scrapy",
 MAX_REPLY_CHARS = 4000  # tronque la réponse IA si plus long
 MAX_HISTORY_MESSAGES = 20  # nb max de messages (hors system) envoyés au modèle
 MAX_COMPLETION_TOKENS = 1024  # max_tokens pour la réponse OpenAI
+CHAT_OPENAI_TIMEOUT_SEC = 8.0  # délai max pour la réponse du modèle (chatbot)
 
 
 def _detect_abnormal_behavior(messages: list, current_message: str) -> str | None:
@@ -1971,7 +1972,9 @@ def _load_chatbot_prompt() -> str:
         with open(os.path.join(base, "chatbot_system.txt"), encoding="utf-8") as f:
             prompt = f.read().strip()
     except Exception:
-        prompt = "Tu es un assistant financier. Réponds de façon concise en français."
+        prompt = (
+            "Tu es un assistant financier. Réponds de façon concise, dans la même langue que la question de l'utilisateur."
+        )
     books = _load_chatbot_books()
     if books:
         prompt += "\n\nLivres que tu peux recommander (propose le lien quand tu cites un livre) :\n" + books
@@ -2014,13 +2017,13 @@ def api_chat():
         r = jsonify({"error": "Trop de requêtes. Limites : 5/min, 30/h, 100/j par visiteur."})
         _get_or_set_visitor_id(r)
         return r, 429
-    from openai import OpenAI
+    from openai import APITimeoutError, OpenAI
     key = os.getenv("OPENAI_API_KEY")
     if not key:
         return jsonify({"error": "OPENAI_API_KEY manquante"}), 500
     system_prompt = _load_chatbot_prompt()
     try:
-        client = OpenAI(api_key=key)
+        client = OpenAI(api_key=key, timeout=CHAT_OPENAI_TIMEOUT_SEC)
         history = messages[-MAX_HISTORY_MESSAGES:] if len(messages) > MAX_HISTORY_MESSAGES else messages
         api_messages = [{"role": "system", "content": system_prompt}] + [
             {"role": m.get("role", "user"), "content": m.get("content", "")}
@@ -2045,6 +2048,12 @@ def api_chat():
         resp = jsonify({"reply": reply})
         _get_or_set_visitor_id(resp)
         return resp
+    except APITimeoutError:
+        err = jsonify({
+            "error": "Délai dépassé (8 s). Réessayez ou reformulez une question plus courte.",
+        })
+        _get_or_set_visitor_id(err)
+        return err, 504
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

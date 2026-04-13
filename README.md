@@ -91,7 +91,21 @@ Un CAPTCHA (reCAPTCHA v2) est demandé **uniquement au moment opportun** pour ne
 
 Sans ces clés, le CAPTCHA n'est pas activé. Obtenir les clés : [Google reCAPTCHA Admin](https://www.google.com/recaptcha/admin).
 
-> **Note** : La clé actuelle est configurée pour le domaine **romainroth.com**. Pour un autre domaine, créer de nouvelles clés reCAPTCHA.
+**Erreur affichée par Google : « ERREUR pour le propriétaire du site : Type de clé non valide »**  
+Cela signifie que la **clé du site** (`RECAPTCHA_SITE_KEY`) n’est pas du bon **type** pour ce widget :
+
+| À utiliser | À ne pas utiliser |
+|------------|-------------------|
+| **reCAPTCHA v2** → type **« Je ne suis pas un robot » Case à cocher** | reCAPTCHA **v3** (score) |
+| Clés classiques **non-Enterprise** avec l’API `siteverify` | Clés **Enterprise** sans configuration adaptée |
+
+À la [création des clés](https://www.google.com/recaptcha/admin), choisir explicitement **v2** et **Case à cocher**, puis recopier la **clé du site** et la **clé secrète** dans `.env`. Les clés v3 ne fonctionnent pas avec `grecaptcha.render` en mode case à cocher.
+
+**Erreur : « L'hôte local ne figure pas dans la liste des domaines acceptés pour la clé de ce site »**  
+Dans [Google reCAPTCHA Admin](https://www.google.com/recaptcha/admin), ouvrir la clé concernée → section **Domaines** → ajouter **`localhost`** et, si tu ouvres le site via l’IP, **`127.0.0.1`** → enregistrer. Les changements peuvent prendre une ou deux minutes.  
+**En développement local**, tu peux aussi laisser `RECAPTCHA_SITE_KEY` et `RECAPTCHA_SECRET_KEY` vides dans `.env` : le CAPTCHA est alors désactivé (voir ci-dessus).
+
+> **Note** : Une même clé peut couvrir plusieurs domaines (ex. `romainroth.com`, `localhost`). Pour un domaine de production différent, ajoute-le dans la liste ou crée une autre inscription reCAPTCHA.
 
 > **Détecter les comportements anormaux** — Vous pouvez refuser ou ralentir les requêtes si : requêtes trop rapides, copier-coller de prompts énormes, mêmes messages répétés, user-agent étrange, ou trop de tokens demandés. Constantes dans `app.py` :
 > - `MAX_USER_MESSAGE_CHARS = 2000`
@@ -248,8 +262,8 @@ ETORO_API_KEY=ta_clé_api_publique
 ETORO_USER_KEY=ta_clé_utilisateur
 OPENAI_API_KEY=sk-...          # Résumés des actualités + génération d’images (DALL·E 3) sous chaque actualité
 TWELVEDATA_API_KEY=...        # Optionnel
-RECAPTCHA_SITE_KEY=...        # Optionnel : CAPTCHA anti-bots (voir section ci-dessus)
-RECAPTCHA_SECRET_KEY=...      # Optionnel : clé secrète reCAPTCHA v2
+RECAPTCHA_SITE_KEY=...        # Optionnel : reCAPTCHA v2 « case à cocher » uniquement (pas v3)
+RECAPTCHA_SECRET_KEY=...      # Optionnel : clé secrète associée (même paire que la clé du site)
 MEDIASTACK_ACCESS_KEY=...     # Optionnel : actualités par instrument (plan gratuit : 100 req/mois)
 ```
 

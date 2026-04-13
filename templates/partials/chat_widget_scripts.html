@@ -19,6 +19,9 @@
                     captchaHelp: "Veuillez valider le CAPTCHA puis cliquer sur Renvoyer.",
                     captchaResend: "Renvoyer",
                     chatWelcome: "Besoin d'aide ? Pose une question. Ex. : Où trouver des actions à fort dividende ? Quels secteurs ont la plus forte croissance ? Pourquoi diversifier ?",
+                    chatLoading: "Réponse en cours…",
+                    chatTimeout: "Délai dépassé (8 s). Réessayez.",
+                    chatConnError: "Erreur de connexion.",
                 },
                 en: {
                     chatTitle: "Your Financial Assistant",
@@ -27,8 +30,13 @@
                     captchaHelp: "Please validate the CAPTCHA then click Resend.",
                     captchaResend: "Resend",
                     chatWelcome: "Need help? Ask a question. E.g.: Where to find high-dividend stocks? Which sectors have the strongest growth? Why diversify?",
+                    chatLoading: "Waiting for a reply…",
+                    chatTimeout: "Timed out (8 s). Please try again.",
+                    chatConnError: "Connection error.",
                 }
             };
+            var CHAT_FETCH_MS = 8000;
+            var CHAT_CLOCK_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 6v6l4 2\"/></svg>";
 
             var recaptchaSiteKey = {{ recaptcha_site_key | default('') | tojson }};
             var savedLang = (function () {
@@ -63,9 +71,18 @@
                 out += escapeHtml(content.slice(lastIdx));
                 return out;
             }
+            function getChatT() {
+                var lang = "en";
+                try { lang = localStorage.getItem("page_lang") || "en"; } catch (e) {}
+                return CHAT_I18N[lang] || CHAT_I18N.en;
+            }
             function renderMessages() {
                 if (!msgsEl) return;
+                var t = getChatT();
                 msgsEl.innerHTML = messages.map(function (m) {
+                    if (m.loading) {
+                        return "<div class=\"chat-msg bot chat-msg-loading\" aria-live=\"polite\"><span class=\"chat-loading-clock\" aria-hidden=\"true\">" + CHAT_CLOCK_SVG + "</span><span>" + escapeHtml(t.chatLoading) + "</span></div>";
+                    }
                     var c = m.role === "user" ? "user" : "bot";
                     var label = m.role === "user" ? "Vous: " : "";
                     var body = m.role === "user" ? escapeHtml(m.content) : formatBotContent(m.content);
@@ -73,14 +90,25 @@
                 }).join("");
                 msgsEl.scrollTop = msgsEl.scrollHeight;
             }
-            function doFetch(msgs, captchaToken) {
+            function removeLoadingIfAny() {
+                var n = messages.length;
+                if (n && messages[n - 1].loading) messages.pop();
+            }
+            function setChatInputBusy(busy) {
+                var sb = document.getElementById("chatSend");
+                if (sb) sb.disabled = !!busy;
+                if (inputEl) inputEl.disabled = !!busy;
+            }
+            function doFetch(msgs, captchaToken, signal) {
                 var payload = { messages: msgs };
                 if (captchaToken) payload.captcha_token = captchaToken;
-                return fetch("/api/chat", {
+                var opts = {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(payload)
-                }).then(function (r) {
+                };
+                if (signal) opts.signal = signal;
+                return fetch("/api/chat", opts).then(function (r) {
                     return r.json().then(function (data) { return { ok: r.ok, status: r.status, data: data }; });
                 });
             }
@@ -99,8 +127,14 @@
                 renderMessages();
                 if (captchaWrap) captchaWrap.style.display = "none";
                 pendingForCaptcha = null;
-                doFetch(msgsToSend, optCaptchaToken).then(function (res) {
-                    if (!res.ok && res.status === 429 && res.data.require_captcha && recaptchaSiteKey) {
+                messages.push({ role: "assistant", loading: true });
+                renderMessages();
+                setChatInputBusy(true);
+                var ac = new AbortController();
+                var abortTimer = setTimeout(function () { ac.abort(); }, CHAT_FETCH_MS);
+                doFetch(msgsToSend, optCaptchaToken, ac.signal).then(function (res) {
+                    removeLoadingIfAny();
+                    if (!res.ok && res.status === 429 && res.data && res.data.require_captcha && recaptchaSiteKey) {
                         if (!pendingForCaptcha) {
                             messages.pop();
                             pendingForCaptcha = { messages: messages.slice(), text: text };
@@ -124,16 +158,22 @@
                         renderMessages();
                         return;
                     }
-                    if (res.data.error) {
+                    if (res.data && res.data.error) {
                         messages.push({ role: "assistant", content: "Erreur: " + res.data.error });
                     } else {
                         messages.push({ role: "assistant", content: res.data.reply || "" });
                     }
                     renderMessages();
-                }).catch(function () {
+                }).catch(function (err) {
+                    removeLoadingIfAny();
                     if (!pendingForCaptcha) messages.pop();
-                    messages.push({ role: "assistant", content: "Erreur de connexion." });
+                    var tErr = getChatT();
+                    var isAbort = err && err.name === "AbortError";
+                    messages.push({ role: "assistant", content: isAbort ? tErr.chatTimeout : tErr.chatConnError });
                     renderMessages();
+                }).finally(function () {
+                    clearTimeout(abortTimer);
+                    setChatInputBusy(false);
                 });
             }
 
