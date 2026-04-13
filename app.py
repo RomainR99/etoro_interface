@@ -10,6 +10,7 @@ import base64
 import csv
 import io
 import json
+import math
 import os
 import sqlite3
 import re
@@ -481,6 +482,29 @@ def _total_cumulative_return(by_month: dict[str, float]) -> float | None:
     return (cum - 1.0) * 100.0
 
 
+def _annualized_return_from_monthly(by_month: dict[str, float]) -> float | None:
+    """Rentabilité annualisée (CAGR sur la durée observée) à partir des rendements mensuels composés."""
+    if not by_month:
+        return None
+    months_sorted = sorted(by_month.keys())
+    n = len(months_sorted)
+    if n < 1:
+        return None
+    cum = 1.0
+    for m in months_sorted:
+        cum *= 1.0 + by_month[m] / 100.0
+    years = n / 12.0
+    if years <= 0:
+        return None
+    try:
+        ann = (cum ** (1.0 / years) - 1.0) * 100.0
+    except OverflowError:
+        return None
+    if not math.isfinite(ann):
+        return None
+    return ann
+
+
 def _build_performance_table(gain: dict | None) -> tuple[list[dict], dict | None]:
     """
     Construit les données pour le tableau performance par année.
@@ -518,6 +542,28 @@ def _build_performance_table(gain: dict | None) -> tuple[list[dict], dict | None
     total_ecart = (total_t - total_s) if (total_t is not None and total_s is not None) else None
     total = {"trader_pct": total_t, "sp500_pct": total_s, "ecart": total_ecart} if (total_t is not None or total_s is not None) else None
     return rows, total
+
+
+def _build_since_sep2022_summary(gain: dict | None) -> dict | None:
+    """Performances cumulées depuis DATE_FROM (sept. 2022) : trader, S&P 500, CAC 40 TR et écarts."""
+    trader_monthly = _gain_to_by_month(gain)
+    sp500_monthly = _get_sp500_monthly_returns()
+    cac_sym = INDEX_CONFIG["cac40tr"][0]
+    cac_monthly = _get_index_monthly_returns(cac_sym)
+    t = _total_cumulative_return(trader_monthly)
+    t_ann = _annualized_return_from_monthly(trader_monthly) if trader_monthly else None
+    s = _total_cumulative_return(sp500_monthly)
+    c = _total_cumulative_return(cac_monthly)
+    if t is None and s is None and c is None:
+        return None
+    return {
+        "trader_pct": t,
+        "trader_annualized_pct": t_ann,
+        "sp500_pct": s,
+        "cac40_pct": c,
+        "delta_vs_sp500": (t - s) if t is not None and s is not None else None,
+        "delta_vs_cac40": (t - c) if t is not None and c is not None else None,
+    }
 
 
 def _compute_chart_data(
@@ -764,6 +810,11 @@ def index():
         performance_yearly, performance_total = [], None
 
     try:
+        perf_since_sep2022 = _build_since_sep2022_summary(gain)
+    except Exception:
+        perf_since_sep2022 = None
+
+    try:
         dca_labels, dca_romainroth, dca_sp500 = _compute_dca_simulation(gain)
         dca_total_invested = 1000.0 + len(dca_labels) * 100.0 if dca_labels else None
     except Exception:
@@ -792,6 +843,7 @@ def index():
         chart_datasets=chart_datasets,
         performance_yearly=performance_yearly,
         performance_total=performance_total,
+        perf_since_sep2022=perf_since_sep2022,
         most_copied_traders=most_copied,
         dca_labels=dca_labels,
         dca_romainroth=dca_romainroth,
@@ -802,6 +854,37 @@ def index():
     ))
     _get_or_set_visitor_id(resp)
     return resp
+
+
+@app.route("/api/dca-simulation")
+def api_dca_simulation():
+    """Recalcule la courbe DCA (montant initial + mensuel paramétrables)."""
+    try:
+        initial = float(request.args.get("initial", 1000))
+        monthly = float(request.args.get("monthly", 100))
+    except (TypeError, ValueError):
+        return jsonify({"error": "Montants invalides"}), 400
+    initial = max(0.0, min(initial, 50_000_000.0))
+    monthly = max(0.0, min(monthly, 5_000_000.0))
+    try:
+        gain = get_user_gain(TRADER_USERNAME)
+        gain = _filter_gain_from_date(gain)
+    except Exception:
+        gain = None
+    try:
+        labels, romainroth, sp500 = _compute_dca_simulation(gain, initial, monthly)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    n = len(labels)
+    total_invested = float(initial + n * monthly) if n else None
+    return jsonify(
+        {
+            "labels": labels,
+            "romainroth": romainroth,
+            "sp500": sp500,
+            "total_invested": total_invested,
+        }
+    )
 
 
 @app.route("/api/most-copied-traders")

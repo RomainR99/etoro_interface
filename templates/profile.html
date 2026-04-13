@@ -299,6 +299,82 @@
             color: var(--muted);
             font-size: 0.85rem;
         }
+        .profile-top-row {
+            display: grid;
+            gap: 1.5rem;
+            align-items: start;
+            margin-bottom: 1.5rem;
+        }
+        @media (min-width: 901px) {
+            .profile-top-row--both {
+                grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
+            }
+            .profile-top-row--summary-only {
+                grid-template-columns: 1fr;
+                justify-items: start;
+            }
+            .profile-top-row--summary-only .perf-since-card {
+                width: 100%;
+                max-width: 360px;
+            }
+        }
+        .perf-since-card h2 {
+            margin-bottom: 0.65rem;
+        }
+        .perf-since-main-row {
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 0.5rem 1.15rem;
+            line-height: 1.2;
+        }
+        .perf-since-cumul {
+            font-size: 1.85rem;
+            font-weight: 700;
+            font-family: ui-monospace, monospace;
+            letter-spacing: -0.02em;
+        }
+        .perf-since-annual-aside {
+            display: inline-flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 0.35rem 0.45rem;
+        }
+        .perf-since-annual-aside[hidden] {
+            display: none !important;
+        }
+        .perf-since-annual-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--muted);
+        }
+        .perf-since-annual-value {
+            font-family: ui-monospace, monospace;
+            font-size: 1.02rem;
+            font-weight: 600;
+        }
+        .perf-since-sub {
+            margin: 0.35rem 0 0;
+            font-size: 0.8rem;
+            color: var(--muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .perf-since-compare {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.82rem;
+            color: var(--muted);
+            line-height: 1.55;
+        }
+        .perf-since-compare div + div {
+            margin-top: 0.45rem;
+        }
     </style>
 </head>
 <body>
@@ -312,27 +388,74 @@
             </div>
         {% endif %}
 
-        {% if portfolio_instruments and portfolio_instruments|length > 0 %}
-        <div class="card" style="margin-bottom: 1.5rem;">
-            <h2 id="portfolioTitle" data-count="{{ portfolio_instruments|length }}">Instruments en portefeuille ({{ portfolio_instruments|length }})</h2>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem;">
-                {% for item in portfolio_instruments %}
-                <span style="display: inline-flex; flex-direction: column; align-items: flex-start; gap: 0.15rem; background: rgba(88,166,255,0.1); border: 1px solid var(--border); padding: 0.5rem 0.75rem; border-radius: 8px; font-size: 0.9rem;">
-                    {% if item.url %}
-                    <a href="{{ item.url }}" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">
-                    {% endif %}
-                    <span style="font-family: ui-monospace, monospace; color: var(--accent); font-weight: 600;">{{ item.symbol }}</span>
-                    {% if item.displayname and item.displayname != item.symbol %}
-                    <span style="color: var(--muted); font-size: 0.8rem; line-height: 1.2;">{{ item.displayname }}</span>
-                    {% endif %}
-                    {% if item.url %}</a>{% endif %}
-                </span>
-                {% endfor %}
+        {% set show_portfolio_top = portfolio_instruments and portfolio_instruments|length > 0 %}
+        {% set show_perf_since = perf_since_sep2022 %}
+        {% if show_portfolio_top or show_perf_since %}
+        <div class="profile-top-row {% if show_portfolio_top and show_perf_since %}profile-top-row--both{% elif show_perf_since %}profile-top-row--summary-only{% endif %}">
+            {% if show_perf_since %}
+            {% set ps = perf_since_sep2022 %}
+            <aside class="card perf-since-card" aria-labelledby="perfSinceCardTitle">
+                <script type="application/json" id="perfSinceData">{{ ps | tojson }}</script>
+                <h2 id="perfSinceCardTitle">Performance depuis sept. 2022</h2>
+                <p class="perf-since-sub" id="perfSinceSubtitle">Indice portefeuille (eToro)</p>
+                <p class="perf-since-main-row">
+                    <span id="perfSinceMainValue" class="stat-value perf-since-cumul{% if ps.trader_pct is not none %} {% if ps.trader_pct >= 0 %}positive{% else %}negative{% endif %}{% endif %}">{% if ps.trader_pct is not none %}{{ "%+.2f"|format(ps.trader_pct) }}%{% else %}—{% endif %}</span>
+                    <span id="perfSinceAnnualAside" class="perf-since-annual-aside"{% if ps.trader_annualized_pct is none %} hidden{% endif %}>
+                        <span id="perfSinceAnnualValue" class="stat-value perf-since-annual-value{% if ps.trader_annualized_pct is not none %} {% if ps.trader_annualized_pct >= 0 %}positive{% else %}negative{% endif %}{% endif %}">{% if ps.trader_annualized_pct is not none %}{{ "%+.2f"|format(ps.trader_annualized_pct) }}%{% else %}—{% endif %}</span>
+                        <span id="perfSinceAnnualLabel" class="perf-since-annual-label">Rentabilité annuelle</span>
+                    </span>
+                </p>
+                <div class="perf-since-compare">
+                    <div id="perfSinceLineSp500">S&P 500 : {% if ps.sp500_pct is not none %}{{ "%+.2f"|format(ps.sp500_pct) }}%{% else %}—{% endif %}</div>
+                    <div id="perfSinceLineCac">CAC 40 TR : {% if ps.cac40_pct is not none %}{{ "%+.2f"|format(ps.cac40_pct) }}%{% else %}—{% endif %}</div>
+                </div>
+            </aside>
+            {% endif %}
+            {% if show_portfolio_top %}
+            <div class="card portfolio-instruments-card">
+                <h2 id="portfolioTitle" data-count="{{ portfolio_instruments|length }}">Instruments en portefeuille ({{ portfolio_instruments|length }})</h2>
+                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem;">
+                    {% for item in portfolio_instruments %}
+                    <span style="display: inline-flex; flex-direction: column; align-items: flex-start; gap: 0.15rem; background: rgba(88,166,255,0.1); border: 1px solid var(--border); padding: 0.5rem 0.75rem; border-radius: 8px; font-size: 0.9rem;">
+                        {% if item.url %}
+                        <a href="{{ item.url }}" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">
+                        {% endif %}
+                        <span style="font-family: ui-monospace, monospace; color: var(--accent); font-weight: 600;">{{ item.symbol }}</span>
+                        {% if item.displayname and item.displayname != item.symbol %}
+                        <span style="color: var(--muted); font-size: 0.8rem; line-height: 1.2;">{{ item.displayname }}</span>
+                        {% endif %}
+                        {% if item.url %}</a>{% endif %}
+                    </span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% if dca_labels and (dca_romainroth or dca_sp500) %}
+        <div class="card" style="grid-column: 1 / -1;">
+            <h2 id="dcaTitle">Simulation DCA — {{ username }} vs S&P 500</h2>
+            <div class="dca-params" style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end; margin-bottom: 1rem;">
+                <label style="display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.9rem; color: var(--muted);">
+                    <span id="dcaLabelInitial">Montant initial ($)</span>
+                    <input type="number" id="dcaInitial" name="dca_initial" min="0" step="1" value="1000"
+                        style="width: 8.5rem; background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 0.45rem 0.6rem; border-radius: 8px; font-size: 0.9rem;" />
+                </label>
+                <label style="display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.9rem; color: var(--muted);">
+                    <span id="dcaLabelMonthly">Versement mensuel ($)</span>
+                    <input type="number" id="dcaMonthly" name="dca_monthly" min="0" step="1" value="100"
+                        style="width: 8.5rem; background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 0.45rem 0.6rem; border-radius: 8px; font-size: 0.9rem;" />
+                </label>
+                <button type="button" id="dcaApplyBtn" style="background: var(--accent); color: var(--bg); border: none; padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer;">Recalculer</button>
+            </div>
+            <div style="position: relative; height: 320px;">
+                <canvas id="dcaChart"></canvas>
             </div>
         </div>
         {% endif %}
 
-        <div class="card" style="grid-column: 1 / -1;">
+        <div class="card" style="grid-column: 1 / -1;{% if dca_labels and (dca_romainroth or dca_sp500) %} margin-top: 1.5rem;{% endif %}">
             <h2 id="perfTitle">Performances</h2>
             {% if performance_yearly and performance_yearly|length > 0 %}
             <div>
@@ -385,16 +508,6 @@
             <p class="empty-state" id="perfEmpty">Données de performance non disponibles.</p>
             {% endif %}
         </div>
-
-        {% if dca_labels and (dca_romainroth or dca_sp500) %}
-        <div class="card" style="margin-top: 1.5rem; grid-column: 1 / -1;">
-            <h2 id="dcaTitle">Simulation DCA — {{ "%.0f"|format(dca_total_invested) if dca_total_invested else "—" }} $ investis au total — {{ username }} vs S&P 500</h2>
-            <p class="empty-state" style="margin-bottom: 1rem;" id="dcaSubtitle">1 000 $ au départ + 100 $/mois à la fin de chaque mois (à partir de sept. 2022)</p>
-            <div style="position: relative; height: 320px;">
-                <canvas id="dcaChart"></canvas>
-            </div>
-        </div>
-        {% endif %}
 
         <div class="card" id="section-posts" style="margin-top: 1.5rem; grid-column: 1 / -1;">
             <ul id="traderPostsList" class="trader-posts-list"></ul>
@@ -581,17 +694,29 @@
             const dcaLabels = {{ dca_labels | default([]) | tojson }};
             const dcaRomainroth = {{ dca_romainroth | default([]) | tojson }};
             const dcaSp500 = {{ dca_sp500 | default([]) | tojson }};
+            const dcaTraderDisplayName = {{ username | tojson }};
 
             const dcaCanvas = document.getElementById('dcaChart');
-            if (dcaCanvas && dcaLabels.length > 0 && (dcaRomainroth.length > 0 || dcaSp500.length > 0)) {
+            let dcaChartInstance = null;
+
+            function rebuildDcaChart(labels, romainroth, sp500) {
+                if (!dcaCanvas) return;
+                if (dcaChartInstance) {
+                    dcaChartInstance.destroy();
+                    dcaChartInstance = null;
+                }
+                if (!labels || !labels.length || (!(romainroth && romainroth.length) && !(sp500 && sp500.length))) return;
+                window.__dcaLastSeries = { labels, romainroth: romainroth || [], sp500: sp500 || [] };
                 const ctx2 = dcaCanvas.getContext('2d');
                 const dcaDatasets = [];
-                if (dcaRomainroth.length) dcaDatasets.push({ label: '{{ username }}', data: dcaRomainroth, color: '#58a6ff' });
-                if (dcaSp500.length) dcaDatasets.push({ label: 'S&P 500', data: dcaSp500, color: '#8b949e' });
-                new Chart(ctx2, {
+                if (romainroth && romainroth.length) dcaDatasets.push({ label: dcaTraderDisplayName, data: romainroth, color: '#58a6ff' });
+                if (sp500 && sp500.length) dcaDatasets.push({ label: 'S&P 500', data: sp500, color: '#8b949e' });
+                const lang = localStorage.getItem('page_lang') || 'en';
+                const yLocale = lang === 'fr' ? 'fr-FR' : 'en-US';
+                dcaChartInstance = new Chart(ctx2, {
                     type: 'line',
                     data: {
-                        labels: dcaLabels,
+                        labels: labels,
                         datasets: dcaDatasets.map(d => ({
                             ...buildDataset(d),
                             borderColor: d.color,
@@ -604,9 +729,47 @@
                         plugins: { legend: { labels: { color: '#8b949e' } } },
                         scales: {
                             x: { ticks: { color: '#8b949e', maxRotation: 45 }, grid: { color: '#30363d' } },
-                            y: { ticks: { color: '#8b949e', callback: v => typeof v === 'number' ? v.toLocaleString('fr-FR') + ' $' : v }, grid: { color: '#30363d' } }
+                            y: { ticks: { color: '#8b949e', callback: v => typeof v === 'number' ? v.toLocaleString(yLocale) + ' $' : v }, grid: { color: '#30363d' } }
                         }
                     }
+                });
+            }
+            window.__rebuildDcaChart = rebuildDcaChart;
+
+            function parseDcaInputs() {
+                const iEl = document.getElementById('dcaInitial');
+                const mEl = document.getElementById('dcaMonthly');
+                let i = parseFloat(iEl && iEl.value);
+                let m = parseFloat(mEl && mEl.value);
+                if (!isFinite(i) || i < 0) i = 1000;
+                if (!isFinite(m) || m < 0) m = 100;
+                return { initial: i, monthly: m };
+            }
+
+            window.__applyDcaApiResult = function (data) {
+                rebuildDcaChart(data.labels, data.romainroth, data.sp500);
+            };
+
+            if (dcaCanvas && dcaLabels.length > 0 && (dcaRomainroth.length > 0 || dcaSp500.length > 0)) {
+                rebuildDcaChart(dcaLabels, dcaRomainroth, dcaSp500);
+            }
+
+            const dcaApplyBtn = document.getElementById('dcaApplyBtn');
+            if (dcaApplyBtn && dcaCanvas) {
+                dcaApplyBtn.addEventListener('click', function () {
+                    const v = parseDcaInputs();
+                    dcaApplyBtn.disabled = true;
+                    fetch('/api/dca-simulation?initial=' + encodeURIComponent(v.initial) + '&monthly=' + encodeURIComponent(v.monthly))
+                        .then(function (r) { return r.json(); })
+                        .then(function (data) {
+                            if (data.error) {
+                                console.error(data.error);
+                                return;
+                            }
+                            window.__applyDcaApiResult(data);
+                        })
+                        .catch(function (e) { console.error(e); })
+                        .finally(function () { dcaApplyBtn.disabled = false; });
                 });
             }
 
@@ -863,9 +1026,10 @@
                     portfolio: "Instruments en portefeuille",
                     performances: "Performances",
                     perfEmpty: "Données de performance non disponibles.",
-                    dcaSubtitle: "1 000 $ au départ + 100 $/mois à la fin de chaque mois (à partir de sept. 2022)",
+                    dcaLabelInitial: "Montant initial ($)",
+                    dcaLabelMonthly: "Versement mensuel ($)",
+                    dcaApplyBtn: "Recalculer",
                     dcaTitlePrefix: "Simulation DCA — ",
-                    dcaTitleMiddle: " $ investis au total — ",
                     dcaTitleSuffix: " vs S&P 500",
                     noPost: "Aucun post disponible.",
                     noPostsInLanguage: "Aucune publication dans cette langue.",
@@ -875,6 +1039,11 @@
                     collapsePost: "Réduire",
                     postImageAlt: "Illustration du post",
                     year: "Année", mJan: "Jan", mFeb: "Fév", mMar: "Mar", mApr: "Avr", mMay: "Mai", mJun: "Juin", mJul: "Juil", mAug: "Août", mSep: "Sep", mOct: "Oct", mNov: "Nov", mDec: "Déc", total: "Total",
+                    perfSinceTitle: "Performance depuis sept. 2022",
+                    perfSinceSubtitle: "Indice portefeuille (eToro)",
+                    perfSinceSp500Label: "S&P 500",
+                    perfSinceCacLabel: "CAC 40 TR",
+                    perfSinceAnnualLabel: "Rentabilité annuelle",
                 },
                 en: {
                     verified: "✓ Verified",
@@ -884,9 +1053,10 @@
                     portfolio: "Portfolio instruments",
                     performances: "Performance",
                     perfEmpty: "Performance data unavailable.",
-                    dcaSubtitle: "1,000 $ initially + 100 $/month at the end of each month (from Sep 2022)",
+                    dcaLabelInitial: "Initial amount ($)",
+                    dcaLabelMonthly: "Monthly contribution ($)",
+                    dcaApplyBtn: "Recalculate",
                     dcaTitlePrefix: "DCA Simulation — ",
-                    dcaTitleMiddle: " $ total invested — ",
                     dcaTitleSuffix: " vs S&P 500",
                     noPost: "No posts available.",
                     noPostsInLanguage: "No posts in this language.",
@@ -896,11 +1066,72 @@
                     collapsePost: "Collapse",
                     postImageAlt: "Post image",
                     year: "Year", mJan: "Jan", mFeb: "Feb", mMar: "Mar", mApr: "Apr", mMay: "May", mJun: "Jun", mJul: "Jul", mAug: "Aug", mSep: "Sep", mOct: "Oct", mNov: "Nov", mDec: "Dec", total: "Total",
+                    perfSinceTitle: "Performance since Sep 2022",
+                    perfSinceSubtitle: "Portfolio on eToro",
+                    perfSinceSp500Label: "S&P 500",
+                    perfSinceCacLabel: "CAC 40 TR",
+                    perfSinceAnnualLabel: "Annual return",
                 }
             };
 
+            function formatPerfSincePct(v) {
+                if (v == null || v === "" || !isFinite(Number(v))) return "—";
+                const n = Number(v);
+                return (n >= 0 ? "+" : "") + n.toFixed(2) + "%";
+            }
+
+            function refreshPerfSinceCard(lang) {
+                const dataEl = document.getElementById("perfSinceData");
+                if (!dataEl) return;
+                let d;
+                try {
+                    d = JSON.parse(dataEl.textContent);
+                } catch (e) {
+                    return;
+                }
+                const t = I18N[lang] || I18N.en;
+                const titleEl = document.getElementById("perfSinceCardTitle");
+                if (titleEl) titleEl.textContent = t.perfSinceTitle;
+                const subEl = document.getElementById("perfSinceSubtitle");
+                if (subEl) subEl.textContent = t.perfSinceSubtitle;
+                const mainVal = document.getElementById("perfSinceMainValue");
+                if (mainVal) {
+                    mainVal.textContent = formatPerfSincePct(d.trader_pct);
+                    mainVal.classList.remove("positive", "negative");
+                    if (d.trader_pct != null && isFinite(Number(d.trader_pct))) {
+                        mainVal.classList.add(Number(d.trader_pct) >= 0 ? "positive" : "negative");
+                    }
+                }
+                const annAside = document.getElementById("perfSinceAnnualAside");
+                const annLabel = document.getElementById("perfSinceAnnualLabel");
+                const annVal = document.getElementById("perfSinceAnnualValue");
+                if (annLabel) annLabel.textContent = t.perfSinceAnnualLabel;
+                if (annAside && annVal) {
+                    if (d.trader_annualized_pct != null && isFinite(Number(d.trader_annualized_pct))) {
+                        annVal.textContent = formatPerfSincePct(d.trader_annualized_pct);
+                        annVal.classList.remove("positive", "negative");
+                        annVal.classList.add(Number(d.trader_annualized_pct) >= 0 ? "positive" : "negative");
+                        annAside.removeAttribute("hidden");
+                    } else {
+                        annVal.textContent = "";
+                        annVal.classList.remove("positive", "negative");
+                        annAside.setAttribute("hidden", "");
+                    }
+                }
+                const spL = document.getElementById("perfSinceLineSp500");
+                const cL = document.getElementById("perfSinceLineCac");
+                if (spL) {
+                    spL.textContent = t.perfSinceSp500Label + ": " + formatPerfSincePct(d.sp500_pct);
+                }
+                if (cL) {
+                    cL.textContent = t.perfSinceCacLabel + ": " + formatPerfSincePct(d.cac40_pct);
+                }
+            }
+
+            let __profileLangPrev = null;
             function applyLanguage(lang) {
                 const t = I18N[lang] || I18N.en;
+                const langChanged = __profileLangPrev !== null && __profileLangPrev !== lang;
                 localStorage.setItem("page_lang", lang);
                 const frBtn = document.getElementById("langFrBtn");
                 const enBtn = document.getElementById("langEnBtn");
@@ -917,7 +1148,9 @@
                     ["errorLoadData", "loadDataError"],
                     ["perfTitle", "performances"],
                     ["perfEmpty", "perfEmpty"],
-                    ["dcaSubtitle", "dcaSubtitle"],
+                    ["dcaLabelInitial", "dcaLabelInitial"],
+                    ["dcaLabelMonthly", "dcaLabelMonthly"],
+                    ["dcaApplyBtn", "dcaApplyBtn"],
                 ];
                 elMap.forEach(([id, key]) => {
                     const el = document.getElementById(id);
@@ -944,11 +1177,14 @@
                 }
                 const dcaTitle = document.getElementById("dcaTitle");
                 if (dcaTitle) {
-                    const raw = dcaTitle.textContent || "";
-                    const m = raw.match(/—\s*([0-9.,\-]+|—)\s*\$/);
-                    const amount = m ? m[1] : "—";
-                    dcaTitle.textContent = `${t.dcaTitlePrefix}${amount}${t.dcaTitleMiddle}{{ username }}${t.dcaTitleSuffix}`;
+                    dcaTitle.textContent = `${t.dcaTitlePrefix}{{ username }}${t.dcaTitleSuffix}`;
                 }
+                refreshPerfSinceCard(lang);
+                if (langChanged && typeof window.__rebuildDcaChart === "function" && window.__dcaLastSeries) {
+                    const s = window.__dcaLastSeries;
+                    window.__rebuildDcaChart(s.labels, s.romainroth, s.sp500);
+                }
+                __profileLangPrev = lang;
                 if (typeof window.applyChatWidgetLang === "function") window.applyChatWidgetLang(lang);
                 const loadBtn = document.getElementById("loadMorePostsBtn");
                 if (loadBtn) {
