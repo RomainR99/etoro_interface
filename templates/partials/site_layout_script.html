@@ -57,6 +57,9 @@
                 if (typeof window.refreshNewsletterSignupLang === "function") {
                     window.refreshNewsletterSignupLang(lang);
                 }
+                if (typeof window.refreshCopyOnEtoroPageLang === "function") {
+                    window.refreshCopyOnEtoroPageLang(lang);
+                }
             }
 
             var savedLang = localStorage.getItem("page_lang") || "en";

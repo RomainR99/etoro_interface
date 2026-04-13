@@ -81,24 +81,24 @@
     <div class="container">
         {% include 'partials/site_header.html' %}
         <div class="copy-page-inner">
-            <div class="card-page">
-                <h1 class="page-copy-title">Investing with Christophe with eToro Copytrading</h1>
-                <p class="lead">
+            <div class="card-page" id="copyOnEtoroPageRoot">
+                <h1 class="page-copy-title" id="copyPageH1">Investing with Christophe with eToro Copytrading</h1>
+                <p class="lead" id="copyPageLead">
                     Copytrading means that you choose to copy a trader, and whenever he or she executes a trade, you will automatically do the same.
                     Once you have found a trader you would like to copy with your funds, you do not have to take any further action.
                     eToro is a platform that allows you to do that.
                 </p>
-                <h2 class="copy-sub">Advantages of copytrading:</h2>
+                <h2 class="copy-sub" id="copyPageAdvTitle">Advantages of copytrading:</h2>
                 <ul class="advantages">
-                    <li>It's easy to sign up here (it only takes 15 minutes).</li>
-                    <li>It can be done for as little as $200.</li>
-                    <li>Many different investors to choose from. Pick one that you are comfortable with.</li>
-                    <li>Only takes one click, and you don't have to do anything else.</li>
+                    <li id="copyPageAdv1">It's easy to sign up here (it only takes 15 minutes).</li>
+                    <li id="copyPageAdv2">It can be done for as little as $200.</li>
+                    <li id="copyPageAdv3">Many different investors to choose from. Pick one that you are comfortable with.</li>
+                    <li id="copyPageAdv4">Only takes one click, and you don't have to do anything else.</li>
                 </ul>
                 <div class="join-wrap">
-                    <a class="btn-join-etoro" href="{{ etoro_join_url }}" target="_blank" rel="noopener noreferrer">Join eToro</a>
+                    <a class="btn-join-etoro" id="copyPageJoinBtn" href="{{ etoro_join_url }}" target="_blank" rel="noopener noreferrer">Join eToro</a>
                 </div>
-                <p class="disclaimer">
+                <p class="disclaimer" id="copyPageDisclaimer">
                     Copy Trading does not amount to investment advice. The value of your investments may go up or down. Your capital is at risk.
                 </p>
             </div>
@@ -107,6 +107,70 @@
     </div>
     {% include 'partials/chat_widget.html' %}
     {% include 'partials/chat_widget_scripts.html' %}
+    <script>
+        (function () {
+            var COPY_PAGE_I18N = {
+                fr: {
+                    docTitle: "romainroth.com / Copy trading eToro",
+                    h1: "Investir avec Christophe grâce au copy trading eToro",
+                    lead:
+                        "Le copy trading, c’est choisir de copier un trader : chaque opération qu’il ou elle réalise est reproduite automatiquement sur votre compte. Une fois le trader choisi et vos fonds alloués, vous n’avez plus rien à faire. eToro est la plateforme qui permet de le faire.",
+                    advTitle: "Avantages du copy trading :",
+                    adv1: "Inscription simple ici (environ 15 minutes).",
+                    adv2: "Possible dès 200 $.",
+                    adv3: "De nombreux investisseurs parmi lesquels choisir ; optez pour celui qui vous convient.",
+                    adv4: "Un seul clic suffit, sans autre action de votre part.",
+                    join: "Rejoindre eToro",
+                    disclaimer:
+                        "Le copy trading ne constitue pas un conseil en investissement. La valeur de vos investissements peut évoluer à la hausse comme à la baisse. Votre capital est exposé au risque.",
+                },
+                en: {
+                    docTitle: "romainroth.com/CopyOnEtoro",
+                    h1: "Investing with Christophe with eToro Copytrading",
+                    lead:
+                        "Copytrading means that you choose to copy a trader, and whenever he or she executes a trade, you will automatically do the same. Once you have found a trader you would like to copy with your funds, you do not have to take any further action. eToro is a platform that allows you to do that.",
+                    advTitle: "Advantages of copytrading:",
+                    adv1: "It's easy to sign up here (it only takes 15 minutes).",
+                    adv2: "It can be done for as little as $200.",
+                    adv3: "Many different investors to choose from. Pick one that you are comfortable with.",
+                    adv4: "Only takes one click, and you don't have to do anything else.",
+                    join: "Join eToro",
+                    disclaimer:
+                        "Copy Trading does not amount to investment advice. The value of your investments may go up or down. Your capital is at risk.",
+                },
+            };
+
+            function el(id) {
+                return document.getElementById(id);
+            }
+
+            window.refreshCopyOnEtoroPageLang = function (lang) {
+                var root = el("copyOnEtoroPageRoot");
+                if (!root) return;
+                var t = COPY_PAGE_I18N[lang] || COPY_PAGE_I18N.en;
+                document.documentElement.lang = lang === "fr" ? "fr" : "en";
+                document.title = t.docTitle;
+                var h1 = el("copyPageH1");
+                if (h1) h1.textContent = t.h1;
+                var lead = el("copyPageLead");
+                if (lead) lead.textContent = t.lead;
+                var advTitle = el("copyPageAdvTitle");
+                if (advTitle) advTitle.textContent = t.advTitle;
+                var i;
+                for (i = 1; i <= 4; i++) {
+                    var li = el("copyPageAdv" + i);
+                    if (li) li.textContent = t["adv" + i];
+                }
+                var join = el("copyPageJoinBtn");
+                if (join) {
+                    join.textContent = t.join;
+                    join.setAttribute("aria-label", t.join);
+                }
+                var disc = el("copyPageDisclaimer");
+                if (disc) disc.textContent = t.disclaimer;
+            };
+        })();
+    </script>
 {% include 'partials/site_layout_script.html' %}
 </body>
 </html>

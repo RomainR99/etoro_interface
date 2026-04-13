@@ -8,12 +8,10 @@
                 </div>
                 <div class="nl-row">
                     <div class="nl-field">
-                        <label class="nl-label" for="nlName" id="nlLabelName">Name</label>
-                        <input type="text" id="nlName" name="name" maxlength="200" autocomplete="name" placeholder="Name" />
+                        <input type="text" id="nlName" name="name" maxlength="200" autocomplete="name" placeholder="Name" aria-label="Name" />
                     </div>
                     <div class="nl-field">
-                        <label class="nl-label" for="nlEmail" id="nlLabelEmail">Email</label>
-                        <input type="email" id="nlEmail" name="email" maxlength="255" required autocomplete="email" placeholder="Email" />
+                        <input type="email" id="nlEmail" name="email" maxlength="255" required autocomplete="email" placeholder="Email" aria-label="Email" />
                     </div>
                     <div class="nl-submit-wrap">
                         <button type="submit" id="nlSubmit">Subscribe</button>
@@ -34,12 +32,9 @@
                     fr: {
                         title: "Ne manquez aucune opportunité",
                         lead: "Indiquez vos coordonnées ci-dessous pour recevoir nos actualités directement dans votre boîte mail :",
-                        labelName: "Nom",
                         phName: "Nom",
-                        labelEmail: "E-mail",
                         phEmail: "E-mail",
-                        optIn:
-                            "Cochez cette case pour vous inscrire à la newsletter. Nous respectons votre vie privée et ne partagerons jamais vos données avec des tiers.",
+                        optIn: "Cochez cette case pour vous inscrire à la newsletter. Nous respectons votre vie privée et ne partagerons jamais vos données avec des tiers.",
                         submit: "S’inscrire",
                         sending: "Envoi…",
                         ok: "Merci ! Vous êtes inscrit(e).",
@@ -51,12 +46,9 @@
                     en: {
                         title: "Never Miss an Opportunity",
                         lead: "Simply enter your details below for regular updates direct to your inbox:",
-                        labelName: "Name",
                         phName: "Name",
-                        labelEmail: "Email",
                         phEmail: "Email",
-                        optIn:
-                            "Please check this box to opt in to our newsletter. We take your privacy seriously and will never share your details with anyone.",
+                        optIn: "Please check this box to opt in to our newsletter. We take your privacy seriously and will never share your details with anyone.",
                         submit: "Subscribe",
                         sending: "Sending…",
                         ok: "Thank you! You’re subscribed.",
@@ -88,14 +80,16 @@
                     if (title) title.textContent = t.title;
                     var lead = el("nlLead");
                     if (lead) lead.textContent = t.lead;
-                    var ln = el("nlLabelName");
-                    if (ln) ln.textContent = t.labelName;
                     var nIn = el("nlName");
-                    if (nIn) nIn.placeholder = t.phName;
-                    var le = el("nlLabelEmail");
-                    if (le) le.textContent = t.labelEmail;
+                    if (nIn) {
+                        nIn.placeholder = t.phName;
+                        nIn.setAttribute("aria-label", t.phName);
+                    }
                     var eIn = el("nlEmail");
-                    if (eIn) eIn.placeholder = t.phEmail;
+                    if (eIn) {
+                        eIn.placeholder = t.phEmail;
+                        eIn.setAttribute("aria-label", t.phEmail);
+                    }
                     var opt = el("nlOptInLabel");
                     if (opt) opt.textContent = t.optIn;
                     var sub = el("nlSubmit");
