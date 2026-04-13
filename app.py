@@ -743,7 +743,7 @@ def _compute_dca_simulation(
     monthly_investment: float = 100.0,
 ) -> tuple[list[str], list[float], list[float]]:
     """
-    Simule un DCA : investissement initial + 100 $/mois à la fin de chaque mois.
+    Simule un placement : investissement initial + versement fixe à la fin de chaque mois (0 = capital initial seul).
     Retourne (labels, romainroth_values, sp500_values) en dollars.
     """
     labels: list[str] = []
@@ -900,8 +900,9 @@ def index():
         perf_since_sep2022 = None
 
     try:
-        dca_labels, dca_romainroth, dca_sp500 = _compute_dca_simulation(gain)
-        dca_total_invested = 1000.0 + len(dca_labels) * 100.0 if dca_labels else None
+        _dca_init, _dca_mo = 1000.0, 100.0
+        dca_labels, dca_romainroth, dca_sp500 = _compute_dca_simulation(gain, _dca_init, _dca_mo)
+        dca_total_invested = _dca_init + len(dca_labels) * _dca_mo if dca_labels else None
     except Exception:
         dca_labels, dca_romainroth, dca_sp500 = [], [], []
         dca_total_invested = None

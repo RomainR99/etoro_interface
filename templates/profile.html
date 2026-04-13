@@ -758,10 +758,16 @@
             function parseDcaInputs() {
                 const iEl = document.getElementById('dcaInitial');
                 const mEl = document.getElementById('dcaMonthly');
-                let i = parseFloat(iEl && iEl.value);
-                let m = parseFloat(mEl && mEl.value);
+                let i = parseFloat(String(iEl && iEl.value).trim().replace(',', '.'));
+                const rawM = String(mEl && mEl.value).trim();
+                let m;
+                if (rawM === '') {
+                    m = 0;
+                } else {
+                    m = parseFloat(rawM.replace(',', '.'));
+                    if (!isFinite(m) || m < 0) m = 0;
+                }
                 if (!isFinite(i) || i < 0) i = 1000;
-                if (!isFinite(m) || m < 0) m = 100;
                 return { initial: i, monthly: m };
             }
 
@@ -774,8 +780,12 @@
             }
 
             const dcaApplyBtn = document.getElementById('dcaApplyBtn');
-            if (dcaApplyBtn && dcaCanvas) {
-                dcaApplyBtn.addEventListener('click', function () {
+            let dcaRecalcTimer = null;
+            const DCA_RECALC_DEBOUNCE_MS = 450;
+            function runDcaSimulation(immediate) {
+                if (!dcaApplyBtn || !dcaCanvas) return;
+                function exec() {
+                    dcaRecalcTimer = null;
                     const v = parseDcaInputs();
                     dcaApplyBtn.disabled = true;
                     fetch('/api/dca-simulation?initial=' + encodeURIComponent(v.initial) + '&monthly=' + encodeURIComponent(v.monthly))
@@ -789,7 +799,42 @@
                         })
                         .catch(function (e) { console.error(e); })
                         .finally(function () { dcaApplyBtn.disabled = false; });
-                });
+                }
+                if (immediate) {
+                    if (dcaRecalcTimer) {
+                        clearTimeout(dcaRecalcTimer);
+                        dcaRecalcTimer = null;
+                    }
+                    exec();
+                } else {
+                    clearTimeout(dcaRecalcTimer);
+                    dcaRecalcTimer = setTimeout(exec, DCA_RECALC_DEBOUNCE_MS);
+                }
+            }
+            if (dcaApplyBtn && dcaCanvas) {
+                dcaApplyBtn.addEventListener('click', function () { runDcaSimulation(true); });
+                const dcaInitialEl = document.getElementById('dcaInitial');
+                const dcaMonthlyEl = document.getElementById('dcaMonthly');
+                function normalizeDcaMonthlyEmpty() {
+                    if (dcaMonthlyEl && String(dcaMonthlyEl.value).trim() === '') {
+                        dcaMonthlyEl.value = '0';
+                    }
+                }
+                if (dcaInitialEl) {
+                    dcaInitialEl.addEventListener('input', function () { runDcaSimulation(false); });
+                    dcaInitialEl.addEventListener('change', function () { runDcaSimulation(false); });
+                }
+                if (dcaMonthlyEl) {
+                    dcaMonthlyEl.addEventListener('input', function () {
+                        normalizeDcaMonthlyEmpty();
+                        runDcaSimulation(false);
+                    });
+                    dcaMonthlyEl.addEventListener('change', function () {
+                        normalizeDcaMonthlyEmpty();
+                        runDcaSimulation(false);
+                    });
+                    dcaMonthlyEl.addEventListener('blur', normalizeDcaMonthlyEmpty);
+                }
             }
 
             let originalTraderSelectHtml = (function() { var s = document.getElementById('tradersSelect'); return s ? s.innerHTML : ''; })();
