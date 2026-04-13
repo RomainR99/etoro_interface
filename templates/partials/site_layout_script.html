@@ -4,10 +4,12 @@
                 fr: {
                     copieur: "copieur",
                     copieurs: "copieurs",
+                    etoroProfileBtn: "Mon profil sur eToro",
                 },
                 en: {
                     copieur: "copier",
                     copieurs: "copiers",
+                    etoroProfileBtn: "My profile on eToro",
                 }
             };
 
@@ -25,6 +27,10 @@
                     var n = Number(cb.getAttribute("data-count") || "0");
                     cb.textContent = n + " " + (n > 1 ? t.copieurs : t.copieur);
                 }
+                var etoroLbl = document.getElementById("headerEtoroProfileLabel");
+                var etoroLink = document.getElementById("headerEtoroProfileLink");
+                if (etoroLbl) etoroLbl.textContent = t.etoroProfileBtn;
+                if (etoroLink) etoroLink.setAttribute("aria-label", t.etoroProfileBtn);
                 var frIds = ["riskTitleFr", "riskTextFr", "riskFrBreak"];
                 var enIds = ["riskTitleEn", "riskTextEn"];
                 frIds.forEach(function (id) {
@@ -47,6 +53,9 @@
                 var cookieBn = document.getElementById("cookieConsentBanner");
                 if (cookieBn && !cookieBn.hasAttribute("hidden") && typeof window.refreshCookieBannerLang === "function") {
                     window.refreshCookieBannerLang();
+                }
+                if (typeof window.refreshNewsletterSignupLang === "function") {
+                    window.refreshNewsletterSignupLang(lang);
                 }
             }
 

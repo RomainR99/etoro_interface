@@ -146,6 +146,30 @@
             padding: 0 0.15rem;
         }
         .added-traders .remove:hover { opacity: 0.8; }
+        .portfolio-instruments-inner {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+            align-items: start;
+            max-width: 100%;
+        }
+        .portfolio-instrument-chip {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.12rem;
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid var(--border);
+            padding: 0.38rem 0.55rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            box-sizing: border-box;
+            min-width: 0;
+            max-width: 100%;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
         .trader-posts-list {
             list-style: none;
             margin: 0;
@@ -307,7 +331,8 @@
         }
         @media (min-width: 901px) {
             .profile-top-row--both {
-                grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
+                grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+                align-items: stretch;
             }
             .profile-top-row--summary-only {
                 grid-template-columns: 1fr;
@@ -315,30 +340,47 @@
             }
             .profile-top-row--summary-only .perf-since-card {
                 width: 100%;
-                max-width: 360px;
+                max-width: 480px;
             }
+        }
+        .portfolio-instruments-card {
+            padding: 1.25rem;
+            min-width: 0;
+        }
+        .portfolio-instruments-card > h2 {
+            margin-bottom: 0.75rem;
+            font-size: 0.72rem;
+            text-align: center;
+        }
+        .perf-since-card {
+            text-align: center;
         }
         .perf-since-card h2 {
             margin-bottom: 0.65rem;
+            text-align: center;
         }
         .perf-since-main-row {
             margin: 0;
             display: flex;
-            flex-wrap: wrap;
-            align-items: baseline;
-            gap: 0.5rem 1.15rem;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 0.5rem;
             line-height: 1.2;
         }
         .perf-since-cumul {
-            font-size: 1.85rem;
+            font-size: calc(1.85rem * 2);
             font-weight: 700;
             font-family: ui-monospace, monospace;
             letter-spacing: -0.02em;
+            line-height: 1.1;
         }
         .perf-since-annual-aside {
             display: inline-flex;
+            flex-direction: row;
             flex-wrap: wrap;
             align-items: baseline;
+            justify-content: center;
             gap: 0.35rem 0.45rem;
         }
         .perf-since-annual-aside[hidden] {
@@ -355,25 +397,6 @@
             font-family: ui-monospace, monospace;
             font-size: 1.02rem;
             font-weight: 600;
-        }
-        .perf-since-sub {
-            margin: 0.35rem 0 0;
-            font-size: 0.8rem;
-            color: var(--muted);
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-        }
-        .perf-since-compare {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border);
-            font-size: 0.82rem;
-            color: var(--muted);
-            line-height: 1.55;
-        }
-        .perf-since-compare div + div {
-            margin-top: 0.45rem;
         }
     </style>
 </head>
@@ -396,8 +419,7 @@
             {% set ps = perf_since_sep2022 %}
             <aside class="card perf-since-card" aria-labelledby="perfSinceCardTitle">
                 <script type="application/json" id="perfSinceData">{{ ps | tojson }}</script>
-                <h2 id="perfSinceCardTitle">Performance depuis sept. 2022</h2>
-                <p class="perf-since-sub" id="perfSinceSubtitle">Indice portefeuille (eToro)</p>
+                <h2 id="perfSinceCardTitle">Portefeuille sur eToro depuis sept. 2022</h2>
                 <p class="perf-since-main-row">
                     <span id="perfSinceMainValue" class="stat-value perf-since-cumul{% if ps.trader_pct is not none %} {% if ps.trader_pct >= 0 %}positive{% else %}negative{% endif %}{% endif %}">{% if ps.trader_pct is not none %}{{ "%+.2f"|format(ps.trader_pct) }}%{% else %}—{% endif %}</span>
                     <span id="perfSinceAnnualAside" class="perf-since-annual-aside"{% if ps.trader_annualized_pct is none %} hidden{% endif %}>
@@ -405,18 +427,14 @@
                         <span id="perfSinceAnnualLabel" class="perf-since-annual-label">Rentabilité annuelle</span>
                     </span>
                 </p>
-                <div class="perf-since-compare">
-                    <div id="perfSinceLineSp500">S&P 500 : {% if ps.sp500_pct is not none %}{{ "%+.2f"|format(ps.sp500_pct) }}%{% else %}—{% endif %}</div>
-                    <div id="perfSinceLineCac">CAC 40 TR : {% if ps.cac40_pct is not none %}{{ "%+.2f"|format(ps.cac40_pct) }}%{% else %}—{% endif %}</div>
-                </div>
             </aside>
             {% endif %}
             {% if show_portfolio_top %}
             <div class="card portfolio-instruments-card">
-                <h2 id="portfolioTitle" data-count="{{ portfolio_instruments|length }}">Instruments en portefeuille ({{ portfolio_instruments|length }})</h2>
-                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem;">
+                <h2 id="portfolioTitle">Instruments en portefeuille</h2>
+                <div class="portfolio-instruments-inner">
                     {% for item in portfolio_instruments %}
-                    <span style="display: inline-flex; flex-direction: column; align-items: flex-start; gap: 0.15rem; background: rgba(88,166,255,0.1); border: 1px solid var(--border); padding: 0.5rem 0.75rem; border-radius: 8px; font-size: 0.9rem;">
+                    <span class="portfolio-instrument-chip">
                         {% if item.url %}
                         <a href="{{ item.url }}" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">
                         {% endif %}
@@ -710,7 +728,7 @@
                 const ctx2 = dcaCanvas.getContext('2d');
                 const dcaDatasets = [];
                 if (romainroth && romainroth.length) dcaDatasets.push({ label: dcaTraderDisplayName, data: romainroth, color: '#58a6ff' });
-                if (sp500 && sp500.length) dcaDatasets.push({ label: 'S&P 500', data: sp500, color: '#8b949e' });
+                if (sp500 && sp500.length) dcaDatasets.push({ label: 'S&P 500', data: sp500, color: '#8b949e', hidden: true });
                 const lang = localStorage.getItem('page_lang') || 'en';
                 const yLocale = lang === 'fr' ? 'fr-FR' : 'en-US';
                 dcaChartInstance = new Chart(ctx2, {
@@ -720,7 +738,8 @@
                         datasets: dcaDatasets.map(d => ({
                             ...buildDataset(d),
                             borderColor: d.color,
-                            backgroundColor: d.color.startsWith('#') ? hexToRgba(d.color, 0.1) : 'rgba(139,148,158,0.1)'
+                            backgroundColor: d.color.startsWith('#') ? hexToRgba(d.color, 0.1) : 'rgba(139,148,158,0.1)',
+                            ...(d.hidden ? { hidden: true } : {})
                         }))
                     },
                     options: {
@@ -1022,6 +1041,7 @@
                     verified: "✓ Vérifié",
                     copieur: "copieur",
                     copieurs: "copieurs",
+                    etoroProfileBtn: "Mon profil sur eToro",
                     loadDataError: 'Impossible de charger les données. Vérifiez vos clés API (.env) et que le trader "{{ username }}" existe.',
                     portfolio: "Instruments en portefeuille",
                     performances: "Performances",
@@ -1039,16 +1059,14 @@
                     collapsePost: "Réduire",
                     postImageAlt: "Illustration du post",
                     year: "Année", mJan: "Jan", mFeb: "Fév", mMar: "Mar", mApr: "Avr", mMay: "Mai", mJun: "Juin", mJul: "Juil", mAug: "Août", mSep: "Sep", mOct: "Oct", mNov: "Nov", mDec: "Déc", total: "Total",
-                    perfSinceTitle: "Performance depuis sept. 2022",
-                    perfSinceSubtitle: "Indice portefeuille (eToro)",
-                    perfSinceSp500Label: "S&P 500",
-                    perfSinceCacLabel: "CAC 40 TR",
+                    perfSinceTitle: "Portefeuille sur eToro depuis sept. 2022",
                     perfSinceAnnualLabel: "Rentabilité annuelle",
                 },
                 en: {
                     verified: "✓ Verified",
                     copieur: "copier",
                     copieurs: "copiers",
+                    etoroProfileBtn: "My profile on eToro",
                     loadDataError: 'Unable to load data. Check your API keys (.env) and that trader "{{ username }}" exists.',
                     portfolio: "Portfolio instruments",
                     performances: "Performance",
@@ -1066,10 +1084,7 @@
                     collapsePost: "Collapse",
                     postImageAlt: "Post image",
                     year: "Year", mJan: "Jan", mFeb: "Feb", mMar: "Mar", mApr: "Apr", mMay: "May", mJun: "Jun", mJul: "Jul", mAug: "Aug", mSep: "Sep", mOct: "Oct", mNov: "Nov", mDec: "Dec", total: "Total",
-                    perfSinceTitle: "Performance since Sep 2022",
-                    perfSinceSubtitle: "Portfolio on eToro",
-                    perfSinceSp500Label: "S&P 500",
-                    perfSinceCacLabel: "CAC 40 TR",
+                    perfSinceTitle: "Portfolio on eToro since Sep 2022",
                     perfSinceAnnualLabel: "Annual return",
                 }
             };
@@ -1092,8 +1107,6 @@
                 const t = I18N[lang] || I18N.en;
                 const titleEl = document.getElementById("perfSinceCardTitle");
                 if (titleEl) titleEl.textContent = t.perfSinceTitle;
-                const subEl = document.getElementById("perfSinceSubtitle");
-                if (subEl) subEl.textContent = t.perfSinceSubtitle;
                 const mainVal = document.getElementById("perfSinceMainValue");
                 if (mainVal) {
                     mainVal.textContent = formatPerfSincePct(d.trader_pct);
@@ -1118,14 +1131,6 @@
                         annAside.setAttribute("hidden", "");
                     }
                 }
-                const spL = document.getElementById("perfSinceLineSp500");
-                const cL = document.getElementById("perfSinceLineCac");
-                if (spL) {
-                    spL.textContent = t.perfSinceSp500Label + ": " + formatPerfSincePct(d.sp500_pct);
-                }
-                if (cL) {
-                    cL.textContent = t.perfSinceCacLabel + ": " + formatPerfSincePct(d.cac40_pct);
-                }
             }
 
             let __profileLangPrev = null;
@@ -1144,6 +1149,10 @@
                     const n = Number(cb.getAttribute("data-count") || "0");
                     cb.textContent = `${n} ${n > 1 ? t.copieurs : t.copieur}`;
                 }
+                const etoroLbl = document.getElementById("headerEtoroProfileLabel");
+                const etoroLink = document.getElementById("headerEtoroProfileLink");
+                if (etoroLbl) etoroLbl.textContent = t.etoroProfileBtn;
+                if (etoroLink) etoroLink.setAttribute("aria-label", t.etoroProfileBtn);
                 const elMap = [
                     ["errorLoadData", "loadDataError"],
                     ["perfTitle", "performances"],
@@ -1171,10 +1180,7 @@
                     if (key && t[key]) el.textContent = t[key];
                 });
                 const pTitle = document.getElementById("portfolioTitle");
-                if (pTitle) {
-                    const c = pTitle.getAttribute("data-count") || "0";
-                    pTitle.textContent = `${t.portfolio} (${c})`;
-                }
+                if (pTitle) pTitle.textContent = t.portfolio;
                 const dcaTitle = document.getElementById("dcaTitle");
                 if (dcaTitle) {
                     dcaTitle.textContent = `${t.dcaTitlePrefix}{{ username }}${t.dcaTitleSuffix}`;
@@ -1206,6 +1212,9 @@
                 const cookieBn = document.getElementById("cookieConsentBanner");
                 if (cookieBn && !cookieBn.hasAttribute("hidden") && typeof window.refreshCookieBannerLang === "function") {
                     window.refreshCookieBannerLang();
+                }
+                if (typeof window.refreshNewsletterSignupLang === "function") {
+                    window.refreshNewsletterSignupLang(lang);
                 }
             }
 

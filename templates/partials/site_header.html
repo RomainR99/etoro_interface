@@ -16,8 +16,8 @@
                             {% endif %}
                             {% if current_copiers is not none %}<span class="badge" id="copiersBadge" style="background: rgba(139,148,158,0.2); color: var(--muted);" data-count="{{ current_copiers }}">{{ current_copiers }} copieur{% if current_copiers > 1 %}s{% endif %}</span>{% endif %}
                         </div>
-                        <a href="https://www.etoro.com/people/{{ username|lower }}" class="btn-etoro-header" target="_blank" rel="noopener noreferrer" aria-label="eToro — profil">
-                            <img src="/images/etoro_logo.png" alt="" class="btn-etoro-header__logo" width="168" height="36" decoding="async">
+                        <a href="https://www.etoro.com/people/{{ username|lower }}" id="headerEtoroProfileLink" class="btn-etoro-header" target="_blank" rel="noopener noreferrer" aria-label="My profile on eToro">
+                            <span class="btn-etoro-header__label" id="headerEtoroProfileLabel">My profile on eToro</span>
                         </a>
                     </div>
                 </div>

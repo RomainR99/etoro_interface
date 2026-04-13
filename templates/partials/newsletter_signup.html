@@ -1,0 +1,192 @@
+        <section class="newsletter-signup-section" id="newsletterSignupSection" aria-labelledby="nlTitle">
+            <h2 id="nlTitle">Never Miss an Opportunity</h2>
+            <p class="newsletter-lead" id="nlLead">Simply enter your details below for regular updates direct to your inbox:</p>
+            <form id="newsletterSignupForm" novalidate>
+                <div class="nl-honeypot" aria-hidden="true">
+                    <label for="nlCompany">Company</label>
+                    <input type="text" id="nlCompany" name="company" tabindex="-1" autocomplete="off" />
+                </div>
+                <div class="nl-row">
+                    <div class="nl-field">
+                        <label class="nl-label" for="nlName" id="nlLabelName">Name</label>
+                        <input type="text" id="nlName" name="name" maxlength="200" autocomplete="name" placeholder="Name" />
+                    </div>
+                    <div class="nl-field">
+                        <label class="nl-label" for="nlEmail" id="nlLabelEmail">Email</label>
+                        <input type="email" id="nlEmail" name="email" maxlength="255" required autocomplete="email" placeholder="Email" />
+                    </div>
+                    <div class="nl-submit-wrap">
+                        <button type="submit" id="nlSubmit">Subscribe</button>
+                    </div>
+                </div>
+                <div class="nl-check">
+                    <input type="checkbox" id="nlOptIn" name="newsletter_opt_in" value="1" required />
+                    <label for="nlOptIn" id="nlOptInLabel">Please check this box to opt in to our newsletter. We take your privacy seriously and will never share your details with anyone.</label>
+                </div>
+                <div class="nl-msg-row">
+                    <p class="nl-msg" id="nlMsg" role="status" aria-live="polite"></p>
+                </div>
+            </form>
+        </section>
+        <script>
+            (function () {
+                var NL_I18N = {
+                    fr: {
+                        title: "Ne manquez aucune opportunité",
+                        lead: "Indiquez vos coordonnées ci-dessous pour recevoir nos actualités directement dans votre boîte mail :",
+                        labelName: "Nom",
+                        phName: "Nom",
+                        labelEmail: "E-mail",
+                        phEmail: "E-mail",
+                        optIn:
+                            "Cochez cette case pour vous inscrire à la newsletter. Nous respectons votre vie privée et ne partagerons jamais vos données avec des tiers.",
+                        submit: "S’inscrire",
+                        sending: "Envoi…",
+                        ok: "Merci ! Vous êtes inscrit(e).",
+                        errGeneric: "Une erreur s’est produite. Réessayez plus tard.",
+                        errEmail: "Adresse e-mail invalide.",
+                        errOptIn: "Veuillez accepter l’inscription à la newsletter.",
+                        errRate: "Trop de tentatives. Réessayez dans une heure.",
+                    },
+                    en: {
+                        title: "Never Miss an Opportunity",
+                        lead: "Simply enter your details below for regular updates direct to your inbox:",
+                        labelName: "Name",
+                        phName: "Name",
+                        labelEmail: "Email",
+                        phEmail: "Email",
+                        optIn:
+                            "Please check this box to opt in to our newsletter. We take your privacy seriously and will never share your details with anyone.",
+                        submit: "Subscribe",
+                        sending: "Sending…",
+                        ok: "Thank you! You’re subscribed.",
+                        errGeneric: "Something went wrong. Please try again later.",
+                        errEmail: "Invalid email address.",
+                        errOptIn: "Please opt in to the newsletter.",
+                        errRate: "Too many attempts. Try again in an hour.",
+                    },
+                };
+
+                function nlLang() {
+                    try {
+                        return localStorage.getItem("page_lang") === "fr" ? "fr" : "en";
+                    } catch (e) {
+                        return "en";
+                    }
+                }
+
+                function nlT(lang) {
+                    return NL_I18N[lang] || NL_I18N.en;
+                }
+
+                window.refreshNewsletterSignupLang = function (lang) {
+                    var t = nlT(lang || nlLang());
+                    var el = function (id) {
+                        return document.getElementById(id);
+                    };
+                    var title = el("nlTitle");
+                    if (title) title.textContent = t.title;
+                    var lead = el("nlLead");
+                    if (lead) lead.textContent = t.lead;
+                    var ln = el("nlLabelName");
+                    if (ln) ln.textContent = t.labelName;
+                    var nIn = el("nlName");
+                    if (nIn) nIn.placeholder = t.phName;
+                    var le = el("nlLabelEmail");
+                    if (le) le.textContent = t.labelEmail;
+                    var eIn = el("nlEmail");
+                    if (eIn) eIn.placeholder = t.phEmail;
+                    var opt = el("nlOptInLabel");
+                    if (opt) opt.textContent = t.optIn;
+                    var sub = el("nlSubmit");
+                    if (sub && !sub.disabled) sub.textContent = t.submit;
+                };
+
+                var form = document.getElementById("newsletterSignupForm");
+                if (!form) return;
+
+                form.addEventListener("submit", function (e) {
+                    e.preventDefault();
+                    var lang = nlLang();
+                    var t = nlT(lang);
+                    var msg = document.getElementById("nlMsg");
+                    var btn = document.getElementById("nlSubmit");
+                    var nameEl = document.getElementById("nlName");
+                    var emailEl = document.getElementById("nlEmail");
+                    var optEl = document.getElementById("nlOptIn");
+                    var companyEl = document.getElementById("nlCompany");
+                    if (msg) {
+                        msg.textContent = "";
+                        msg.className = "nl-msg";
+                    }
+                    if (!optEl || !optEl.checked) {
+                        if (msg) {
+                            msg.textContent = t.errOptIn;
+                            msg.className = "nl-msg err";
+                        }
+                        return;
+                    }
+                    var email = (emailEl && emailEl.value) || "";
+                    if (!email || email.indexOf("@") < 0) {
+                        if (msg) {
+                            msg.textContent = t.errEmail;
+                            msg.className = "nl-msg err";
+                        }
+                        return;
+                    }
+                    if (btn) {
+                        btn.disabled = true;
+                        btn.textContent = t.sending;
+                    }
+                    fetch("/api/newsletter-subscribe", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json", Accept: "application/json" },
+                        body: JSON.stringify({
+                            name: (nameEl && nameEl.value) || "",
+                            email: email.trim(),
+                            newsletter_opt_in: true,
+                            company: (companyEl && companyEl.value) || "",
+                        }),
+                    })
+                        .then(function (r) {
+                            return r.json().then(function (data) {
+                                return { ok: r.ok, status: r.status, data: data };
+                            });
+                        })
+                        .then(function (res) {
+                            if (res.ok && res.data && res.data.ok) {
+                                if (msg) {
+                                    msg.textContent = t.ok;
+                                    msg.className = "nl-msg ok";
+                                }
+                                form.reset();
+                            } else {
+                                var err = (res.data && res.data.error) || "";
+                                var txt = t.errGeneric;
+                                if (err === "invalid_email") txt = t.errEmail;
+                                else if (err === "opt_in_required") txt = t.errOptIn;
+                                else if (err === "rate_limit") txt = t.errRate;
+                                if (msg) {
+                                    msg.textContent = txt;
+                                    msg.className = "nl-msg err";
+                                }
+                            }
+                        })
+                        .catch(function () {
+                            if (msg) {
+                                msg.textContent = t.errGeneric;
+                                msg.className = "nl-msg err";
+                            }
+                        })
+                        .finally(function () {
+                            if (btn) {
+                                btn.disabled = false;
+                                btn.textContent = t.submit;
+                            }
+                            window.refreshNewsletterSignupLang(lang);
+                        });
+                });
+
+                window.refreshNewsletterSignupLang(nlLang());
+            })();
+        </script>

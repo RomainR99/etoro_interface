@@ -8,3 +8,4 @@ __pycache__/
 .csv
 data/zonebourse_images/
 data/cookie_consent.sqlite
+data/contact_messages.sqlite

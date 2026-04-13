@@ -69,7 +69,11 @@ TRADER_POST_IMAGES_DIR = os.path.join(os.path.dirname(__file__), "data", "trader
 LEXIQUE_PATH = os.path.join(os.path.dirname(__file__), "data", "lexique.json")
 FAQ_PATH = os.path.join(os.path.dirname(__file__), "data", "faq.json")
 COOKIE_CONSENT_DB_PATH = os.path.join(os.path.dirname(__file__), "data", "cookie_consent.sqlite")
+CONTACT_MESSAGES_DB_PATH = os.path.join(os.path.dirname(__file__), "data", "contact_messages.sqlite")
 _cookie_consent_db_ready = False
+_contact_messages_db_ready = False
+_newsletter_subscribe_rate: dict[str, list[float]] = {}
+NEWSLETTER_SUBSCRIBE_MAX_PER_HOUR = 12
 _lexique_json_cache: list | None = None
 _faq_json_cache: list | None = None
 _trader_posts_cache: list[dict] | None = None
@@ -210,6 +214,87 @@ def _log_cookie_consent_to_db(
         conn.commit()
     finally:
         conn.close()
+
+
+def _ensure_contact_messages_db() -> None:
+    """Crée la base SQLite et la table contact_messages (équivalent schéma PostgreSQL du projet)."""
+    global _contact_messages_db_ready
+    if _contact_messages_db_ready:
+        return
+    os.makedirs(os.path.dirname(CONTACT_MESSAGES_DB_PATH), exist_ok=True)
+    conn = sqlite3.connect(CONTACT_MESSAGES_DB_PATH)
+    try:
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS contact_messages (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                first_name TEXT,
+                last_name TEXT,
+                email TEXT NOT NULL,
+                subject TEXT,
+                message TEXT NOT NULL,
+                created_at TEXT NOT NULL DEFAULT (datetime('now'))
+            )
+            """
+        )
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_contact_messages_created ON contact_messages(created_at)")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_contact_messages_email ON contact_messages(email)")
+        conn.commit()
+        _contact_messages_db_ready = True
+    finally:
+        conn.close()
+
+
+def _insert_contact_message(
+    first_name: str | None,
+    last_name: str | None,
+    email: str,
+    subject: str | None,
+    message: str,
+) -> None:
+    _ensure_contact_messages_db()
+    conn = sqlite3.connect(CONTACT_MESSAGES_DB_PATH)
+    try:
+        conn.execute(
+            """
+            INSERT INTO contact_messages (first_name, last_name, email, subject, message, created_at)
+            VALUES (?, ?, ?, ?, ?, ?)
+            """,
+            (
+                (first_name or "")[:100] or None,
+                (last_name or "")[:100] or None,
+                email[:255],
+                (subject or "")[:255] or None,
+                message[:10000],
+                datetime.now(timezone.utc).isoformat(),
+            ),
+        )
+        conn.commit()
+    finally:
+        conn.close()
+
+
+def _newsletter_rate_ok(ip: str) -> bool:
+    """True si l’IP n’a pas dépassé la limite d’inscriptions sur la dernière heure."""
+    now = time.time()
+    cutoff = now - 3600
+    lst = _newsletter_subscribe_rate.setdefault(ip, [])
+    lst[:] = [t for t in lst if t > cutoff]
+    return len(lst) < NEWSLETTER_SUBSCRIBE_MAX_PER_HOUR
+
+
+def _newsletter_rate_record(ip: str) -> None:
+    _newsletter_subscribe_rate.setdefault(ip, []).append(time.time())
+
+
+def _split_subscriber_name(full: str) -> tuple[str, str]:
+    s = (full or "").strip()
+    if not s:
+        return "", ""
+    parts = s.split(None, 1)
+    first = parts[0][:100]
+    last = (parts[1].strip()[:100] if len(parts) > 1 else "")[:100]
+    return first, last
 
 
 def _check_chat_rate_limit(visitor_id: str) -> bool:
@@ -964,21 +1049,100 @@ def api_cookie_consent():
     return resp
 
 
+@app.route("/api/newsletter-subscribe", methods=["POST"])
+def api_newsletter_subscribe():
+    """Inscription newsletter : enregistrement dans contact_messages (SQLite)."""
+    data = request.get_json(silent=True)
+    if not isinstance(data, dict):
+        return jsonify({"ok": False, "error": "invalid_request"}), 400
+    if (data.get("company") or "").strip():
+        return jsonify({"ok": True})
+    ip = _get_client_ip()
+    if not _newsletter_rate_ok(ip):
+        return jsonify({"ok": False, "error": "rate_limit"}), 429
+    opt_in = data.get("newsletter_opt_in")
+    if opt_in is not True and str(opt_in).lower() not in ("true", "1", "yes", "on"):
+        return jsonify({"ok": False, "error": "opt_in_required"}), 400
+    email = (data.get("email") or "").strip().lower()
+    if not email or len(email) > 255 or "@" not in email or email.count("@") != 1:
+        return jsonify({"ok": False, "error": "invalid_email"}), 400
+    local, _, domain = email.partition("@")
+    if not local or not domain or "." not in domain:
+        return jsonify({"ok": False, "error": "invalid_email"}), 400
+    name = (data.get("name") or "").strip()
+    if len(name) > 200:
+        return jsonify({"ok": False, "error": "invalid_name"}), 400
+    first_name, last_name = _split_subscriber_name(name)
+    msg = (
+        "Newsletter opt-in: user requested regular updates by email; "
+        "privacy respected; details not shared with third parties."
+    )
+    try:
+        _insert_contact_message(
+            first_name or None,
+            last_name or None,
+            email,
+            "Newsletter",
+            msg,
+        )
+    except Exception:
+        app.logger.exception("newsletter_subscribe_db")
+        return jsonify({"ok": False, "error": "storage"}), 500
+    _newsletter_rate_record(ip)
+    return jsonify({"ok": True})
+
+
 # Livres recommandés (page /reading) — titres et notes FR/EN
 RECOMMENDED_BOOKS: list[dict] = [
     {
-        "title_fr": "L'investisseur intelligent",
-        "title_en": "The Intelligent Investor",
-        "author": "Benjamin Graham",
-        "note_fr": "Référence historique sur l'investissement de valeur et la marge de sécurité.",
-        "note_en": "The classic text on value investing and margin of safety.",
+        "title_fr": "Security Analysis",
+        "title_en": "Security Analysis",
+        "author": "Benjamin Graham et David Dodd",
+        "note_en": (
+            "A reference work on in-depth financial analysis and sound valuation."
+        ),
+        "note_fr": (
+            "Un ouvrage de référence sur l’analyse financière approfondie et une valorisation rigoureuse."
+        ),
     },
     {
-        "title_fr": "Battez le marché financier",
-        "title_en": "One Up On Wall Street",
-        "author": "Peter Lynch",
-        "note_fr": "Comment repérer des opportunités à partir de ce que vous observez au quotidien.",
-        "note_en": "How to spot opportunities from what you already notice in everyday life.",
+        "title_fr": "L’investisseur intelligent",
+        "title_en": "The Intelligent Investor",
+        "author": "Benjamin Graham",
+        "note_en": (
+            "A true manual of prudence and rationality for long-term investing."
+        ),
+        "note_fr": (
+            "Un véritable manuel de prudence et de rationalité pour l’investissement à long terme."
+        ),
+    },
+    {
+        "title_fr": "The Snowball",
+        "title_en": "The Snowball",
+        "author": "Alice Schroeder",
+        "note_en": (
+            "The official biography of Warren Buffett — a great source of inspiration for his "
+            "patience, discipline, and value-based strategy."
+        ),
+        "note_fr": (
+            "La biographie officielle de Warren Buffett — une grande source d’inspiration sur sa "
+            "patience, sa discipline et sa stratégie fondée sur la valeur."
+        ),
+    },
+    {
+        "title_fr": "Le Cygne noir",
+        "title_en": "The Black Swan",
+        "author": "Nassim Nicholas Taleb",
+        "note_en": (
+            "A crucial reminder of the outsized role of rare, unpredictable events, the impossibility "
+            "of accurately estimating their probabilities, and the cognitive biases that blind us to "
+            "their potential impact."
+        ),
+        "note_fr": (
+            "Un rappel crucial du rôle démesuré des événements rares et imprévisibles, de "
+            "l’impossibilité d’en estimer précisément les probabilités, et des biais cognitifs qui "
+            "nous empêchent d’en mesurer l’impact potentiel."
+        ),
     },
 ]
 

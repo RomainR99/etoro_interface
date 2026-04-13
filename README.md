@@ -162,6 +162,28 @@ SELECT id, created_at, choice, visitor_id, lang FROM cookie_consent_log ORDER BY
 .quit
 ```
 
+### Inscriptions newsletter / messages (`contact_messages`)
+
+Les inscriptions via le bloc **« Never Miss an Opportunity »** (au-dessus du pied de page) sont enregistrées en **SQLite** dans `data/contact_messages.sqlite` (fichier ignoré par git), table **`contact_messages`** :
+
+| Colonne | Contenu |
+|---------|---------|
+| `id` | Identifiant auto (SQLite `AUTOINCREMENT`) |
+| `first_name`, `last_name` | Dérivés du champ « Name » |
+| `email` | Adresse (obligatoire) |
+| `subject` | Ex. `Newsletter` |
+| `message` | Texte décrivant l’opt-in et le respect de la vie privée |
+| `created_at` | Horodatage UTC (ISO) |
+
+Pour **PostgreSQL**, le schéma équivalent est dans `data/schema_contact_messages.postgresql.sql` (`SERIAL`, `TIMESTAMP`, etc.).
+
+- **API** : `POST /api/newsletter-subscribe` avec corps JSON `{"name":"…","email":"…","newsletter_opt_in":true}` (champ anti-bot optionnel `company`, à laisser vide).
+- **Limite** : nombre d’inscriptions par IP sur une fenêtre glissante d’une heure.
+
+```bash
+sqlite3 data/contact_messages.sqlite "SELECT id, first_name, last_name, email, subject, created_at FROM contact_messages ORDER BY id DESC LIMIT 20;"
+```
+
 > **Note** : conserver l’IP et le user-agent relève du **traitement de données** ; prévois l’information dans ta **politique de confidentialité** / **RGPD** si besoin.
 
 ## Corrections à apporter
