@@ -9,6 +9,7 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
   - [CAPTCHA (anti-bots)](#captcha-anti-bots)
   - [Récupérer les données du chatbot](#récupérer-les-données-du-chatbot)
   - [Consentements cookies (SQLite)](#consentements-cookies-sqlite)
+  - [Inscriptions newsletter / messages (`contact_messages`)](#inscriptions-newsletter--messages-contact_messages)
 - [Corrections à apporter](#corrections-à-apporter)
 - [Sécurité et déploiement](#sécurité-et-déploiement)
 - [Apple / iOS](#apple--ios)
@@ -16,6 +17,8 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
 - [Dépendances principales](#dépendances-principales)
 - [Installation](#installation)
 - [Configuration](#configuration)
+  - [Note performance (première visite)](#note-performance-première-visite)
+  - [Checklist production (rapide)](#checklist-production-rapide)
 - [Lancement](#lancement)
 - [Structure](#structure)
 - [Configuration du trader](#configuration-du-trader)
@@ -265,12 +268,46 @@ TWELVEDATA_API_KEY=...        # Optionnel
 RECAPTCHA_SITE_KEY=...        # Optionnel : reCAPTCHA v2 « case à cocher » uniquement (pas v3)
 RECAPTCHA_SECRET_KEY=...      # Optionnel : clé secrète associée (même paire que la clé du site)
 MEDIASTACK_ACCESS_KEY=...     # Optionnel : actualités par instrument (plan gratuit : 100 req/mois)
+REDIS_URL=redis://...         # Optionnel (recommandé en production) : cache partagé inter-workers
+WARMUP_TOKEN=...              # Optionnel : protège /internal/warmup
+AUTO_WARMUP_ON_START=1        # Optionnel : warmup auto au 1er hit (/ ou /health), 1 par défaut
+STARTUP_WARMUP_MAX_SECONDS=10 # Optionnel : budget max du warmup auto (en secondes)
 ```
 
 - Les clés eToro se génèrent dans **Paramètres > Trading > Gestion des clés API** sur eToro.
 - **OPENAI_API_KEY** : résumés Zonebourse, illustrations, chatbot.
 - **RECAPTCHA_*** : optionnel. Si absent, le CAPTCHA est désactivé.
 - **MEDIASTACK_ACCESS_KEY** : actualités par instrument. Si absent, la section affiche « Aucune actualité chargée ».
+- **REDIS_URL** : recommandé en production pour partager le cache entre workers/containers et réduire les "cold starts".
+
+### Note performance (première visite)
+
+La première ouverture de la page (`/`) peut être plus lente si les APIs externes sont lentes. Les rafraîchissements sont ensuite rapides grâce au cache.
+
+- **Cache mémoire local** : actif par défaut (rapide, mais non partagé entre workers).
+- **Cache Redis** : activé si `REDIS_URL` est défini (partagé, recommandé en production).
+- **Warmup manuel** : `GET/POST /internal/warmup` (protégeable via `WARMUP_TOKEN`).
+- **Warmup auto** : activé par défaut (`AUTO_WARMUP_ON_START=1`) avec limite de temps (`STARTUP_WARMUP_MAX_SECONDS`).
+
+Exemple de warmup après déploiement :
+
+```bash
+curl -H "X-Warmup-Token: <ton_token>" https://ton-domaine/internal/warmup
+```
+
+### Checklist production (rapide)
+
+- Configurer `REDIS_URL` pour un cache partagé entre workers/instances.
+- Définir `WARMUP_TOKEN` et garder `/internal/warmup` protégé.
+- Laisser `AUTO_WARMUP_ON_START=1`.
+- Régler `STARTUP_WARMUP_MAX_SECONDS=10` (ajuster 8-15 selon ton infra).
+- Après chaque déploiement, lancer :
+
+```bash
+curl -H "X-Warmup-Token: <token>" https://ton-domaine/internal/warmup
+```
+
+- Vérifier les logs au boot : `startup warmup: started` puis `startup warmup: done ...`.
 
 ## Lancement
 

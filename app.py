@@ -14,9 +14,12 @@ import math
 import os
 import sqlite3
 import re
+import threading
 import time
 import uuid
+import pickle
 from datetime import datetime, timezone
+from concurrent.futures import ThreadPoolExecutor, wait
 
 import requests
 from flask import Flask, Response, g, make_response, jsonify, redirect, render_template, request, send_from_directory, url_for
@@ -40,6 +43,11 @@ try:
     HAS_YFINANCE = True
 except ImportError:
     HAS_YFINANCE = False
+
+try:
+    import redis
+except ImportError:
+    redis = None
 
 app = Flask(__name__)
 
@@ -77,6 +85,21 @@ NEWSLETTER_SUBSCRIBE_MAX_PER_HOUR = 12
 _lexique_json_cache: list | None = None
 _faq_json_cache: list | None = None
 _trader_posts_cache: list[dict] | None = None
+_CACHE_MISS = object()
+_cache_lock = threading.Lock()
+_response_cache: dict[str, tuple[float, object]] = {}
+INDEX_EXTERNAL_FETCH_TIMEOUT_SEC = 4.0
+STARTUP_WARMUP_MAX_SECONDS = max(
+    1.0,
+    float((os.getenv("STARTUP_WARMUP_MAX_SECONDS") or "10").strip() or "10"),
+)
+REDIS_URL = (os.getenv("REDIS_URL") or "").strip()
+WARMUP_TOKEN = (os.getenv("WARMUP_TOKEN") or "").strip()
+AUTO_WARMUP_ON_START = (os.getenv("AUTO_WARMUP_ON_START") or "1").strip().lower() in ("1", "true", "yes", "on")
+_redis_client = None
+_redis_init_done = False
+_startup_warmup_started = False
+_startup_warmup_lock = threading.Lock()
 
 # Rate limit par visitor_id : 5/min, 30/h, 100/j
 CHAT_RATE_LIMIT = {"per_min": 5, "per_hour": 30, "per_day": 100}
@@ -97,6 +120,95 @@ MAX_REPLY_CHARS = 4000  # tronque la réponse IA si plus long
 MAX_HISTORY_MESSAGES = 20  # nb max de messages (hors system) envoyés au modèle
 MAX_COMPLETION_TOKENS = 1024  # max_tokens pour la réponse OpenAI
 CHAT_OPENAI_TIMEOUT_SEC = 8.0  # délai max pour la réponse du modèle (chatbot)
+
+
+def _cache_get(key: str):
+    """Retourne la valeur en cache si valide, sinon _CACHE_MISS."""
+    now = time.monotonic()
+    with _cache_lock:
+        row = _response_cache.get(key)
+        if not row:
+            return _CACHE_MISS
+        expires_at, value = row
+        if now >= expires_at:
+            _response_cache.pop(key, None)
+            return _CACHE_MISS
+        return value
+
+
+def _cache_set(key: str, value, ttl_seconds: float) -> None:
+    """Stocke une valeur en cache pour ttl_seconds."""
+    with _cache_lock:
+        _response_cache[key] = (time.monotonic() + max(0.0, ttl_seconds), value)
+
+
+def _redis_get_client():
+    """Initialise (lazy) un client Redis si REDIS_URL est défini."""
+    global _redis_client, _redis_init_done
+    if _redis_init_done:
+        return _redis_client
+    _redis_init_done = True
+    if not REDIS_URL or redis is None:
+        return None
+    try:
+        _redis_client = redis.from_url(
+            REDIS_URL,
+            socket_connect_timeout=0.4,
+            socket_timeout=0.4,
+            decode_responses=False,
+        )
+        _redis_client.ping()
+        return _redis_client
+    except Exception:
+        _redis_client = None
+        return None
+
+
+def _cache_get_redis(key: str):
+    """Retourne la valeur depuis Redis, sinon _CACHE_MISS."""
+    client = _redis_get_client()
+    if client is None:
+        return _CACHE_MISS
+    try:
+        payload = client.get(f"cache:{key}")
+        if not payload:
+            return _CACHE_MISS
+        return pickle.loads(payload)
+    except Exception:
+        return _CACHE_MISS
+
+
+def _cache_set_redis(key: str, value, ttl_seconds: float) -> None:
+    """Écrit la valeur dans Redis avec TTL."""
+    client = _redis_get_client()
+    if client is None:
+        return
+    try:
+        ttl = max(1, int(ttl_seconds))
+        client.setex(f"cache:{key}", ttl, pickle.dumps(value, protocol=pickle.HIGHEST_PROTOCOL))
+    except Exception:
+        pass
+
+
+def _cached_call(key: str, ttl_seconds: float, fn, fallback):
+    """
+    Appelle fn() avec cache TTL.
+    En cas d'erreur, retourne fallback sans lever d'exception.
+    """
+    cached = _cache_get(key)
+    if cached is not _CACHE_MISS:
+        return cached
+    cached_redis = _cache_get_redis(key)
+    if cached_redis is not _CACHE_MISS:
+        _cache_set(key, cached_redis, ttl_seconds)
+        return cached_redis
+    try:
+        value = fn()
+    except Exception:
+        value = fallback
+    _cache_set(key, value, ttl_seconds)
+    _cache_set_redis(key, value, ttl_seconds)
+    return value
 
 
 def _detect_abnormal_behavior(messages: list, current_message: str) -> str | None:
@@ -866,57 +978,233 @@ def _filter_gain_from_date(gain_data: dict | None) -> dict | None:
     return filtered if filtered else gain_data
 
 
+def _prime_homepage_cache(max_duration_sec: float = STARTUP_WARMUP_MAX_SECONDS) -> dict:
+    """Préchauffe la home, avec budget de temps strict pour éviter un warmup trop long."""
+    deadline = time.monotonic() + max(1.0, float(max_duration_sec))
+    results: dict[str, object] = {"profile": None, "gain": None}
+
+    def _remaining() -> float:
+        return max(0.0, deadline - time.monotonic())
+
+    executor = ThreadPoolExecutor(max_workers=6)
+    try:
+        future_to_key = {
+            executor.submit(
+                _cached_call,
+                "index_profile",
+                180.0,
+                lambda: get_user_profile(TRADER_USERNAME),
+                None,
+            ): "profile",
+            executor.submit(
+                _cached_call,
+                "index_gain",
+                180.0,
+                lambda: _filter_gain_from_date(get_user_gain(TRADER_USERNAME)),
+                None,
+            ): "gain",
+            executor.submit(
+                _cached_call,
+                "index_portfolio",
+                180.0,
+                lambda: get_user_portfolio(TRADER_USERNAME),
+                None,
+            ): "portfolio",
+            executor.submit(
+                _cached_call,
+                "index_portfolio_instruments",
+                180.0,
+                lambda: get_portfolio_instruments(TRADER_USERNAME),
+                [],
+            ): "portfolio_instruments",
+            executor.submit(
+                _cached_call,
+                "index_most_copied_100",
+                300.0,
+                lambda: get_most_copied_traders(100),
+                [],
+            ): "most_copied",
+            executor.submit(
+                _cached_call,
+                "index_current_copiers",
+                90.0,
+                lambda: get_current_copiers(TRADER_USERNAME),
+                None,
+            ): "current_copiers",
+        }
+        done, not_done = wait(future_to_key.keys(), timeout=_remaining())
+        for fut in done:
+            results[future_to_key[fut]] = fut.result()
+        for fut in not_done:
+            fut.cancel()
+    finally:
+        executor.shutdown(wait=False, cancel_futures=True)
+
+    gain = results.get("gain")
+    if _remaining() > 0:
+        _cached_call(
+            "index_chart_data",
+            300.0,
+            lambda: _compute_chart_data(gain, [], include_sp500=True),
+            ([], []),
+        )
+    if _remaining() > 0:
+        _cached_call(
+            "index_performance_table",
+            300.0,
+            lambda: _build_performance_table(gain),
+            ([], None),
+        )
+    if _remaining() > 0:
+        _cached_call(
+            "index_perf_since_sep2022",
+            300.0,
+            lambda: _build_since_sep2022_summary(gain),
+            None,
+        )
+    if _remaining() > 0:
+        _cached_call(
+            "index_dca_default",
+            300.0,
+            lambda: _compute_dca_simulation(gain, 1000.0, 100.0),
+            ([], [], []),
+        )
+    timed_out = _remaining() <= 0
+    return {
+        "ok": True,
+        "profile_loaded": results.get("profile") is not None,
+        "gain_loaded": gain is not None,
+        "redis_enabled": _redis_get_client() is not None,
+        "timed_out": timed_out,
+        "budget_seconds": max_duration_sec,
+    }
+
+
+def _start_background_warmup_once() -> None:
+    """Lance un warmup en arrière-plan une seule fois par process."""
+    global _startup_warmup_started
+    if not AUTO_WARMUP_ON_START:
+        return
+    with _startup_warmup_lock:
+        if _startup_warmup_started:
+            return
+        _startup_warmup_started = True
+    app.logger.info("startup warmup: started")
+
+    def _run():
+        started = time.time()
+        try:
+            result = _prime_homepage_cache()
+            elapsed_ms = round((time.time() - started) * 1000, 1)
+            app.logger.info("startup warmup: done in %sms (redis=%s)", elapsed_ms, result.get("redis_enabled"))
+        except Exception:
+            app.logger.exception("startup warmup: failed")
+
+    t = threading.Thread(target=_run, name="startup-warmup", daemon=True)
+    t.start()
+
+
 @app.route("/")
 def index():
+    _start_background_warmup_once()
+    results = {
+        "profile": None,
+        "gain": None,
+        "portfolio": None,
+        "portfolio_instruments": [],
+        "most_copied": [],
+        "current_copiers": None,
+    }
+    executor = ThreadPoolExecutor(max_workers=6)
     try:
-        profile = get_user_profile(TRADER_USERNAME)
-    except Exception:
-        profile = None
-    try:
-        gain = get_user_gain(TRADER_USERNAME)
-        gain = _filter_gain_from_date(gain)
-    except Exception:
-        gain = None
-    try:
-        portfolio = get_user_portfolio(TRADER_USERNAME)
-    except Exception:
-        portfolio = None
-    try:
-        portfolio_instruments = get_portfolio_instruments(TRADER_USERNAME)
-    except Exception:
-        portfolio_instruments = []
-    try:
-        chart_labels, chart_datasets = _compute_chart_data(gain, [], include_sp500=True)
-    except Exception:
-        chart_labels, chart_datasets = [], []
+        future_to_key = {
+            executor.submit(
+                _cached_call,
+                "index_profile",
+                180.0,
+                lambda: get_user_profile(TRADER_USERNAME),
+                None,
+            ): "profile",
+            executor.submit(
+                _cached_call,
+                "index_gain",
+                180.0,
+                lambda: _filter_gain_from_date(get_user_gain(TRADER_USERNAME)),
+                None,
+            ): "gain",
+            executor.submit(
+                _cached_call,
+                "index_portfolio",
+                180.0,
+                lambda: get_user_portfolio(TRADER_USERNAME),
+                None,
+            ): "portfolio",
+            executor.submit(
+                _cached_call,
+                "index_portfolio_instruments",
+                180.0,
+                lambda: get_portfolio_instruments(TRADER_USERNAME),
+                [],
+            ): "portfolio_instruments",
+            executor.submit(
+                _cached_call,
+                "index_most_copied_100",
+                300.0,
+                lambda: get_most_copied_traders(100),
+                [],
+            ): "most_copied",
+            executor.submit(
+                _cached_call,
+                "index_current_copiers",
+                90.0,
+                lambda: get_current_copiers(TRADER_USERNAME),
+                None,
+            ): "current_copiers",
+        }
+        done, not_done = wait(
+            future_to_key.keys(),
+            timeout=INDEX_EXTERNAL_FETCH_TIMEOUT_SEC,
+        )
+        for future in done:
+            results[future_to_key[future]] = future.result()
+        for future in not_done:
+            future.cancel()
+    finally:
+        executor.shutdown(wait=False, cancel_futures=True)
 
-    try:
-        performance_yearly, performance_total = _build_performance_table(gain)
-    except Exception:
-        performance_yearly, performance_total = [], None
+    profile = results["profile"]
+    gain = results["gain"]
+    portfolio = results["portfolio"]
+    portfolio_instruments = results["portfolio_instruments"]
+    most_copied = results["most_copied"]
+    current_copiers = results["current_copiers"]
 
-    try:
-        perf_since_sep2022 = _build_since_sep2022_summary(gain)
-    except Exception:
-        perf_since_sep2022 = None
-
-    try:
-        _dca_init, _dca_mo = 1000.0, 100.0
-        dca_labels, dca_romainroth, dca_sp500 = _compute_dca_simulation(gain, _dca_init, _dca_mo)
-        dca_total_invested = _dca_init + len(dca_labels) * _dca_mo if dca_labels else None
-    except Exception:
-        dca_labels, dca_romainroth, dca_sp500 = [], [], []
-        dca_total_invested = None
-
-    try:
-        most_copied = get_most_copied_traders(100)
-    except Exception:
-        most_copied = []
-
-    try:
-        current_copiers = get_current_copiers(TRADER_USERNAME)
-    except Exception:
-        current_copiers = None
+    chart_labels, chart_datasets = _cached_call(
+        "index_chart_data",
+        300.0,
+        lambda: _compute_chart_data(gain, [], include_sp500=True),
+        ([], []),
+    )
+    performance_yearly, performance_total = _cached_call(
+        "index_performance_table",
+        300.0,
+        lambda: _build_performance_table(gain),
+        ([], None),
+    )
+    perf_since_sep2022 = _cached_call(
+        "index_perf_since_sep2022",
+        300.0,
+        lambda: _build_since_sep2022_summary(gain),
+        None,
+    )
+    _dca_init, _dca_mo = 1000.0, 100.0
+    dca_labels, dca_romainroth, dca_sp500 = _cached_call(
+        "index_dca_default",
+        300.0,
+        lambda: _compute_dca_simulation(gain, _dca_init, _dca_mo),
+        ([], [], []),
+    )
+    dca_total_invested = _dca_init + len(dca_labels) * _dca_mo if dca_labels else None
     trader_posts: list[dict] = []
 
     resp = make_response(render_template(
@@ -941,6 +1229,23 @@ def index():
     ))
     _get_or_set_visitor_id(resp)
     return resp
+
+
+@app.route("/internal/warmup", methods=["POST", "GET"])
+def internal_warmup():
+    """Préchauffe les caches pour éviter les premiers chargements lents après déploiement."""
+    if WARMUP_TOKEN:
+        provided = (
+            request.headers.get("X-Warmup-Token")
+            or request.args.get("token")
+            or ""
+        ).strip()
+        if provided != WARMUP_TOKEN:
+            return jsonify({"ok": False, "error": "unauthorized"}), 401
+    started = time.time()
+    result = _prime_homepage_cache()
+    result["duration_ms"] = round((time.time() - started) * 1000, 1)
+    return jsonify(result)
 
 
 @app.route("/api/dca-simulation")
@@ -1343,6 +1648,7 @@ def api_chart_data():
 @app.route("/health")
 def health():
     """Route de diagnostic sans appel API externe."""
+    _start_background_warmup_once()
     return "OK", 200
 
 
