@@ -256,6 +256,18 @@ source venv/bin/activate   # macOS/Linux
 pip install -r requirements.txt
 ```
 
+## Avatar (header) et favicon
+
+La photo du header et le favicon utilisent un fichier **local** sous `images/` (aucune URL eToro exposée au navigateur pour l’avatar). Le favicon est en outre servi en **SVG circulaire** sur `/favicon.svg` (découpe en cercle à partir de la même image).
+
+Pour régénérer la photo à partir de l’API eToro (clés `ETORO_API_KEY` et `ETORO_USER_KEY` dans `.env`) :
+
+```bash
+python sync_trader_avatar.py
+```
+
+**`sync_trader_avatar.py`** : appelle encore `get_user_profile` côté serveur, récupère l’URL d’avatar, télécharge l’image et l’enregistre sous `images/trader_avatar.<ext>` (les anciens `trader_avatar.*` sont remplacés). Exemple après exécution : `images/trader_avatar.jpg` (~quelques ko). Pense à versionner ce fichier après sync ou à relancer le script après déploiement.
+
 ## Configuration
 
 Créer un fichier `.env` à la racine :

@@ -1,9 +1,8 @@
         <header>
             <button type="button" id="headerHomeHit" class="header-home-hit" aria-label="Home"></button>
             <div class="header-left">
-                {% if profile and profile.avatars and profile.avatars|length > 0 %}
-                    {% set avatar_url = profile.avatars[-1].url if profile.avatars[-1].url else profile.avatars[0].url %}
-                    <img src="{{ avatar_url }}" alt="{{ username }}" class="avatar">
+                {% if trader_avatar_url %}
+                    <img src="{{ trader_avatar_url }}" alt="{{ username }}" class="avatar" width="100" height="100" decoding="async">
                 {% else %}
                     <div class="avatar-placeholder">{{ username[0]|upper }}</div>
                 {% endif %}

@@ -72,6 +72,51 @@ def _request_has_cookie_consent() -> bool:
     return leg in ("accepted", "necessary")
 
 
+_PROJECT_IMAGES = Path(__file__).resolve().parent / "images"
+
+
+def _trader_avatar_image_filename() -> str | None:
+    """Fichier images/trader_avatar.* après sync_trader_avatar.py ; sinon None."""
+    if not _PROJECT_IMAGES.is_dir():
+        return None
+    for ext in (".png", ".jpg", ".jpeg", ".webp"):
+        p = _PROJECT_IMAGES / f"trader_avatar{ext}"
+        if p.is_file():
+            return p.name
+    return None
+
+
+def _trader_avatar_disk_path() -> Path | None:
+    """Chemin disque de la photo header / favicon (trader_avatar.* ou romain.png)."""
+    fn = _trader_avatar_image_filename()
+    if fn:
+        p = _PROJECT_IMAGES / fn
+        if p.is_file():
+            return p
+    r = _PROJECT_IMAGES / "romain.png"
+    return r if r.is_file() else None
+
+
+def _mime_for_image_path(path: Path) -> str:
+    ext = path.suffix.lower()
+    if ext in (".jpg", ".jpeg"):
+        return "image/jpeg"
+    if ext == ".webp":
+        return "image/webp"
+    return "image/png"
+
+
+@app.context_processor
+def inject_trader_avatar_url():
+    """Photo header + favicon : fichier local (pas d’URL API côté navigateur)."""
+    fn = _trader_avatar_image_filename()
+    if fn:
+        return {"trader_avatar_url": f"/images/{fn}"}
+    if (_PROJECT_IMAGES / "romain.png").is_file():
+        return {"trader_avatar_url": "/images/romain.png"}
+    return {"trader_avatar_url": None}
+
+
 @app.context_processor
 def inject_cookie_banner_state():
     """
@@ -1828,6 +1873,27 @@ def serve_image(filename: str):
     if ".." in filename or "/" in filename:
         return jsonify({"error": "invalid"}), 400
     return send_from_directory(IMAGES_DIR, filename)
+
+
+@app.route("/favicon.svg")
+def favicon_round_svg():
+    """Favicon circulaire : SVG avec la photo intégrée en data URI (pas de requête externe)."""
+    path = _trader_avatar_disk_path()
+    if not path:
+        return Response("", 404)
+    data_uri = (
+        f"data:{_mime_for_image_path(path)};base64,"
+        + base64.b64encode(path.read_bytes()).decode("ascii")
+    )
+    svg = (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">'
+        '<defs><clipPath id="c"><circle cx="16" cy="16" r="16"/></clipPath></defs>'
+        f'<image href="{data_uri}" x="0" y="0" width="32" height="32" '
+        'preserveAspectRatio="xMidYMid slice" clip-path="url(#c)"/>'
+        "</svg>"
+    )
+    return Response(svg, mimetype="image/svg+xml")
 
 
 @app.route("/api/zonebourse-image/<filename>")
