@@ -11,38 +11,47 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
   - [Consentements cookies (SQLite)](#consentements-cookies-sqlite)
   - [Inscriptions newsletter / messages (`contact_messages`)](#inscriptions-newsletter--messages-contact_messages)
 - [Corrections à apporter](#corrections-à-apporter)
+
+- [Mise en place](#prérequis)
+  - [Prérequis](#prérequis)
+  - [Dépendances principales](#dépendances-principales)
+  - [Installation](#installation)
+  - [Configuration](#configuration)
+    - [Frontend séparé (Next.js)](#frontend-séparé-nextjs)
+    - [Note performance (première visite)](#note-performance-première-visite)
+    - [Checklist production (rapide)](#checklist-production-rapide)
+  - [Lancement](#lancement)
+    - [Gunicorn (3 façons équivalentes)](#gunicorn-3-façons-équivalentes)
+
+- [Exploitation et données](#structure)
+  - [Structure](#structure)
+  - [Configuration du trader](#configuration-du-trader)
+  - [Avatar (header) et favicon](#avatar-header-et-favicon)
+  - [Export des messages chatbot vers SQLite (DB Browser)](#export-des-messages-chatbot-vers-sqlite-db-browser)
+    - [Ouvrir les bases dans DB Browser for SQLite](#ouvrir-les-bases-dans-db-browser-for-sqlite)
+
+- [Intégrations API](#api-etoro)
+  - [API eToro](#api-etoro)
+    - [Publication de posts (feed eToro)](#publication-de-posts-feed-etoro)
+  - [Actualités Zonebourse](#actualités-zonebourse)
+    - [Source des données (URLs)](#source-des-données-urls)
+    - [Résumé avec OpenAI](#résumé-avec-openai)
+    - [Actualités par instrument (Mediastack)](#actualités-par-instrument-mediastack)
+    - [Quand ça marche](#quand-ça-marche)
+    - [Quand ça échoue (message par défaut)](#quand-ça-échoue-message-par-défaut)
+    - [Vérifier la source](#vérifier-la-source)
+
 - [Sécurité et déploiement](#sécurité-et-déploiement)
 - [Apple / iOS](#apple--ios)
-- [Prérequis](#prérequis)
-- [Dépendances principales](#dépendances-principales)
-- [Installation](#installation)
-- [Avatar (header) et favicon](#avatar-header-et-favicon)
-- [Export des messages chatbot vers SQLite (DB Browser)](#export-des-messages-chatbot-vers-sqlite-db-browser)
-  - [Ouvrir les bases dans DB Browser for SQLite](#ouvrir-les-bases-dans-db-browser-for-sqlite)
-- [Configuration](#configuration)
-  - [Frontend séparé (Next.js)](#frontend-séparé-nextjs)
-  - [Note performance (première visite)](#note-performance-première-visite)
-  - [Checklist production (rapide)](#checklist-production-rapide)
-- [Lancement](#lancement)
-  - [Gunicorn (3 façons équivalentes)](#gunicorn-3-façons-équivalentes)
-- [Structure](#structure)
-- [Configuration du trader](#configuration-du-trader)
-- [API eToro](#api-etoro)
-  - [Publication de posts (feed eToro)](#publication-de-posts-feed-etoro)
-- [Actualités Zonebourse](#actualités-zonebourse)
-  - [Source des données (URLs)](#source-des-données-urls)
-  - [Résumé avec OpenAI](#résumé-avec-openai)
-  - [Actualités par instrument (Mediastack)](#actualités-par-instrument-mediastack)
-  - [Quand ça marche](#quand-ça-marche)
-  - [Quand ça échoue (message par défaut)](#quand-ça-échoue-message-par-défaut)
-  - [Vérifier la source](#vérifier-la-source)
-- [1️⃣ À quoi sert Werkzeug](#1️⃣-à-quoi-sert-werkzeug)
-- [2️⃣ Exemple simple avec Werkzeug](#2️⃣-exemple-simple-avec-werkzeug)
-- [3️⃣ Pourquoi Flask utilise Werkzeug](#3️⃣-pourquoi-flask-utilise-werkzeug)
-- [4️⃣ Ce que contient Werkzeug](#4️⃣-ce-que-contient-werkzeug)
-- [5️⃣ Werkzeug et WSGI](#5️⃣-werkzeug-et-wsgi)
-- [6️⃣ Pourquoi utiliser Werkzeug directement](#6️⃣-pourquoi-utiliser-werkzeug-directement)
-- [✅ Résumé](#-résumé)
+
+- [Notes Werkzeug](#1️⃣-à-quoi-sert-werkzeug)
+  - [1️⃣ À quoi sert Werkzeug](#1️⃣-à-quoi-sert-werkzeug)
+  - [2️⃣ Exemple simple avec Werkzeug](#2️⃣-exemple-simple-avec-werkzeug)
+  - [3️⃣ Pourquoi Flask utilise Werkzeug](#3️⃣-pourquoi-flask-utilise-werkzeug)
+  - [4️⃣ Ce que contient Werkzeug](#4️⃣-ce-que-contient-werkzeug)
+  - [5️⃣ Werkzeug et WSGI](#5️⃣-werkzeug-et-wsgi)
+  - [6️⃣ Pourquoi utiliser Werkzeug directement](#6️⃣-pourquoi-utiliser-werkzeug-directement)
+  - [✅ Résumé](#-résumé)
 
 ## Fonctionnalités
 
@@ -201,6 +210,7 @@ Pour **PostgreSQL**, le schéma équivalent est dans `data/schema_contact_messag
 
 - **API** : `POST /api/newsletter-subscribe` avec corps JSON `{"name":"…","email":"…","newsletter_opt_in":true}` (champ anti-bot optionnel `company`, à laisser vide).
 - **Limite** : nombre d’inscriptions par IP sur une fenêtre glissante d’une heure.
+- **Stockage** : au clic sur **« S’inscrire »** (bloc *Never Miss an Opportunity*), le backend enregistre bien le **nom** et l’**email** dans SQLite (`data/contact_messages.sqlite`, table `contact_messages`).
 
 ```bash
 sqlite3 data/contact_messages.sqlite "SELECT id, first_name, last_name, email, subject, created_at FROM contact_messages ORDER BY id DESC LIMIT 20;"
