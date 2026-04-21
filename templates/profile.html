@@ -1331,8 +1331,8 @@
                 });
                 window.__postEmptyI18n = { noPost: t.noPost, noPostsInLanguage: t.noPostsInLanguage };
                 if (typeof window.resetTraderPostsList === "function") window.resetTraderPostsList();
-                const cookieBn = document.getElementById("cookieConsentBanner");
-                if (cookieBn && !cookieBn.hasAttribute("hidden") && typeof window.refreshCookieBannerLang === "function") {
+                const cookieBn = document.getElementById("cookie-banner");
+                if (cookieBn && cookieBn.classList.contains("cookie-banner--visible") && typeof window.refreshCookieBannerLang === "function") {
                     window.refreshCookieBannerLang();
                 }
                 if (typeof window.refreshNewsletterSignupLang === "function") {

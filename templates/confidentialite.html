@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include 'partials/favicon.html' %}
+    <title>Politique de confidentialité — romainroth.com</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    {% include 'partials/site_chrome_styles.html' %}
+    {% include 'partials/legal_doc_styles.html' %}
+</head>
+<body>
+    {% include 'partials/chat_widget.html' %}
+    {% include 'partials/cookie_banner.html' %}
+    <div class="container">
+        {% include 'partials/site_header.html' %}
+        <main class="legal-doc" id="legalPageRoot">
+            <h1>Politique de confidentialité</h1>
+            <p class="legal-meta">Dernière mise à jour : avril 2026</p>
+
+            <p>
+                La présente politique décrit comment le site <strong>romainroth.com</strong>, édité par <strong>Romain Roth</strong>, traite les données personnelles des visiteurs, conformément au Règlement général sur la protection des données (RGPD) et à la loi française applicable.
+            </p>
+
+            <h2>Responsable du traitement</h2>
+            <p>
+                <strong>Romain Roth</strong> — contact : <a href="mailto:contact@romainroth.com">contact@romainroth.com</a>
+            </p>
+
+            <h2>Données collectées</h2>
+            <p>Selon les fonctionnalités utilisées, peuvent être collectées notamment :</p>
+            <ul>
+                <li><strong>Données d’usage et techniques :</strong> adresse IP, logs serveur, type de navigateur, pages consultées (durée et fréquence limitées aux besoins de sécurité et de fonctionnement).</li>
+                <li><strong>Identifiant de visiteur :</strong> cookie technique permettant de limiter les abus (rate limiting) et d’assurer la cohérence des sessions.</li>
+                <li><strong>Adresse e-mail :</strong> lorsque vous vous inscrivez à la newsletter ou utilisez un formulaire de contact prévu à cet effet, si cette fonctionnalité est activée sur le Site.</li>
+                <li><strong>Messages du chatbot :</strong> si vous utilisez l’assistant conversationnel, le contenu de vos messages peut être traité pour fournir la réponse et, le cas échéant, conservé de façon limitée pour l’amélioration du service et la sécurité.</li>
+                <li><strong>Consentement cookies :</strong> enregistrement de votre choix (cookies nécessaires uniquement ou acceptation élargie) et trace associée côté serveur à des fins de preuve de conformité.</li>
+            </ul>
+
+            <h2>Finalités</h2>
+            <p>Les données sont traitées pour :</p>
+            <ul>
+                <li>assurer le <strong>fonctionnement</strong>, la <strong>sécurité</strong> et la <strong>maintenance</strong> du Site ;</li>
+                <li>répondre à vos <strong>demandes de contact</strong> ou gérer votre <strong>inscription newsletter</strong> lorsque applicable ;</li>
+                <li>fournir le <strong>service de chatbot</strong> et améliorer sa qualité de manière agrégée ou anonymisée lorsque possible ;</li>
+                <li>respecter les <strong>obligations légales</strong> et gérer les réclamations.</li>
+            </ul>
+
+            <h2>Base légale</h2>
+            <p>
+                Les traitements reposent notamment sur l’<strong>exécution de mesures précontractuelles</strong> ou contractuelles, l’<strong>intérêt légitime</strong> (sécurité du site, amélioration du service dans le respect de vos droits), et, le cas échéant, sur votre <strong>consentement</strong> (cookies non strictement nécessaires, newsletter).
+            </p>
+
+            <h2>Destinataires et sous-traitance</h2>
+            <p>
+                Les données peuvent être traitées par l’<strong>hébergeur</strong> (OVHcloud) et, selon la configuration du Site, par des prestataires techniques (API tierces, services d’IA pour le chatbot). Ces acteurs sont soumis à des obligations contractuelles de confidentialité et de sécurité.
+            </p>
+
+            <h2>Durée de conservation</h2>
+            <p>
+                Les données sont conservées pour la durée nécessaire aux finalités poursuivies : logs techniques pour une durée limitée compatible avec la sécurité, données de contact et newsletter jusqu’à retrait de votre part ou après une période d’inactivité raisonnable, messages chat selon la politique interne de conservation (durées limitées sauf obligation légale contraire).
+            </p>
+
+            <h2>Sécurité</h2>
+            <p>
+                Des mesures techniques et organisationnelles appropriées (accès restreints, connexions sécurisées lorsque applicable, hébergement professionnel) sont mises en œuvre pour protéger vos données contre l’accès non autorisé, la perte ou l’altération.
+            </p>
+
+            <h2>Vos droits</h2>
+            <p>
+                Conformément au RGPD, vous disposez des droits d’<strong>accès</strong>, de <strong>rectification</strong>, d’<strong>effacement</strong>, de <strong>limitation</strong>, d’<strong>opposition</strong> (notamment pour des motifs légitimes) et de <strong>portabilité</strong> lorsque applicable. Vous pouvez également introduire une réclamation auprès de la CNIL (<a href="https://www.cnil.fr" rel="noopener noreferrer" target="_blank">cnil.fr</a>).
+            </p>
+            <p>
+                Pour exercer vos droits : <a href="mailto:contact@romainroth.com">contact@romainroth.com</a>. Une pièce d’identité peut être demandée pour éviter toute usurpation.
+            </p>
+
+            <h2>Transferts hors UE</h2>
+            <p>
+                Si des prestataires sont situés hors de l’Espace économique européen, des garanties appropriées (clauses contractuelles types, etc.) sont mises en place lorsque requis.
+            </p>
+
+            <p>
+                Pour les cookies et traceurs, voir également la <a href="/cookies">politique de cookies</a>.
+            </p>
+        </main>
+        {% include 'partials/site_footer.html' %}
+    </div>
+    {% include 'partials/chat_widget_scripts.html' %}
+    {% include 'partials/site_layout_script.html' %}
+</body>
+</html>

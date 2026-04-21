@@ -369,6 +369,29 @@
             color: var(--muted);
         }
         .risk-warning .risk-text { font-style: italic; }
+        .site-footer-legal {
+            margin: 0;
+            padding: 0.5rem 0 0;
+            text-align: center;
+            font-size: 0.72rem;
+            line-height: 1.6;
+            color: var(--muted);
+        }
+        .site-footer-legal a {
+            color: var(--muted);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: color 0.15s ease, border-color 0.15s ease;
+        }
+        .site-footer-legal a:hover {
+            color: var(--text);
+            border-bottom-color: rgba(139, 148, 158, 0.45);
+        }
+        .site-footer-legal-sep {
+            margin: 0 0.35rem;
+            opacity: 0.55;
+            user-select: none;
+        }
         .site-footer-copy {
             margin: 0;
             padding: 0.75rem 0 0;
@@ -676,7 +699,7 @@
             color: var(--success);
             border-color: rgba(63, 185, 80, 0.45);
         }
-        /* Chatbot bas-droite — toujours au-dessus de la bannière cookies (200), quel que soit le viewport */
+        /* Chatbot bas-droite — z-index 10050 ; bannière cookies #cookie-banner au-dessus */
         .chat-toggle-wrap {
             position: fixed;
             bottom: 1.5rem;
@@ -714,8 +737,7 @@
         }
         @media (max-width: 1024px) {
             /*
-             * z-index > cookie banner (200) so the FAB is never painted under the full-width bar
-             * if --cookie-banner-height lags or is wrong on first paint.
+             * bottom inclut --cookie-banner-height pour éviter le chevauchement ; bannière cookies z-index 10500.
              */
             .chat-toggle-wrap {
                 width: 50px;
@@ -898,5 +920,42 @@
             font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
+        }
+        /* ≤1024px (chatbot à droite / FAB) : fenêtre à l’échelle 50 % ; champ + Send en deux colonnes égales */
+        @media (max-width: 1024px) {
+            .chat-panel {
+                width: min(170px, calc(100vw - 2rem));
+                max-height: 210px;
+            }
+            .chat-panel-header {
+                padding: 0.4rem 0.55rem;
+                font-size: 0.78rem;
+            }
+            .chat-messages {
+                min-height: 100px;
+                max-height: 140px;
+                padding: 0.5rem;
+                font-size: 0.75rem;
+            }
+            .chat-input-wrap {
+                padding: 0.45rem;
+                gap: 0.35rem;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                align-items: stretch;
+            }
+            .chat-input-wrap input {
+                flex: unset;
+                min-width: 0;
+                width: 100%;
+                max-width: 100%;
+                padding: 0.35rem 0.45rem;
+                font-size: 0.72rem;
+            }
+            .chat-input-wrap button {
+                padding: 0.35rem 0.5rem;
+                font-size: 0.72rem;
+                white-space: nowrap;
+            }
         }
 </style>

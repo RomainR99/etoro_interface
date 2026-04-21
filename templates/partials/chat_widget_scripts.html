@@ -265,11 +265,19 @@
                 var vh = window.innerHeight;
                 if (r.width === 0 && r.height === 0) return;
                 var bottomPx = vh - r.top + gap;
-                var panelW = Math.min(340, vw - 32);
+                var isSmallScreen = false;
+                try {
+                    isSmallScreen = window.matchMedia("(max-width: 1024px)").matches;
+                } catch (eSmall) {}
+                var maxBaseW = Math.min(340, vw - 32);
+                var panelW = isSmallScreen ? Math.max(80, Math.floor(maxBaseW / 2)) : maxBaseW;
                 var leftPx = r.left + r.width / 2 - panelW / 2;
                 var pad = 12;
                 leftPx = Math.max(pad, Math.min(leftPx, vw - panelW - pad));
-                var maxH = Math.min(420, Math.max(120, r.top - gap - pad));
+                var availH = r.top - gap - pad;
+                var maxH = isSmallScreen
+                    ? Math.min(210, Math.max(60, availH))
+                    : Math.min(420, Math.max(120, availH));
                 panel.style.setProperty("bottom", bottomPx + "px", "important");
                 panel.style.setProperty("left", leftPx + "px", "important");
                 panel.style.setProperty("right", "auto", "important");
@@ -407,7 +415,7 @@
         })();
     </script>
     <script>
-        /* Indépendant du script principal : si une erreur JS casse le bloc ci-dessus, le FAB reste cliquable et au-dessus de la bannière cookies (z-index 200). */
+        /* Indépendant du script principal : si une erreur JS casse le bloc ci-dessus, le FAB reste cliquable. Bannière cookies z-index 10500. */
         (function () {
             function ensureChatFabOnTop() {
                 try {

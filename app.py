@@ -22,7 +22,7 @@ from datetime import datetime, timezone
 from concurrent.futures import ThreadPoolExecutor, wait
 
 import requests
-from flask import Flask, Response, g, make_response, jsonify, redirect, render_template, request, send_from_directory, url_for
+from flask import Flask, Response, g, make_response, jsonify, redirect, render_template, request, send_from_directory, session, url_for
 from etoro_client import (
     get_user_profile,
     get_user_gain,
@@ -50,12 +50,42 @@ except ImportError:
     redis = None
 
 app = Flask(__name__)
+app.config["SECRET_KEY"] = (os.getenv("FLASK_SECRET_KEY") or os.getenv("SECRET_KEY") or "dev-secret-change-me")
+app.config["SESSION_COOKIE_NAME"] = "etoro_session"
+app.config["SESSION_COOKIE_HTTPONLY"] = True
+app.config["SESSION_COOKIE_SECURE"] = (os.getenv("SESSION_COOKIE_SECURE") or "0").strip().lower() in ("1", "true", "yes", "on")
+app.config["SESSION_COOKIE_SAMESITE"] = (os.getenv("SESSION_COOKIE_SAMESITE") or "Lax").strip() or "Lax"
 
 
 @app.context_processor
 def inject_recaptcha_site_key():
     """reCAPTCHA v2 « case à cocher » uniquement (voir README si Google affiche « Type de clé non valide »)."""
     return {"recaptcha_site_key": (os.getenv("RECAPTCHA_SITE_KEY") or "").strip()}
+
+
+def _request_has_cookie_consent() -> bool:
+    """True si la requête HTTP porte déjà un choix de consentement cookies (v2 ou ancien nom)."""
+    v = (request.cookies.get("cookieConsent_v2") or "").strip()
+    if v in ("accepted", "necessary"):
+        return True
+    leg = (request.cookies.get("cookieConsent") or "").strip()
+    return leg in ("accepted", "necessary")
+
+
+@app.context_processor
+def inject_cookie_banner_state():
+    """
+    État initial affiché par le HTML de la bannière cookies (sans attendre le JS).
+    Sur mobile, le JS seul peut ne pas suffire ; le serveur voit les cookies de la requête.
+    """
+    try:
+        from flask import has_request_context
+
+        if not has_request_context():
+            return {"show_cookie_banner": True}
+        return {"show_cookie_banner": not _request_has_cookie_consent()}
+    except Exception:
+        return {"show_cookie_banner": True}
 
 
 @app.template_filter("username_display")
@@ -100,6 +130,13 @@ _redis_client = None
 _redis_init_done = False
 _startup_warmup_started = False
 _startup_warmup_lock = threading.Lock()
+API_AUTH_PASSWORD = (os.getenv("API_AUTH_PASSWORD") or "").strip()
+ENFORCE_MUTATION_AUTH = (os.getenv("ENFORCE_MUTATION_AUTH") or "1").strip().lower() in ("1", "true", "yes", "on")
+ALLOWED_FRONTEND_ORIGINS = {
+    o.strip().rstrip("/")
+    for o in (os.getenv("FRONTEND_ORIGINS") or "http://localhost:3000").split(",")
+    if o.strip()
+}
 
 # Rate limit par visitor_id : 5/min, 30/h, 100/j
 CHAT_RATE_LIMIT = {"per_min": 5, "per_hour": 30, "per_day": 100}
@@ -209,6 +246,48 @@ def _cached_call(key: str, ttl_seconds: float, fn, fallback):
     _cache_set(key, value, ttl_seconds)
     _cache_set_redis(key, value, ttl_seconds)
     return value
+
+
+def _is_allowed_frontend_origin(origin: str | None) -> bool:
+    if not origin:
+        return False
+    return origin.rstrip("/") in ALLOWED_FRONTEND_ORIGINS
+
+
+def _is_api_request_path(path: str) -> bool:
+    return path.startswith("/api/") or path.startswith("/internal/")
+
+
+@app.after_request
+def _apply_cors_headers(response: Response):
+    """Ajoute les en-têtes CORS uniquement pour les origines front autorisées."""
+    origin = request.headers.get("Origin")
+    if _is_api_request_path(request.path) and _is_allowed_frontend_origin(origin):
+        response.headers["Access-Control-Allow-Origin"] = origin.rstrip("/")
+        response.headers["Vary"] = "Origin"
+        response.headers["Access-Control-Allow-Credentials"] = "true"
+        response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Warmup-Token"
+        response.headers["Access-Control-Allow-Methods"] = "GET,POST,PUT,PATCH,DELETE,OPTIONS"
+    return response
+
+
+@app.before_request
+def _handle_cors_preflight():
+    if request.method == "OPTIONS" and _is_api_request_path(request.path):
+        return ("", 204)
+    return None
+
+
+def _is_authenticated() -> bool:
+    return bool(session.get("api_auth") is True)
+
+
+def _require_mutation_auth_if_enabled():
+    if not ENFORCE_MUTATION_AUTH:
+        return None
+    if _is_authenticated():
+        return None
+    return jsonify({"ok": False, "error": "unauthorized"}), 401
 
 
 def _detect_abnormal_behavior(messages: list, current_message: str) -> str | None:
@@ -1104,9 +1183,8 @@ def _start_background_warmup_once() -> None:
     t.start()
 
 
-@app.route("/")
-def index():
-    _start_background_warmup_once()
+def _build_home_payload() -> dict:
+    """Construit le payload JSON de la home (consommable par un frontend séparé)."""
     results = {
         "profile": None,
         "gain": None,
@@ -1172,13 +1250,7 @@ def index():
     finally:
         executor.shutdown(wait=False, cancel_futures=True)
 
-    profile = results["profile"]
     gain = results["gain"]
-    portfolio = results["portfolio"]
-    portfolio_instruments = results["portfolio_instruments"]
-    most_copied = results["most_copied"]
-    current_copiers = results["current_copiers"]
-
     chart_labels, chart_datasets = _cached_call(
         "index_chart_data",
         300.0,
@@ -1205,27 +1277,83 @@ def index():
         ([], [], []),
     )
     dca_total_invested = _dca_init + len(dca_labels) * _dca_mo if dca_labels else None
-    trader_posts: list[dict] = []
 
+    return {
+        "username": TRADER_USERNAME,
+        "profile": results["profile"],
+        "gain": gain,
+        "portfolio": results["portfolio"],
+        "portfolio_instruments": results["portfolio_instruments"],
+        "most_copied_traders": results["most_copied"],
+        "current_copiers": results["current_copiers"],
+        "chart_labels": chart_labels,
+        "chart_datasets": chart_datasets,
+        "performance_yearly": performance_yearly,
+        "performance_total": performance_total,
+        "perf_since_sep2022": perf_since_sep2022,
+        "dca_labels": dca_labels,
+        "dca_romainroth": dca_romainroth,
+        "dca_sp500": dca_sp500,
+        "dca_total_invested": dca_total_invested,
+        "trader_posts": [],
+    }
+
+
+@app.route("/api/v1/home")
+def api_v1_home():
+    _start_background_warmup_once()
+    payload = _build_home_payload()
+    return jsonify(payload)
+
+
+@app.route("/api/v1/auth/login", methods=["POST"])
+def api_v1_auth_login():
+    data = request.get_json(silent=True) or {}
+    password = (data.get("password") or "").strip()
+    if not API_AUTH_PASSWORD:
+        return jsonify({"ok": False, "error": "auth_not_configured"}), 503
+    if password != API_AUTH_PASSWORD:
+        return jsonify({"ok": False, "error": "invalid_credentials"}), 401
+    session["api_auth"] = True
+    session["api_auth_at"] = int(time.time())
+    return jsonify({"ok": True})
+
+
+@app.route("/api/v1/auth/logout", methods=["POST"])
+def api_v1_auth_logout():
+    session.pop("api_auth", None)
+    session.pop("api_auth_at", None)
+    return jsonify({"ok": True})
+
+
+@app.route("/api/v1/auth/me")
+def api_v1_auth_me():
+    return jsonify({"authenticated": _is_authenticated()})
+
+
+@app.route("/")
+def index():
+    _start_background_warmup_once()
+    payload = _build_home_payload()
     resp = make_response(render_template(
         "profile.html",
-        profile=profile,
-        gain=gain,
-        portfolio=portfolio,
-        portfolio_instruments=portfolio_instruments,
-        username=TRADER_USERNAME,
-        chart_labels=chart_labels,
-        chart_datasets=chart_datasets,
-        performance_yearly=performance_yearly,
-        performance_total=performance_total,
-        perf_since_sep2022=perf_since_sep2022,
-        most_copied_traders=most_copied,
-        dca_labels=dca_labels,
-        dca_romainroth=dca_romainroth,
-        dca_sp500=dca_sp500,
-        dca_total_invested=dca_total_invested,
-        trader_posts=trader_posts,
-        current_copiers=current_copiers,
+        profile=payload["profile"],
+        gain=payload["gain"],
+        portfolio=payload["portfolio"],
+        portfolio_instruments=payload["portfolio_instruments"],
+        username=payload["username"],
+        chart_labels=payload["chart_labels"],
+        chart_datasets=payload["chart_datasets"],
+        performance_yearly=payload["performance_yearly"],
+        performance_total=payload["performance_total"],
+        perf_since_sep2022=payload["perf_since_sep2022"],
+        most_copied_traders=payload["most_copied_traders"],
+        dca_labels=payload["dca_labels"],
+        dca_romainroth=payload["dca_romainroth"],
+        dca_sp500=payload["dca_sp500"],
+        dca_total_invested=payload["dca_total_invested"],
+        trader_posts=payload["trader_posts"],
+        current_copiers=payload["current_copiers"],
     ))
     _get_or_set_visitor_id(resp)
     return resp
@@ -1234,7 +1362,7 @@ def index():
 @app.route("/internal/warmup", methods=["POST", "GET"])
 def internal_warmup():
     """Préchauffe les caches pour éviter les premiers chargements lents après déploiement."""
-    if WARMUP_TOKEN:
+    if WARMUP_TOKEN and not _is_authenticated():
         provided = (
             request.headers.get("X-Warmup-Token")
             or request.args.get("token")
@@ -1499,6 +1627,45 @@ def page_about():
     return resp
 
 
+@app.route("/mentions-legales")
+def mentions_legales():
+    """Mentions légales (éditeur, hébergeur, responsabilité)."""
+    resp = make_response(
+        render_template(
+            "mentions_legales.html",
+            **_site_layout_context(),
+        )
+    )
+    _get_or_set_visitor_id(resp)
+    return resp
+
+
+@app.route("/confidentialite")
+def confidentialite():
+    """Politique de confidentialité (données personnelles, RGPD)."""
+    resp = make_response(
+        render_template(
+            "confidentialite.html",
+            **_site_layout_context(),
+        )
+    )
+    _get_or_set_visitor_id(resp)
+    return resp
+
+
+@app.route("/cookies")
+def cookies():
+    """Politique de cookies."""
+    resp = make_response(
+        render_template(
+            "cookies.html",
+            **_site_layout_context(),
+        )
+    )
+    _get_or_set_visitor_id(resp)
+    return resp
+
+
 @app.route("/reading")
 def page_reading():
     """Livres recommandés (finance & investissement)."""
@@ -1707,6 +1874,9 @@ def api_post_to_etoro():
     Body JSON: { "title": "...", "summary": "...", "image_url": "..." (optionnel) }
     L'image_url peut être relative (/api/zonebourse-image/...) ; elle est convertie en URL absolue.
     """
+    auth_error = _require_mutation_auth_if_enabled()
+    if auth_error is not None:
+        return auth_error
     data = request.get_json(silent=True) or {}
     title = (data.get("title") or "").strip()
     summary = (data.get("summary") or "").strip()
@@ -1899,6 +2069,9 @@ def api_mediastack_saved_get():
 @app.route("/api/mediastack-saved", methods=["POST"])
 def api_mediastack_saved_post():
     """Ajoute des actualités aux mémorisées (fichier data/news_mediastack.json)."""
+    auth_error = _require_mutation_auth_if_enabled()
+    if auth_error is not None:
+        return auth_error
     try:
         payload = request.get_json(silent=True) or {}
         to_add = payload.get("news", [])
@@ -1934,6 +2107,9 @@ def api_mediastack_saved_post():
 @app.route("/api/mediastack-saved", methods=["DELETE"])
 def api_mediastack_saved_delete():
     """Efface les actualités Mediastack mémorisées (vide le fichier data/news_mediastack.json)."""
+    auth_error = _require_mutation_auth_if_enabled()
+    if auth_error is not None:
+        return auth_error
     try:
         if os.path.exists(NEWS_MEDIASTACK_PATH):
             os.remove(NEWS_MEDIASTACK_PATH)

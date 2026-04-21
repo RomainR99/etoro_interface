@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include 'partials/favicon.html' %}
+    <title>Politique de cookies — romainroth.com</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    {% include 'partials/site_chrome_styles.html' %}
+    {% include 'partials/legal_doc_styles.html' %}
+</head>
+<body>
+    {% include 'partials/chat_widget.html' %}
+    {% include 'partials/cookie_banner.html' %}
+    <div class="container">
+        {% include 'partials/site_header.html' %}
+        <main class="legal-doc legal-doc-cookies" id="legalPageRoot">
+            <h1>Politique de cookies</h1>
+            <p class="legal-meta">Dernière mise à jour : avril 2026</p>
+
+            <p>
+                Cette page explique comment le site <strong>romainroth.com</strong> utilise des cookies et traceurs, et comment vous pouvez exprimer vos choix.
+            </p>
+
+            <h2>Qu’est-ce qu’un cookie ?</h2>
+            <p>
+                Un cookie est un petit fichier déposé sur votre terminal (ordinateur, tablette, smartphone) lors de la visite d’un site. Il permet notamment de mémoriser des préférences, d’assurer des fonctions de sécurité ou de mesurer l’audience, selon sa nature et sa durée de vie.
+            </p>
+
+            <h2>Cookies strictement nécessaires</h2>
+            <p>
+                Ces cookies sont indispensables au fonctionnement du Site. Ils incluent notamment :
+            </p>
+            <ul>
+                <li>le cookie de <strong>session Flask</strong> (maintien de la session utilisateur côté serveur, associé à un identifiant de session) ;</li>
+                <li>des cookies ou mécanismes techniques permettant la <strong>sécurité</strong> (limitation de débit, protection contre les abus) ;</li>
+                <li>le cookie de <strong>consentement</strong> (<code>cookieConsent_v2</code>) mémorisant votre choix sur la bannière (durée limitée, typiquement jusqu’à un an).</li>
+            </ul>
+            <p>
+                Ils ne nécessitent pas de consentement préalable au sens de la réglementation applicable, car ils sont strictement nécessaires à la fourniture du service sollicité.
+            </p>
+
+            <h2>Autres cookies et expérience utilisateur</h2>
+            <p>
+                Certains cookies ou technologies similaires peuvent être utilisés pour <strong>améliorer l’expérience</strong> (par exemple mémorisation de préférences d’affichage) ou pour des fonctionnalités optionnelles. Le cas échéant, ils ne sont déposés qu’avec votre <strong>consentement</strong>, via la bannière proposée lors de votre première visite ou après suppression de vos choix.
+            </p>
+
+            <h2>Pas de publicité comportementale imposée</h2>
+            <p>
+                Le Site ne dépose <strong>pas</strong> de cookies de <strong>suivi publicitaire</strong> ou de mesure d’audience tiers sans votre accord. Aucun traceur de ce type n’est activé « en silence » : en l’absence de consentement pour les catégories concernées, seuls les mécanismes strictement nécessaires restent utilisés.
+            </p>
+
+            <h2>Gérer vos préférences</h2>
+            <p>
+                Vous pouvez à tout moment :
+            </p>
+            <ul>
+                <li>modifier ou retirer votre consentement en <strong>effaçant les cookies</strong> du site dans les paramètres de votre navigateur — la bannière de consentement pourra réapparaître ;</li>
+                <li>configurer votre navigateur pour refuser certains cookies (attention : le refus des cookies nécessaires peut dégrader le fonctionnement du Site).</li>
+            </ul>
+            <p>
+                Pour plus d’informations sur les données personnelles : <a href="/confidentialite">politique de confidentialité</a>.
+            </p>
+
+            <h2>Contact</h2>
+            <p>
+                Pour toute question relative aux cookies ou à vos données : <a href="mailto:contact@romainroth.com">contact@romainroth.com</a>
+            </p>
+
+            <h2>Modifier vos préférences</h2>
+            <p>
+                Vous pouvez également modifier vos préférences à tout moment en cliquant sur le bouton ci-dessous :
+            </p>
+            <p>
+                <button type="button" class="legal-cookie-settings-btn" onclick="openCookieSettings()">
+                    Gérer mes cookies
+                </button>
+            </p>
+            <div class="legal-cookie-mobile-actions" id="legalCookieMobileActions" aria-label="Raccourcis préférences cookies">
+                <div class="legal-cookie-mobile-quick-row">
+                    <button type="button" class="legal-cookie-quick-btn legal-cookie-quick-btn-secondary" id="legalCookieMobileRefuse">Refuser</button>
+                    <button type="button" class="legal-cookie-quick-btn legal-cookie-quick-btn-primary" id="legalCookieMobileAccept">Accepter</button>
+                </div>
+                <button type="button" class="legal-cookie-quick-btn legal-cookie-quick-btn-save" id="legalCookieMobileSave">Enregistrer mes choix</button>
+            </div>
+        </main>
+        {% include 'partials/site_footer.html' %}
+    </div>
+    {% include 'partials/chat_widget_scripts.html' %}
+    {% include 'partials/site_layout_script.html' %}
+    <script>
+        function openCookieSettings() {
+            if (typeof window.clearCookieConsentAndShowBanner === "function") {
+                window.clearCookieConsentAndShowBanner();
+                return;
+            }
+            try {
+                sessionStorage.setItem("force_cookie_banner", "1");
+            } catch (e) {}
+            try {
+                var u = new URL(window.location.href);
+                u.searchParams.set("cb", "1");
+                window.location.assign(u.toString());
+            } catch (e2) {
+                window.location.reload();
+            }
+        }
+        (function () {
+            var LEGAL_MOBILE = {
+                fr: { refuse: "Refuser", accept: "Accepter", save: "Enregistrer mes choix" },
+                en: { refuse: "Refuse", accept: "Accept", save: "Save my choices" }
+            };
+            function legLang() {
+                try {
+                    return localStorage.getItem("page_lang") === "en" ? "en" : "fr";
+                } catch (e) {
+                    return "fr";
+                }
+            }
+            function applyLegalMobileTexts() {
+                var t = LEGAL_MOBILE[legLang()] || LEGAL_MOBILE.fr;
+                var r = document.getElementById("legalCookieMobileRefuse");
+                var a = document.getElementById("legalCookieMobileAccept");
+                var s = document.getElementById("legalCookieMobileSave");
+                if (r) r.textContent = t.refuse;
+                if (a) a.textContent = t.accept;
+                if (s) s.textContent = t.save;
+            }
+            function bindLegalCookieMobile() {
+                applyLegalMobileTexts();
+                var refuse = document.getElementById("legalCookieMobileRefuse");
+                var accept = document.getElementById("legalCookieMobileAccept");
+                var save = document.getElementById("legalCookieMobileSave");
+                if (refuse) {
+                    refuse.addEventListener("click", function () {
+                        if (typeof window.setAllCookies === "function") {
+                            window.setAllCookies(false);
+                        }
+                    });
+                }
+                if (accept) {
+                    accept.addEventListener("click", function () {
+                        if (typeof window.setAllCookies === "function") {
+                            window.setAllCookies(true);
+                        }
+                    });
+                }
+                if (save) {
+                    save.addEventListener("click", function () {
+                        if (typeof window.syncCookiePrefTogglesFromCookie === "function") {
+                            window.syncCookiePrefTogglesFromCookie();
+                        }
+                        if (typeof window.saveCookiePreferences === "function") {
+                            window.saveCookiePreferences();
+                        }
+                    });
+                }
+            }
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", bindLegalCookieMobile);
+            } else {
+                bindLegalCookieMobile();
+            }
+            window.refreshLegalCookieMobileLang = applyLegalMobileTexts;
+        })();
+    </script>
+</body>
+</html>

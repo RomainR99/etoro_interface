@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include 'partials/favicon.html' %}
+    <title>Mentions légales — romainroth.com</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    {% include 'partials/site_chrome_styles.html' %}
+    {% include 'partials/legal_doc_styles.html' %}
+</head>
+<body>
+    {% include 'partials/chat_widget.html' %}
+    {% include 'partials/cookie_banner.html' %}
+    <div class="container">
+        {% include 'partials/site_header.html' %}
+        <main class="legal-doc" id="legalPageRoot">
+            <h1>Mentions légales</h1>
+            <p class="legal-meta">Dernière mise à jour : avril 2026</p>
+
+            <h2>Éditeur du site</h2>
+            <p>
+                Le site <strong>romainroth.com</strong> (ci-après « le Site ») est édité par <strong>Romain Roth</strong>, en qualité de responsable de publication.
+            </p>
+            <p>
+                <strong>Contact :</strong> <a href="mailto:contact@romainroth.com">contact@romainroth.com</a>
+            </p>
+
+            <h2>Hébergement</h2>
+            <p>
+                Le Site est hébergé par <strong>OVHcloud</strong> (société OVH Groupe SAS), dont le siège social est situé au 2 rue Kellermann, 59100 Roubaix, France.<br>
+                Site web : <a href="https://www.ovhcloud.com/fr/" rel="noopener noreferrer" target="_blank">ovhcloud.com</a>
+            </p>
+
+            <h2>Propriété intellectuelle</h2>
+            <p>
+                Les contenus présents sur le Site (textes, graphiques, logos, éléments graphiques, structure) sont protégés par le droit de la propriété intellectuelle, sauf mention contraire ou droits de tiers. Toute reproduction ou représentation non autorisée est interdite.
+            </p>
+
+            <h2>Responsabilité</h2>
+            <p>
+                Les informations publiées sur le Site le sont à titre <strong>informatif et éducatif</strong>. Elles ne constituent pas un conseil en investissement financier, une offre ou une sollicitation d’achat ou de vente d’instruments financiers.
+            </p>
+            <p>
+                Romain Roth s’efforce d’assurer l’exactitude et la mise à jour des informations mais ne peut garantir l’exhaustivité ni l’absence d’erreurs. L’utilisation des informations se fait sous la seule responsabilité du visiteur.
+            </p>
+            <p>
+                Le Site peut contenir des liens vers des sites tiers ; l’éditeur n’exerce aucun contrôle sur ces sites et décline toute responsabilité quant à leur contenu ou leur accessibilité.
+            </p>
+
+            <h2>Données personnelles et cookies</h2>
+            <p>
+                Pour le traitement des données personnelles et l’usage des cookies, veuillez consulter la
+                <a href="/confidentialite">politique de confidentialité</a> et la
+                <a href="/cookies">politique de cookies</a>.
+            </p>
+        </main>
+        {% include 'partials/site_footer.html' %}
+    </div>
+    {% include 'partials/chat_widget_scripts.html' %}
+    {% include 'partials/site_layout_script.html' %}
+</body>
+</html>

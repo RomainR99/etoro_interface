@@ -272,6 +272,12 @@ REDIS_URL=redis://...         # Optionnel (recommandé en production) : cache pa
 WARMUP_TOKEN=...              # Optionnel : protège /internal/warmup
 AUTO_WARMUP_ON_START=1        # Optionnel : warmup auto au 1er hit (/ ou /health), 1 par défaut
 STARTUP_WARMUP_MAX_SECONDS=10 # Optionnel : budget max du warmup auto (en secondes)
+FRONTEND_ORIGINS=http://localhost:3000  # Origines autorisées en CORS (séparées par virgule)
+API_AUTH_PASSWORD=...         # Mot de passe de session pour endpoints de mutation
+ENFORCE_MUTATION_AUTH=1       # 1 = protège les routes POST/DELETE sensibles
+FLASK_SECRET_KEY=...          # Secret de session Flask (obligatoire en production)
+SESSION_COOKIE_SECURE=1       # 1 en HTTPS (production)
+SESSION_COOKIE_SAMESITE=Lax   # Lax ou Strict selon ton flux
 ```
 
 - Les clés eToro se génèrent dans **Paramètres > Trading > Gestion des clés API** sur eToro.
@@ -279,6 +285,23 @@ STARTUP_WARMUP_MAX_SECONDS=10 # Optionnel : budget max du warmup auto (en second
 - **RECAPTCHA_*** : optionnel. Si absent, le CAPTCHA est désactivé.
 - **MEDIASTACK_ACCESS_KEY** : actualités par instrument. Si absent, la section affiche « Aucune actualité chargée ».
 - **REDIS_URL** : recommandé en production pour partager le cache entre workers/containers et réduire les "cold starts".
+- **FRONTEND_ORIGINS** : whitelist CORS stricte pour le frontend séparé.
+- **API_AUTH_PASSWORD** : authentification de session pour les actions sensibles (mutations API).
+
+### Frontend séparé (Next.js)
+
+Une base frontend séparée est disponible dans `frontend/` et consomme l'API Flask via `api/v1`.
+
+```bash
+cd frontend
+npm install
+cp .env.example .env.local
+npm run dev
+```
+
+Variables frontend :
+
+- `NEXT_PUBLIC_API_BASE_URL` (ex: `http://127.0.0.1:5001`)
 
 ### Note performance (première visite)
 
@@ -317,12 +340,37 @@ python app.py
 
 Ouvrir [http://127.0.0.1:5001](http://127.0.0.1:5001) dans le navigateur.
 
+### Gunicorn (3 façons équivalentes)
+
+En production ou pour tester avec plusieurs workers, préférer **l’exécutable du venv** : si tu lances seulement la commande `gunicorn`, macOS peut prendre le binaire du **Python système** (sans Flask dans le venv) et provoquer `ModuleNotFoundError: No module named 'flask'`.
+
+1. **Chemin explicite vers le binaire du venv** (recommandé) :
+
+```bash
+./venv/bin/gunicorn -w 4 -b 0.0.0.0:8000 app:app
+```
+
+2. **Module Python du venv** :
+
+```bash
+./venv/bin/python -m gunicorn -w 4 -b 0.0.0.0:8000 app:app
+```
+
+3. **Script** `run-gunicorn.sh` (même chose que l’option 1, depuis la racine du projet) :
+
+```bash
+./run-gunicorn.sh
+```
+
+Puis ouvrir [http://127.0.0.1:8000](http://127.0.0.1:8000) (port différent du serveur de dev).
+
 ## Structure
 
 ```
 etoro_interface/
 ├── app.py              # Application Flask
 ├── etoro_client.py     # Client API eToro
+├── run-gunicorn.sh     # Gunicorn via venv (voir section Lancement)
 ├── requirements.txt
 ├── templates/
 │   └── profile.html    # Interface
