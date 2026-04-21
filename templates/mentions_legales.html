@@ -10,51 +10,95 @@
     {% include 'partials/site_chrome_styles.html' %}
     {% include 'partials/legal_doc_styles.html' %}
 </head>
-<body>
+<body data-page="mentions-legales">
     {% include 'partials/chat_widget.html' %}
     {% include 'partials/cookie_banner.html' %}
     <div class="container">
         {% include 'partials/site_header.html' %}
         <main class="legal-doc" id="legalPageRoot">
-            <h1>Mentions légales</h1>
-            <p class="legal-meta">Dernière mise à jour : avril 2026</p>
+            <div id="legalMentionsFr">
+                <h1>Mentions légales</h1>
+                <p class="legal-meta">Dernière mise à jour : avril 2026</p>
 
-            <h2>Éditeur du site</h2>
-            <p>
-                Le site <strong>romainroth.com</strong> (ci-après « le Site ») est édité par <strong>Romain Roth</strong>, en qualité de responsable de publication.
-            </p>
-            <p>
-                <strong>Contact :</strong> <a href="mailto:contact@romainroth.com">contact@romainroth.com</a>
-            </p>
+                <h2>Éditeur du site</h2>
+                <p>
+                    Le site <strong>romainroth.com</strong> (ci-après « le Site ») est édité par <strong>Romain Roth</strong>, en qualité de responsable de publication.
+                </p>
+                <p>
+                    <strong>Contact :</strong> <a href="mailto:contact@romainroth.com">contact@romainroth.com</a>
+                </p>
 
-            <h2>Hébergement</h2>
-            <p>
-                Le Site est hébergé par <strong>OVHcloud</strong> (société OVH Groupe SAS), dont le siège social est situé au 2 rue Kellermann, 59100 Roubaix, France.<br>
-                Site web : <a href="https://www.ovhcloud.com/fr/" rel="noopener noreferrer" target="_blank">ovhcloud.com</a>
-            </p>
+                <h2>Hébergement</h2>
+                <p>
+                    Le Site est hébergé par <strong>OVHcloud</strong> (société OVH Groupe SAS), dont le siège social est situé au 2 rue Kellermann, 59100 Roubaix, France.<br>
+                    Site web : <a href="https://www.ovhcloud.com/fr/" rel="noopener noreferrer" target="_blank">ovhcloud.com</a>
+                </p>
 
-            <h2>Propriété intellectuelle</h2>
-            <p>
-                Les contenus présents sur le Site (textes, graphiques, logos, éléments graphiques, structure) sont protégés par le droit de la propriété intellectuelle, sauf mention contraire ou droits de tiers. Toute reproduction ou représentation non autorisée est interdite.
-            </p>
+                <h2>Propriété intellectuelle</h2>
+                <p>
+                    Les contenus présents sur le Site (textes, graphiques, logos, éléments graphiques, structure) sont protégés par le droit de la propriété intellectuelle, sauf mention contraire ou droits de tiers. Toute reproduction ou représentation non autorisée est interdite.
+                </p>
 
-            <h2>Responsabilité</h2>
-            <p>
-                Les informations publiées sur le Site le sont à titre <strong>informatif et éducatif</strong>. Elles ne constituent pas un conseil en investissement financier, une offre ou une sollicitation d’achat ou de vente d’instruments financiers.
-            </p>
-            <p>
-                Romain Roth s’efforce d’assurer l’exactitude et la mise à jour des informations mais ne peut garantir l’exhaustivité ni l’absence d’erreurs. L’utilisation des informations se fait sous la seule responsabilité du visiteur.
-            </p>
-            <p>
-                Le Site peut contenir des liens vers des sites tiers ; l’éditeur n’exerce aucun contrôle sur ces sites et décline toute responsabilité quant à leur contenu ou leur accessibilité.
-            </p>
+                <h2>Responsabilité</h2>
+                <p>
+                    Les informations publiées sur le Site le sont à titre <strong>informatif et éducatif</strong>. Elles ne constituent pas un conseil en investissement financier, une offre ou une sollicitation d’achat ou de vente d’instruments financiers.
+                </p>
+                <p>
+                    Romain Roth s’efforce d’assurer l’exactitude et la mise à jour des informations mais ne peut garantir l’exhaustivité ni l’absence d’erreurs. L’utilisation des informations se fait sous la seule responsabilité du visiteur.
+                </p>
+                <p>
+                    Le Site peut contenir des liens vers des sites tiers ; l’éditeur n’exerce aucun contrôle sur ces sites et décline toute responsabilité quant à leur contenu ou leur accessibilité.
+                </p>
 
-            <h2>Données personnelles et cookies</h2>
-            <p>
-                Pour le traitement des données personnelles et l’usage des cookies, veuillez consulter la
-                <a href="/confidentialite">politique de confidentialité</a> et la
-                <a href="/cookies">politique de cookies</a>.
-            </p>
+                <h2>Données personnelles et cookies</h2>
+                <p>
+                    Pour le traitement des données personnelles et l’usage des cookies, veuillez consulter la
+                    <a href="/confidentialite">politique de confidentialité</a> et la
+                    <a href="/cookies">politique de cookies</a>.
+                </p>
+            </div>
+
+            <div id="legalMentionsEn" style="display: none;">
+                <h1>Legal notice</h1>
+                <p class="legal-meta">Last updated: April 2026</p>
+
+                <h2>Publisher</h2>
+                <p>
+                    The website <strong>romainroth.com</strong> (hereinafter “the Site”) is published by <strong>Romain Roth</strong>, as publication director.
+                </p>
+                <p>
+                    <strong>Contact:</strong> <a href="mailto:contact@romainroth.com">contact@romainroth.com</a>
+                </p>
+
+                <h2>Hosting</h2>
+                <p>
+                    The Site is hosted by <strong>OVHcloud</strong> (OVH Groupe SAS), whose registered office is at 2 rue Kellermann, 59100 Roubaix, France.<br>
+                    Website: <a href="https://www.ovhcloud.com/en/" rel="noopener noreferrer" target="_blank">ovhcloud.com</a>
+                </p>
+
+                <h2>Intellectual property</h2>
+                <p>
+                    Content on the Site (texts, graphics, logos, graphic elements, structure) is protected by intellectual property law, except where stated otherwise or where third-party rights apply. Any unauthorised reproduction or representation is prohibited.
+                </p>
+
+                <h2>Liability</h2>
+                <p>
+                    Information published on the Site is provided for <strong>informational and educational purposes only</strong>. It does not constitute financial investment advice, an offer, or a solicitation to buy or sell financial instruments.
+                </p>
+                <p>
+                    Romain Roth endeavours to keep information accurate and up to date but cannot guarantee completeness or freedom from error. Use of the information is at the visitor’s sole responsibility.
+                </p>
+                <p>
+                    The Site may contain links to third-party sites; the publisher exercises no control over these sites and disclaims all liability for their content or availability.
+                </p>
+
+                <h2>Personal data and cookies</h2>
+                <p>
+                    For personal data processing and cookies, please see the
+                    <a href="/confidentialite">privacy policy</a> and the
+                    <a href="/cookies">cookie policy</a>.
+                </p>
+            </div>
         </main>
         {% include 'partials/site_footer.html' %}
     </div>

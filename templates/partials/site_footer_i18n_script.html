@@ -1,0 +1,29 @@
+    <script>
+        (function () {
+            window.applySiteFooterLegalLang = function (lang) {
+                var T = {
+                    fr: {
+                        legal: "Mentions légales",
+                        privacy: "Politique de confidentialité",
+                        cookies: "Politique de cookies",
+                        navAria: "Informations légales",
+                    },
+                    en: {
+                        legal: "Legal notice",
+                        privacy: "Privacy policy",
+                        cookies: "Cookie policy",
+                        navAria: "Legal information",
+                    },
+                };
+                var t = T[lang] || T.en;
+                var nav = document.getElementById("siteFooterLegalNav");
+                if (nav) nav.setAttribute("aria-label", t.navAria);
+                var a = document.getElementById("footerLinkLegal");
+                var b = document.getElementById("footerLinkPrivacy");
+                var c = document.getElementById("footerLinkCookies");
+                if (a) a.textContent = t.legal;
+                if (b) b.textContent = t.privacy;
+                if (c) c.textContent = t.cookies;
+            };
+        })();
+    </script>

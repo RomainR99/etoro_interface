@@ -1338,6 +1338,9 @@
                 if (typeof window.refreshNewsletterSignupLang === "function") {
                     window.refreshNewsletterSignupLang(lang);
                 }
+                if (typeof window.applySiteFooterLegalLang === "function") {
+                    window.applySiteFooterLegalLang(lang);
+                }
             }
 
             const savedLang = localStorage.getItem("page_lang") || "en";

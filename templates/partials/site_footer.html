@@ -12,12 +12,13 @@
                 <span id="riskTitleEn">⚠️ Risk Warning:</span><br>
                 <span class="risk-text" id="riskTextEn">The information published on this website is provided for informational and educational purposes only and does not constitute investment advice. Each reader remains solely responsible for their financial decisions. Past performance does not guarantee future results.</span>
             </p>
-            <nav class="site-footer-legal" aria-label="Informations légales">
-                <a href="/mentions-legales">Mentions légales</a>
+            <nav id="siteFooterLegalNav" class="site-footer-legal" aria-label="Informations légales">
+                <a id="footerLinkLegal" href="/mentions-legales">Mentions légales</a>
                 <span class="site-footer-legal-sep" aria-hidden="true">·</span>
-                <a href="/confidentialite">Politique de confidentialité</a>
+                <a id="footerLinkPrivacy" href="/confidentialite">Politique de confidentialité</a>
                 <span class="site-footer-legal-sep" aria-hidden="true">·</span>
-                <a href="/cookies">Politique de cookies</a>
+                <a id="footerLinkCookies" href="/cookies">Politique de cookies</a>
             </nav>
             <p class="site-footer-copy">© Romain Roth 2026</p>
         </footer>
+        {% include 'partials/site_footer_i18n_script.html' %}

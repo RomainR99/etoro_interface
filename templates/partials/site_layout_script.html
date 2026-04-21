@@ -63,6 +63,44 @@
                 if (typeof window.refreshCopyOnEtoroPageLang === "function") {
                     window.refreshCopyOnEtoroPageLang(lang);
                 }
+                if (typeof window.applySiteFooterLegalLang === "function") {
+                    window.applySiteFooterLegalLang(lang);
+                }
+                (function applyLegalBilingualPageLang() {
+                    try {
+                        var page = document.body && document.body.getAttribute("data-page");
+                        var cfg = {
+                            "mentions-legales": {
+                                fr: "legalMentionsFr",
+                                en: "legalMentionsEn",
+                                titleFr: "Mentions légales — romainroth.com",
+                                titleEn: "Legal notice — romainroth.com",
+                            },
+                            confidentialite: {
+                                fr: "legalConfidentialiteFr",
+                                en: "legalConfidentialiteEn",
+                                titleFr: "Politique de confidentialité — romainroth.com",
+                                titleEn: "Privacy policy — romainroth.com",
+                            },
+                            cookies: {
+                                fr: "legalCookiesFr",
+                                en: "legalCookiesEn",
+                                titleFr: "Politique de cookies — romainroth.com",
+                                titleEn: "Cookie policy — romainroth.com",
+                            },
+                        };
+                        var c = cfg[page];
+                        if (!c) return;
+                        var fr = document.getElementById(c.fr);
+                        var en = document.getElementById(c.en);
+                        if (fr && en) {
+                            fr.style.display = lang === "fr" ? "" : "none";
+                            en.style.display = lang === "en" ? "" : "none";
+                        }
+                        document.documentElement.lang = lang === "en" ? "en" : "fr";
+                        document.title = lang === "en" ? c.titleEn : c.titleFr;
+                    } catch (eLegal) {}
+                })();
             }
 
             var savedLang = localStorage.getItem("page_lang") || "en";
