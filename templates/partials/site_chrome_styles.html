@@ -45,9 +45,6 @@
                     2rem + var(--mobile-bottom-clearance, 148px) + env(safe-area-inset-bottom, 0px)
                 );
             }
-            .site-footer {
-                padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
-            }
         }
         header {
             display: grid;
@@ -642,12 +639,6 @@
                 width: 100%;
                 padding: 0.26rem 0.4rem;
                 font-size: 0.82rem;
-            }
-            .site-footer {
-                padding-bottom: max(
-                    env(safe-area-inset-bottom, 0px),
-                    calc(1.5rem + env(safe-area-inset-bottom, 0px) - 90px)
-                );
             }
         }
         @media (min-width: 1200px) {
