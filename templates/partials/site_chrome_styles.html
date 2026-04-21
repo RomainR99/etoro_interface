@@ -255,6 +255,12 @@
                 display: block;
             }
         }
+        /* Petits écrans : pas de doublon avec le FAB chat en bas à droite */
+        @media (max-width: 640px) {
+            .site-footer-chat-row {
+                display: none;
+            }
+        }
         .site-footer-chat-btn {
             display: inline-flex;
             align-items: center;
