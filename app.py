@@ -2361,6 +2361,11 @@ def _load_trader_posts_local(limit: int | None = None) -> list[dict]:
             message = str(p.get("message") or "").strip()
             created = str(p.get("created") or "").strip()
             image_url = str(p.get("image_url") or "").strip() or None
+            if image_url and image_url.startswith("/api/trader-post-image/") and not image_url.lower().endswith(".webp"):
+                stem = Path(image_url).stem
+                webp_name = f"{stem}.webp"
+                if Path(TRADER_POST_IMAGES_DIR, webp_name).is_file():
+                    image_url = f"/api/trader-post-image/{webp_name}"
             if not message:
                 continue
             cleaned.append({

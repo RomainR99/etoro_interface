@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
+import io
 import json
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlparse
 
 import requests
+from PIL import Image
 from etoro_client import get_user_feed_posts, get_user_profile
 
 TRADER_USERNAME = "RomainRoth"
@@ -77,8 +79,28 @@ def _normalize_post(raw: dict) -> dict | None:
     }
 
 
+def _bytes_to_webp(data: bytes, out_path: Path) -> bool:
+    """Écrit les octets image en WebP sur disque."""
+    try:
+        if len(data) >= 12 and data[8:12] == b"WEBP":
+            out_path.write_bytes(data)
+            return out_path.is_file()
+        bio = io.BytesIO(data)
+        with Image.open(bio) as img:
+            if getattr(img, "is_animated", False):
+                img.seek(0)
+            if img.mode in ("RGBA", "LA", "P"):
+                img = img.convert("RGBA")
+            else:
+                img = img.convert("RGB")
+            img.save(out_path, format="WEBP", quality=85, method=6)
+        return out_path.is_file()
+    except Exception:
+        return False
+
+
 def _download_post_image(url: str, post_id: str) -> str | None:
-    """Télécharge l'image du post et retourne le nom de fichier local."""
+    """Télécharge l'image du post, la convertit en WebP et retourne le nom de fichier local."""
     if not url:
         return None
     try:
@@ -88,15 +110,23 @@ def _download_post_image(url: str, post_id: str) -> str | None:
         if ext not in (".png", ".jpg", ".jpeg", ".webp", ".gif"):
             ext = ".png"
         safe_id = "".join(ch for ch in str(post_id) if ch.isalnum() or ch in ("-", "_"))[:64] or "post"
-        filename = f"{safe_id}{ext}"
+        filename = f"{safe_id}.webp"
         target = IMAGES_DIR / filename
         if target.exists():
             return filename
         r = requests.get(url, timeout=20)
         if r.status_code != 200 or not r.content:
             return None
-        target.write_bytes(r.content)
-        return filename
+        src = r.content
+        head = src[:200].lstrip().lower()
+        if head.startswith(b"<!doctype") or head.startswith(b"<html"):
+            return None
+        if len(src) >= 12 and src[8:12] == b"WEBP":
+            target.write_bytes(src)
+            return filename if target.is_file() else None
+        if not _bytes_to_webp(src, target):
+            return None
+        return filename if target.is_file() else None
     except Exception:
         return None
 
