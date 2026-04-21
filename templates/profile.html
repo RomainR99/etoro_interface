@@ -190,9 +190,24 @@
             font-size: 0.8rem;
             line-height: 1.2;
         }
+        .dca-card-title {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            column-gap: 0;
+            row-gap: 0.15rem;
+        }
+        .dca-card-title-line1 {
+            display: inline-flex;
+            align-items: center;
+            flex-wrap: nowrap;
+        }
         .dca-card-title .dca-card-title-prefix,
         .dca-card-title .dca-card-title-rest {
             display: inline;
+        }
+        .dca-card-title .dca-card-title-prefix {
+            white-space: nowrap;
         }
         .dca-help-trigger {
             width: 1.15rem;
@@ -210,6 +225,7 @@
             cursor: pointer;
             padding: 0;
             margin-left: 0.35rem;
+            margin-right: 0.35rem;
             vertical-align: middle;
         }
         .dca-help-overlay {
@@ -288,9 +304,8 @@
                 white-space: nowrap;
                 font-size: 0.75rem;
             }
-            .dca-card-title .dca-card-title-prefix,
-            .dca-card-title .dca-card-title-rest {
-                display: block;
+            .dca-card-title-rest {
+                flex: 1 0 100%;
             }
         }
         .trader-posts-list {
@@ -578,9 +593,9 @@
         {% if dca_labels and (dca_romainroth or dca_sp500) %}
         <div class="card" style="grid-column: 1 / -1;">
             <h2 id="dcaTitle" class="dca-card-title">
-                <span class="dca-card-title-prefix">Simulation DCA
-                    <button type="button" id="dcaHelpTrigger" class="dca-help-trigger" aria-label="Aide DCA" title="Aide DCA">?</button>
-                    — </span><span class="dca-card-title-rest">{{ username }} vs S&P 500</span>
+                <span class="dca-card-title-line1">
+                    <span class="dca-card-title-prefix">Simulation DCA</span><button type="button" id="dcaHelpTrigger" class="dca-help-trigger" aria-label="Aide DCA" title="Aide DCA">?</button>
+                </span><span class="dca-card-title-rest">{{ username|username_display }} vs S&P 500</span>
             </h2>
             <div class="dca-params" style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end; margin-bottom: 1rem;">
                 <label style="display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.9rem; color: var(--muted);">
@@ -846,7 +861,7 @@
             const dcaLabels = {{ dca_labels | default([]) | tojson }};
             const dcaRomainroth = {{ dca_romainroth | default([]) | tojson }};
             const dcaSp500 = {{ dca_sp500 | default([]) | tojson }};
-            const dcaTraderDisplayName = {{ username | tojson }};
+            const dcaTraderDisplayName = {{ username|username_display|tojson }};
 
             const dcaCanvas = document.getElementById('dcaChart');
             let dcaChartInstance = null;
@@ -1290,8 +1305,11 @@
                     dcaLabelInitial: "Montant initial ($)",
                     dcaLabelMonthly: "Versement mensuel ($)",
                     dcaApplyBtn: "Recalculer",
-                    dcaTitlePrefix: "Simulation DCA — ",
+                    dcaTitlePrefix: "Simulation DCA",
                     dcaTitleSuffix: " vs S&P 500",
+                    dcaHelpLabel: "Aide DCA",
+                    dcaHelpText: "DCA : Investissement échelonné à intervalles réguliers pour lisser le prix d’achat.",
+                    dcaHelpClose: "Fermer",
                     noPost: "Aucun post disponible.",
                     noPostsInLanguage: "Aucune publication dans cette langue.",
                     loadMore: "Charger plus",
@@ -1315,8 +1333,11 @@
                     dcaLabelInitial: "Initial amount ($)",
                     dcaLabelMonthly: "Monthly contribution ($)",
                     dcaApplyBtn: "Recalculate",
-                    dcaTitlePrefix: "DCA Simulation — ",
+                    dcaTitlePrefix: "DCA Simulation",
                     dcaTitleSuffix: " vs S&P 500",
+                    dcaHelpLabel: "DCA help",
+                    dcaHelpText: "DCA: Investing fixed amounts at regular intervals to smooth the average purchase price.",
+                    dcaHelpClose: "Close",
                     noPost: "No posts available.",
                     noPostsInLanguage: "No posts in this language.",
                     loadMore: "Load more",
@@ -1428,11 +1449,20 @@
                     const dcaRest = dcaTitle.querySelector(".dca-card-title-rest");
                     if (dcaPrefix && dcaRest) {
                         dcaPrefix.textContent = t.dcaTitlePrefix;
-                        dcaRest.textContent = `{{ username }}${t.dcaTitleSuffix}`;
+                        dcaRest.textContent = {{ username|username_display|tojson }} + t.dcaTitleSuffix;
                     } else {
-                        dcaTitle.textContent = `${t.dcaTitlePrefix}{{ username }}${t.dcaTitleSuffix}`;
+                        dcaTitle.textContent = t.dcaTitlePrefix + {{ username|username_display|tojson }} + t.dcaTitleSuffix;
                     }
                 }
+                const dcaHelpTrigger = document.getElementById("dcaHelpTrigger");
+                if (dcaHelpTrigger) {
+                    dcaHelpTrigger.setAttribute("aria-label", t.dcaHelpLabel);
+                    dcaHelpTrigger.setAttribute("title", t.dcaHelpLabel);
+                }
+                const dcaHelpTitle = document.getElementById("dcaHelpTitle");
+                if (dcaHelpTitle) dcaHelpTitle.textContent = t.dcaHelpText;
+                const dcaHelpCloseBtn = document.getElementById("dcaHelpCloseBtn");
+                if (dcaHelpCloseBtn) dcaHelpCloseBtn.textContent = t.dcaHelpClose;
                 refreshPerfSinceCard(lang);
                 if (langChanged && typeof window.__rebuildDcaChart === "function" && window.__dcaLastSeries) {
                     const s = window.__dcaLastSeries;
