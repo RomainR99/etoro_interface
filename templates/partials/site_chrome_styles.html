@@ -643,6 +643,12 @@
                 padding: 0.26rem 0.4rem;
                 font-size: 0.82rem;
             }
+            .site-footer {
+                padding-bottom: max(
+                    env(safe-area-inset-bottom, 0px),
+                    calc(1.5rem + env(safe-area-inset-bottom, 0px) - 90px)
+                );
+            }
         }
         @media (min-width: 1200px) {
             .header-nav-burger {
@@ -927,8 +933,8 @@
             font-weight: 600;
             cursor: pointer;
         }
-        /* ≤1024px (chatbot à droite / FAB) : fenêtre à l’échelle 50 % ; champ + Send en deux colonnes égales */
-        @media (max-width: 1024px) {
+        /* ≤640px (même « petit écran » que footer / header) : fenêtre ÷2 ; champ + Send en deux colonnes */
+        @media (max-width: 640px) {
             .chat-panel {
                 width: min(170px, calc(100vw - 2rem));
                 max-height: 210px;

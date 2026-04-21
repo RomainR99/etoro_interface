@@ -267,7 +267,7 @@
                 var bottomPx = vh - r.top + gap;
                 var isSmallScreen = false;
                 try {
-                    isSmallScreen = window.matchMedia("(max-width: 1024px)").matches;
+                    isSmallScreen = window.matchMedia("(max-width: 640px)").matches;
                 } catch (eSmall) {}
                 var maxBaseW = Math.min(340, vw - 32);
                 var panelW = isSmallScreen ? Math.max(80, Math.floor(maxBaseW / 2)) : maxBaseW;
