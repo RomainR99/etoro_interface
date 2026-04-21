@@ -1,0 +1,22 @@
+# Exemple d'unité systemd pour Gunicorn avec les mêmes secrets que le job sync.
+# Adapter WorkingDirectory, User, chemins ExecStart.
+#
+#   sudo cp deploy/gunicorn-etoro.service.example /etc/systemd/system/etoro-interface.service
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now etoro-interface.service
+
+[Unit]
+Description=Interface eToro (Gunicorn)
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/srv/etoro_interface
+EnvironmentFile=/etc/etoro/interface.env
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/srv/etoro_interface/venv/bin/gunicorn -w 4 -b 127.0.0.1:8000 app:app
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

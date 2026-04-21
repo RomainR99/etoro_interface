@@ -1,0 +1,12 @@
+# Déclenche sync-trader-posts.service une fois par jour (heure serveur UTC par défaut).
+# Vérifier : systemctl list-timers sync-trader-posts.timer
+
+[Unit]
+Description=Tâche quotidienne — sync posts eToro
+
+[Timer]
+OnCalendar=*-*-* 06:15:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

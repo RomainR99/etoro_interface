@@ -2,9 +2,10 @@
 
 from pathlib import Path
 
-# Charger .env depuis la racine du projet (pour OPENAI_API_KEY, etc.)
-from dotenv import load_dotenv
-load_dotenv(Path(__file__).resolve().parent / ".env")
+# Charger .env et/ou ETORO_ENV_FILE (variables systemd non écrasées)
+from env_load import load_app_dotenv
+
+load_app_dotenv(Path(__file__).resolve().parent)
 
 import base64
 import csv
@@ -160,6 +161,7 @@ NEWSLETTER_SUBSCRIBE_MAX_PER_HOUR = 12
 _lexique_json_cache: list | None = None
 _faq_json_cache: list | None = None
 _trader_posts_cache: list[dict] | None = None
+_trader_posts_loaded_mtime: float | None = None
 _CACHE_MISS = object()
 _cache_lock = threading.Lock()
 _response_cache: dict[str, tuple[float, object]] = {}
@@ -2382,10 +2384,30 @@ def _load_trader_posts_local(limit: int | None = None) -> list[dict]:
         return []
 
 
+def _trader_posts_json_mtime() -> float | None:
+    try:
+        return os.path.getmtime(TRADER_POSTS_PATH)
+    except OSError:
+        return None
+
+
 def _get_all_trader_posts_cached() -> list[dict]:
-    global _trader_posts_cache
-    if _trader_posts_cache is None:
+    global _trader_posts_cache, _trader_posts_loaded_mtime
+    mtime = _trader_posts_json_mtime()
+    if (
+        _trader_posts_cache is not None
+        and mtime == _trader_posts_loaded_mtime
+    ):
+        return _trader_posts_cache
+    with _cache_lock:
+        mtime = _trader_posts_json_mtime()
+        if (
+            _trader_posts_cache is not None
+            and mtime == _trader_posts_loaded_mtime
+        ):
+            return _trader_posts_cache
         _trader_posts_cache = _load_trader_posts_local(limit=None)
+        _trader_posts_loaded_mtime = mtime
     return _trader_posts_cache
 
 

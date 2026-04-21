@@ -1,12 +1,15 @@
 """Client API eToro pour récupérer les données des traders."""
 
+from pathlib import Path
+
 import os
 import time
 import uuid
 import requests
-from dotenv import load_dotenv
 
-load_dotenv()
+from env_load import load_app_dotenv
+
+load_app_dotenv(Path(__file__).resolve().parent)
 
 BASE_URL = "https://public-api.etoro.com/api/v1"
 

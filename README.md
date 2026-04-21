@@ -11,39 +11,32 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
   - [Consentements cookies (SQLite)](#consentements-cookies-sqlite)
   - [Inscriptions newsletter / messages (`contact_messages`)](#inscriptions-newsletter--messages-contact_messages)
 - [Corrections à apporter](#corrections-à-apporter)
-
-- [Mise en place](#prérequis)
-  - [Prérequis](#prérequis)
-  - [Dépendances principales](#dépendances-principales)
-  - [Installation](#installation)
-  - [Configuration](#configuration)
-    - [Frontend séparé (Next.js)](#frontend-séparé-nextjs)
-    - [Note performance (première visite)](#note-performance-première-visite)
-    - [Checklist production (rapide)](#checklist-production-rapide)
-  - [Lancement](#lancement)
-    - [Gunicorn (3 façons équivalentes)](#gunicorn-3-façons-équivalentes)
-
-- [Exploitation et données](#structure)
-  - [Structure](#structure)
-  - [Configuration du trader](#configuration-du-trader)
-  - [Avatar (header) et favicon](#avatar-header-et-favicon)
-  - [Export des messages chatbot vers SQLite (DB Browser)](#export-des-messages-chatbot-vers-sqlite-db-browser)
-    - [Ouvrir les bases dans DB Browser for SQLite](#ouvrir-les-bases-dans-db-browser-for-sqlite)
-
-- [Intégrations API](#api-etoro)
-  - [API eToro](#api-etoro)
-    - [Publication de posts (feed eToro)](#publication-de-posts-feed-etoro)
-  - [Actualités Zonebourse](#actualités-zonebourse)
-    - [Source des données (URLs)](#source-des-données-urls)
-    - [Résumé avec OpenAI](#résumé-avec-openai)
-    - [Actualités par instrument (Mediastack)](#actualités-par-instrument-mediastack)
-    - [Quand ça marche](#quand-ça-marche)
-    - [Quand ça échoue (message par défaut)](#quand-ça-échoue-message-par-défaut)
-    - [Vérifier la source](#vérifier-la-source)
-
+- [Prérequis](#prérequis)
+- [Dépendances principales](#dépendances-principales)
+- [Installation](#installation)
+- [Configuration](#configuration)
+  - [Frontend séparé (Next.js)](#frontend-séparé-nextjs)
+  - [Note performance (première visite)](#note-performance-première-visite)
+  - [Checklist production (rapide)](#checklist-production-rapide)
+  - [Déploiement production](#déploiement-production)
+- [Lancement](#lancement)
+  - [Gunicorn (3 façons équivalentes)](#gunicorn-3-façons-équivalentes)
+- [Structure](#structure)
+- [Configuration du trader](#configuration-du-trader)
+- [Avatar (header) et favicon](#avatar-header-et-favicon)
+- [Export des messages chatbot vers SQLite (DB Browser)](#export-des-messages-chatbot-vers-sqlite-db-browser)
+  - [Ouvrir les bases dans DB Browser for SQLite](#ouvrir-les-bases-dans-db-browser-for-sqlite)
+- [API eToro](#api-etoro)
+  - [Publication de posts (feed eToro)](#publication-de-posts-feed-etoro)
+- [Actualités Zonebourse](#actualités-zonebourse)
+  - [Source des données (URLs)](#source-des-données-urls)
+  - [Résumé avec OpenAI](#résumé-avec-openai)
+  - [Actualités par instrument (Mediastack)](#actualités-par-instrument-mediastack)
+  - [Quand ça marche](#quand-ça-marche)
+  - [Quand ça échoue (message par défaut)](#quand-ça-échoue-message-par-défaut)
+  - [Vérifier la source](#vérifier-la-source)
 - [Sécurité et déploiement](#sécurité-et-déploiement)
 - [Apple / iOS](#apple--ios)
-
 - [Notes Werkzeug](#1️⃣-à-quoi-sert-werkzeug)
   - [1️⃣ À quoi sert Werkzeug](#1️⃣-à-quoi-sert-werkzeug)
   - [2️⃣ Exemple simple avec Werkzeug](#2️⃣-exemple-simple-avec-werkzeug)
@@ -226,6 +219,7 @@ sqlite3 data/contact_messages.sqlite "SELECT id, first_name, last_name, email, s
 
 ## Sécurité et déploiement
 
+- **Secrets et automatisation** : voir [Déploiement production](#déploiement-production) et le guide [`deploy/README.md`](deploy/README.md) (fichier `/etc/etoro/interface.env`, systemd, sync quotidien des posts).
 - **Firewall** : mettre en place un firewall pour limiter les accès réseau au strict nécessaire.
 - **Reverse proxy** : placer l’application derrière un reverse proxy (ex. Nginx) pour mieux filtrer et sécuriser le trafic entrant.
 - **Bots Internet et SSH** : ajouter une protection contre les bots Internet, surtout sur SSH (durcissement SSH, blocage brute force, filtrage d’IP, etc.).
@@ -385,6 +379,15 @@ curl -H "X-Warmup-Token: <token>" https://ton-domaine/internal/warmup
 
 - Vérifier les logs au boot : `startup warmup: started` puis `startup warmup: done ...`.
 
+### Déploiement production
+
+En production, les clés API eToro n’ont pas besoin d’être dans un `.env` du dépôt : place-les dans un fichier système lisible uniquement par root (ex. `/etc/etoro/interface.env`, `chmod 600`) et référence ce fichier avec **`EnvironmentFile=`** dans les unités systemd (voir les exemples dans le dossier **`deploy/`**).
+
+- **`env_load.py`** : charge un fichier optionnel pointé par `ETORO_ENV_FILE` ou `ENV_FILE`, puis le `.env` local s’il existe. Les variables **déjà présentes** dans l’environnement (injectées par systemd) **ne sont pas écrasées**.
+- **Gunicorn** : exemple d’unité dans `deploy/gunicorn-etoro.service.example` (même `EnvironmentFile` que le job de sync).
+- **Sync des posts trader** : script `sync_romain_posts.py` (JSON + images WebP dans `data/`). Pour l’exécuter **tous les jours** sans intervention, utiliser le timer systemd `deploy/sync-trader-posts.timer` + `deploy/sync-trader-posts.service` (adapter chemins et utilisateur). L’application **recharge** `data/trader_posts_romainroth.json` lorsque le fichier change sur disque ; **inutile de redémarrer Gunicorn** après le sync.
+- **Installation pas à pas** : [`deploy/README.md`](deploy/README.md).
+
 ## Lancement
 
 ```bash
@@ -421,13 +424,16 @@ Puis ouvrir [http://127.0.0.1:8000](http://127.0.0.1:8000) (port différent du s
 
 ```
 etoro_interface/
-├── app.py              # Application Flask
-├── etoro_client.py     # Client API eToro
-├── run-gunicorn.sh     # Gunicorn via venv (voir section Lancement)
+├── app.py                 # Application Flask
+├── env_load.py            # Chargement .env / ETORO_ENV_FILE (vars systemd préservées)
+├── etoro_client.py        # Client API eToro
+├── sync_romain_posts.py   # Sync posts + images (cron ou systemd timer en prod)
+├── run-gunicorn.sh        # Gunicorn via venv (voir section Lancement)
 ├── requirements.txt
+├── deploy/                # Exemples systemd + env (voir Déploiement production)
 ├── templates/
-│   └── profile.html    # Interface
-└── .env                # Clés API (à créer)
+│   └── profile.html       # Interface
+└── .env                   # Clés API (dev local ; optionnel en prod si systemd)
 ```
 
 > **⚠️ DANGER — Backend et frontend non séparés**  

@@ -1,0 +1,28 @@
+# Installation (adapter les chemins et l'utilisateur) :
+#   sudo install -d -m 755 /etc/etoro
+#   sudo cp deploy/etoro-interface.env.example /etc/etoro/interface.env
+#   sudo chmod 600 /etc/etoro/interface.env   # puis éditer les clés
+#   sudo cp deploy/sync-trader-posts.service /etc/systemd/system/
+#   sudo cp deploy/sync-trader-posts.timer /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now sync-trader-posts.timer
+#
+# L'utilisateur ci-dessous doit pouvoir écrire dans data/ (même compte que Gunicorn en général).
+
+[Unit]
+Description=Synchroniser les posts trader eToro (JSON + images locales)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=www-data
+Group=www-data
+WorkingDirectory=/srv/etoro_interface
+EnvironmentFile=/etc/etoro/interface.env
+ExecStart=/srv/etoro_interface/venv/bin/python /srv/etoro_interface/sync_romain_posts.py
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

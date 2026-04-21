@@ -6,6 +6,8 @@ __pycache__/
 *.pyc
 .json
 .csv
+.DS_Store
 data/zonebourse_images/
 data/cookie_consent.sqlite
 data/contact_messages.sqlite
+data/chat_questions.sqlite
