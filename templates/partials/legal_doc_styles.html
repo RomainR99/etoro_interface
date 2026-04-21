@@ -112,20 +112,15 @@
     .legal-doc-cookies .legal-cookie-quick-btn-primary:hover {
         filter: brightness(1.08);
     }
-    .legal-doc-cookies .legal-cookie-quick-btn-save {
-        width: 100%;
-        background: transparent;
-        color: var(--accent, #58a6ff);
-        border-color: var(--accent, #58a6ff);
-    }
-    .legal-doc-cookies .legal-cookie-quick-btn-save:hover {
-        background: rgba(88, 166, 255, 0.1);
-    }
     .legal-doc-cookies .legal-cookie-quick-btn:focus-visible {
         outline: 2px solid var(--accent);
         outline-offset: 2px;
     }
     @media (max-width: 640px) {
+        /* Pas de bouton « Gérer mes cookies » : les raccourcis Refuser / Accepter enregistrent le choix au clic */
+        .legal-doc-cookies .legal-cookie-desktop-manage-block {
+            display: none;
+        }
         .legal-doc-cookies .legal-cookie-mobile-actions {
             display: flex;
         }

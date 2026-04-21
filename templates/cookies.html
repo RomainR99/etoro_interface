@@ -69,10 +69,10 @@
             </p>
 
             <h2>Modifier vos préférences</h2>
-            <p>
+            <p class="legal-cookie-manage-note">
                 Vous pouvez également modifier vos préférences à tout moment en cliquant sur le bouton ci-dessous :
             </p>
-            <p>
+            <p class="legal-cookie-desktop-manage-block">
                 <button type="button" class="legal-cookie-settings-btn" onclick="openCookieSettings()">
                     Gérer mes cookies
                 </button>
@@ -82,7 +82,6 @@
                     <button type="button" class="legal-cookie-quick-btn legal-cookie-quick-btn-secondary" id="legalCookieMobileRefuse">Refuser</button>
                     <button type="button" class="legal-cookie-quick-btn legal-cookie-quick-btn-primary" id="legalCookieMobileAccept">Accepter</button>
                 </div>
-                <button type="button" class="legal-cookie-quick-btn legal-cookie-quick-btn-save" id="legalCookieMobileSave">Enregistrer mes choix</button>
             </div>
         </main>
         {% include 'partials/site_footer.html' %}
@@ -108,8 +107,8 @@
         }
         (function () {
             var LEGAL_MOBILE = {
-                fr: { refuse: "Refuser", accept: "Accepter", save: "Enregistrer mes choix" },
-                en: { refuse: "Refuse", accept: "Accept", save: "Save my choices" }
+                fr: { refuse: "Refuser", accept: "Accepter" },
+                en: { refuse: "Refuse", accept: "Accept" }
             };
             function legLang() {
                 try {
@@ -122,16 +121,14 @@
                 var t = LEGAL_MOBILE[legLang()] || LEGAL_MOBILE.fr;
                 var r = document.getElementById("legalCookieMobileRefuse");
                 var a = document.getElementById("legalCookieMobileAccept");
-                var s = document.getElementById("legalCookieMobileSave");
                 if (r) r.textContent = t.refuse;
                 if (a) a.textContent = t.accept;
-                if (s) s.textContent = t.save;
             }
             function bindLegalCookieMobile() {
                 applyLegalMobileTexts();
                 var refuse = document.getElementById("legalCookieMobileRefuse");
                 var accept = document.getElementById("legalCookieMobileAccept");
-                var save = document.getElementById("legalCookieMobileSave");
+
                 if (refuse) {
                     refuse.addEventListener("click", function () {
                         if (typeof window.setAllCookies === "function") {
@@ -146,16 +143,15 @@
                         }
                     });
                 }
-                if (save) {
-                    save.addEventListener("click", function () {
-                        if (typeof window.syncCookiePrefTogglesFromCookie === "function") {
-                            window.syncCookiePrefTogglesFromCookie();
-                        }
-                        if (typeof window.saveCookiePreferences === "function") {
-                            window.saveCookiePreferences();
-                        }
-                    });
+                var analytics = document.getElementById("cookie-analytics");
+                var marketing = document.getElementById("cookie-marketing");
+                function autosavePref() {
+                    if (typeof window.saveCookiePreferences === "function") {
+                        window.saveCookiePreferences();
+                    }
                 }
+                if (analytics) analytics.addEventListener("change", autosavePref);
+                if (marketing) marketing.addEventListener("change", autosavePref);
             }
             if (document.readyState === "loading") {
                 document.addEventListener("DOMContentLoaded", bindLegalCookieMobile);
