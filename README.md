@@ -16,10 +16,15 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
 - [Prérequis](#prérequis)
 - [Dépendances principales](#dépendances-principales)
 - [Installation](#installation)
+- [Avatar (header) et favicon](#avatar-header-et-favicon)
+- [Export des messages chatbot vers SQLite (DB Browser)](#export-des-messages-chatbot-vers-sqlite-db-browser)
+  - [Ouvrir les bases dans DB Browser for SQLite](#ouvrir-les-bases-dans-db-browser-for-sqlite)
 - [Configuration](#configuration)
+  - [Frontend séparé (Next.js)](#frontend-séparé-nextjs)
   - [Note performance (première visite)](#note-performance-première-visite)
   - [Checklist production (rapide)](#checklist-production-rapide)
 - [Lancement](#lancement)
+  - [Gunicorn (3 façons équivalentes)](#gunicorn-3-façons-équivalentes)
 - [Structure](#structure)
 - [Configuration du trader](#configuration-du-trader)
 - [API eToro](#api-etoro)
@@ -267,6 +272,32 @@ python sync_trader_avatar.py
 ```
 
 **`sync_trader_avatar.py`** : appelle encore `get_user_profile` côté serveur, récupère l’URL d’avatar, télécharge l’image et l’enregistre sous `images/trader_avatar.<ext>` (les anciens `trader_avatar.*` sont remplacés). Exemple après exécution : `images/trader_avatar.jpg` (~quelques ko). Pense à versionner ce fichier après sync ou à relancer le script après déploiement.
+
+## Export des messages chatbot vers SQLite (DB Browser)
+
+Les échanges du chatbot sont enregistrés en **JSONL** dans `data/chat_questions.jsonl`.
+
+Pour les consulter dans **DB Browser for SQLite**, un script d’export est disponible :
+
+```bash
+python3 export_chat_questions_sqlite.py
+```
+
+Ce script recrée `data/chat_questions.sqlite` avec une table `chat_questions` (`id`, `timestamp`, `question`, `reply`) à partir du JSONL.
+
+> Si la table est vide, vérifie d’abord que `data/chat_questions.jsonl` contient des lignes, puis relance l’export.
+
+### Ouvrir les bases dans DB Browser for SQLite
+
+1. Ouvrir **DB Browser for SQLite**.
+2. Cliquer sur **Open Database**.
+3. Sélectionner un fichier dans `data/` :
+   - `cookie_consent.sqlite` (table `cookie_consent_log`)
+   - `contact_messages.sqlite` (table `contact_messages`)
+   - `chat_questions.sqlite` (table `chat_questions`, générée par l’export JSONL)
+4. Aller dans l’onglet **Browse Data** puis choisir la table dans la liste.
+
+Si des nouvelles lignes n’apparaissent pas, cliquer sur **Refresh** (ou rouvrir la base).
 
 ## Configuration
 
