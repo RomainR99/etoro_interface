@@ -194,6 +194,61 @@
         .dca-card-title .dca-card-title-rest {
             display: inline;
         }
+        .dca-help-trigger {
+            width: 1.15rem;
+            height: 1.15rem;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--muted);
+            font-size: 0.72rem;
+            font-weight: 700;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 0;
+            margin-left: 0.35rem;
+            vertical-align: middle;
+        }
+        .dca-help-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.48);
+            z-index: 1200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .dca-help-overlay.is-open {
+            display: flex;
+        }
+        .dca-help-modal {
+            width: min(92vw, 460px);
+            background: var(--card);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.45);
+            padding: 0.95rem 1rem;
+        }
+        .dca-help-modal p {
+            margin: 0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .dca-help-close {
+            margin-top: 0.8rem;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+            border-radius: 8px;
+            padding: 0.35rem 0.65rem;
+            font-size: 0.82rem;
+            cursor: pointer;
+        }
         @media (max-width: 640px) {
             .portfolio-instruments-inner {
                 display: flex;
@@ -523,7 +578,9 @@
         {% if dca_labels and (dca_romainroth or dca_sp500) %}
         <div class="card" style="grid-column: 1 / -1;">
             <h2 id="dcaTitle" class="dca-card-title">
-                <span class="dca-card-title-prefix">Simulation DCA — </span><span class="dca-card-title-rest">{{ username }} vs S&P 500</span>
+                <span class="dca-card-title-prefix">Simulation DCA
+                    <button type="button" id="dcaHelpTrigger" class="dca-help-trigger" aria-label="Aide DCA" title="Aide DCA">?</button>
+                    — </span><span class="dca-card-title-rest">{{ username }} vs S&P 500</span>
             </h2>
             <div class="dca-params" style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end; margin-bottom: 1rem;">
                 <label style="display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.9rem; color: var(--muted);">
@@ -540,6 +597,12 @@
             </div>
             <div style="position: relative; height: 320px;">
                 <canvas id="dcaChart"></canvas>
+            </div>
+        </div>
+        <div id="dcaHelpOverlay" class="dca-help-overlay" role="dialog" aria-modal="true" aria-labelledby="dcaHelpTitle">
+            <div class="dca-help-modal">
+                <p id="dcaHelpTitle">DCA : Investissement échelonné à intervalles réguliers pour lisser le prix d’achat.</p>
+                <button type="button" id="dcaHelpCloseBtn" class="dca-help-close">Fermer</button>
             </div>
         </div>
         {% endif %}
@@ -907,6 +970,67 @@
                     dcaMonthlyEl.addEventListener('blur', normalizeDcaMonthlyEmpty);
                 }
             }
+            (function initDcaHelpModal() {
+                var trigger = document.getElementById('dcaHelpTrigger');
+                var overlay = document.getElementById('dcaHelpOverlay');
+                var closeBtn = document.getElementById('dcaHelpCloseBtn');
+                if (!trigger || !overlay || !closeBtn) return;
+
+                var mq = window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 1025px)');
+                var openTimer = null;
+                var closeTimer = null;
+                function isDesktopHover() {
+                    return !!(mq && mq.matches);
+                }
+                function openModal() {
+                    overlay.classList.add('is-open');
+                }
+                function closeModal() {
+                    overlay.classList.remove('is-open');
+                }
+                function clearTimers() {
+                    if (openTimer) {
+                        clearTimeout(openTimer);
+                        openTimer = null;
+                    }
+                    if (closeTimer) {
+                        clearTimeout(closeTimer);
+                        closeTimer = null;
+                    }
+                }
+
+                trigger.addEventListener('mouseenter', function () {
+                    if (!isDesktopHover()) return;
+                    clearTimers();
+                    openTimer = setTimeout(openModal, 80);
+                });
+                trigger.addEventListener('mouseleave', function () {
+                    if (!isDesktopHover()) return;
+                    clearTimers();
+                    closeTimer = setTimeout(closeModal, 120);
+                });
+                overlay.addEventListener('mouseenter', function () {
+                    if (!isDesktopHover()) return;
+                    clearTimers();
+                });
+                overlay.addEventListener('mouseleave', function () {
+                    if (!isDesktopHover()) return;
+                    clearTimers();
+                    closeTimer = setTimeout(closeModal, 100);
+                });
+                trigger.addEventListener('click', function (e) {
+                    if (isDesktopHover()) return;
+                    e.preventDefault();
+                    overlay.classList.toggle('is-open');
+                });
+                closeBtn.addEventListener('click', closeModal);
+                overlay.addEventListener('click', function (e) {
+                    if (e.target === overlay) closeModal();
+                });
+                document.addEventListener('keydown', function (e) {
+                    if (e.key === 'Escape') closeModal();
+                });
+            })();
 
             let originalTraderSelectHtml = (function() { var s = document.getElementById('tradersSelect'); return s ? s.innerHTML : ''; })();
             function applyTraderFilter() {
@@ -986,7 +1110,9 @@
                 function formatDate(v) {
                     if (!v) return '';
                     var dt = new Date(v);
-                    return isNaN(dt.getTime()) ? String(v) : dt.toLocaleString('fr-FR');
+                    if (isNaN(dt.getTime())) return String(v);
+                    var loc = getUiLang() === 'fr' ? 'fr-FR' : 'en-US';
+                    return dt.toLocaleDateString(loc);
                 }
                 function emptyMessageText() {
                     var i = window.__postEmptyI18n;
