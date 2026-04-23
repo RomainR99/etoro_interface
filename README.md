@@ -16,6 +16,7 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
 - [Configuration](#configuration)
   - [Configurer `REDIS_URL` (local et production)](#configurer-redis_url-local-et-production)
   - [Redis à faire](#redis-à-faire)
+  - [C'est quoi Celery ?](#cest-quoi-celery)
   - [Frontend séparé (Next.js)](#frontend-séparé-nextjs)
   - [Note performance (première visite)](#note-performance-première-visite)
   - [Checklist production (rapide)](#checklist-production-rapide)
@@ -805,6 +806,83 @@ Et pour tester le cache :
 
 - premier refresh -> source `"api"`
 - deuxieme refresh dans la minute -> source `"cache"`
+
+### C'est quoi Celery ?
+
+**Celery** — c’est un système qui permet de lancer des **tâches en arrière-plan** (asynchrones), **sans bloquer** ton app Flask.
+
+#### Problème sans Celery
+
+Imagine ton site : un utilisateur clique sur « analyser mon dossier » et derrière tu enchaînes appel API bancaire, analyse, envoi d’email — ça prend par exemple **5 secondes**.
+
+**Résultat** : page qui freeze, utilisateur qui attend, serveur bloqué.
+
+#### Avec Celery
+
+Tu fais : utilisateur clique → Flask envoie la tâche à Celery → Celery traite en arrière-plan → Flask répond tout de suite.
+
+**Résultat** : site réactif, tâches longues séparées du request/response, architecture plus scalable.
+
+#### Exemple concret (futur site microcrédit)
+
+**Sans Celery** — tout dans la requête HTTP :
+
+```python
+def analyse_credit():
+    call_api_bank()
+    calcul_score()
+    envoyer_email()
+```
+
+→ l’utilisateur attend longtemps (ex. 10 secondes).
+
+**Avec Celery** — délégation :
+
+```python
+analyse_credit.delay()
+```
+
+→ réponse immédiate du type : « Votre demande est en cours de traitement ».
+
+#### Cas d’usage typiques
+
+Celery sert notamment pour :
+
+| Domaine | Exemples |
+|--------|----------|
+| **Emails** | confirmations, relances |
+| **Calculs** | scoring crédit, stats, ML |
+| **Vérifications** | KYC, fraude, appels API externes |
+| **Fichiers** | PDF, OCR, images |
+
+#### Comment ça marche (architecture)
+
+1. **Flask** envoie la tâche.
+2. **Redis** (ou autre broker) fait office de **file d’attente** — comme une « boîte aux lettres ».
+3. **Worker Celery** exécute la tâche hors du processus web.
+
+**Image simple** : Flask = réceptionniste, Redis = liste des tâches, Celery = employé qui travaille en coulisse.
+
+#### Important
+
+Celery **n’est pas obligatoire** au début d’un projet. Il devient utile quand :
+
+- les tâches dépassent ~**1 seconde**,
+- tu as **beaucoup d’utilisateurs**,
+- la **logique métier** devient lourde ou complexe.
+
+**Dans ton cas** :
+
+- **Projet eToro (ce dépôt)** : pas indispensable tout de suite.
+- **Projet microcrédit** : quasi indispensable à terme pour rester pro et scalable.
+
+#### Résumé
+
+Celery = **tâches en arrière-plan** pour garder l’app rapide, scalable et « prod ».
+
+#### Conseil
+
+Commence **sans** Celery ; ajoute-le quand ça devient **lent** ou **trop complexe** à traiter dans la requête HTTP.
 
 ### Frontend séparé (Next.js)
 
