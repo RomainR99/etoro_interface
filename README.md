@@ -15,6 +15,7 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
 - [Installation](#installation)
 - [Configuration](#configuration)
   - [Configurer `REDIS_URL` (local et production)](#configurer-redis_url-local-et-production)
+  - [Redis à faire](#redis-à-faire)
   - [Frontend séparé (Next.js)](#frontend-séparé-nextjs)
   - [Note performance (première visite)](#note-performance-première-visite)
   - [Checklist production (rapide)](#checklist-production-rapide)
@@ -350,6 +351,136 @@ Format possible de `REDIS_URL` :
 Vérification rapide :
 
 - Au démarrage, l’app doit indiquer Redis actif dans les logs (ou via l’info `redis_enabled` dans `app.py`).
+
+### Redis à faire
+
+#### A quoi ca sert
+
+Bonne question : c'est un point cle quand tu passes d'un projet simple a une app plus serieuse.
+
+Redis est une base de donnees ultra rapide en memoire (RAM). On l'utilise pour eviter de refaire des operations lentes en permanence.
+
+L'idee derriere "stocker login / token / etat utilisateur" :
+
+- quand un utilisateur se connecte, l'app doit retenir qu'il est connecte,
+- et ne pas redemander son mot de passe a chaque requete.
+
+Exemple de session en donnee temporaire :
+
+```text
+session_123 = {
+  "user_id": 42,
+  "token": "abc123",
+  "logged_in": True
+}
+```
+
+Redis peut garder cet etat tres rapidement.
+
+Redis stocke notamment :
+
+- login
+- token
+- etat utilisateur
+
+➡️ Plus rapide et scalable.
+
+#### Pourquoi c'est plus rapide
+
+- acces RAM en millisecondes,
+- pas de requete SQL a chaque appel,
+- pas de recalcul inutile.
+
+Parfait pour :
+
+- login,
+- sessions,
+- tokens API.
+
+#### Pourquoi c'est scalable
+
+Imagine :
+
+- 1000 utilisateurs connectes,
+- plusieurs serveurs Flask / workers Gunicorn.
+
+Sans Redis :
+
+- chaque serveur garde son propre etat session,
+- risques d'incoherences entre workers.
+
+Avec Redis :
+
+- tous les serveurs lisent/ecrivent dans la meme memoire centrale.
+
+Dans la pratique, on peut garder les deux :
+
+- **memoire locale** (ultra rapide pour un worker)
+- **Redis partage** (coherent entre workers/instances)
+
+#### Aide pour le brancher directement dans `etoro_interface`
+
+Plan minimal recommande :
+
+1. Configurer `REDIS_URL` dans l'environnement (`.env` en local, variable plateforme en prod).
+2. Centraliser un client Redis unique (deja present dans `app.py` via `_redis_get_client()`).
+3. Utiliser Redis pour :
+   - sessions/login (si besoin de session partagee entre workers),
+   - cache des appels externes lents,
+   - etat utilisateur temporaire (ex. quotas, flags, cooldowns).
+4. Ajouter des TTL explicites sur toutes les cles (expiration automatique).
+5. Ajouter des logs/metrics simples : hit/miss cache, latence, erreurs Redis.
+
+Exemples concrets pour `etoro_interface` :
+
+- token API eToro temporaire,
+- donnees utilisateur temporaires,
+- etat portfolio recent.
+
+But : eviter de redemander/recalculer a chaque fois.
+
+#### Ajouter un decorateur de cache reutilisable : ca sert a quoi
+
+Un decorateur de cache reutilisable sert a :
+
+- eviter de reecrire la meme logique de cache partout,
+- normaliser les TTL et la generation des cles,
+- reduire les appels API couteux et accelerer les pages,
+- simplifier la maintenance (un seul point a faire evoluer).
+
+Exemple d'usage attendu :
+
+- decorer une fonction qui recupere des donnees eToro/actualites,
+- lire d'abord en cache (Redis/memoire),
+- sinon executer la fonction puis stocker le resultat avec TTL.
+
+#### Cas d'usage principaux Redis
+
+1. **Cache** (prioritaire)
+   - ex. un appel API eToro a 1s peut devenir quasi instantane si le resultat est deja en Redis.
+2. **Sessions utilisateur**
+   - login, token, etat utilisateur, partages entre workers.
+3. **File de taches**
+   - via Redis + worker (ex. Celery/RQ) pour les traitements lourds.
+4. **Rate limiting**
+   - limiter X requetes/minute par utilisateur (anti abus API/chatbot).
+
+#### Important
+
+Redis sert pour :
+
+- donnees temporaires,
+- donnees rapides.
+
+Redis ne remplace pas la base principale :
+
+- utilisateurs et donnees metier persistantes -> PostgreSQL/SQLite.
+
+Resume simple :
+
+- Redis = memoire rapide partagee,
+- utile pour stocker login / token / etat utilisateur,
+- objectif : aller plus vite, supporter plus d'utilisateurs, eviter les incoherences multi-serveurs.
 
 ### Frontend séparé (Next.js)
 
