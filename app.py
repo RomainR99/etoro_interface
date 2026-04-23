@@ -37,7 +37,7 @@ from etoro_client import (
     get_copiers_vs_performance,
     create_post as etoro_create_post,
 )
-from zone_bourse.news_fetcher import ZONEBOURSE_IMAGES_DIR, get_latest_news
+
 
 try:
     import yfinance as yf
@@ -146,7 +146,6 @@ TRADER_USERNAME = "RomainRoth"
 DATE_FROM = "2022-09"  # Données à partir de septembre 2022
 COPIERS_VS_PERF_CACHE = os.path.join(os.path.dirname(__file__), "data", "copiers_vs_performance.json")
 CHAT_QUESTIONS_LOG = os.path.join(os.path.dirname(__file__), "data", "chat_questions.jsonl")
-NEWS_MEDIASTACK_PATH = os.path.join(os.path.dirname(__file__), "data", "news_mediastack.json")
 ETORO_PUBLISHED_POSTS_PATH = os.path.join(os.path.dirname(__file__), "data", "etoro_published_posts.json")
 TRADER_POSTS_PATH = os.path.join(os.path.dirname(__file__), "data", "trader_posts_romainroth.json")
 TRADER_POST_IMAGES_DIR = os.path.join(os.path.dirname(__file__), "data", "trader_post_images")
@@ -607,133 +606,6 @@ INDEX_CONFIG = {
 }
 
 
-def _best_keyword_for_instrument(instr: dict) -> str | None:
-    """Retourne le meilleur mot-clé pour chercher des actualités sur cet instrument."""
-    sym = (instr.get("symbol") or "").strip().upper()
-    disp = (instr.get("displayname") or "").strip()
-    # Priorité au symbole pour les actions (AAPL, TSLA, NVDA, SPY) — très fréquent dans les titres
-    if sym and 2 <= len(sym) <= 6 and sym.isalpha():
-        return sym
-    # Fallback : premier mot significatif du displayname (ex. "Apple Inc" -> "Apple")
-    if disp:
-        words = [w for w in disp.split() if len(w) > 1 and w.lower() not in ("inc", "plc", "corp", "sa", "nv")]
-        return words[0] if words else disp.split()[0] if disp.split() else None
-    return None
-
-
-def _fetch_mediastack_instrument_news(instruments: list[dict], limit: int = 3) -> list[dict]:
-    """
-    Récupère les N dernières actualités Mediastack pour les instruments du portefeuille.
-    Priorité maximale : une requête par instrument (symbol ou displayname) pour des news ciblées.
-    Retourne une liste de {title, description, url, source, published_at}.
-    """
-    key = os.getenv("MEDIASTACK_ACCESS_KEY")
-    if not key:
-        return []
-
-    def _do_request(params: dict, use_https: bool = True) -> list[dict]:
-        try:
-            base = "https://api.mediastack.com" if use_https else "http://api.mediastack.com"
-            r = requests.get(f"{base}/v1/news", params=params, timeout=10)
-            if r.status_code != 200:
-                return []
-            data = r.json()
-            err = data.get("error")
-            if err:
-                code = err.get("code", "") if isinstance(err, dict) else str(err)
-                if use_https and code == "https_access_restricted":
-                    return _do_request(params, use_https=False)
-                return []
-            items = data.get("data") or []
-            return [
-                {
-                    "title": a.get("title") or "",
-                    "description": a.get("description") or "",
-                    "url": a.get("url") or "",
-                    "source": a.get("source") or "",
-                    "published_at": a.get("published_at") or "",
-                }
-                for a in items
-            ]
-        except Exception:
-            return []
-
-    base_params = {"access_key": key, "sort": "published_desc"}
-    seen_urls: set[str] = set()
-    collected: list[dict] = []
-
-    # Priorité : une requête par instrument avec son meilleur mot-clé (symbol > displayname)
-    if instruments:
-        for instr in instruments[:5]:  # max 5 instruments
-            kw = _best_keyword_for_instrument(instr)
-            if not kw or len(collected) >= limit:
-                continue
-            items = _do_request({**base_params, "keywords": kw, "limit": 2})
-            for a in items:
-                url = (a.get("url") or "").strip()
-                if url and url not in seen_urls:
-                    seen_urls.add(url)
-                    collected.append(a)
-                    if len(collected) >= limit:
-                        break
-
-    if collected:
-        return _translate_instrument_news_to_french(collected[:limit])
-
-    # Fallback : mots-clés combinés (displayname/symbol des 3 premiers)
-    parts = []
-    for i in instruments[:4]:
-        kw = _best_keyword_for_instrument(i)
-        if kw:
-            parts.append(kw)
-    if parts:
-        items = _do_request({**base_params, "keywords": parts[0], "limit": limit})
-        if items:
-            return _translate_instrument_news_to_french(items)
-
-    # Dernier recours : business
-    items = _do_request({**base_params, "categories": "business", "limit": limit})
-    if items:
-        return _translate_instrument_news_to_french(items)
-    return []
-
-
-def _translate_instrument_news_to_french(items: list[dict]) -> list[dict]:
-    """Traduit titre et description des actualités en français via OpenAI."""
-    api_key = os.getenv("OPENAI_API_KEY")
-    if not api_key or not items:
-        return items
-    try:
-        from openai import OpenAI
-        client = OpenAI(api_key=api_key)
-        texts = []
-        for a in items:
-            texts.append((a.get("title") or "").strip())
-            texts.append((a.get("description") or "").strip()[:500])
-        sep = "\n|||\n"
-        batch = sep.join(texts)
-        r = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {"role": "system", "content": "Tu traduis en français. Réponds uniquement par les traductions, dans le même ordre, séparées par ||| sur une ligne. Pas de numérotation ni commentaire."},
-                {"role": "user", "content": batch},
-            ],
-            temperature=0.2,
-        )
-        out = (r.choices[0].message.content or "").strip()
-        parts = [p.strip() for p in out.split("|||")]
-        if len(parts) >= len(texts):
-            for i, a in enumerate(items):
-                updated = dict(a)
-                idx = i * 2
-                if idx < len(parts):
-                    updated["title"] = parts[idx]
-                if idx + 1 < len(parts):
-                    updated["description"] = parts[idx + 1]
-                items[i] = updated
-    except Exception:
-        pass
-    return items
 
 
 def _get_index_monthly_returns(ticker_symbol: str) -> dict[str, float]:
@@ -1700,6 +1572,14 @@ def confidentialite():
     return resp
 
 
+@app.route("/confidentialite/")
+@app.route("/confidentalite")
+@app.route("/confidentalite/")
+def confidentialite_alias():
+    """Alias de compatibilité vers la politique de confidentialité."""
+    return redirect(url_for("confidentialite"), code=301)
+
+
 @app.route("/cookies")
 def cookies():
     """Politique de cookies."""
@@ -1898,14 +1778,6 @@ def favicon_round_svg():
     return Response(svg, mimetype="image/svg+xml")
 
 
-@app.route("/api/zonebourse-image/<filename>")
-def api_zonebourse_image(filename: str):
-    """Sert une image cachée Zonebourse (PNG)."""
-    if not filename.endswith(".png") or ".." in filename or "/" in filename:
-        return jsonify({"error": "invalid"}), 400
-    return send_from_directory(ZONEBOURSE_IMAGES_DIR, filename, mimetype="image/png")
-
-
 @app.route("/api/trader-post-image/<filename>")
 def api_trader_post_image(filename: str):
     """Sert une image de post trader sauvegardée localement."""
@@ -1914,33 +1786,12 @@ def api_trader_post_image(filename: str):
     return send_from_directory(TRADER_POST_IMAGES_DIR, filename)
 
 
-@app.route("/api/zonebourse-news")
-def api_zonebourse_news():
-    """Retourne les 2 posts du jour : instruments + actualité marché (rafraîchissement dynamique)."""
-    try:
-        portfolio_instruments = []
-        try:
-            portfolio_instruments = get_portfolio_instruments(TRADER_USERNAME)
-        except Exception:
-            pass
-        result = get_latest_news(
-            limit=2,
-            cache_path=None,
-            generate_image_fn=_gen_zonebourse_image,
-            portfolio_instruments=portfolio_instruments,
-        )
-        items = result.get("items", [])
-        return jsonify({"count": len(items), "news": items, "used_fallback": result.get("used_fallback", False)})
-    except Exception as e:
-        return jsonify({"error": str(e), "count": 0, "news": []}), 500
-
-
 @app.route("/api/post-to-etoro", methods=["POST"])
 def api_post_to_etoro():
     """
     Crée un post sur le feed eToro (titre + résumé + image optionnelle).
     Body JSON: { "title": "...", "summary": "...", "image_url": "..." (optionnel) }
-    L'image_url peut être relative (/api/zonebourse-image/...) ; elle est convertie en URL absolue.
+    L'image_url peut être relative ; elle est convertie en URL absolue.
     """
     auth_error = _require_mutation_auth_if_enabled()
     if auth_error is not None:
@@ -1981,310 +1832,6 @@ def api_post_to_etoro():
         return jsonify({"success": False, "error": err_msg}), 502
     _append_etoro_published_post(title, summary, image_url)
     return jsonify({"success": True, "post": result, "image_url_sent": image_url})
-
-
-def _fetch_mediastack_filtered(
-    category: str | None = None,
-    keywords: str | None = None,
-    countries: str | None = None,
-    languages: str | None = None,
-    sources: str | None = None,
-    date_str: str | None = None,
-    limit: int = 5,
-    translate: bool = True,
-) -> list[dict]:
-    """
-    Récupère les actualités Mediastack avec les filtres choisis.
-    Retourne une liste de {title, description, url, source, published_at}.
-    """
-    key = os.getenv("MEDIASTACK_ACCESS_KEY")
-    if not key:
-        return []
-
-    def _do_request(params: dict, use_https: bool = True) -> list[dict]:
-        try:
-            base = "https://api.mediastack.com" if use_https else "http://api.mediastack.com"
-            r = requests.get(f"{base}/v1/news", params=params, timeout=10)
-            if r.status_code != 200:
-                return []
-            data = r.json()
-            err = data.get("error")
-            if err:
-                code = err.get("code", "") if isinstance(err, dict) else str(err)
-                if use_https and code == "https_access_restricted":
-                    return _do_request(params, use_https=False)
-                return []
-            items = data.get("data") or []
-            return [
-                {
-                    "title": a.get("title") or "",
-                    "description": a.get("description") or "",
-                    "url": a.get("url") or "",
-                    "source": a.get("source") or "",
-                    "published_at": a.get("published_at") or "",
-                }
-                for a in items
-            ]
-        except Exception:
-            return []
-
-    base_params: dict = {"access_key": key, "limit": limit, "sort": "published_desc"}
-    if category:
-        base_params["categories"] = category
-    if keywords:
-        base_params["keywords"] = keywords
-    if countries:
-        base_params["countries"] = countries
-    if languages:
-        base_params["languages"] = languages
-    if sources:
-        base_params["sources"] = sources
-
-    from datetime import date, timedelta
-
-    dates_to_try: list[str | None] = []
-    if date_str == "today":
-        dates_to_try = [date.today().strftime("%Y-%m-%d")]
-    elif date_str == "yesterday":
-        dates_to_try = [(date.today() - timedelta(days=1)).strftime("%Y-%m-%d")]
-    elif date_str == "today_and_yesterday":
-        dates_to_try = [
-            date.today().strftime("%Y-%m-%d"),
-            (date.today() - timedelta(days=1)).strftime("%Y-%m-%d"),
-        ]
-    else:
-        dates_to_try = [None]
-
-    seen_urls: set[str] = set()
-    collected: list[dict] = []
-    for d in dates_to_try:
-        params = dict(base_params)
-        if d:
-            params["date"] = d
-            params["limit"] = 5
-        items = _do_request(params)
-        for a in items:
-            url = (a.get("url") or "").strip()
-            if url and url not in seen_urls:
-                seen_urls.add(url)
-                collected.append(a)
-        if len(collected) >= limit:
-            break
-
-    if not collected and dates_to_try != [None]:
-        params = dict(base_params)
-        params["limit"] = limit
-        items = _do_request(params)
-        for a in items:
-            url = (a.get("url") or "").strip()
-            if url and url not in seen_urls:
-                seen_urls.add(url)
-                collected.append(a)
-                if len(collected) >= limit:
-                    break
-
-    collected = collected[:limit]
-    if translate and collected:
-        collected = _translate_instrument_news_to_french(collected)
-    return collected
-
-
-@app.route("/api/mediastack-news")
-def api_mediastack_news():
-    """
-    Actualités Mediastack avec filtres (catégorie, thème, pays, langue, sources).
-    Paramètres: category, theme, countries, languages, sources, date, limit (max 5).
-    """
-    category = request.args.get("category", "").strip() or None
-    theme = request.args.get("theme", "").strip() or None
-    countries = request.args.get("countries", "").strip() or None
-    languages = request.args.get("languages", "").strip() or None
-    sources = request.args.get("sources", "").strip() or None
-    date_str = request.args.get("date", "today_and_yesterday").strip() or None
-    limit = min(5, max(1, int(request.args.get("limit", 5) or 5)))
-    try:
-        items = _fetch_mediastack_filtered(
-            category=category,
-            keywords=theme,
-            countries=countries,
-            languages=languages,
-            sources=sources,
-            date_str=date_str,
-            limit=limit,
-            translate=True,
-        )
-        return jsonify({"news": items, "count": len(items)})
-    except Exception as e:
-        return jsonify({"error": str(e), "news": [], "count": 0}), 500
-
-
-@app.route("/api/mediastack-saved", methods=["GET"])
-def api_mediastack_saved_get():
-    """Retourne les actualités Mediastack mémorisées (fichier data/news_mediastack.json)."""
-    try:
-        if not os.path.exists(NEWS_MEDIASTACK_PATH):
-            return jsonify({"news": [], "count": 0})
-        with open(NEWS_MEDIASTACK_PATH, encoding="utf-8") as f:
-            data = json.load(f)
-        news = data.get("news", data) if isinstance(data, dict) else (data if isinstance(data, list) else [])
-        if not isinstance(news, list):
-            news = []
-        return jsonify({"news": news, "count": len(news)})
-    except Exception as e:
-        return jsonify({"error": str(e), "news": [], "count": 0}), 500
-
-
-@app.route("/api/mediastack-saved", methods=["POST"])
-def api_mediastack_saved_post():
-    """Ajoute des actualités aux mémorisées (fichier data/news_mediastack.json)."""
-    auth_error = _require_mutation_auth_if_enabled()
-    if auth_error is not None:
-        return auth_error
-    try:
-        payload = request.get_json(silent=True) or {}
-        to_add = payload.get("news", [])
-        if not isinstance(to_add, list) or not to_add:
-            return jsonify({"error": "news requis (tableau non vide)"}), 400
-        existing: list[dict] = []
-        if os.path.exists(NEWS_MEDIASTACK_PATH):
-            try:
-                with open(NEWS_MEDIASTACK_PATH, encoding="utf-8") as f:
-                    data = json.load(f)
-                existing = data.get("news", data) if isinstance(data, dict) else (data if isinstance(data, list) else [])
-                if not isinstance(existing, list):
-                    existing = []
-            except Exception:
-                existing = []
-        seen: set[str] = {a.get("url") or "" for a in existing}
-        for a in to_add:
-            if isinstance(a, dict):
-                url = (a.get("url") or "").strip()
-                if url and url not in seen:
-                    seen.add(url)
-                    existing.append(a)
-        if len(existing) > 100:
-            existing = existing[-100:]
-        os.makedirs(os.path.dirname(NEWS_MEDIASTACK_PATH), exist_ok=True)
-        with open(NEWS_MEDIASTACK_PATH, "w", encoding="utf-8") as f:
-            json.dump({"news": existing, "updated": datetime.now(timezone.utc).isoformat()}, f, ensure_ascii=False, indent=2)
-        return jsonify({"news": existing, "count": len(existing)})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-
-@app.route("/api/mediastack-saved", methods=["DELETE"])
-def api_mediastack_saved_delete():
-    """Efface les actualités Mediastack mémorisées (vide le fichier data/news_mediastack.json)."""
-    auth_error = _require_mutation_auth_if_enabled()
-    if auth_error is not None:
-        return auth_error
-    try:
-        if os.path.exists(NEWS_MEDIASTACK_PATH):
-            os.remove(NEWS_MEDIASTACK_PATH)
-        return jsonify({"news": [], "count": 0})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-
-@app.route("/api/mediastack-debug")
-def api_mediastack_debug():
-    """Debug : test direct de l'API Mediastack. Retourne la réponse brute."""
-    key = os.getenv("MEDIASTACK_ACCESS_KEY")
-    if not key:
-        return jsonify({"error": "MEDIASTACK_ACCESS_KEY absente", "key_loaded": False}), 200
-    try:
-        r = requests.get(
-            "http://api.mediastack.com/v1/news",
-            params={"access_key": key, "limit": 3, "sort": "published_desc"},
-            timeout=10,
-        )
-        data = r.json() if r.headers.get("content-type", "").startswith("application/json") else {"raw": r.text[:500]}
-        return jsonify({
-            "status_code": r.status_code,
-            "key_loaded": True,
-            "response": data,
-            "data_count": len(data.get("data") or []),
-            "error": data.get("error"),
-        })
-    except Exception as e:
-        return jsonify({"error": str(e), "key_loaded": True}), 500
-
-
-@app.route("/api/zonebourse-news-debug")
-def api_zonebourse_debug():
-    """Debug : retourne le résultat de get_latest_news pour diagnostiquer les actualités Zonebourse."""
-    try:
-        from zone_bourse.news_fetcher import get_latest_news
-        result = get_latest_news(limit=3)
-        items = result.get("items", [])
-        return jsonify({"count": len(items), "news": items, "used_fallback": result.get("used_fallback", False)})
-    except Exception as e:
-        return jsonify({"error": str(e), "count": 0, "news": []}), 500
-
-
-OPENAI_IMAGE_MODEL = "dall-e-3"
-
-
-def _load_image_prompt(kind: str) -> str:
-    """Charge le template du prompt image. kind = 'news' (actualité) ou 'instruments' (trader + écrans + logos)."""
-    filename = "image_instruments.txt" if kind == "instruments" else "image_news.txt"
-    path = os.path.join(os.path.dirname(__file__), "prompts", filename)
-    try:
-        with open(path, encoding="utf-8") as f:
-            return f.read().strip()
-    except OSError:
-        return "Professional financial illustration, clean and modern style:"
-
-
-def _generate_image_openai(prompt: str, style_index: int = 0, image_kind: str = "news") -> tuple[str | None, str | None]:
-    """Génère une image via l'API Images OpenAI (DALL·E). image_kind: 'news' ou 'instruments'. Retourne (data_url_base64, None) ou (None, erreur)."""
-    api_key = os.getenv("OPENAI_API_KEY")
-    if not api_key:
-        return None, "OPENAI_API_KEY manquant dans .env"
-    if not (prompt or "").strip():
-        return None, "Prompt vide"
-    template = _load_image_prompt(image_kind)
-    full_prompt = f"{template} {prompt.strip()}".strip()[:4000]
-    try:
-        from openai import OpenAI
-        client = OpenAI(api_key=api_key)
-        r = client.images.generate(
-            model=OPENAI_IMAGE_MODEL,
-            prompt=full_prompt,
-            n=1,
-            size="1024x1024",
-            response_format="b64_json",
-            quality="standard",
-        )
-        if not r.data or len(r.data) == 0:
-            return None, "Réponse OpenAI vide"
-        b64 = getattr(r.data[0], "b64_json", None)
-        if not b64:
-            return None, "Image non renvoyée en base64"
-        return f"data:image/png;base64,{b64}", None
-    except Exception as e:
-        return None, str(e).strip()[:300] or "Génération impossible"
-
-
-def _gen_zonebourse_image(prompt: str, style_index: int, image_kind: str = "news") -> str | None:
-    """Génère une image pour Dernières actualités. image_kind: 'news' (actualité) ou 'instruments' (trader + écrans)."""
-    data_url, _ = _generate_image_openai(prompt, style_index=style_index, image_kind=image_kind)
-    return data_url
-
-
-@app.route("/api/generate-news-image", methods=["POST"])
-def api_generate_news_image():
-    """Génère une image via OpenAI DALL·E. image_kind: 'news' (actualité) ou 'instruments' (trader + écrans)."""
-    data = request.get_json(silent=True) or {}
-    prompt = (data.get("prompt") or "").strip()
-    style_index = data.get("style_index", 0)
-    if not prompt:
-        return jsonify({"error": "prompt manquant"}), 400
-    kind = (data.get("image_kind") or "news").strip() or "news"
-    data_url, err = _generate_image_openai(prompt, style_index=style_index, image_kind=kind)
-    if not data_url:
-        return jsonify({"error": err or "Génération d'image impossible"}), 502
-    return jsonify({"image_data_url": data_url})
 
 
 def _append_etoro_published_post(title: str, summary: str, image_url: str | None) -> None:
