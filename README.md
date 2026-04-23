@@ -10,11 +10,11 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
   - [Récupérer les données du chatbot](#récupérer-les-données-du-chatbot)
   - [Consentements cookies (SQLite)](#consentements-cookies-sqlite)
   - [Inscriptions newsletter / messages (`contact_messages`)](#inscriptions-newsletter--messages-contact_messages)
-- [Corrections à apporter](#corrections-à-apporter)
 - [Prérequis](#prérequis)
 - [Dépendances principales](#dépendances-principales)
 - [Installation](#installation)
 - [Configuration](#configuration)
+  - [Configurer `REDIS_URL` (local et production)](#configurer-redis_url-local-et-production)
   - [Frontend séparé (Next.js)](#frontend-séparé-nextjs)
   - [Note performance (première visite)](#note-performance-première-visite)
   - [Checklist production (rapide)](#checklist-production-rapide)
@@ -25,26 +25,12 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
 - [Configuration du trader](#configuration-du-trader)
 - [Avatar (header) et favicon](#avatar-header-et-favicon)
 - [Export des messages chatbot vers SQLite (DB Browser)](#export-des-messages-chatbot-vers-sqlite-db-browser)
-  - [Ouvrir les bases dans DB Browser for SQLite](#ouvrir-les-bases-dans-db-browser-for-sqlite)
 - [API eToro](#api-etoro)
-  - [Publication de posts (feed eToro)](#publication-de-posts-feed-etoro)
 - [Actualités Zonebourse](#actualités-zonebourse)
-  - [Source des données (URLs)](#source-des-données-urls)
-  - [Résumé avec OpenAI](#résumé-avec-openai)
-  - [Actualités par instrument (Mediastack)](#actualités-par-instrument-mediastack)
-  - [Quand ça marche](#quand-ça-marche)
-  - [Quand ça échoue (message par défaut)](#quand-ça-échoue-message-par-défaut)
-  - [Vérifier la source](#vérifier-la-source)
 - [Sécurité et déploiement](#sécurité-et-déploiement)
 - [Apple / iOS](#apple--ios)
+- [Corrections à apporter](#corrections-à-apporter)
 - [Notes Werkzeug](#1️⃣-à-quoi-sert-werkzeug)
-  - [1️⃣ À quoi sert Werkzeug](#1️⃣-à-quoi-sert-werkzeug)
-  - [2️⃣ Exemple simple avec Werkzeug](#2️⃣-exemple-simple-avec-werkzeug)
-  - [3️⃣ Pourquoi Flask utilise Werkzeug](#3️⃣-pourquoi-flask-utilise-werkzeug)
-  - [4️⃣ Ce que contient Werkzeug](#4️⃣-ce-que-contient-werkzeug)
-  - [5️⃣ Werkzeug et WSGI](#5️⃣-werkzeug-et-wsgi)
-  - [6️⃣ Pourquoi utiliser Werkzeug directement](#6️⃣-pourquoi-utiliser-werkzeug-directement)
-  - [✅ Résumé](#-résumé)
 
 ## Fonctionnalités
 
@@ -334,6 +320,36 @@ SESSION_COOKIE_SAMESITE=Lax   # Lax ou Strict selon ton flux
 - **REDIS_URL** : recommandé en production pour partager le cache entre workers/containers et réduire les "cold starts".
 - **FRONTEND_ORIGINS** : whitelist CORS stricte pour le frontend séparé.
 - **API_AUTH_PASSWORD** : authentification de session pour les actions sensibles (mutations API).
+
+### Configurer `REDIS_URL` (local et production)
+
+Tu peux le configurer comme n’importe quelle variable d’environnement.
+
+Le plus simple en local :
+
+1. Lance Redis (exemple Docker) :
+
+```bash
+docker run -d --name myredis -p 6379:6379 redis:7
+```
+
+2. Mets la variable dans ton `.env` :
+
+```env
+REDIS_URL=redis://localhost:6379/0
+```
+
+3. Redémarre ton app (gunicorn/flask) pour recharger la variable.
+
+Format possible de `REDIS_URL` :
+
+- Sans mot de passe : `redis://host:6379/0`
+- Avec mot de passe : `redis://:PASSWORD@host:6379/0`
+- Avec TLS (souvent cloud) : `rediss://:PASSWORD@host:6380/0`
+
+Vérification rapide :
+
+- Au démarrage, l’app doit indiquer Redis actif dans les logs (ou via l’info `redis_enabled` dans `app.py`).
 
 ### Frontend séparé (Next.js)
 
