@@ -242,71 +242,6 @@
             padding-top: 1rem;
             border-top: 1px solid var(--border);
         }
-        .site-footer-chat-row {
-            display: none;
-            margin: 0 0 1rem;
-            text-align: center;
-        }
-        @media (max-width: 1024px) {
-            .site-footer-chat-row {
-                display: block;
-            }
-        }
-        /* Petits écrans : pas de doublon avec le FAB chat en bas à droite */
-        @media (max-width: 640px) {
-            .site-footer-chat-row {
-                display: none;
-            }
-        }
-        .site-footer-chat-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.35rem 0.45rem;
-            font-family: inherit;
-            color: var(--bg);
-            border: 1px solid rgba(255, 255, 255, 0.22);
-            border-radius: 12px;
-            cursor: pointer;
-            background: linear-gradient(
-                180deg,
-                rgba(255, 255, 255, 0.14) 0%,
-                var(--accent) 42%,
-                #4493d4 100%
-            );
-            box-shadow:
-                inset 0 1px 0 rgba(255, 255, 255, 0.35),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.12),
-                0 4px 8px rgba(0, 0, 0, 0.32),
-                0 2px 3px rgba(0, 0, 0, 0.22);
-            transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
-        }
-        .site-footer-chat-btn-avatar {
-            width: 64px;
-            height: 64px;
-            object-fit: contain;
-            display: block;
-            flex-shrink: 0;
-            border-radius: 8px;
-            pointer-events: none;
-            filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.25));
-        }
-        .site-footer-chat-btn:hover {
-            filter: brightness(1.05);
-            box-shadow:
-                inset 0 1px 0 rgba(255, 255, 255, 0.4),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.1),
-                0 6px 12px rgba(0, 0, 0, 0.35),
-                0 3px 5px rgba(0, 0, 0, 0.2);
-        }
-        .site-footer-chat-btn:active {
-            transform: translateY(2px);
-            filter: brightness(0.97);
-            box-shadow:
-                inset 0 2px 4px rgba(0, 0, 0, 0.22),
-                inset 0 -1px 0 rgba(255, 255, 255, 0.08),
-                0 1px 3px rgba(0, 0, 0, 0.28);
-        }
         .header-left-text {
             min-width: 0;
         }
@@ -472,6 +407,18 @@
             gap: 0.35rem;
         }
         @media (max-width: 1199px) {
+            /*
+             * En vue tablette/mobile, la zone "Home" superposée peut intercepter
+             * les taps sur les drapeaux/burger selon le viewport (notamment iPad).
+             */
+            .header-home-hit {
+                display: none !important;
+            }
+            header,
+            .header-right,
+            .header-right * {
+                pointer-events: auto !important;
+            }
             .header-right {
                 position: relative;
                 display: flex;

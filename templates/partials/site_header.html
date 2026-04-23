@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="header-right">
-                <button type="button" id="headerNavToggle" class="header-nav-burger" aria-expanded="false" aria-controls="headerNavMenu" title="Menu">
+                <button type="button" id="headerNavToggle" class="header-nav-burger" aria-expanded="false" aria-controls="headerNavMenu" title="Menu" onclick="(function(e){if(e){e.preventDefault();e.stopPropagation();}var m=document.getElementById('headerNavMenu');var b=document.getElementById('headerNavToggle');if(!m||!b)return;var open=m.classList.toggle('header-nav-menu--open');b.setAttribute('aria-expanded',open?'true':'false');})(event);">
                     <span class="header-nav-burger-icon" aria-hidden="true"></span>
                 </button>
                 <nav id="headerNavMenu" class="header-nav-menu" role="navigation" aria-label="Main">
@@ -34,8 +34,8 @@
                     <a href="/lexique" id="navHelpLexBtn" class="lang-btn nav-header-btn nav-help-btn" title="Glossary &amp; FAQ">?</a>
                 </nav>
                 <div class="header-lang-flags">
-                    <button type="button" id="langFrBtn" class="lang-btn" title="Français" aria-label="Français"><span class="lang-flag-emoji">🇫🇷</span><span class="lang-abbr"> FR</span></button>
-                    <button type="button" id="langEnBtn" class="lang-btn" title="English" aria-label="English"><span class="lang-flag-emoji">🇬🇧</span><span class="lang-abbr"> EN</span></button>
+                    <button type="button" id="langFrBtn" class="lang-btn" title="Français" aria-label="Français" onclick="(function(e){if(e){e.preventDefault();e.stopPropagation();}try{localStorage.setItem('page_lang','fr');}catch(_e){}window.location.reload();})(event);"><span class="lang-flag-emoji">🇫🇷</span><span class="lang-abbr"> FR</span></button>
+                    <button type="button" id="langEnBtn" class="lang-btn" title="English" aria-label="English" onclick="(function(e){if(e){e.preventDefault();e.stopPropagation();}try{localStorage.setItem('page_lang','en');}catch(_e){}window.location.reload();})(event);"><span class="lang-flag-emoji">🇬🇧</span><span class="lang-abbr"> EN</span></button>
                 </div>
             </div>
         </header>

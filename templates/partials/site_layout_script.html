@@ -103,7 +103,12 @@
                 })();
             }
 
-            var savedLang = localStorage.getItem("page_lang") || "en";
+            var savedLang = "en";
+            try {
+                savedLang = localStorage.getItem("page_lang") || "en";
+            } catch (e) {
+                savedLang = "en";
+            }
             applyLanguage(savedLang);
             var frBtn = document.getElementById("langFrBtn");
             var enBtn = document.getElementById("langEnBtn");

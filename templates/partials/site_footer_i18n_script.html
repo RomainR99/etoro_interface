@@ -1,5 +1,15 @@
     <script>
         (function () {
+            function applyRiskFooterLang(lang) {
+                var isFr = lang !== "en";
+                var frBlock = document.getElementById("riskBlockFr");
+                var enBlock = document.getElementById("riskBlockEn");
+                var frBreak = document.getElementById("riskFrBreak");
+                if (frBlock) frBlock.style.display = isFr ? "" : "none";
+                if (enBlock) enBlock.style.display = isFr ? "none" : "";
+                if (frBreak) frBreak.style.display = isFr ? "" : "none";
+            }
+
             window.applySiteFooterLegalLang = function (lang) {
                 var T = {
                     fr: {
@@ -24,6 +34,15 @@
                 if (a) a.textContent = t.legal;
                 if (b) b.textContent = t.privacy;
                 if (c) c.textContent = t.cookies;
+                applyRiskFooterLang(lang);
             };
+
+            var initialLang = "en";
+            try {
+                initialLang = localStorage.getItem("page_lang") || "en";
+            } catch (e) {
+                initialLang = "en";
+            }
+            window.applySiteFooterLegalLang(initialLang);
         })();
     </script>
