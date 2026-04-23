@@ -354,133 +354,457 @@ Vérification rapide :
 
 ### Redis à faire
 
-#### A quoi ca sert
+On va l'integrer proprement dans ton projet Flask `etoro_interface` avec :
 
-Bonne question : c'est un point cle quand tu passes d'un projet simple a une app plus serieuse.
+- Redis pour les sessions
+- Redis pour le cache des appels eToro
+- une structure simple a brancher sans casser ton app actuelle
 
-Redis est une base de donnees ultra rapide en memoire (RAM). On l'utilise pour eviter de refaire des operations lentes en permanence.
+Je te donne le chemin le plus direct.
 
-L'idee derriere "stocker login / token / etat utilisateur" :
+#### 1. Installer les dependances
 
-- quand un utilisateur se connecte, l'app doit retenir qu'il est connecte,
-- et ne pas redemander son mot de passe a chaque requete.
+Dans ton venv :
 
-Exemple de session en donnee temporaire :
-
-```text
-session_123 = {
-  "user_id": 42,
-  "token": "abc123",
-  "logged_in": True
-}
+```bash
+pip install redis flask-session
 ```
 
-Redis peut garder cet etat tres rapidement.
+Si tu es sur un VPS Ubuntu :
 
-Redis stocke notamment :
+```bash
+sudo apt update
+sudo apt install redis-server -y
+sudo systemctl enable redis
+sudo systemctl start redis
+redis-cli ping
+```
 
-- login
-- token
-- etat utilisateur
+Tu dois voir :
 
-➡️ Plus rapide et scalable.
+```text
+PONG
+```
 
-#### Pourquoi c'est plus rapide
+#### 2. Ajouter une config Redis dans ton projet
 
-- acces RAM en millisecondes,
-- pas de requete SQL a chaque appel,
-- pas de recalcul inutile.
+Dans ton fichier principal Flask, probablement `app.py`, ajoute :
 
-Parfait pour :
+```python
+import os
+import redis
+from flask import Flask
+from flask_session import Session
 
-- login,
-- sessions,
-- tokens API.
+app = Flask(__name__)
 
-#### Pourquoi c'est scalable
+app.secret_key = os.getenv("SECRET_KEY", "change-me-in-production")
 
-Imagine :
+REDIS_URL = os.getenv("REDIS_URL", "redis://127.0.0.1:6379/0")
+redis_client = redis.from_url(REDIS_URL, decode_responses=True)
 
-- 1000 utilisateurs connectes,
-- plusieurs serveurs Flask / workers Gunicorn.
+app.config["SESSION_TYPE"] = "redis"
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_USE_SIGNER"] = True
+app.config["SESSION_REDIS"] = redis_client
 
-Sans Redis :
+Session(app)
+```
 
-- chaque serveur garde son propre etat session,
-- risques d'incoherences entre workers.
+#### 3. Utiliser Redis pour la session utilisateur
 
-Avec Redis :
+Si aujourd'hui tu fais deja un login Flask avec `session`, c'est simple : tu gardes presque le meme code.
 
-- tous les serveurs lisent/ecrivent dans la meme memoire centrale.
+Exemple :
 
-Dans la pratique, on peut garder les deux :
+```python
+from flask import request, session, redirect, url_for
 
-- **memoire locale** (ultra rapide pour un worker)
-- **Redis partage** (coherent entre workers/instances)
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
 
-#### Aide pour le brancher directement dans `etoro_interface`
+        # Remplace ca par ta vraie logique d'auth
+        if username == "romain" and password == "test123":
+            session["logged_in"] = True
+            session["username"] = username
+            return redirect(url_for("profile"))
 
-Plan minimal recommande :
+        return "Identifiants invalides", 401
 
-1. Configurer `REDIS_URL` dans l'environnement (`.env` en local, variable plateforme en prod).
-2. Centraliser un client Redis unique (deja present dans `app.py` via `_redis_get_client()`).
-3. Utiliser Redis pour :
-   - sessions/login (si besoin de session partagee entre workers),
-   - cache des appels externes lents,
-   - etat utilisateur temporaire (ex. quotas, flags, cooldowns).
-4. Ajouter des TTL explicites sur toutes les cles (expiration automatique).
-5. Ajouter des logs/metrics simples : hit/miss cache, latence, erreurs Redis.
+    return """
+    <form method="post">
+        <input name="username" placeholder="Username">
+        <input name="password" type="password" placeholder="Password">
+        <button type="submit">Connexion</button>
+    </form>
+    """
+```
 
-Exemples concrets pour `etoro_interface` :
+Et pour proteger une route :
 
-- token API eToro temporaire,
-- donnees utilisateur temporaires,
-- etat portfolio recent.
+```python
+@app.route("/profile")
+def profile():
+    if not session.get("logged_in"):
+        return redirect(url_for("login"))
 
-But : eviter de redemander/recalculer a chaque fois.
+    username = session.get("username")
+    return f"Bonjour {username}"
+```
 
-#### Ajouter un decorateur de cache reutilisable : ca sert a quoi
+Pour logout :
 
-Un decorateur de cache reutilisable sert a :
+```python
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("login"))
+```
 
-- eviter de reecrire la meme logique de cache partout,
-- normaliser les TTL et la generation des cles,
-- reduire les appels API couteux et accelerer les pages,
-- simplifier la maintenance (un seul point a faire evoluer).
+Ca, Redis le stocke cote serveur, donc c'est plus propre que de tout dependre du navigateur.
 
-Exemple d'usage attendu :
+#### 4. Ajouter un cache Redis pour tes donnees eToro
 
-- decorer une fonction qui recupere des donnees eToro/actualites,
-- lire d'abord en cache (Redis/memoire),
-- sinon executer la fonction puis stocker le resultat avec TTL.
+L'idee : au lieu d'appeler l'API eToro a chaque requete, tu mets le resultat en cache pendant 30 a 120 secondes.
 
-#### Cas d'usage principaux Redis
+Ajoute une petite fonction utilitaire :
 
-1. **Cache** (prioritaire)
-   - ex. un appel API eToro a 1s peut devenir quasi instantane si le resultat est deja en Redis.
-2. **Sessions utilisateur**
-   - login, token, etat utilisateur, partages entre workers.
-3. **File de taches**
-   - via Redis + worker (ex. Celery/RQ) pour les traitements lourds.
-4. **Rate limiting**
-   - limiter X requetes/minute par utilisateur (anti abus API/chatbot).
+```python
+import json
+import requests
 
-#### Important
+def get_cached_json(key: str):
+    raw = redis_client.get(key)
+    if raw:
+        return json.loads(raw)
+    return None
 
-Redis sert pour :
+def set_cached_json(key: str, value, ttl: int = 60):
+    redis_client.setex(key, ttl, json.dumps(value))
+```
 
-- donnees temporaires,
-- donnees rapides.
+#### 5. Brancher ca sur ton appel eToro
 
-Redis ne remplace pas la base principale :
+Exemple generique :
 
-- utilisateurs et donnees metier persistantes -> PostgreSQL/SQLite.
+```python
+def fetch_etoro_portfolio():
+    # Remplace par ton vrai appel API / scraping / lecture locale
+    # Exemple fictif :
+    response = requests.get("https://api.example.com/etoro/portfolio", timeout=10)
+    response.raise_for_status()
+    return response.json()
+```
 
-Resume simple :
+Puis dans ta route Flask :
 
-- Redis = memoire rapide partagee,
-- utile pour stocker login / token / etat utilisateur,
-- objectif : aller plus vite, supporter plus d'utilisateurs, eviter les incoherences multi-serveurs.
+```python
+from flask import jsonify
+
+@app.route("/api/portfolio")
+def api_portfolio():
+    cache_key = "etoro:portfolio"
+    cached_data = get_cached_json(cache_key)
+
+    if cached_data:
+        return jsonify({
+            "source": "cache",
+            "data": cached_data
+        })
+
+    fresh_data = fetch_etoro_portfolio()
+    set_cached_json(cache_key, fresh_data, ttl=60)
+
+    return jsonify({
+        "source": "api",
+        "data": fresh_data
+    })
+```
+
+Comme ca :
+
+- premier appel -> API reelle
+- appels suivants pendant 60 sec -> Redis
+- ton site est plus rapide
+- tu reduis la charge
+
+#### 6. Si tu as plusieurs profils eToro
+
+Si tu affiches plusieurs profils, fais une cle par utilisateur :
+
+```python
+def get_portfolio_data(username: str):
+    cache_key = f"etoro:portfolio:{username}"
+    cached_data = get_cached_json(cache_key)
+
+    if cached_data:
+        return cached_data
+
+    # remplace par ton vrai fetch
+    response = requests.get(f"https://api.example.com/etoro/{username}", timeout=10)
+    response.raise_for_status()
+    data = response.json()
+
+    set_cached_json(cache_key, data, ttl=60)
+    return data
+```
+
+Et la route :
+
+```python
+@app.route("/api/portfolio/<username>")
+def api_portfolio_user(username):
+    data = get_portfolio_data(username)
+    return jsonify(data)
+```
+
+#### 7. Ajouter un decorateur de cache reutilisable
+
+Comme ca tu peux le brancher partout :
+
+```python
+import json
+from functools import wraps
+from flask import request
+
+def redis_cache(ttl=60, key_prefix="view"):
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            cache_key = f"{key_prefix}:{request.full_path}"
+            cached = redis_client.get(cache_key)
+
+            if cached:
+                return json.loads(cached)
+
+            result = func(*args, **kwargs)
+            redis_client.setex(cache_key, ttl, json.dumps(result))
+            return result
+        return wrapper
+    return decorator
+```
+
+Exemple :
+
+```python
+@app.route("/api/stats")
+@redis_cache(ttl=120, key_prefix="stats")
+def stats():
+    return {
+        "followers": 26,
+        "performance": "+142%"
+    }
+```
+
+Ca marche bien si la route renvoie deja un dict JSON simple.
+
+#### 8. Prevoir un fallback si Redis tombe
+
+Tres important en prod. Ton site ne doit pas casser juste parce que Redis est indisponible.
+
+Version securisee :
+
+```python
+def safe_get_cached_json(key: str):
+    try:
+        raw = redis_client.get(key)
+        if raw:
+            return json.loads(raw)
+    except Exception as e:
+        print(f"Redis GET error: {e}")
+    return None
+
+def safe_set_cached_json(key: str, value, ttl: int = 60):
+    try:
+        redis_client.setex(key, ttl, json.dumps(value))
+    except Exception as e:
+        print(f"Redis SET error: {e}")
+```
+
+Et dans la route :
+
+```python
+@app.route("/api/portfolio")
+def api_portfolio():
+    cache_key = "etoro:portfolio"
+    cached_data = safe_get_cached_json(cache_key)
+
+    if cached_data:
+        return jsonify({"source": "cache", "data": cached_data})
+
+    fresh_data = fetch_etoro_portfolio()
+    safe_set_cached_json(cache_key, fresh_data, ttl=60)
+
+    return jsonify({"source": "api", "data": fresh_data})
+```
+
+#### 9. Variables d'environnement a ajouter
+
+Dans ton `.env` :
+
+```env
+SECRET_KEY=une_vraie_cle_longue_et_random
+REDIS_URL=redis://127.0.0.1:6379/0
+```
+
+Si plus tard Redis tourne dans Docker ou ailleurs, tu changes juste cette URL.
+
+#### 10. Exemple de structure propre pour ton projet
+
+Tu peux viser quelque chose comme :
+
+```text
+etoro_interface/
+├── app.py
+├── .env
+├── templates/
+│   └── profile.html
+├── static/
+├── services/
+│   └── etoro_service.py
+└── utils/
+    └── cache.py
+```
+
+Par exemple :
+
+`utils/cache.py`
+
+```python
+import json
+import os
+import redis
+
+REDIS_URL = os.getenv("REDIS_URL", "redis://127.0.0.1:6379/0")
+redis_client = redis.from_url(REDIS_URL, decode_responses=True)
+
+def get_cached_json(key: str):
+    try:
+        raw = redis_client.get(key)
+        if raw:
+            return json.loads(raw)
+    except Exception as e:
+        print(f"Redis GET error: {e}")
+    return None
+
+def set_cached_json(key: str, value, ttl: int = 60):
+    try:
+        redis_client.setex(key, ttl, json.dumps(value))
+    except Exception as e:
+        print(f"Redis SET error: {e}")
+```
+
+`services/etoro_service.py`
+
+```python
+import requests
+from utils.cache import get_cached_json, set_cached_json
+
+def fetch_portfolio(username: str):
+    cache_key = f"etoro:portfolio:{username}"
+    cached = get_cached_json(cache_key)
+    if cached:
+        return cached
+
+    response = requests.get(f"https://api.example.com/etoro/{username}", timeout=10)
+    response.raise_for_status()
+    data = response.json()
+
+    set_cached_json(cache_key, data, ttl=60)
+    return data
+```
+
+`app.py`
+
+```python
+import os
+import redis
+from flask import Flask, jsonify, session, redirect, url_for
+from flask_session import Session
+from services.etoro_service import fetch_portfolio
+
+app = Flask(__name__)
+app.secret_key = os.getenv("SECRET_KEY", "change-me")
+
+REDIS_URL = os.getenv("REDIS_URL", "redis://127.0.0.1:6379/0")
+session_redis = redis.from_url(REDIS_URL, decode_responses=True)
+
+app.config["SESSION_TYPE"] = "redis"
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_USE_SIGNER"] = True
+app.config["SESSION_REDIS"] = session_redis
+
+Session(app)
+
+@app.route("/")
+def home():
+    return "OK"
+
+@app.route("/login")
+def login():
+    session["logged_in"] = True
+    session["username"] = "Romain"
+    return redirect(url_for("dashboard"))
+
+@app.route("/dashboard")
+def dashboard():
+    if not session.get("logged_in"):
+        return redirect(url_for("login"))
+    return f"Bienvenue {session.get('username')}"
+
+@app.route("/api/portfolio/<username>")
+def api_portfolio(username):
+    data = fetch_portfolio(username)
+    return jsonify(data)
+```
+
+#### 11. Ce que ca t'apporte immediatement
+
+Pour `etoro_interface`, Redis va te servir a deux choses tres concretes :
+
+Sessions :
+
+- garder l'utilisateur connecte
+- partager l'etat entre plusieurs workers Gunicorn
+- eviter les soucis si l'app redemarre
+
+Cache :
+
+- eviter de refaire les appels eToro a chaque chargement
+- accelerer l'affichage
+- reduire le risque de blocage ou de timeout
+
+#### 12. Ce que je te conseille pour commencer
+
+Fais simple :
+
+- branche Redis pour les sessions
+- ajoute un cache 60 secondes sur ta route portfolio
+- teste localement
+- ensuite on le met sur ton VPS avec Gunicorn + Nginx
+
+#### 13. Test rapide a faire
+
+Une fois branche :
+
+```bash
+redis-cli keys "*"
+```
+
+Tu verras apparaitre des cles du style :
+
+```text
+session:...
+etoro:portfolio:...
+```
+
+Et pour tester le cache :
+
+- premier refresh -> source `"api"`
+- deuxieme refresh dans la minute -> source `"cache"`
 
 ### Frontend séparé (Next.js)
 
