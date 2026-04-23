@@ -30,6 +30,7 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
 - [API eToro](#api-etoro)
 - [Actualités Zonebourse](#actualités-zonebourse)
 - [Sécurité et déploiement](#sécurité-et-déploiement)
+  - [C'est quoi le MFA ?](#cest-quoi-le-mfa-)
 - [Apple / iOS](#apple--ios)
 - [Corrections à apporter](#corrections-à-apporter)
 - [Notes Werkzeug](#1️⃣-à-quoi-sert-werkzeug)
@@ -211,6 +212,83 @@ sqlite3 data/contact_messages.sqlite "SELECT id, first_name, last_name, email, s
 - **Firewall** : mettre en place un firewall pour limiter les accès réseau au strict nécessaire.
 - **Reverse proxy** : placer l’application derrière un reverse proxy (ex. Nginx) pour mieux filtrer et sécuriser le trafic entrant.
 - **Bots Internet et SSH** : ajouter une protection contre les bots Internet, surtout sur SSH (durcissement SSH, blocage brute force, filtrage d’IP, etc.).
+
+### C'est quoi le MFA ?
+
+👉 **MFA** = *Multi-Factor Authentication*  
+(en français : **authentification multi-facteurs**)
+
+➡️ Ça veut dire : tu dois prouver ton identité avec **plusieurs** éléments.
+
+#### Exemple concret
+
+**Sans MFA**
+
+- login + mot de passe  
+- ➡️ si quelqu’un le vole → accès total ❌
+
+**Avec MFA**
+
+- login + mot de passe  
+- code sur téléphone  
+- ➡️ même si le mot de passe est volé → bloqué ✅
+
+#### Les 3 types de facteurs
+
+1. **Ce que tu sais** — mot de passe  
+2. **Ce que tu possèdes** — téléphone, app (Google Authenticator, etc.)  
+3. **Ce que tu es** — empreinte, Face ID  
+
+#### Exemple simple (le plus courant)
+
+👉 Tu te connectes :
+
+1. tu mets ton mot de passe  
+2. tu reçois un code (6 chiffres)  
+3. tu le rentres  
+
+➡️ accès autorisé
+
+#### Pourquoi c’est crucial pour toi
+
+Pour ton projet **microcrédit**, tu vas gérer :
+
+- données personnelles  
+- KYC  
+- potentiellement des infos financières  
+
+➡️ **sans MFA** :
+
+- ❌ énorme risque de piratage  
+- ❌ problème légal (RGPD)  
+
+#### Cas concret — accès admin (toi)
+
+**Sans MFA** : quelqu’un devine ton mot de passe → il contrôle tout ❌  
+
+**Avec MFA** : il lui faut ton téléphone → quasi impossible ✅  
+
+#### Où mettre le MFA
+
+- **Ton serveur (SSH)** — ultra important (ex. clé SSH + code)  
+- **Ton app admin** — panneau admin Flask  
+- **AWS / OVH** — accès cloud  
+
+#### Outils populaires
+
+- Google Authenticator  
+- Microsoft Authenticator  
+- Authy  
+
+#### Résumé simple
+
+👉 MFA = **double sécurité** : mot de passe + code téléphone (ou autre second facteur).
+
+👉 À considérer comme **obligatoire** pour : admin, infra, microcrédit.
+
+#### Conseil pour toi
+
+👉 Fais-le **dès le début** pour : SSH, ton serveur, ton compte cloud.
 
 ## Apple / iOS
 
