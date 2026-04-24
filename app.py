@@ -153,9 +153,7 @@ TRADER_POST_IMAGES_DIR = os.path.join(os.path.dirname(__file__), "data", "trader
 LEXIQUE_PATH = os.path.join(os.path.dirname(__file__), "data", "lexique.json")
 FAQ_PATH = os.path.join(os.path.dirname(__file__), "data", "faq.json")
 COOKIE_CONSENT_DB_PATH = os.path.join(os.path.dirname(__file__), "data", "cookie_consent.sqlite")
-CONTACT_MESSAGES_DB_PATH = os.path.join(os.path.dirname(__file__), "data", "contact_messages.sqlite")
 _cookie_consent_db_ready = False
-_contact_messages_db_ready = False
 _newsletter_subscribe_rate: dict[str, list[float]] = {}
 NEWSLETTER_SUBSCRIBE_MAX_PER_HOUR = 12
 _lexique_json_cache: list | None = None
@@ -456,35 +454,6 @@ def _log_cookie_consent_to_db(
         conn.close()
 
 
-def _ensure_contact_messages_db() -> None:
-    """Crée la base SQLite et la table contact_messages (équivalent schéma PostgreSQL du projet)."""
-    global _contact_messages_db_ready
-    if _contact_messages_db_ready:
-        return
-    os.makedirs(os.path.dirname(CONTACT_MESSAGES_DB_PATH), exist_ok=True)
-    conn = sqlite3.connect(CONTACT_MESSAGES_DB_PATH)
-    try:
-        conn.execute(
-            """
-            CREATE TABLE IF NOT EXISTS contact_messages (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                first_name TEXT,
-                last_name TEXT,
-                email TEXT NOT NULL,
-                subject TEXT,
-                message TEXT NOT NULL,
-                created_at TEXT NOT NULL DEFAULT (datetime('now'))
-            )
-            """
-        )
-        conn.execute("CREATE INDEX IF NOT EXISTS idx_contact_messages_created ON contact_messages(created_at)")
-        conn.execute("CREATE INDEX IF NOT EXISTS idx_contact_messages_email ON contact_messages(email)")
-        conn.commit()
-        _contact_messages_db_ready = True
-    finally:
-        conn.close()
-
-
 def _insert_contact_message(
     first_name: str | None,
     last_name: str | None,
@@ -492,13 +461,14 @@ def _insert_contact_message(
     subject: str | None,
     message: str,
 ) -> None:
-    _ensure_contact_messages_db()
-    conn = sqlite3.connect(CONTACT_MESSAGES_DB_PATH)
+    conn = psycopg2.connect(DATABASE_URL)
+    cur = conn.cursor()
     try:
-        conn.execute(
+        cur.execute(
             """
-            INSERT INTO contact_messages (first_name, last_name, email, subject, message, created_at)
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT INTO contact_messages
+            (first_name, last_name, email, subject, message)
+            VALUES (%s, %s, %s, %s, %s)
             """,
             (
                 (first_name or "")[:100] or None,
@@ -506,11 +476,11 @@ def _insert_contact_message(
                 email[:255],
                 (subject or "")[:255] or None,
                 message[:10000],
-                datetime.now(timezone.utc).isoformat(),
             ),
         )
         conn.commit()
     finally:
+        cur.close()
         conn.close()
 
 
