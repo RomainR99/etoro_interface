@@ -146,14 +146,11 @@ def username_display_filter(name: str) -> str:
 TRADER_USERNAME = "RomainRoth"
 DATE_FROM = "2022-09"  # Données à partir de septembre 2022
 COPIERS_VS_PERF_CACHE = os.path.join(os.path.dirname(__file__), "data", "copiers_vs_performance.json")
-CHAT_QUESTIONS_LOG = os.path.join(os.path.dirname(__file__), "data", "chat_questions.jsonl")
 ETORO_PUBLISHED_POSTS_PATH = os.path.join(os.path.dirname(__file__), "data", "etoro_published_posts.json")
 TRADER_POSTS_PATH = os.path.join(os.path.dirname(__file__), "data", "trader_posts_romainroth.json")
 TRADER_POST_IMAGES_DIR = os.path.join(os.path.dirname(__file__), "data", "trader_post_images")
 LEXIQUE_PATH = os.path.join(os.path.dirname(__file__), "data", "lexique.json")
 FAQ_PATH = os.path.join(os.path.dirname(__file__), "data", "faq.json")
-COOKIE_CONSENT_DB_PATH = os.path.join(os.path.dirname(__file__), "data", "cookie_consent.sqlite")
-_cookie_consent_db_ready = False
 _newsletter_subscribe_rate: dict[str, list[float]] = {}
 NEWSLETTER_SUBSCRIBE_MAX_PER_HOUR = 12
 _lexique_json_cache: list | None = None
@@ -183,6 +180,13 @@ ALLOWED_FRONTEND_ORIGINS = {
     for o in (os.getenv("FRONTEND_ORIGINS") or "http://localhost:3000").split(",")
     if o.strip()
 }
+
+
+def get_pg_connection():
+    if not DATABASE_URL:
+        raise RuntimeError("DATABASE_URL missing")
+    return psycopg2.connect(DATABASE_URL)
+
 
 # Rate limit par visitor_id : 5/min, 30/h, 100/j
 CHAT_RATE_LIMIT = {"per_min": 5, "per_hour": 30, "per_day": 100}
@@ -394,36 +398,6 @@ def _get_client_ip() -> str:
     return request.remote_addr or "unknown"
 
 
-def _ensure_cookie_consent_db() -> None:
-    """Crée la base SQLite et la table si besoin."""
-    global _cookie_consent_db_ready
-    if _cookie_consent_db_ready:
-        return
-    os.makedirs(os.path.dirname(COOKIE_CONSENT_DB_PATH), exist_ok=True)
-    conn = sqlite3.connect(COOKIE_CONSENT_DB_PATH)
-    try:
-        conn.execute(
-            """
-            CREATE TABLE IF NOT EXISTS cookie_consent_log (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                created_at TEXT NOT NULL,
-                choice TEXT NOT NULL,
-                visitor_id TEXT,
-                lang TEXT,
-                user_agent TEXT,
-                client_ip TEXT
-            )
-            """
-        )
-        conn.execute(
-            "CREATE INDEX IF NOT EXISTS idx_cookie_consent_created ON cookie_consent_log(created_at)"
-        )
-        conn.commit()
-        _cookie_consent_db_ready = True
-    finally:
-        conn.close()
-
-
 def _log_cookie_consent_to_db(
     choice: str,
     visitor_id: str | None,
@@ -431,24 +405,23 @@ def _log_cookie_consent_to_db(
     user_agent: str | None,
     client_ip: str | None,
 ) -> None:
-    """Enregistre une ligne de consentement cookies (trace en base)."""
-    _ensure_cookie_consent_db()
-    conn = sqlite3.connect(COOKIE_CONSENT_DB_PATH)
+    conn = get_pg_connection()
     try:
-        conn.execute(
-            """
-            INSERT INTO cookie_consent_log (created_at, choice, visitor_id, lang, user_agent, client_ip)
-            VALUES (?, ?, ?, ?, ?, ?)
-            """,
-            (
-                datetime.now(timezone.utc).isoformat(),
-                choice,
-                visitor_id or "",
-                (lang or "")[:16],
-                (user_agent or "")[:512],
-                (client_ip or "")[:64],
-            ),
-        )
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                INSERT INTO cookie_consent_log
+                (created_at, choice, visitor_id, lang, user_agent, client_ip)
+                VALUES (NOW(), %s, %s, %s, %s, %s)
+                """,
+                (
+                    choice,
+                    visitor_id or "",
+                    (lang or "")[:16],
+                    (user_agent or "")[:512],
+                    (client_ip or "")[:64],
+                ),
+            )
         conn.commit()
     finally:
         conn.close()
@@ -461,7 +434,7 @@ def _insert_contact_message(
     subject: str | None,
     message: str,
 ) -> None:
-    conn = psycopg2.connect(DATABASE_URL)
+    conn = get_pg_connection()
     cur = conn.cursor()
     try:
         cur.execute(
@@ -1721,7 +1694,7 @@ def health():
 @app.route("/db-test")
 def db_test():
     try:
-        conn = psycopg2.connect(DATABASE_URL)
+        conn = get_pg_connection()
         cur = conn.cursor()
         cur.execute("SELECT 1;")
         result = cur.fetchone()
@@ -1843,40 +1816,51 @@ def _append_etoro_published_post(title: str, summary: str, image_url: str | None
 
 
 def _append_chat_question(question: str, reply: str) -> None:
-    """Enregistre une question utilisateur et la réponse dans le log JSONL."""
     if not question.strip():
         return
+
+    conn = get_pg_connection()
     try:
-        os.makedirs(os.path.dirname(CHAT_QUESTIONS_LOG), exist_ok=True)
-        entry = {
-            "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-            "question": question.strip(),
-            "reply": (reply or "").strip(),
-        }
-        with open(CHAT_QUESTIONS_LOG, "a", encoding="utf-8") as f:
-            f.write(json.dumps(entry, ensure_ascii=False) + "\n")
-    except Exception:
-        pass
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                INSERT INTO chat_questions (created_at, question, reply)
+                VALUES (NOW(), %s, %s)
+                """,
+                (
+                    question.strip(),
+                    (reply or "").strip(),
+                ),
+            )
+        conn.commit()
+    finally:
+        conn.close()
 
 
 def _load_chat_questions() -> list[dict]:
-    """Charge la liste des questions/réponses depuis le log JSONL."""
-    rows: list[dict] = []
-    if not os.path.exists(CHAT_QUESTIONS_LOG):
-        return rows
+    conn = get_pg_connection()
     try:
-        with open(CHAT_QUESTIONS_LOG, encoding="utf-8") as f:
-            for line in f:
-                line = line.strip()
-                if not line:
-                    continue
-                try:
-                    rows.append(json.loads(line))
-                except json.JSONDecodeError:
-                    pass
-    except Exception:
-        pass
-    return rows
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT created_at, question, reply
+                FROM chat_questions
+                ORDER BY created_at DESC
+                LIMIT 1000
+                """
+            )
+            rows = cur.fetchall()
+
+        return [
+            {
+                "timestamp": r[0].isoformat(),
+                "question": r[1],
+                "reply": r[2],
+            }
+            for r in rows
+        ]
+    finally:
+        conn.close()
 
 
 def _load_trader_posts_local(limit: int | None = None) -> list[dict]:
