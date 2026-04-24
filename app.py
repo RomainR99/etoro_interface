@@ -22,6 +22,7 @@ import pickle
 from datetime import datetime, timezone
 from concurrent.futures import ThreadPoolExecutor, wait
 
+import psycopg2
 import requests
 from flask import Flask, Response, g, make_response, jsonify, redirect, render_template, request, send_from_directory, session, url_for
 from etoro_client import (
@@ -170,6 +171,7 @@ STARTUP_WARMUP_MAX_SECONDS = max(
     float((os.getenv("STARTUP_WARMUP_MAX_SECONDS") or "10").strip() or "10"),
 )
 REDIS_URL = (os.getenv("REDIS_URL") or "").strip()
+DATABASE_URL = (os.getenv("DATABASE_URL") or "").strip()
 WARMUP_TOKEN = (os.getenv("WARMUP_TOKEN") or "").strip()
 AUTO_WARMUP_ON_START = (os.getenv("AUTO_WARMUP_ON_START") or "1").strip().lower() in ("1", "true", "yes", "on")
 _redis_client = None
@@ -1744,6 +1746,20 @@ def health():
     """Route de diagnostic sans appel API externe."""
     _start_background_warmup_once()
     return "OK", 200
+
+
+@app.route("/db-test")
+def db_test():
+    try:
+        conn = psycopg2.connect(DATABASE_URL)
+        cur = conn.cursor()
+        cur.execute("SELECT 1;")
+        result = cur.fetchone()
+        cur.close()
+        conn.close()
+        return f"DB OK: {result}"
+    except Exception as e:
+        return f"DB ERROR: {e}"
 
 
 IMAGES_DIR = os.path.join(os.path.dirname(__file__), "images")
