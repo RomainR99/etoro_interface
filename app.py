@@ -9,6 +9,8 @@ load_app_dotenv(Path(__file__).resolve().parent)
 
 import base64
 import csv
+import hashlib
+import hmac
 import io
 import json
 import math
@@ -478,6 +480,30 @@ def _split_subscriber_name(full: str) -> tuple[str, str]:
     first = parts[0][:100]
     last = (parts[1].strip()[:100] if len(parts) > 1 else "")[:100]
     return first, last
+
+
+def _newsletter_unsubscribe_token(email: str) -> str:
+    secret = (
+        (os.getenv("NEWSLETTER_UNSUBSCRIBE_SECRET") or "").strip()
+        or (os.getenv("FLASK_SECRET_KEY") or os.getenv("SECRET_KEY") or "dev-secret-change-me").strip()
+    )
+    normalized = (email or "").strip().lower()
+    return hmac.new(secret.encode("utf-8"), normalized.encode("utf-8"), hashlib.sha256).hexdigest()
+
+
+def _is_valid_newsletter_unsubscribe_token(email: str, token: str) -> bool:
+    expected = _newsletter_unsubscribe_token(email)
+    return bool(token) and hmac.compare_digest(expected, token.strip())
+
+
+def _mark_newsletter_unsubscribed(email: str) -> None:
+    _insert_contact_message(
+        None,
+        None,
+        email.strip().lower(),
+        "Newsletter Unsubscribe",
+        "User clicked unsubscribe link from newsletter email.",
+    )
 
 
 def _check_chat_rate_limit(visitor_id: str) -> bool:
@@ -1389,6 +1415,32 @@ def api_newsletter_subscribe():
         return jsonify({"ok": False, "error": "storage"}), 500
     _newsletter_rate_record(ip)
     return jsonify({"ok": True})
+
+
+@app.route("/newsletter/unsubscribe", methods=["GET"])
+def newsletter_unsubscribe():
+    email = (request.args.get("email") or "").strip().lower()
+    token = (request.args.get("token") or "").strip()
+    if not email or "@" not in email or not _is_valid_newsletter_unsubscribe_token(email, token):
+        return Response(
+            "<h1>Invalid unsubscribe link</h1><p>Please request a new newsletter email and try again.</p>",
+            status=400,
+            mimetype="text/html",
+        )
+    try:
+        _mark_newsletter_unsubscribed(email)
+    except Exception:
+        app.logger.exception("newsletter_unsubscribe_db")
+        return Response(
+            "<h1>Error</h1><p>Unable to process your unsubscribe request right now.</p>",
+            status=500,
+            mimetype="text/html",
+        )
+    return Response(
+        "<h1>Unsubscribed</h1><p>You have been unsubscribed from the newsletter.</p>",
+        status=200,
+        mimetype="text/html",
+    )
 
 
 # Livres recommandés (page /reading) — titres et notes FR/EN

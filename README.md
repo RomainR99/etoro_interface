@@ -21,6 +21,7 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
   - [Note performance (première visite)](#note-performance-première-visite)
   - [Checklist production (rapide)](#checklist-production-rapide)
   - [Déploiement production](#déploiement-production)
+    - [Cron serveur pour le sync eToro](#cron-serveur-pour-le-sync-etoro)
 - [Lancement](#lancement)
   - [Gunicorn (3 façons équivalentes)](#gunicorn-3-façons-équivalentes)
 - [Structure](#structure)
@@ -1014,6 +1015,48 @@ En production, les clés API eToro n’ont pas besoin d’être dans un `.env` d
 - **Gunicorn** : exemple d’unité dans `deploy/gunicorn-etoro.service.example` (même `EnvironmentFile` que le job de sync).
 - **Sync des posts trader** : script `sync_romain_posts.py` (JSON + images WebP dans `data/`). Pour l’exécuter **tous les jours** sans intervention, utiliser le timer systemd `deploy/sync-trader-posts.timer` + `deploy/sync-trader-posts.service` (adapter chemins et utilisateur). L’application **recharge** `data/trader_posts_romainroth.json` lorsque le fichier change sur disque ; **inutile de redémarrer Gunicorn** après le sync.
 - **Installation pas à pas** : [`deploy/README.md`](deploy/README.md).
+
+#### Cron serveur pour le sync eToro
+
+Si ton cron tourne sur un serveur séparé, la configuration doit etre faite directement sur ce serveur (le `crontab` local de ton Mac ne s'applique pas en production).
+
+1. Se connecter en SSH :
+
+```bash
+ssh <user>@<ip-ou-domaine>
+```
+
+2. Ouvrir le crontab du bon utilisateur :
+
+```bash
+crontab -e
+```
+
+3. Ajouter la tache quotidienne (6h00) :
+
+```bash
+0 6 * * * cd /chemin/vers/etoro_interface && /chemin/vers/etoro_interface/venv/bin/python sync_romain_posts.py >> /chemin/vers/etoro_interface/logs/sync.log 2>&1
+```
+
+4. Creer le dossier de logs (une fois) :
+
+```bash
+mkdir -p /chemin/vers/etoro_interface/logs
+```
+
+5. Verifier l'installation du cron :
+
+```bash
+crontab -l
+```
+
+6. Tester sans attendre 6h00 :
+
+```bash
+cd /chemin/vers/etoro_interface
+/chemin/vers/etoro_interface/venv/bin/python sync_romain_posts.py
+tail -n 100 /chemin/vers/etoro_interface/logs/sync.log
+```
 
 ## Lancement
 
