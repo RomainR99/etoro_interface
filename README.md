@@ -14,6 +14,7 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
 - [Dépendances principales](#dépendances-principales)
 - [Installation](#installation)
 - [Configuration](#configuration)
+  - [Trouver et configurer `DATABASE_URL`](#trouver-et-configurer-database_url)
   - [Configurer `REDIS_URL` (local et production)](#configurer-redis_url-local-et-production)
   - [Redis à faire](#redis-à-faire)
   - [C'est quoi Celery ?](#cest-quoi-celery)
@@ -401,6 +402,58 @@ SESSION_COOKIE_SAMESITE=Lax   # Lax ou Strict selon ton flux
 - **REDIS_URL** : recommandé en production pour partager le cache entre workers/containers et réduire les "cold starts".
 - **FRONTEND_ORIGINS** : whitelist CORS stricte pour le frontend séparé.
 - **API_AUTH_PASSWORD** : authentification de session pour les actions sensibles (mutations API).
+
+### Trouver et configurer `DATABASE_URL`
+
+Question frequente : comment trouver la bonne valeur pour :
+
+```env
+DATABASE_URL=postgresql://romain:monpass@127.0.0.1:5432/etoro
+```
+
+Tu ne l'inventes pas : elle depend de l'endroit ou tourne PostgreSQL.
+
+#### Cas 1 - PostgreSQL local (machine/VPS)
+
+Construire l'URL avec :
+
+- `USER` : utilisateur PostgreSQL
+- `PASSWORD` : mot de passe PostgreSQL
+- `HOST` : `127.0.0.1` (ou l'IP/hostname du serveur DB)
+- `PORT` : `5432` (souvent)
+- `DBNAME` : nom de la base
+
+Format :
+
+```env
+DATABASE_URL=postgresql://USER:PASSWORD@127.0.0.1:5432/DBNAME
+```
+
+Exemple :
+
+```env
+DATABASE_URL=postgresql://romain:MonSuperPass@127.0.0.1:5432/etoro
+```
+
+#### Cas 2 - PostgreSQL heberge (Neon, Supabase, Railway, Render, etc.)
+
+Dans le dashboard du provider, copier la valeur **Connection string** ou **DATABASE_URL** et la coller telle quelle dans `.env`.
+
+#### Cas 3 - Verifier avec `psql`
+
+Verifier les bases disponibles :
+
+```bash
+psql -l
+```
+
+Tester une connexion :
+
+```bash
+psql -h 127.0.0.1 -U <user> -d <dbname>
+```
+
+Si la connexion fonctionne, utiliser les memes parametres dans `DATABASE_URL`.
 
 ### Configurer `REDIS_URL` (local et production)
 
