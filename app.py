@@ -2249,12 +2249,28 @@ def _load_chatbot_prompt() -> str:
     return prompt
 
 
+def _chat_language_instruction(ui_lang: str, current_message: str) -> str:
+    """Instruction dynamique de langue selon la langue UI et le message courant."""
+    ui = "en" if ui_lang == "en" else "fr"
+    msg = (current_message or "").strip()
+    return (
+        "Instruction de langue prioritaire:\n"
+        f"- Langue d'interface actuelle: {ui}.\n"
+        "- Si le dernier message utilisateur est clairement rédigé dans une autre langue, réponds dans cette langue.\n"
+        "- Sinon, réponds dans la langue de l'interface (en pour interface anglaise, fr pour interface française).\n"
+        f"- Dernier message utilisateur: {msg}"
+    )
+
+
 @app.route("/api/chat", methods=["POST"])
 def api_chat():
     """Chatbot OpenAI : envoie les messages et retourne la réponse. Rate limit par visitor_id. CAPTCHA si requis."""
     visitor_id = _get_or_set_visitor_id()
     data = request.get_json() or {}
     messages = data.get("messages") or []
+    ui_lang = (data.get("lang") or "").strip().lower()
+    if ui_lang not in ("fr", "en"):
+        ui_lang = "en"
     if not messages:
         return jsonify({"error": "messages requis"}), 400
     user_msgs = [m.get("content", "") for m in messages if m.get("role") == "user"]
@@ -2287,6 +2303,7 @@ def api_chat():
     if not key:
         return jsonify({"error": "OPENAI_API_KEY manquante"}), 500
     system_prompt = _load_chatbot_prompt()
+    system_prompt = system_prompt + "\n\n" + _chat_language_instruction(ui_lang, current_message)
     try:
         client = OpenAI(api_key=key, timeout=CHAT_OPENAI_TIMEOUT_SEC)
         history = messages[-MAX_HISTORY_MESSAGES:] if len(messages) > MAX_HISTORY_MESSAGES else messages

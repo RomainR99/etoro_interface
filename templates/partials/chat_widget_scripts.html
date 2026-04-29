@@ -100,7 +100,10 @@
                 if (inputEl) inputEl.disabled = !!busy;
             }
             function doFetch(msgs, captchaToken, signal) {
-                var payload = { messages: msgs };
+                var lang = "en";
+                try { lang = localStorage.getItem("page_lang") || "en"; } catch (e) {}
+                if (lang !== "fr" && lang !== "en") lang = "en";
+                var payload = { messages: msgs, lang: lang };
                 if (captchaToken) payload.captcha_token = captchaToken;
                 var opts = {
                     method: "POST",
