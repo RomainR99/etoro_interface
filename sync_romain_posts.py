@@ -282,8 +282,20 @@ def _build_newsletter_html(recipient_email: str, recipient_name: str, new_posts:
         msg = str(post.get("message") or "").strip()
         created = str(post.get("created") or "").strip()
         preview = (msg[:260] + "...") if len(msg) > 260 else msg
+        image_url = str(post.get("image_url") or "").strip()
+        remote_image_url = str(post.get("image_remote_url") or "").strip()
+        if image_url.startswith("/"):
+            image_url = f"{base_url}{image_url}"
+        if not image_url and remote_image_url.startswith("http"):
+            image_url = remote_image_url
+        image_block = (
+            f"<br><img src=\"{image_url}\" alt=\"Post image\" "
+            "style=\"display:block;margin-top:8px;max-width:100%;height:auto;border-radius:8px;\">"
+            if image_url
+            else ""
+        )
         posts_html.append(
-            f"<li style='margin-bottom:14px;'><strong>{created}</strong><br>{preview}</li>"
+            f"<li style='margin-bottom:14px;'><strong>{created}</strong><br>{preview}{image_block}</li>"
         )
     posts_block = "".join(posts_html) or "<li>Nouveau contenu disponible sur le profil.</li>"
     hello = f"Bonjour {recipient_name}," if recipient_name else "Bonjour,"
