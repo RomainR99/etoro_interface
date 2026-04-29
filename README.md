@@ -1069,6 +1069,48 @@ En production, les clés API eToro n’ont pas besoin d’être dans un `.env` d
 - **Sync des posts trader** : script `sync_romain_posts.py` (JSON + images WebP dans `data/`). Pour l’exécuter **tous les jours** sans intervention, utiliser le timer systemd `deploy/sync-trader-posts.timer` + `deploy/sync-trader-posts.service` (adapter chemins et utilisateur). L’application **recharge** `data/trader_posts_romainroth.json` lorsque le fichier change sur disque ; **inutile de redémarrer Gunicorn** après le sync.
 - **Installation pas à pas** : [`deploy/README.md`](deploy/README.md).
 
+#### Variables serveur minimales (`/etc/etoro/interface.env`)
+
+Pour la récupération des posts eToro + newsletter automatique, définir au minimum :
+
+- `ETORO_API_KEY`
+- `ETORO_USER_KEY`
+- `DATABASE_URL`
+- `SMTP_HOST`
+- `SMTP_PORT`
+- `SMTP_USER`
+- `SMTP_PASSWORD`
+- `SMTP_FROM`
+- `SMTP_USE_TLS=1`
+- `SITE_BASE_URL`
+- `NEWSLETTER_UNSUBSCRIBE_SECRET`
+
+Exemple :
+
+```env
+ETORO_API_KEY=...
+ETORO_USER_KEY=...
+DATABASE_URL=postgresql://user:pass@127.0.0.1:5432/etoro
+SMTP_HOST=smtp.mail.ovh.net
+SMTP_PORT=587
+SMTP_USER=contact@romainroth.com
+SMTP_PASSWORD=...
+SMTP_FROM=Romain Roth <contact@romainroth.com>
+SMTP_USE_TLS=1
+SITE_BASE_URL=https://romainroth.com
+NEWSLETTER_UNSUBSCRIBE_SECRET=...
+```
+
+À quoi servent les variables SMTP / URL :
+
+- `SMTP_HOST` : serveur SMTP de ton fournisseur mail (ex. `smtp.mail.ovh.net`).
+- `SMTP_PORT` : port SMTP (souvent `587` avec TLS, parfois `465` en SSL).
+- `SMTP_USER` : identifiant du compte mail SMTP.
+- `SMTP_PASSWORD` : mot de passe (ou mot de passe applicatif) du compte SMTP.
+- `SMTP_FROM` : expéditeur affiché dans les emails (ex. `Romain Roth <contact@...>`).
+- `SMTP_USE_TLS=1` : active le chiffrement TLS (recommandé avec port `587`).
+- `SITE_BASE_URL` : URL publique du site, utilisée pour les liens email (ex. désinscription).
+
 #### Cron serveur pour le sync eToro
 
 Si ton cron tourne sur un serveur séparé, la configuration doit etre faite directement sur ce serveur (le `crontab` local de ton Mac ne s'applique pas en production).
