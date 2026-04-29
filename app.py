@@ -2099,6 +2099,25 @@ def _load_chatbot_resources(filename: str) -> str:
     return ""
 
 
+def _load_chatbot_resource_pairs(filename: str) -> list[tuple[str, str]]:
+    """Charge une liste titre|URL depuis prompts/<filename>."""
+    path = os.path.join(os.path.dirname(__file__), "prompts", filename)
+    pairs: list[tuple[str, str]] = []
+    try:
+        for line in open(path, encoding="utf-8"):
+            line = line.strip()
+            if not line or line.startswith("#") or "|" not in line:
+                continue
+            title, url = line.split("|", 1)
+            title = title.strip()
+            url = url.strip()
+            if title and url:
+                pairs.append((title, url))
+    except Exception:
+        pass
+    return pairs
+
+
 def _load_chatbot_books() -> str:
     """Charge la liste des livres depuis prompts/chatbot_books.txt."""
     return _load_chatbot_resources("chatbot_books.txt")
@@ -2109,8 +2128,107 @@ def _load_chatbot_videos() -> str:
     return _load_chatbot_resources("chatbot_videos.txt")
 
 
+def _load_chatbot_citations() -> str:
+    """Charge les citations Buffett depuis prompts/citation_buffet.txt."""
+    path = os.path.join(os.path.dirname(__file__), "prompts", "citation_buffet.txt")
+    try:
+        quotes: list[str] = []
+        for line in open(path, encoding="utf-8"):
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            # Supprime un éventuel préfixe "12. "
+            line = re.sub(r"^\d+\.\s*", "", line)
+            if line:
+                quotes.append(line)
+        if quotes:
+            return "\n".join(f"- {q}" for q in quotes)
+    except Exception:
+        pass
+    return ""
+
+
+def _load_chatbot_citation_list() -> list[str]:
+    """Charge les citations Buffett en liste brute."""
+    path = os.path.join(os.path.dirname(__file__), "prompts", "citation_buffet.txt")
+    quotes: list[str] = []
+    try:
+        for line in open(path, encoding="utf-8"):
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            line = re.sub(r"^\d+\.\s*", "", line).strip()
+            if line:
+                quotes.append(line)
+    except Exception:
+        pass
+    return quotes
+
+
+def _is_out_of_scope_finance_refusal(text: str) -> bool:
+    normalized = (text or "").strip().lower()
+    return normalized.startswith("je peux seulement répondre à des questions de finance")
+
+
+def _ensure_risk_reminder(text: str) -> str:
+    """Ajoute un rappel risque si absent dans une réponse finance."""
+    cleaned = (text or "").strip()
+    if not cleaned:
+        return cleaned
+
+    lower = cleaned.lower()
+    risk_markers = [
+        "risque de perte",
+        "perte en capital",
+        "performances passées",
+        "ne constituent pas un conseil en investissement",
+    ]
+    if any(marker in lower for marker in risk_markers):
+        return cleaned
+
+    reminder = (
+        "Rappel: les performances passées ne garantissent pas les performances futures "
+        "et tout investissement comporte un risque de perte en capital."
+    )
+    return f"{cleaned}\n\n{reminder}"
+
+
+def _append_alternating_chat_tail(reply: str, messages: list[dict]) -> str:
+    """
+    Alterne automatiquement les fins de réponse:
+    - 1re réponse assistant: vidéo
+    - 2e réponse assistant: citation Buffett
+    - puis alternance stricte.
+    """
+    if not reply.strip() or _is_out_of_scope_finance_refusal(reply):
+        return reply
+
+    reply = _ensure_risk_reminder(reply)
+
+    prior_assistant_count = sum(1 for m in messages if (m.get("role") or "").strip() == "assistant")
+    turn_index = prior_assistant_count // 2
+
+    if prior_assistant_count % 2 == 0:
+        videos = _load_chatbot_resource_pairs("chatbot_videos.txt")
+        if not videos:
+            return reply
+        title, url = videos[turn_index % len(videos)]
+        tail = f"[{title}]({url})"
+    else:
+        quotes = _load_chatbot_citation_list()
+        if not quotes:
+            return reply
+        quote = quotes[turn_index % len(quotes)]
+        tail = f"\"{quote}\" - Warren Buffett"
+
+    cleaned = reply.rstrip()
+    if cleaned.endswith(tail):
+        return cleaned
+    return f"{cleaned}\n\n{tail}"
+
+
 def _load_chatbot_prompt() -> str:
-    """Charge le prompt système du chatbot depuis prompts/chatbot_system.txt + livres + vidéos."""
+    """Charge le prompt système du chatbot depuis prompts/chatbot_system.txt + ressources."""
     base = os.path.join(os.path.dirname(__file__), "prompts")
     try:
         with open(os.path.join(base, "chatbot_system.txt"), encoding="utf-8") as f:
@@ -2125,6 +2243,9 @@ def _load_chatbot_prompt() -> str:
     videos = _load_chatbot_videos()
     if videos:
         prompt += "\n\nVidéos YouTube que tu peux recommander (propose le lien quand tu cites une vidéo) :\n" + videos
+    citations = _load_chatbot_citations()
+    if citations:
+        prompt += "\n\nCitations de Warren Buffett que tu peux utiliser :\n" + citations
     return prompt
 
 
@@ -2180,6 +2301,7 @@ def api_chat():
             max_tokens=MAX_COMPLETION_TOKENS,
         )
         reply = (r.choices[0].message.content or "").strip()
+        reply = _append_alternating_chat_tail(reply, messages)
         if len(reply) > MAX_REPLY_CHARS:
             reply = reply[: MAX_REPLY_CHARS - 3].rstrip() + "…"
         if user_msgs:
