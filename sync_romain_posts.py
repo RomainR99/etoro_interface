@@ -289,30 +289,57 @@ def _build_newsletter_html(recipient_email: str, recipient_name: str, new_posts:
         if not image_url and remote_image_url.startswith("http"):
             image_url = remote_image_url
         image_block = (
-            f"<br><img src=\"{image_url}\" alt=\"Post image\" "
-            "style=\"display:block;margin-top:8px;max-width:100%;height:auto;border-radius:8px;\">"
+            f"<img src=\"{image_url}\" alt=\"Illustration du post eToro\" "
+            "style=\"display:block;width:100%;max-width:100%;height:auto;border-radius:10px;border:1px solid #eee;\">"
             if image_url
             else ""
         )
         posts_html.append(
-            f"<li style='margin-bottom:14px;'><strong>{created}</strong><br>{preview}{image_block}</li>"
+            "<div style='margin-bottom:24px;padding-bottom:22px;border-bottom:1px solid #e5e7eb;'>"
+            f"<p style='margin:0 0 8px;font-size:13px;color:#777;'>{created}</p>"
+            f"<p style='margin:0 0 12px;font-size:15px;line-height:1.6;'>{preview}</p>"
+            f"{image_block}"
+            "</div>"
         )
-    posts_block = "".join(posts_html) or "<li>Nouveau contenu disponible sur le profil.</li>"
+    posts_block = "".join(posts_html) or (
+        "<p style='margin:0 0 22px;font-size:15px;line-height:1.6;'>"
+        "Nouveau contenu disponible sur le profil."
+        "</p>"
+    )
     hello = f"Bonjour {recipient_name}," if recipient_name else "Bonjour,"
     return f"""
 <html>
-  <body style="font-family:Arial,sans-serif;color:#111;line-height:1.5;">
-    <p>{hello}</p>
-    <p>De nouveaux posts eToro de <strong>{TRADER_USERNAME}</strong> sont disponibles.</p>
-    <ul>
-      {posts_block}
-    </ul>
-    <p><a href="{base_url}/posts">Voir tous les posts sur le site</a></p>
-    <hr>
-    <p style="font-size:12px;color:#666;">
-      Vous recevez cet email car vous avez accepté la newsletter.<br>
-      <a href="{unsub_link}">Se désabonner</a>
-    </p>
+  <body style="margin:0;padding:0;background:#f5f6f8;font-family:Arial,sans-serif;color:#111;">
+    <div style="max-width:640px;margin:0 auto;padding:24px;">
+      <div style="background:#ffffff;border-radius:14px;padding:28px;border:1px solid #e5e7eb;">
+        <p style="margin-top:0;font-size:16px;">{hello}</p>
+        <h2 style="margin:0 0 12px;font-size:22px;color:#111;">
+          Nouveaux posts eToro disponibles
+        </h2>
+        <p style="font-size:15px;color:#444;margin-bottom:24px;">
+          De nouveaux posts publiés par <strong>{TRADER_USERNAME}</strong> sont disponibles.
+          Voici les dernières mises à jour du portefeuille.
+        </p>
+        {posts_block}
+        <p style="text-align:center;margin:30px 0;">
+          <a
+            href="{base_url}/posts"
+            style="display:inline-block;background:#111;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:8px;font-weight:bold;font-size:15px;"
+          >
+            Voir tous les posts
+          </a>
+        </p>
+        <p style="font-size:13px;color:#666;line-height:1.5;margin-top:24px;">
+          Merci de suivre les mises à jour du portefeuille.
+        </p>
+      </div>
+      <p style="font-size:12px;color:#777;text-align:center;line-height:1.5;margin-top:18px;">
+        Vous recevez cet email car vous avez accepté la newsletter.<br>
+        <a href="{unsub_link}" style="color:#555;text-decoration:underline;">
+          Se désabonner
+        </a>
+      </p>
+    </div>
   </body>
 </html>
 """.strip()
