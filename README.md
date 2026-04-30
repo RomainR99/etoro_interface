@@ -23,6 +23,7 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
   - [Checklist production (rapide)](#checklist-production-rapide)
   - [Déploiement production](#déploiement-production)
     - [Cron serveur pour le sync eToro](#cron-serveur-pour-le-sync-etoro)
+    - [Debug newsletter : images non affichées](#debug-newsletter--images-non-affichées)
 - [Lancement](#lancement)
   - [Gunicorn (3 façons équivalentes)](#gunicorn-3-façons-équivalentes)
 - [Structure](#structure)
@@ -1152,6 +1153,43 @@ cd /chemin/vers/etoro_interface
 /chemin/vers/etoro_interface/venv/bin/python sync_romain_posts.py
 tail -n 100 /chemin/vers/etoro_interface/logs/sync.log
 ```
+
+#### Debug newsletter : images non affichées
+
+Si les images n’apparaissent pas dans la newsletter, vérifier les points suivants :
+
+- Le client mail peut bloquer les images distantes par défaut (Gmail/Outlook : cliquer sur "Afficher les images").
+- Les URLs d’exemple (`exemple_post_1.webp`, etc.) ne sont pas des fichiers réels.
+- Les images doivent être servies via une URL publique en `https` (pas `127.0.0.1`, pas chemin local).
+- Le dossier `data/trader_post_images` doit contenir des fichiers.
+- L’URL `/api/trader-post-image/<fichier.webp>` doit répondre `200 OK`.
+
+Important : ne pas confondre local et serveur
+
+- En local (Mac), utiliser les chemins du projet local :
+
+```bash
+cd /Users/romain/projects/etoro_interface
+ls -lah data/trader_post_images | head
+ls -lah data/trader_posts_romainroth.json
+```
+
+- En production (serveur Linux), se connecter en SSH puis utiliser les chemins serveur :
+
+```bash
+ssh <user>@<ip-ou-domaine>
+cd /srv/etoro_interface
+ls -lah data/trader_post_images | head
+ls -lah data/trader_posts_romainroth.json
+```
+
+Test URL image publique :
+
+```bash
+curl -I "https://romainroth.com/api/trader-post-image/<nom_fichier.webp>"
+```
+
+Tu dois obtenir `HTTP 200`.
 
 ## Lancement
 
