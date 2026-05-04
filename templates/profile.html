@@ -876,8 +876,10 @@
                 window.__dcaLastSeries = { labels, romainroth: romainroth || [], sp500: sp500 || [] };
                 const ctx2 = dcaCanvas.getContext('2d');
                 const dcaDatasets = [];
-                if (romainroth && romainroth.length) dcaDatasets.push({ label: dcaTraderDisplayName, data: romainroth, color: '#58a6ff' });
-                if (sp500 && sp500.length) dcaDatasets.push({ label: 'S&P 500', data: sp500, color: '#8b949e', hidden: true });
+                if (romainroth && romainroth.length) dcaDatasets.push({ label: dcaTraderDisplayName, data: romainroth, color: '#3fb950' });
+                if (sp500 && sp500.length) {
+                    dcaDatasets.push({ label: 'S&P 500', data: sp500, color: '#f87171', fill: false });
+                }
                 const lang = localStorage.getItem('page_lang') || 'en';
                 const yLocale = lang === 'fr' ? 'fr-FR' : 'en-US';
                 dcaChartInstance = new Chart(ctx2, {
@@ -887,7 +889,13 @@
                         datasets: dcaDatasets.map(d => ({
                             ...buildDataset(d),
                             borderColor: d.color,
-                            backgroundColor: d.color.startsWith('#') ? hexToRgba(d.color, 0.1) : 'rgba(139,148,158,0.1)',
+                            backgroundColor:
+                                d.fill === false
+                                    ? 'transparent'
+                                    : d.color.startsWith('#')
+                                      ? hexToRgba(d.color, 0.1)
+                                      : 'rgba(139,148,158,0.1)',
+                            fill: d.fill !== false,
                             ...(d.hidden ? { hidden: true } : {})
                         }))
                     },
