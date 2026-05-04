@@ -231,6 +231,7 @@ sqlite3 data/contact_messages.sqlite "SELECT id, first_name, last_name, email, s
 - **Graphique 4** : à améliorer (supprimé dans la version actuelle)
 - **Barre de recherche** : ajouter une barre de recherche pour filtrer rapidement les traders, instruments et actualités dans l’interface.
 - **Amélioration PNG → WebP** : convertir les images PNG (captures d’écran, assets statiques, illustrations) en **WebP** pour réduire le poids des fichiers et la bande passante, tout en conservant une qualité visuelle correcte ; fournir un fallback ou `<picture>` si besoin de compatibilité navigateurs anciens.
+- **Chatbot (`chatbot.png`)** : passer l’avatar du widget en **WebP** (`images/chatbot.webp` ou équivalent) et mettre à jour les références dans `templates/partials/chat_widget.html` et `templates/partials/site_chrome_styles.html` (fond CSS actuellement en `url('/images/chatbot.png')`).
 
 ## Sécurité et déploiement
 
