@@ -11,17 +11,22 @@ import base64
 import csv
 import hashlib
 import hmac
+import html as html_escape
 import io
 import json
 import math
 import os
-import sqlite3
 import re
+import smtplib
+import sqlite3
 import threading
 import time
 import uuid
 import pickle
 from datetime import datetime, timezone
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from urllib.parse import quote_plus
 from concurrent.futures import ThreadPoolExecutor, wait
 
 import psycopg2
@@ -504,6 +509,159 @@ def _mark_newsletter_unsubscribed(email: str) -> None:
         "Newsletter Unsubscribe",
         "User clicked unsubscribe link from newsletter email.",
     )
+
+
+def _count_newsletter_subscriptions(email: str) -> int:
+    """Nombre d’inscriptions newsletter déjà enregistrées pour cet email (avant un nouvel INSERT)."""
+    normalized = (email or "").strip().lower()
+    if not normalized:
+        return 0
+    conn = get_pg_connection()
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT COUNT(*) FROM contact_messages
+                WHERE LOWER(TRIM(email)) = %s AND subject = %s
+                """,
+                (normalized, "Newsletter"),
+            )
+            row = cur.fetchone()
+            return int(row[0] or 0) if row else 0
+    finally:
+        conn.close()
+
+
+def _build_newsletter_welcome_html(recipient_email: str) -> str:
+    base_url = (os.getenv("SITE_BASE_URL") or "https://romainroth.com").strip().rstrip("/")
+    token = _newsletter_unsubscribe_token(recipient_email)
+    one_click_url = (
+        f"{base_url}/newsletter/unsubscribe?email={quote_plus(recipient_email)}&token={quote_plus(token)}"
+    )
+    unsub_landing_url = f"{base_url}/unsubscribe"
+    etoro_profile_url = "https://www.etoro.com/people/romainroth"
+    return f"""
+<html>
+  <body style="margin:0;padding:0;background:#f5f6f8;font-family:Arial,sans-serif;color:#111;">
+    <div style="max-width:640px;margin:0 auto;padding:24px;">
+      <div style="background:#ffffff;border-radius:14px;padding:28px;border:1px solid #e5e7eb;">
+        <p style="margin-top:0;font-size:16px;">Bonjour,</p>
+        <p style="font-size:15px;line-height:1.6;">
+          Merci encore pour votre inscription.
+        </p>
+        <p style="font-size:15px;line-height:1.6;">
+          À partir de maintenant, vous recevrez directement par email
+          <strong>tous les posts que je publie sur eToro</strong>
+          — sans avoir besoin de vous connecter à la plateforme.
+        </p>
+        <p style="font-size:15px;line-height:1.6;">👉 Cela vous permet de :</p>
+        <ul style="font-size:15px;line-height:1.6;margin:0 0 16px;padding-left:1.25rem;">
+          <li>suivre mes analyses en temps réel</li>
+          <li>comprendre mes décisions</li>
+          <li>rester informé sans effort</li>
+        </ul>
+        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
+        <p style="font-size:15px;line-height:1.6;">📊 <strong>Mon approche</strong></p>
+        <p style="font-size:15px;line-height:1.6;">
+          Je partage uniquement des analyses sur des entreprises que je comprends, avec une approche simple :
+        </p>
+        <ul style="font-size:15px;line-height:1.6;margin:0 0 16px;padding-left:1.25rem;">
+          <li>pas de levier</li>
+          <li>vision long terme</li>
+          <li>gestion du risque prioritaire</li>
+        </ul>
+        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
+        <p style="font-size:15px;line-height:1.6;">👀 <strong>Accéder au portefeuille en direct</strong></p>
+        <p style="font-size:15px;line-height:1.6;">
+          Vous pouvez consulter et suivre mon portefeuille eToro ici :
+        </p>
+        <p style="font-size:15px;line-height:1.6;">
+          👉 <a href="{html_escape.escape(etoro_profile_url)}" style="color:#111;">{html_escape.escape(etoro_profile_url)}</a>
+        </p>
+        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
+        <p style="font-size:15px;line-height:1.6;">
+          💡 Si vous souhaitez aller plus loin, eToro permet également de
+          <strong>copier automatiquement un portefeuille</strong>, afin de reproduire les positions en temps réel.
+        </p>
+        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
+        <p style="font-size:15px;line-height:1.6;">⚠️ <strong>Important</strong></p>
+        <p style="font-size:15px;line-height:1.6;">
+          Les performances passées ne garantissent pas les performances futures.
+          Ce contenu est fourni à titre informatif et ne constitue pas un conseil en investissement.
+        </p>
+        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
+        <p style="font-size:13px;color:#666;line-height:1.6;">
+          🔐 Vous recevez cet email car vous vous êtes inscrit sur {html_escape.escape(base_url)}.<br>
+          Vous recevrez désormais mes publications eToro directement par email.
+        </p>
+        <p style="font-size:13px;color:#666;line-height:1.6;">
+          Vous pouvez vous désinscrire à tout moment via le lien ci-dessous.
+        </p>
+        <p style="font-size:14px;line-height:1.6;margin-top:18px;">
+          <a href="{html_escape.escape(unsub_landing_url)}" style="color:#111;text-decoration:underline;">Se désinscrire</a>
+          &nbsp;·&nbsp;
+          <a href="{html_escape.escape(one_click_url)}" style="color:#111;text-decoration:underline;">Se désinscrire (lien direct)</a>
+        </p>
+        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
+        <p style="font-size:15px;line-height:1.6;margin-bottom:0;">À bientôt,<br>Romain Roth</p>
+      </div>
+    </div>
+  </body>
+</html>
+""".strip()
+
+
+def _build_newsletter_welcome_plain(recipient_email: str) -> str:
+    base_url = (os.getenv("SITE_BASE_URL") or "https://romainroth.com").strip().rstrip("/")
+    token = _newsletter_unsubscribe_token(recipient_email)
+    one_click_url = (
+        f"{base_url}/newsletter/unsubscribe?email={quote_plus(recipient_email)}&token={quote_plus(token)}"
+    )
+    unsub_landing_url = f"{base_url}/unsubscribe"
+    etoro_profile_url = "https://www.etoro.com/people/romainroth"
+    return (
+        "Bonjour,\n\n"
+        "Merci encore pour votre inscription.\n\n"
+        "À partir de maintenant, vous recevrez par email les posts publiés sur eToro.\n\n"
+        f"Profil eToro : {etoro_profile_url}\n\n"
+        "Les performances passées ne garantissent pas les performances futures. "
+        "Contenu informatif, pas un conseil en investissement.\n\n"
+        f"Désinscription (page) : {unsub_landing_url}\n"
+        f"Désinscription (lien direct) : {one_click_url}\n\n"
+        "À bientôt,\nRomain Roth"
+    )
+
+
+def _send_smtp_html_email(to_email: str, subject: str, html_body: str, plain_body: str) -> None:
+    smtp_host = (os.getenv("SMTP_HOST") or "").strip()
+    smtp_port = int((os.getenv("SMTP_PORT") or "587").strip() or "587")
+    smtp_user = (os.getenv("SMTP_USER") or "").strip()
+    smtp_password = (os.getenv("SMTP_PASSWORD") or "").strip()
+    smtp_from = (os.getenv("SMTP_FROM") or smtp_user).strip()
+    smtp_use_tls = (os.getenv("SMTP_USE_TLS") or "1").strip().lower() in ("1", "true", "yes", "on")
+    if not smtp_host or not smtp_from:
+        raise RuntimeError("SMTP configuration missing (SMTP_HOST / SMTP_FROM)")
+
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = subject
+    msg["From"] = smtp_from
+    msg["To"] = to_email
+    msg.attach(MIMEText(plain_body, "plain", "utf-8"))
+    msg.attach(MIMEText(html_body, "html", "utf-8"))
+
+    with smtplib.SMTP(smtp_host, smtp_port, timeout=30) as server:
+        if smtp_use_tls:
+            server.starttls()
+        if smtp_user:
+            server.login(smtp_user, smtp_password)
+        server.sendmail(smtp_from, [to_email], msg.as_string())
+
+
+def _send_newsletter_welcome_email(to_email: str) -> None:
+    subject = "Bienvenue — Newsletter Romain Roth"
+    html_body = _build_newsletter_welcome_html(to_email)
+    plain_body = _build_newsletter_welcome_plain(to_email)
+    _send_smtp_html_email(to_email, subject, html_body, plain_body)
 
 
 def _check_chat_rate_limit(visitor_id: str) -> bool:
@@ -1376,7 +1534,7 @@ def api_cookie_consent():
 
 @app.route("/api/newsletter-subscribe", methods=["POST"])
 def api_newsletter_subscribe():
-    """Inscription newsletter : enregistrement dans contact_messages (SQLite)."""
+    """Inscription newsletter : enregistrement dans contact_messages (PostgreSQL)."""
     data = request.get_json(silent=True)
     if not isinstance(data, dict):
         return jsonify({"ok": False, "error": "invalid_request"}), 400
@@ -1402,6 +1560,7 @@ def api_newsletter_subscribe():
         "Newsletter opt-in: user requested regular updates by email; "
         "privacy respected; details not shared with third parties."
     )
+    prior_newsletter_count = _count_newsletter_subscriptions(email)
     try:
         _insert_contact_message(
             first_name or None,
@@ -1414,6 +1573,11 @@ def api_newsletter_subscribe():
         app.logger.exception("newsletter_subscribe_db")
         return jsonify({"ok": False, "error": "storage"}), 500
     _newsletter_rate_record(ip)
+    if prior_newsletter_count == 0:
+        try:
+            _send_newsletter_welcome_email(email)
+        except Exception:
+            app.logger.exception("newsletter_welcome_email")
     return jsonify({"ok": True})
 
 
@@ -1441,6 +1605,38 @@ def newsletter_unsubscribe():
         status=200,
         mimetype="text/html",
     )
+
+
+@app.route("/unsubscribe", methods=["GET"])
+def newsletter_unsubscribe_landing():
+    """Page publique : lien « Se désinscrire » dans l’email de bienvenue ; la désinscription effective utilise le lien signé."""
+    base_url = (os.getenv("SITE_BASE_URL") or "https://romainroth.com").strip().rstrip("/")
+    body = f"""<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Désinscription newsletter</title>
+</head>
+<body style="margin:0;font-family:Arial,sans-serif;background:#f5f6f8;color:#111;">
+  <div style="max-width:560px;margin:0 auto;padding:32px 20px;">
+    <div style="background:#fff;border-radius:12px;padding:28px;border:1px solid #e5e7eb;">
+      <h1 style="font-size:1.25rem;margin:0 0 12px;">Désinscription</h1>
+      <p style="font-size:15px;line-height:1.6;margin:0 0 12px;">
+        Pour vous désinscrire de la newsletter, utilisez le <strong>lien de désinscription direct</strong>
+        (signé) présent dans l’email de bienvenue ou en bas des emails de publications.
+      </p>
+      <p style="font-size:15px;line-height:1.6;margin:0 0 12px;">
+        Sans ce lien, nous ne pouvons pas confirmer votre adresse de façon sécurisée.
+      </p>
+      <p style="font-size:15px;line-height:1.6;margin:0;">
+        <a href="{html_escape.escape(base_url)}/" style="color:#111;">Retour au site</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>"""
+    return Response(body, status=200, mimetype="text/html; charset=utf-8")
 
 
 # Livres recommandés (page /reading) — titres et notes FR/EN
