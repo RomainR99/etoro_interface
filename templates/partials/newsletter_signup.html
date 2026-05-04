@@ -154,6 +154,17 @@
                                     msg.textContent = t.ok;
                                     msg.className = "nl-msg ok";
                                 }
+                                try {
+                                    if (res.data.newsletter_token && email) {
+                                        localStorage.setItem(
+                                            "newsletter_pref",
+                                            JSON.stringify({
+                                                email: email.trim().toLowerCase(),
+                                                token: res.data.newsletter_token,
+                                            })
+                                        );
+                                    }
+                                } catch (eStore) {}
                                 form.reset();
                             } else {
                                 var err = (res.data && res.data.error) || "";

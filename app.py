@@ -7,6 +7,7 @@ from env_load import load_app_dotenv
 from newsletter_i18n import (
     build_newsletter_welcome_html,
     build_newsletter_welcome_plain,
+    newsletter_lang_sync_message_body,
     newsletter_subscribe_message_body,
     normalize_newsletter_lang,
     welcome_email_subject,
@@ -168,6 +169,8 @@ LEXIQUE_PATH = os.path.join(os.path.dirname(__file__), "data", "lexique.json")
 FAQ_PATH = os.path.join(os.path.dirname(__file__), "data", "faq.json")
 _newsletter_subscribe_rate: dict[str, list[float]] = {}
 NEWSLETTER_SUBSCRIBE_MAX_PER_HOUR = 12
+_newsletter_lang_rate: dict[str, list[float]] = {}
+NEWSLETTER_LANG_MAX_PER_HOUR = 48
 _lexique_json_cache: list | None = None
 _faq_json_cache: list | None = None
 _trader_posts_cache: list[dict] | None = None
@@ -485,6 +488,18 @@ def _newsletter_rate_record(ip: str) -> None:
     _newsletter_subscribe_rate.setdefault(ip, []).append(time.time())
 
 
+def _newsletter_lang_rate_ok(ip: str) -> bool:
+    now = time.time()
+    cutoff = now - 3600
+    lst = _newsletter_lang_rate.setdefault(ip, [])
+    lst[:] = [t for t in lst if t > cutoff]
+    return len(lst) < NEWSLETTER_LANG_MAX_PER_HOUR
+
+
+def _newsletter_lang_rate_record(ip: str) -> None:
+    _newsletter_lang_rate.setdefault(ip, []).append(time.time())
+
+
 def _split_subscriber_name(full: str) -> tuple[str, str]:
     s = (full or "").strip()
     if not s:
@@ -517,6 +532,54 @@ def _mark_newsletter_unsubscribed(email: str) -> None:
         "Newsletter Unsubscribe",
         "User clicked unsubscribe link from newsletter email.",
     )
+
+
+def _newsletter_is_currently_subscribed(email: str) -> bool:
+    """True si le dernier événement pour cet email est une inscription (pas une désinscription)."""
+    normalized = (email or "").strip().lower()
+    if not normalized:
+        return False
+    conn = get_pg_connection()
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT subject FROM contact_messages
+                WHERE LOWER(TRIM(email)) = %s
+                  AND subject IN ('Newsletter', 'Newsletter Unsubscribe')
+                ORDER BY created_at DESC
+                LIMIT 1
+                """,
+                (normalized,),
+            )
+            row = cur.fetchone()
+    finally:
+        conn.close()
+    return row is not None and row[0] == "Newsletter"
+
+
+def _get_latest_newsletter_names_for_email(email: str) -> tuple[str | None, str | None]:
+    normalized = (email or "").strip().lower()
+    if not normalized:
+        return None, None
+    conn = get_pg_connection()
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT first_name, last_name FROM contact_messages
+                WHERE LOWER(TRIM(email)) = %s AND subject = 'Newsletter'
+                ORDER BY created_at DESC
+                LIMIT 1
+                """,
+                (normalized,),
+            )
+            row = cur.fetchone()
+    finally:
+        conn.close()
+    if not row:
+        return None, None
+    return row[0], row[1]
 
 
 def _count_newsletter_subscriptions(email: str) -> int:
@@ -1522,6 +1585,42 @@ def api_newsletter_subscribe():
             _send_newsletter_welcome_email(email, ui_lang)
         except Exception:
             app.logger.exception("newsletter_welcome_email")
+    token = _newsletter_unsubscribe_token(email)
+    return jsonify({"ok": True, "newsletter_token": token})
+
+
+@app.route("/api/newsletter-lang", methods=["POST"])
+def api_newsletter_lang():
+    """Met à jour la langue des emails newsletter (même secret que le lien de désinscription)."""
+    data = request.get_json(silent=True)
+    if not isinstance(data, dict):
+        return jsonify({"ok": False, "error": "invalid_request"}), 400
+    if (data.get("company") or "").strip():
+        return jsonify({"ok": True})
+    ip = _get_client_ip()
+    if not _newsletter_lang_rate_ok(ip):
+        return jsonify({"ok": False, "error": "rate_limit"}), 429
+    email = (data.get("email") or "").strip().lower()
+    token = (data.get("token") or "").strip()
+    if not email or "@" not in email or not _is_valid_newsletter_unsubscribe_token(email, token):
+        return jsonify({"ok": False, "error": "invalid_token"}), 403
+    if not _newsletter_is_currently_subscribed(email):
+        return jsonify({"ok": False, "error": "not_subscribed"}), 400
+    ui_lang = normalize_newsletter_lang((data.get("lang") or "en"))
+    first_name, last_name = _get_latest_newsletter_names_for_email(email)
+    msg = newsletter_lang_sync_message_body(ui_lang)
+    try:
+        _insert_contact_message(
+            first_name,
+            last_name,
+            email,
+            "Newsletter",
+            msg,
+        )
+    except Exception:
+        app.logger.exception("newsletter_lang_db")
+        return jsonify({"ok": False, "error": "storage"}), 500
+    _newsletter_lang_rate_record(ip)
     return jsonify({"ok": True})
 
 

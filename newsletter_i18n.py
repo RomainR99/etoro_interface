@@ -28,6 +28,14 @@ def newsletter_subscribe_message_body(ui_lang: str) -> str:
     )
 
 
+def newsletter_lang_sync_message_body(ui_lang: str) -> str:
+    """Nouvelle ligne Newsletter après changement de drapeau sur le site (même parsing ui_lang=)."""
+    return (
+        f"Newsletter language preference update; ui_lang={normalize_newsletter_lang(ui_lang)}; "
+        "synced from site language control."
+    )
+
+
 def welcome_email_subject(lang: str) -> str:
     return (
         "Bienvenue — Newsletter Romain Roth"

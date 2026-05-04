@@ -1299,6 +1299,7 @@
     </div>
 
     {% include 'partials/chat_widget_scripts.html' %}
+    {% include 'partials/newsletter_pref_sync_script.html' %}
     <script>
         (function() {
             const I18N = {
@@ -1505,6 +1506,9 @@
                 }
                 if (typeof window.applySiteFooterLegalLang === "function") {
                     window.applySiteFooterLegalLang(lang);
+                }
+                if (typeof window.syncNewsletterPrefLang === "function") {
+                    window.syncNewsletterPrefLang(lang);
                 }
             }
 

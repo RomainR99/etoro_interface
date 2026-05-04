@@ -1,0 +1,18 @@
+<script>
+(function () {
+    window.syncNewsletterPrefLang = function (lang) {
+        try {
+            var raw = localStorage.getItem("newsletter_pref");
+            if (!raw) return;
+            var o = JSON.parse(raw);
+            if (!o || !o.email || !o.token) return;
+            var target = lang === "fr" ? "fr" : "en";
+            fetch("/api/newsletter-lang", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", Accept: "application/json" },
+                body: JSON.stringify({ email: o.email, lang: target, token: o.token }),
+            }).catch(function () {});
+        } catch (eNl) {}
+    };
+})();
+</script>
