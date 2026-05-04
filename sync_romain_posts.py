@@ -21,6 +21,16 @@ import requests
 from PIL import Image
 from env_load import load_app_dotenv
 from etoro_client import get_user_feed_posts, get_user_profile
+from newsletter_i18n import (
+    build_new_posts_newsletter_html,
+    build_new_posts_newsletter_plain,
+    format_new_posts_hello_html,
+    new_posts_email_subject,
+    new_posts_empty_posts_html,
+    new_posts_image_alt,
+    parse_newsletter_ui_lang_from_message,
+)
+from trader_post_lang import filter_posts_by_ui_lang
 
 load_app_dotenv(Path(__file__).resolve().parent)
 
@@ -241,13 +251,14 @@ def _newsletter_unsubscribe_token(email: str) -> str:
     return hmac.new(secret.encode("utf-8"), normalized.encode("utf-8"), hashlib.sha256).hexdigest()
 
 
-def _get_newsletter_recipients() -> list[tuple[str, str]]:
+def _get_newsletter_recipients() -> list[tuple[str, str, str]]:
     conn = _get_pg_connection()
     try:
         with conn.cursor() as cur:
             cur.execute(
                 """
-                SELECT LOWER(email) AS email, COALESCE(first_name, ''), COALESCE(last_name, ''), COALESCE(subject, ''), created_at
+                SELECT LOWER(email) AS email, COALESCE(first_name, ''), COALESCE(last_name, ''),
+                       COALESCE(subject, ''), COALESCE(message, ''), created_at
                 FROM contact_messages
                 WHERE email IS NOT NULL
                   AND email <> ''
@@ -259,20 +270,27 @@ def _get_newsletter_recipients() -> list[tuple[str, str]]:
     finally:
         conn.close()
 
-    recipients: list[tuple[str, str]] = []
+    recipients: list[tuple[str, str, str]] = []
     seen: set[str] = set()
-    for email, first_name, last_name, subject, _created_at in rows:
+    for email, first_name, last_name, subject, message, _created_at in rows:
         if email in seen:
             continue
         seen.add(email)
         if subject != "Newsletter":
             continue
         full_name = f"{(first_name or '').strip()} {(last_name or '').strip()}".strip()
-        recipients.append((email, full_name))
+        ui_lang = parse_newsletter_ui_lang_from_message(message)
+        recipients.append((email, full_name, ui_lang))
     return recipients
 
 
-def _build_newsletter_html(recipient_email: str, recipient_name: str, new_posts: list[dict]) -> str:
+def _build_newsletter_html(
+    recipient_email: str,
+    recipient_name: str,
+    new_posts: list[dict],
+    ui_lang: str,
+) -> str:
+    """new_posts : déjà filtrés par langue d’interface du destinataire."""
     base_url = (os.getenv("SITE_BASE_URL") or "https://romainroth.com").strip().rstrip("/")
     unsub_token = _newsletter_unsubscribe_token(recipient_email)
     unsub_link = (
@@ -285,129 +303,49 @@ def _build_newsletter_html(recipient_email: str, recipient_name: str, new_posts:
     unsub_href = html.escape(unsub_link)
     profile_href = html.escape(etoro_profile_url)
     copy_href = html.escape(etoro_copy_invite_url)
-    posts_html = []
+    img_alt = new_posts_image_alt(ui_lang)
+    posts_html: list[str] = []
     for post in new_posts[:5]:
         msg = str(post.get("message") or "").strip()
         created = str(post.get("created") or "").strip()
-        preview = (msg[:260] + "...") if len(msg) > 260 else msg
+        preview_raw = (msg[:260] + "...") if len(msg) > 260 else msg
+        preview = html.escape(preview_raw)
+        created_esc = html.escape(created)
         image_url = str(post.get("image_url") or "").strip()
         remote_image_url = str(post.get("image_remote_url") or "").strip()
         if image_url.startswith("/"):
             image_url = f"{base_url}{image_url}"
         if not image_url and remote_image_url.startswith("http"):
             image_url = remote_image_url
+        image_url_esc = html.escape(image_url, quote=True)
         image_block = (
-            f"<img src=\"{image_url}\" alt=\"Illustration du post eToro\" "
+            f"<img src=\"{image_url_esc}\" alt=\"{html.escape(img_alt)}\" "
             "style=\"display:block;width:100%;max-width:100%;height:auto;border-radius:10px;border:1px solid #eee;\">"
             if image_url
             else ""
         )
         posts_html.append(
             "<div style='margin-bottom:24px;padding-bottom:22px;border-bottom:1px solid #e5e7eb;'>"
-            f"<p style='margin:0 0 8px;font-size:13px;color:#777;'>{created}</p>"
+            f"<p style='margin:0 0 8px;font-size:13px;color:#777;'>{created_esc}</p>"
             f"<p style='margin:0 0 12px;font-size:15px;line-height:1.6;'>{preview}</p>"
             f"{image_block}"
             "</div>"
         )
-    posts_block = "".join(posts_html) or (
-        "<p style='margin:0 0 22px;font-size:15px;line-height:1.6;'>"
-        "Nouveau contenu disponible sur le profil."
-        "</p>"
+    posts_block = "".join(posts_html) or new_posts_empty_posts_html(ui_lang)
+    hello_line = format_new_posts_hello_html(ui_lang, recipient_name)
+    return build_new_posts_newsletter_html(
+        ui_lang,
+        TRADER_USERNAME,
+        hello_line,
+        posts_block,
+        profile_href,
+        copy_href,
+        posts_href,
+        unsub_href,
     )
-    hello = f"Bonjour {recipient_name}," if recipient_name else "Bonjour,"
-    return f"""
-<html>
-  <body style="margin:0;padding:0;background:#f5f6f8;font-family:Arial,sans-serif;color:#111;">
-    <div style="max-width:640px;margin:0 auto;padding:24px;">
-      <div style="background:#ffffff;border-radius:14px;padding:28px;border:1px solid #e5e7eb;">
-        <p style="margin-top:0;font-size:16px;">{hello}</p>
-        <h2 style="margin:0 0 12px;font-size:22px;color:#111;">
-          Nouveaux posts eToro disponibles
-        </h2>
-        <p style="font-size:15px;color:#444;margin-bottom:24px;">
-          De nouveaux posts publiés par <strong>{TRADER_USERNAME}</strong> sont disponibles.
-          Voici les dernières mises à jour du portefeuille.
-        </p>
-        {posts_block}
-        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
-        <p style="font-size:15px;line-height:1.6;">
-          À partir de maintenant, vous recevrez directement par email
-          <strong>tous les posts que je publie sur eToro</strong>
-          — sans avoir besoin de vous connecter à la plateforme.
-        </p>
-        <p style="font-size:15px;line-height:1.6;">Cela vous permet de :</p>
-        <ul style="font-size:15px;line-height:1.6;margin:0 0 16px;padding-left:1.25rem;">
-          <li>suivre mes analyses en temps réel</li>
-          <li>comprendre mes décisions</li>
-          <li>rester informé sans effort</li>
-        </ul>
-        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
-        <p style="font-size:15px;line-height:1.6;"><strong>Accéder au portefeuille en direct</strong></p>
-        <p style="font-size:15px;line-height:1.6;">
-          Vous pouvez consulter et suivre mon portefeuille eToro ici :
-        </p>
-        <p style="text-align:center;margin:18px 0 6px;">
-          <a
-            href="{profile_href}"
-            target="_blank"
-            rel="noopener noreferrer"
-            style="display:inline-block;padding:8px 14px;border-radius:4px;text-decoration:none;background:#ffffff;border:1px solid #3fb950;color:#3fb950;font-weight:600;font-size:12.5px;line-height:1.25;text-align:center;box-sizing:border-box;"
-          >Mon profil sur eToro</a>
-        </p>
-        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
-        <p style="font-size:15px;line-height:1.6;">
-          Si vous souhaitez aller plus loin, eToro permet également de
-          <strong>copier automatiquement un portefeuille</strong>, afin de reproduire les positions en temps réel.
-        </p>
-        <p style="text-align:center;margin:18px 0 6px;">
-          <a
-            href="{copy_href}"
-            target="_blank"
-            rel="noopener noreferrer"
-            style="display:inline-block;padding:10px 18px;border-radius:6px;text-decoration:none;background:#3fb950;border:1px solid #2ea043;color:#ffffff;font-weight:700;font-size:14px;line-height:1.25;text-align:center;box-sizing:border-box;"
-          >Me rejoindre</a>
-        </p>
-        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
-        <p style="font-size:15px;line-height:1.6;"><strong>Mon approche</strong></p>
-        <p style="font-size:15px;line-height:1.6;">
-          Je partage uniquement des analyses sur des entreprises que je comprends, avec une approche simple :
-        </p>
-        <ul style="font-size:15px;line-height:1.6;margin:0 0 16px;padding-left:1.25rem;">
-          <li>Pas de levier</li>
-          <li>Vision long terme</li>
-          <li>Gestion du risque prioritaire</li>
-          <li>Peu d’actions</li>
-          <li>Pas de crypto</li>
-        </ul>
-        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
-        <p style="text-align:center;margin:18px 0 6px;">
-          <a
-            href="{posts_href}"
-            target="_blank"
-            rel="noopener noreferrer"
-            style="display:inline-block;background:#111;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:8px;font-weight:bold;font-size:15px;line-height:1.25;text-align:center;box-sizing:border-box;"
-          >Voir tous les posts</a>
-        </p>
-        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
-        <p style="font-size:15px;line-height:1.6;">⚠️ <strong>Avertissement sur les risques :</strong></p>
-        <p style="font-size:15px;line-height:1.6;font-style:italic;color:#444;">
-          C’est une stratégie personnelle, non un conseil. L’appliquer ou non reste votre choix. Les performances passées ne garantissent pas les résultats futurs.
-        </p>
-        <p style="font-size:15px;line-height:1.6;margin-top:24px;margin-bottom:0;">À bientôt,<br>Romain Roth</p>
-      </div>
-      <p style="font-size:12px;color:#777;text-align:center;line-height:1.5;margin-top:18px;">
-        Vous recevez cet email car vous avez accepté la newsletter.<br>
-        <a href="{unsub_href}" style="color:#555;text-decoration:underline;">
-          Se désabonner
-        </a>
-      </p>
-    </div>
-  </body>
-</html>
-""".strip()
 
 
-def _send_html_email(to_email: str, subject: str, html_body: str) -> None:
+def _send_html_email(to_email: str, subject: str, html_body: str, plain_body: str) -> None:
     smtp_host = (os.getenv("SMTP_HOST") or "").strip()
     smtp_port = int((os.getenv("SMTP_PORT") or "587").strip() or "587")
     smtp_user = (os.getenv("SMTP_USER") or "").strip()
@@ -421,19 +359,7 @@ def _send_html_email(to_email: str, subject: str, html_body: str) -> None:
     msg["Subject"] = subject
     msg["From"] = smtp_from
     msg["To"] = to_email
-    base_plain = (os.getenv("SITE_BASE_URL") or "https://romainroth.com").strip().rstrip("/")
-    posts_plain = f"{base_plain}/posts"
-    etoro_profile_plain = "https://www.etoro.com/people/romainroth"
-    etoro_copy_plain = "https://etoro.tw/46rrJQC"
-    plain = (
-        "De nouveaux posts eToro sont disponibles.\n\n"
-        f"Voir tous les posts : {posts_plain}\n\n"
-        f"Mon profil eToro : {etoro_profile_plain}\n"
-        f"Me rejoindre : {etoro_copy_plain}\n\n"
-        "⚠️ Avertissement sur les risques : stratégie personnelle, pas un conseil. "
-        "Les performances passées ne garantissent pas les résultats futurs.\n"
-    )
-    msg.attach(MIMEText(plain, "plain", "utf-8"))
+    msg.attach(MIMEText(plain_body, "plain", "utf-8"))
     msg.attach(MIMEText(html_body, "html", "utf-8"))
 
     with smtplib.SMTP(smtp_host, smtp_port, timeout=30) as server:
@@ -452,18 +378,37 @@ def _send_newsletter_for_new_posts(new_posts: list[dict]) -> None:
     if not recipients:
         print("No active newsletter recipients found.")
         return
+    base_plain = (os.getenv("SITE_BASE_URL") or "https://romainroth.com").strip().rstrip("/")
+    posts_plain = f"{base_plain}/posts"
+    etoro_profile_plain = "https://www.etoro.com/people/romainroth"
+    etoro_copy_plain = "https://etoro.tw/46rrJQC"
     sent = 0
     failed = 0
-    subject = f"[RomainRoth] {len(new_posts)} nouveau(x) post(s) disponible(s)"
-    for email, name in recipients:
+    skipped = 0
+    for email, name, ui_lang in recipients:
+        posts_for_lang = filter_posts_by_ui_lang(new_posts, ui_lang)
+        if not posts_for_lang:
+            skipped += 1
+            continue
+        subject = new_posts_email_subject(ui_lang, len(posts_for_lang))
+        plain = build_new_posts_newsletter_plain(
+            ui_lang,
+            posts_plain,
+            etoro_profile_plain,
+            etoro_copy_plain,
+            len(posts_for_lang),
+        )
         try:
-            html = _build_newsletter_html(email, name, new_posts)
-            _send_html_email(email, subject, html)
+            html = _build_newsletter_html(email, name, posts_for_lang, ui_lang)
+            _send_html_email(email, subject, html, plain)
             sent += 1
         except Exception as exc:
             failed += 1
             print(f"Newsletter send failed for {email}: {exc}")
-    print(f"Newsletter done: sent={sent}, failed={failed}, recipients={len(recipients)}")
+    print(
+        f"Newsletter done: sent={sent}, failed={failed}, skipped_no_post_in_lang={skipped}, "
+        f"recipients={len(recipients)}"
+    )
 
 
 def _post_created_on_utc_date(post: dict, day_utc) -> bool:

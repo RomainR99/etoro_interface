@@ -4,6 +4,14 @@ from pathlib import Path
 
 # Charger .env et/ou ETORO_ENV_FILE (variables systemd non écrasées)
 from env_load import load_app_dotenv
+from newsletter_i18n import (
+    build_newsletter_welcome_html,
+    build_newsletter_welcome_plain,
+    newsletter_subscribe_message_body,
+    normalize_newsletter_lang,
+    welcome_email_subject,
+)
+from trader_post_lang import filter_posts_by_ui_lang
 
 load_app_dotenv(Path(__file__).resolve().parent)
 
@@ -532,7 +540,7 @@ def _count_newsletter_subscriptions(email: str) -> int:
         conn.close()
 
 
-def _build_newsletter_welcome_html(recipient_email: str) -> str:
+def _build_newsletter_welcome_html(recipient_email: str, ui_lang: str) -> str:
     base_url = (os.getenv("SITE_BASE_URL") or "https://romainroth.com").strip().rstrip("/")
     token = _newsletter_unsubscribe_token(recipient_email)
     one_click_url = (
@@ -541,93 +549,17 @@ def _build_newsletter_welcome_html(recipient_email: str) -> str:
     etoro_profile_url = "https://www.etoro.com/people/romainroth"
     etoro_copy_invite_url = "https://etoro.tw/46rrJQC"
     posts_page_url = f"{base_url}/posts"
-    return f"""
-<html>
-  <body style="margin:0;padding:0;background:#f5f6f8;font-family:Arial,sans-serif;color:#111;">
-    <div style="max-width:640px;margin:0 auto;padding:24px;">
-      <div style="background:#ffffff;border-radius:14px;padding:28px;border:1px solid #e5e7eb;">
-        <p style="margin-top:0;font-size:16px;">Bonjour,</p>
-        <p style="font-size:15px;line-height:1.6;">
-          Merci encore pour votre inscription.
-        </p>
-        <p style="font-size:15px;line-height:1.6;">
-          À partir de maintenant, vous recevrez directement par email
-          <strong>tous les posts que je publie sur eToro</strong>
-          — sans avoir besoin de vous connecter à la plateforme.
-        </p>
-        <p style="font-size:15px;line-height:1.6;">Cela vous permet de :</p>
-        <ul style="font-size:15px;line-height:1.6;margin:0 0 16px;padding-left:1.25rem;">
-          <li>suivre mes analyses en temps réel</li>
-          <li>comprendre mes décisions</li>
-          <li>rester informé sans effort</li>
-        </ul>
-        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
-        <p style="font-size:15px;line-height:1.6;"><strong>Accéder au portefeuille en direct</strong></p>
-        <p style="font-size:15px;line-height:1.6;">
-          Vous pouvez consulter et suivre mon portefeuille eToro ici :
-        </p>
-        <p style="text-align:center;margin:18px 0 6px;">
-          <a
-            href="{html_escape.escape(etoro_profile_url)}"
-            target="_blank"
-            rel="noopener noreferrer"
-            style="display:inline-block;padding:8px 14px;border-radius:4px;text-decoration:none;background:#ffffff;border:1px solid #3fb950;color:#3fb950;font-weight:600;font-size:12.5px;line-height:1.25;text-align:center;box-sizing:border-box;"
-          >Mon profil sur eToro</a>
-        </p>
-        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
-        <p style="font-size:15px;line-height:1.6;">
-          Si vous souhaitez aller plus loin, eToro permet également de
-          <strong>copier automatiquement un portefeuille</strong>, afin de reproduire les positions en temps réel.
-        </p>
-        <p style="text-align:center;margin:18px 0 6px;">
-          <a
-            href="{html_escape.escape(etoro_copy_invite_url)}"
-            target="_blank"
-            rel="noopener noreferrer"
-            style="display:inline-block;padding:10px 18px;border-radius:6px;text-decoration:none;background:#3fb950;border:1px solid #2ea043;color:#ffffff;font-weight:700;font-size:14px;line-height:1.25;text-align:center;box-sizing:border-box;"
-          >Me rejoindre</a>
-        </p>
-        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
-        <p style="font-size:15px;line-height:1.6;"><strong>Mon approche</strong></p>
-        <p style="font-size:15px;line-height:1.6;">
-          Je partage uniquement des analyses sur des entreprises que je comprends, avec une approche simple :
-        </p>
-        <ul style="font-size:15px;line-height:1.6;margin:0 0 16px;padding-left:1.25rem;">
-          <li>Pas de levier</li>
-          <li>Vision long terme</li>
-          <li>Gestion du risque prioritaire</li>
-          <li>Peu d’actions</li>
-          <li>Pas de crypto</li>
-        </ul>
-        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
-        <p style="text-align:center;margin:18px 0 6px;">
-          <a
-            href="{html_escape.escape(posts_page_url)}"
-            target="_blank"
-            rel="noopener noreferrer"
-            style="display:inline-block;background:#111;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:8px;font-weight:bold;font-size:15px;line-height:1.25;text-align:center;box-sizing:border-box;"
-          >Voir tous les posts</a>
-        </p>
-        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
-        <p style="font-size:15px;line-height:1.6;">⚠️ <strong>Avertissement sur les risques :</strong></p>
-        <p style="font-size:15px;line-height:1.6;font-style:italic;color:#444;">
-          C’est une stratégie personnelle, non un conseil. L’appliquer ou non reste votre choix. Les performances passées ne garantissent pas les résultats futurs.
-        </p>
-        <p style="font-size:15px;line-height:1.6;margin-top:22px;margin-bottom:0;">À bientôt,<br>Romain Roth</p>
-      </div>
-      <p style="font-size:12px;color:#777;text-align:center;line-height:1.5;margin-top:18px;">
-        Vous recevez cet email car vous avez accepté la newsletter.<br>
-        <a href="{html_escape.escape(one_click_url)}" style="color:#555;text-decoration:underline;">
-          Se désabonner
-        </a>
-      </p>
-    </div>
-  </body>
-</html>
-""".strip()
+    lang = normalize_newsletter_lang(ui_lang)
+    return build_newsletter_welcome_html(
+        lang,
+        html_escape.escape(etoro_profile_url),
+        html_escape.escape(etoro_copy_invite_url),
+        html_escape.escape(posts_page_url),
+        html_escape.escape(one_click_url),
+    )
 
 
-def _build_newsletter_welcome_plain(recipient_email: str) -> str:
+def _build_newsletter_welcome_plain(recipient_email: str, ui_lang: str) -> str:
     base_url = (os.getenv("SITE_BASE_URL") or "https://romainroth.com").strip().rstrip("/")
     token = _newsletter_unsubscribe_token(recipient_email)
     one_click_url = (
@@ -636,20 +568,12 @@ def _build_newsletter_welcome_plain(recipient_email: str) -> str:
     etoro_profile_url = "https://www.etoro.com/people/romainroth"
     etoro_copy_invite_url = "https://etoro.tw/46rrJQC"
     posts_page_url = f"{base_url}/posts"
-    return (
-        "Bonjour,\n\n"
-        "Merci encore pour votre inscription.\n\n"
-        "À partir de maintenant, vous recevrez par email les posts publiés sur eToro.\n\n"
-        f"Profil eToro : {etoro_profile_url}\n\n"
-        "eToro permet aussi de copier automatiquement un portefeuille (positions en temps réel).\n"
-        f"Me rejoindre : {etoro_copy_invite_url}\n\n"
-        f"Voir tous les posts : {posts_page_url}\n\n"
-        "⚠️ Avertissement sur les risques :\n"
-        "C’est une stratégie personnelle, non un conseil. L’appliquer ou non reste votre choix. "
-        "Les performances passées ne garantissent pas les résultats futurs.\n\n"
-        "Vous recevez cet email car vous avez accepté la newsletter.\n"
-        f"Se désabonner : {one_click_url}\n\n"
-        "À bientôt,\nRomain Roth"
+    return build_newsletter_welcome_plain(
+        normalize_newsletter_lang(ui_lang),
+        posts_page_url,
+        etoro_profile_url,
+        etoro_copy_invite_url,
+        one_click_url,
     )
 
 
@@ -678,10 +602,11 @@ def _send_smtp_html_email(to_email: str, subject: str, html_body: str, plain_bod
         server.sendmail(smtp_from, [to_email], msg.as_string())
 
 
-def _send_newsletter_welcome_email(to_email: str) -> None:
-    subject = "Bienvenue — Newsletter Romain Roth"
-    html_body = _build_newsletter_welcome_html(to_email)
-    plain_body = _build_newsletter_welcome_plain(to_email)
+def _send_newsletter_welcome_email(to_email: str, ui_lang: str) -> None:
+    lang = normalize_newsletter_lang(ui_lang)
+    subject = welcome_email_subject(lang)
+    html_body = _build_newsletter_welcome_html(to_email, lang)
+    plain_body = _build_newsletter_welcome_plain(to_email, lang)
     _send_smtp_html_email(to_email, subject, html_body, plain_body)
 
 
@@ -1520,7 +1445,7 @@ def api_trader_posts():
     if lang not in ("fr", "en"):
         lang = "en"
     posts = _get_all_trader_posts_cached()
-    filtered = _filter_posts_by_ui_lang(posts, lang)
+    filtered = filter_posts_by_ui_lang(posts, lang)
     slice_posts = filtered[offset : offset + limit]
     return jsonify(
         {
@@ -1577,10 +1502,8 @@ def api_newsletter_subscribe():
     if len(name) > 200:
         return jsonify({"ok": False, "error": "invalid_name"}), 400
     first_name, last_name = _split_subscriber_name(name)
-    msg = (
-        "Newsletter opt-in: user requested regular updates by email; "
-        "privacy respected; details not shared with third parties."
-    )
+    ui_lang = normalize_newsletter_lang((data.get("lang") or "en"))
+    msg = newsletter_subscribe_message_body(ui_lang)
     prior_newsletter_count = _count_newsletter_subscriptions(email)
     try:
         _insert_contact_message(
@@ -1596,7 +1519,7 @@ def api_newsletter_subscribe():
     _newsletter_rate_record(ip)
     if prior_newsletter_count == 0:
         try:
-            _send_newsletter_welcome_email(email)
+            _send_newsletter_welcome_email(email, ui_lang)
         except Exception:
             app.logger.exception("newsletter_welcome_email")
     return jsonify({"ok": True})
@@ -2197,45 +2120,6 @@ def _get_all_trader_posts_cached() -> list[dict]:
     return _trader_posts_cache
 
 
-def _infer_post_lang(message: str) -> str:
-    """Même heuristique que le filtre langue côté client (profile.html)."""
-    if not message:
-        return "en"
-    if re.search(r"Avertissement sur les risques", message, re.I):
-        return "fr"
-    if re.search(r"𝘙𝘪𝘴𝘬\s*𝘞𝘢𝘳𝘯𝘪𝘯𝘨|Risk Warning", message, re.I):
-        return "en"
-    head = message[:1200]
-    if re.search(r"[äöüßÄÖÜ]", head) and re.search(
-        r"\b(und |der |die |Das |für |nicht )\b", head, re.I
-    ):
-        return "de"
-    sample = message[:4000]
-    fr = 0
-    en = 0
-    if re.search(r"[àâäéèêëïîôùûüçœ]", sample, re.I):
-        fr += 3
-    fr += len(
-        re.findall(
-            r"\b(les|des|une|dans|pour|avec|sont|été|notre|votre|être|copieurs|mois|portefeuille|marchés|français|été)\b",
-            sample,
-            re.I,
-        )
-    )
-    en += len(
-        re.findall(
-            r"\b(the|and|with|from|this|that|have|been|will|our|were|copiers|portfolio|markets|month|Hello)\b",
-            sample,
-            re.I,
-        )
-    )
-    if fr > en + 2:
-        return "fr"
-    if en > fr + 2:
-        return "en"
-    return "fr" if fr >= en else "en"
-
-
 def _post_title_line(message: str) -> str:
     if not message:
         return ""
@@ -2246,24 +2130,6 @@ def _post_title_line(message: str) -> str:
                 return line[:157] + "…"
             return line
     return ""
-
-
-def _filter_posts_by_ui_lang(posts: list[dict], ui_lang: str) -> list[dict]:
-    if ui_lang not in ("fr", "en"):
-        ui_lang = "en"
-    out: list[dict] = []
-    for p in posts:
-        if not isinstance(p, dict):
-            continue
-        msg = str(p.get("message") or "")
-        lang = _infer_post_lang(msg)
-        if lang == "de":
-            continue
-        if ui_lang == "fr" and lang == "fr":
-            out.append(p)
-        elif ui_lang == "en" and lang == "en":
-            out.append(p)
-    return out
 
 
 def _load_lexique_entries() -> list[dict]:
