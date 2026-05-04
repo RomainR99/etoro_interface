@@ -645,6 +645,7 @@ def _build_newsletter_welcome_html(recipient_email: str, ui_lang: str) -> str:
         html_escape.escape(etoro_copy_invite_url),
         html_escape.escape(posts_page_url),
         html_escape.escape(one_click_url),
+        base_url,
     )
 
 
@@ -663,6 +664,7 @@ def _build_newsletter_welcome_plain(recipient_email: str, ui_lang: str) -> str:
         etoro_profile_url,
         etoro_copy_invite_url,
         one_click_url,
+        base_url,
     )
 
 
@@ -1750,6 +1752,48 @@ def newsletter_unsubscribe_landing():
 </body>
 </html>"""
     return Response(body, status=200, mimetype="text/html; charset=utf-8")
+
+
+_NEWSLETTER_PREVIEW_FILES: dict[str, str] = {
+    "welcome": "newsletter_welcome_preview.html",
+    "welcome-en": "newsletter_welcome_preview_en.html",
+    "posts": "newsletter_preview.html",
+    "posts-en": "newsletter_preview_en.html",
+}
+
+
+@app.route("/dev/newsletter-preview", methods=["GET"])
+def dev_newsletter_preview_index():
+    """Liste des aperçus newsletter (fichiers HTML à la racine du dépôt)."""
+    links = "".join(
+        f'<li><a href="/dev/newsletter-preview/{html_escape.escape(key)}">{html_escape.escape(key)}</a> '
+        f'— <code>{html_escape.escape(fn)}</code></li>'
+        for key, fn in _NEWSLETTER_PREVIEW_FILES.items()
+    )
+    body = f"""<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="utf-8"><title>Aperçus newsletter</title></head>
+<body style="font-family:Arial,sans-serif;padding:24px;">
+  <h1>Aperçus newsletter</h1>
+  <p>Avec Flask en local : utiliser les liens ci-dessous (ex. port 5000).</p>
+  <ul>{links}</ul>
+</body>
+</html>"""
+    return Response(body, status=200, mimetype="text/html; charset=utf-8")
+
+
+@app.route("/dev/newsletter-preview/<string:name>", methods=["GET"])
+def dev_newsletter_preview(name: str):
+    """Sert un fichier d’aperçu depuis la racine du projet (même contenu que les emails générés)."""
+    filename = _NEWSLETTER_PREVIEW_FILES.get(name.strip().lower())
+    if not filename:
+        return Response("Unknown preview name", status=404, mimetype="text/plain; charset=utf-8")
+    root = os.path.dirname(os.path.abspath(__file__))
+    path = os.path.join(root, filename)
+    if not os.path.isfile(path):
+        return Response("Preview file not found", status=404, mimetype="text/plain; charset=utf-8")
+    with open(path, encoding="utf-8") as f:
+        return Response(f.read(), status=200, mimetype="text/html; charset=utf-8")
 
 
 # Livres recommandés (page /reading) — titres et notes FR/EN

@@ -342,6 +342,7 @@ def _build_newsletter_html(
         copy_href,
         posts_href,
         unsub_href,
+        base_url,
     )
 
 
@@ -397,6 +398,7 @@ def _send_newsletter_for_new_posts(new_posts: list[dict]) -> None:
             etoro_profile_plain,
             etoro_copy_plain,
             len(posts_for_lang),
+            base_plain,
         )
         try:
             html = _build_newsletter_html(email, name, posts_for_lang, ui_lang)

@@ -4,10 +4,73 @@ from __future__ import annotations
 
 import html
 import re
+from datetime import datetime, timezone
 
 
 def normalize_newsletter_lang(lang: str | None) -> str:
     return "fr" if (lang or "").strip().lower() == "fr" else "en"
+
+
+def _newsletter_site_root(site_base_url: str) -> str:
+    root = (site_base_url or "").strip().rstrip("/")
+    return root if root else "https://romainroth.com"
+
+
+def build_newsletter_site_legal_footer_html(lang: str, site_base_url: str) -> str:
+    """Liens légaux + copyright (alignés sur le footer du site), hors carte blanche principale."""
+    lang = normalize_newsletter_lang(lang)
+    root = _newsletter_site_root(site_base_url)
+    href_ml = html.escape(f"{root}/mentions-legales")
+    href_pr = html.escape(f"{root}/confidentialite")
+    href_ck = html.escape(f"{root}/cookies")
+    year = datetime.now(timezone.utc).year
+    copy_txt = f"© Romain Roth {year}"
+    # Même esprit que .site-footer-legal / .site-footer-copy (site_chrome_styles) : texte centré, liens discrets.
+    nav_p = (
+        "text-align:center;margin:0 0 8px;padding:0;line-height:1.6;"
+        "font-size:11.5px;color:#8b949e;"
+    )
+    link_a = "color:#8b949e;text-decoration:none;"
+    sep = '<span style="margin:0 5px;color:#8b949e;opacity:0.55;" aria-hidden="true">·</span>'
+    copy_p = "text-align:center;margin:0;padding:0.75rem 0 0;font-size:12px;color:#8b949e;"
+    if lang == "fr":
+        l1, l2, l3 = "Mentions légales", "Politique de confidentialité", "Politique de cookies"
+        nav_aria = "Informations légales"
+    else:
+        l1, l2, l3 = "Legal notice", "Privacy policy", "Cookie policy"
+        nav_aria = "Legal"
+    nav_aria_esc = html.escape(nav_aria)
+    return (
+        '      <div style="margin-top:20px;padding-top:18px;border-top:1px solid #e5e7eb;">\n'
+        f'        <nav style="{nav_p}" aria-label="{nav_aria_esc}">\n'
+        f'          <a href="{href_ml}" target="_blank" rel="noopener noreferrer" style="{link_a}">{html.escape(l1)}</a>'
+        f"{sep}\n"
+        f'          <a href="{href_pr}" target="_blank" rel="noopener noreferrer" style="{link_a}">{html.escape(l2)}</a>'
+        f"{sep}\n"
+        f'          <a href="{href_ck}" target="_blank" rel="noopener noreferrer" style="{link_a}">{html.escape(l3)}</a>\n'
+        "        </nav>\n"
+        f'        <p style="{copy_p}">{html.escape(copy_txt)}</p>\n'
+        "      </div>"
+    )
+
+
+def build_newsletter_site_legal_footer_plain(lang: str, site_base_url: str) -> str:
+    lang = normalize_newsletter_lang(lang)
+    root = _newsletter_site_root(site_base_url)
+    year = datetime.now(timezone.utc).year
+    if lang == "fr":
+        return (
+            f"Mentions légales : {root}/mentions-legales\n"
+            f"Politique de confidentialité : {root}/confidentialite\n"
+            f"Politique de cookies : {root}/cookies\n"
+            f"© Romain Roth {year}\n"
+        )
+    return (
+        f"Legal notice: {root}/mentions-legales\n"
+        f"Privacy policy: {root}/confidentialite\n"
+        f"Cookie policy: {root}/cookies\n"
+        f"© Romain Roth {year}\n"
+    )
 
 
 def parse_newsletter_ui_lang_from_message(message: str | None) -> str:
@@ -84,7 +147,7 @@ def _shared_footer_html(lang: str, profile_href: str, copy_href: str, posts_href
         <p style="font-size:15px;line-height:1.6;">
           À partir de maintenant, vous recevrez directement par email
           <strong>tous les posts que je publie sur eToro</strong>
-          — sans avoir besoin de vous connecter à la plateforme.
+          - sans avoir besoin de vous connecter à la plateforme.
         </p>
         <p style="font-size:15px;line-height:1.6;">Cela vous permet de :</p>
         <ul style="font-size:15px;line-height:1.6;margin:0 0 16px;padding-left:1.25rem;">
@@ -150,7 +213,7 @@ def _shared_footer_html(lang: str, profile_href: str, copy_href: str, posts_href
         <p style="font-size:15px;line-height:1.6;">
           From now on, you will receive by email
           <strong>every post I publish on eToro</strong>
-          — without having to log in to the platform.
+          - without having to log in to the platform.
         </p>
         <p style="font-size:15px;line-height:1.6;">This lets you:</p>
         <ul style="font-size:15px;line-height:1.6;margin:0 0 16px;padding-left:1.25rem;">
@@ -220,9 +283,11 @@ def build_newsletter_welcome_html(
     copy_href: str,
     posts_href: str,
     unsub_href: str,
+    site_base_url: str,
 ) -> str:
     lang = normalize_newsletter_lang(lang)
     footer_common = _shared_footer_html(lang, profile_href, copy_href, posts_href)
+    legal_site = build_newsletter_site_legal_footer_html(lang, site_base_url)
     if lang == "fr":
         top = """
         <p style="margin-top:0;font-size:16px;">Bonjour,</p>
@@ -264,6 +329,7 @@ def build_newsletter_welcome_html(
         {footer_common}
       </div>
       {outer_footer}
+      {legal_site}
     </div>
   </body>
 </html>
@@ -276,6 +342,7 @@ def build_newsletter_welcome_plain(
     etoro_profile_url: str,
     etoro_copy_invite_url: str,
     one_click_url: str,
+    site_base_url: str,
 ) -> str:
     lang = normalize_newsletter_lang(lang)
     if lang == "fr":
@@ -292,7 +359,8 @@ def build_newsletter_welcome_plain(
             "Les performances passées ne garantissent pas les résultats futurs.\n\n"
             "Vous recevez cet email car vous avez accepté la newsletter.\n"
             f"Se désabonner : {one_click_url}\n\n"
-            "À bientôt,\nRomain Roth"
+            "À bientôt,\nRomain Roth\n\n"
+            f"{build_newsletter_site_legal_footer_plain('fr', site_base_url)}"
         )
     return (
         "Hello,\n\n"
@@ -307,7 +375,8 @@ def build_newsletter_welcome_plain(
         "Past performance does not guarantee future results.\n\n"
         "You are receiving this email because you opted in to the newsletter.\n"
         f"Unsubscribe: {one_click_url}\n\n"
-        "Best regards,\nRomain Roth"
+        "Best regards,\nRomain Roth\n\n"
+        f"{build_newsletter_site_legal_footer_plain('en', site_base_url)}"
     )
 
 
@@ -320,9 +389,11 @@ def build_new_posts_newsletter_html(
     copy_href: str,
     posts_href: str,
     unsub_href: str,
+    site_base_url: str,
 ) -> str:
     lang = normalize_newsletter_lang(lang)
     footer_common = _shared_footer_html(lang, profile_href, copy_href, posts_href)
+    legal_site = build_newsletter_site_legal_footer_html(lang, site_base_url)
     if lang == "fr":
         title = "Nouveaux posts eToro disponibles"
         intro = (
@@ -368,6 +439,7 @@ def build_new_posts_newsletter_html(
         {footer_common}
       </div>
       {outer_footer}
+      {legal_site}
     </div>
   </body>
 </html>
@@ -380,6 +452,7 @@ def build_new_posts_newsletter_plain(
     etoro_profile_plain: str,
     etoro_copy_plain: str,
     count: int,
+    site_base_url: str,
 ) -> str:
     lang = normalize_newsletter_lang(lang)
     if lang == "fr":
@@ -400,10 +473,12 @@ def build_new_posts_newsletter_plain(
             f"Mon profil eToro : {etoro_profile_plain}\n"
             f"Me rejoindre : {etoro_copy_plain}\n\n"
         )
+        legal = build_newsletter_site_legal_footer_plain("fr", site_base_url)
     else:
         links = (
             f"See all posts: {posts_plain}\n\n"
             f"eToro profile: {etoro_profile_plain}\n"
             f"Join me: {etoro_copy_plain}\n\n"
         )
-    return f"{head}{links}{risk}"
+        legal = build_newsletter_site_legal_footer_plain("en", site_base_url)
+    return f"{head}{links}{risk}\n{legal}"
