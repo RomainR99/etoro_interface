@@ -11,19 +11,57 @@ ROOT = Path(__file__).resolve().parent
 IMAGES_DIR = ROOT / "data" / "trader_post_images"
 POSTS_JSON = ROOT / "data" / "trader_posts_romainroth.json"
 SRC_EXTS = {".png", ".jpg", ".jpeg", ".gif"}
+# "200 KB" strict in decimal bytes.
+MAX_WEBP_BYTES = 200_000
+QUALITY_STEPS = (85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30, 25)
+SCALE_STEPS = (1.0, 0.92, 0.85, 0.78, 0.72, 0.66, 0.60, 0.54)
+
+
+def _load_base_image(src: Path) -> Image.Image:
+    with Image.open(src) as img:
+        if getattr(img, "is_animated", False):
+            img.seek(0)
+        if img.mode in ("RGBA", "LA", "P"):
+            return img.convert("RGBA")
+        return img.convert("RGB")
+
+
+def _save_webp_bounded(img: Image.Image, out: Path, max_bytes: int = MAX_WEBP_BYTES) -> bool:
+    base_w, base_h = img.size
+    for scale in SCALE_STEPS:
+        if scale == 1.0:
+            candidate = img
+        else:
+            new_w = max(1, int(base_w * scale))
+            new_h = max(1, int(base_h * scale))
+            candidate = img.resize((new_w, new_h), Image.LANCZOS)
+        for quality in QUALITY_STEPS:
+            candidate.save(out, format="WEBP", quality=quality, method=6)
+            try:
+                if out.stat().st_size <= max_bytes:
+                    return True
+            except FileNotFoundError:
+                return False
+    # Hard fallback: keep shrinking until under target.
+    w, h = img.size
+    while w > 32 and h > 32:
+        w = max(32, int(w * 0.9))
+        h = max(32, int(h * 0.9))
+        candidate = img.resize((w, h), Image.LANCZOS)
+        candidate.save(out, format="WEBP", quality=20, method=6)
+        try:
+            if out.stat().st_size <= max_bytes:
+                return True
+        except FileNotFoundError:
+            return False
+    # Last resort: keep smallest candidate we could produce.
+    return out.is_file()
 
 
 def _save_webp_from_path(src: Path, out: Path) -> bool:
     try:
-        with Image.open(src) as img:
-            if getattr(img, "is_animated", False):
-                img.seek(0)
-            if img.mode in ("RGBA", "LA", "P"):
-                img = img.convert("RGBA")
-            else:
-                img = img.convert("RGB")
-            img.save(out, format="WEBP", quality=85, method=6)
-        return out.is_file()
+        img = _load_base_image(src)
+        return _save_webp_bounded(img, out)
     except Exception:
         return False
 
@@ -35,12 +73,26 @@ def main() -> None:
         raise SystemExit(f"Posts JSON not found: {POSTS_JSON}")
 
     converted = 0
+    optimized_webp = 0
     name_map: dict[str, str] = {}
 
     for p in sorted(IMAGES_DIR.iterdir()):
         if not p.is_file():
             continue
-        if p.suffix.lower() not in SRC_EXTS:
+        suffix = p.suffix.lower()
+        if suffix == ".webp":
+            try:
+                size_before = p.stat().st_size
+            except FileNotFoundError:
+                continue
+            if size_before > MAX_WEBP_BYTES and _save_webp_from_path(p, p):
+                try:
+                    if p.stat().st_size < size_before:
+                        optimized_webp += 1
+                except FileNotFoundError:
+                    pass
+            continue
+        if suffix not in SRC_EXTS:
             continue
         out = p.with_suffix(".webp")
         if out.is_file():
@@ -69,6 +121,7 @@ def main() -> None:
 
     POSTS_JSON.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"Converted / remapped: {converted}")
+    print(f"Optimized existing .webp >200KB: {optimized_webp}")
     print("Updated", POSTS_JSON)
 
 
