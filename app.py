@@ -34,6 +34,7 @@ import threading
 import time
 import uuid
 import pickle
+from xml.sax.saxutils import escape as _xml_escape
 from datetime import datetime, timezone
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -2020,6 +2021,47 @@ def page_trader_post(slug: str):
     )
     _get_or_set_visitor_id(resp)
     return resp
+
+
+def _site_public_base_url() -> str:
+    """URL publique du site (sitemap, emails). Priorité à SITE_BASE_URL, sinon requête."""
+    u = (os.getenv("SITE_BASE_URL") or "").strip().rstrip("/")
+    if u:
+        return u
+    return (request.url_root or "").strip().rstrip("/") or "https://romainroth.com"
+
+
+@app.route("/sitemap.xml")
+def sitemap_xml():
+    """Liste d’URLs pour les moteurs de recherche (pages fixes + une entrée par post)."""
+    base = _site_public_base_url()
+    static_paths = (
+        "/",
+        "/posts",
+        "/lexique",
+        "/about",
+        "/mentions-legales",
+        "/confidentialite",
+        "/cookies",
+        "/reading",
+        "/copy-on-etoro",
+    )
+    locs: list[str] = [base + p for p in static_paths]
+    for p in _get_all_trader_posts_cached():
+        if not isinstance(p, dict):
+            continue
+        slug = (p.get("slug") or "").strip()
+        if slug:
+            locs.append(base + url_for("page_trader_post", slug=slug))
+    parts = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ]
+    for loc in locs:
+        parts.append(f"  <url><loc>{_xml_escape(loc)}</loc></url>")
+    parts.append("</urlset>")
+    body = "\n".join(parts) + "\n"
+    return Response(body, mimetype="application/xml; charset=utf-8")
 
 
 def _compute_posts_chart_data(traders: list[str], years: int = 1) -> tuple[list[str], list[dict]]:

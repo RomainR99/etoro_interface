@@ -39,7 +39,9 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
     - [Cache HTTP statique (Nginx, production)](#cache-http-statique-nginx-production)
     - [Cron serveur pour le sync eToro](#cron-serveur-pour-le-sync-etoro)
     - [Debug newsletter : images non affichées](#debug-newsletter--images-non-affichées)
-  - [7) Suivre avec Google Search Console](#7-suivre-avec-google-search-console)
+  - Référencement (SEO)
+    - [7) Suivre avec Google Search Console](#7-suivre-avec-google-search-console)
+    - [Sitemap XML et indexation](#sitemap-xml-et-indexation)
 
 ### Données, contenu et API
 
@@ -1155,7 +1157,7 @@ NEWSLETTER_UNSUBSCRIBE_SECRET=...
 - `SMTP_PASSWORD` : mot de passe (ou mot de passe applicatif) du compte SMTP.
 - `SMTP_FROM` : expéditeur affiché dans les emails (ex. `Romain Roth <contact@...>`).
 - `SMTP_USE_TLS=1` : active le chiffrement TLS (recommandé avec port `587`).
-- `SITE_BASE_URL` : URL publique du site, utilisée pour les liens email (ex. désinscription).
+- `SITE_BASE_URL` : URL publique du site, utilisée pour les liens email (ex. désinscription) et les URLs absolues du **`/sitemap.xml`**.
 
 #### Cron serveur pour le sync eToro
 
@@ -1254,6 +1256,22 @@ Une fois le site en ligne et la propriété vérifiée dans [Google Search Conso
 - **Pages avec beaucoup d’impressions mais peu de clics** : souvent un signal de titre / meta description / contenu ou d’intention de recherche à mieux aligner avec la requête.
 
 👉 **En priorité**, optimise ces pages (titres, extraits, contenu, maillage interne) : le moteur te montre déjà une opportunité ; améliorer le CTR et la pertinence coûte moins qu’inventer du trafic from scratch.
+
+### Sitemap XML et indexation
+
+**C’est quoi un sitemap ?**  
+Un **sitemap** est un fichier qui indique aux moteurs de recherche (ex. Google) les **URLs importantes** de ton site : « voici les pages à connaître ». Ça aide surtout à **découvrir** et **indexer** les pages, en particulier quand le maillage interne ou les liens externes sont encore légers.
+
+**Dans ce projet (Flask)**  
+L’application expose un sitemap **dynamique** à l’adresse **`/sitemap.xml`** (ex. `https://romainroth.com/sitemap.xml`). Il liste notamment :
+
+- les pages « fixes » (accueil, `/posts`, `/reading`, `/about`, légal, etc.) ;
+- **chaque publication** sous `/posts/<slug>` (slug dérivé du titre).
+
+Les URLs absolues utilisent la variable d’environnement **`SITE_BASE_URL`** (déjà utilisée pour les emails) ; si elle est absente, la requête HTTP courante sert de repli (pratique en local).
+
+**Côté Google Search Console**  
+Une fois le site vérifié, tu peux soumettre ou tester le sitemap dans la section **Sitemaps** (souvent suffit d’indiquer `sitemap.xml` si la propriété est à la racine du domaine).
 
 ## Lancement
 
