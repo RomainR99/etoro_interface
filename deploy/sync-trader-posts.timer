@@ -5,7 +5,7 @@
 Description=Tâche quotidienne — sync posts eToro
 
 [Timer]
-OnCalendar=*-*-* 06:15:00
+OnCalendar=*-*-* 06:00:00
 Persistent=true
 
 [Install]

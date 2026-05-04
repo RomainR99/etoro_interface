@@ -4,7 +4,7 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
 
 ## Sommaire
 
-### Projet et fonctionnalités
+### Vue d'ensemble
 
 - [Fonctionnalités](#fonctionnalités)
   - [Limiter les requêtes (rate limit par visiteur)](#limiter-les-requêtes-rate-limit-par-visiteur)
@@ -12,8 +12,11 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
   - [Récupérer les données du chatbot](#récupérer-les-données-du-chatbot)
   - [Consentements cookies (SQLite)](#consentements-cookies-sqlite)
   - [Inscriptions newsletter / messages (`contact_messages`)](#inscriptions-newsletter--messages-contact_messages)
+- [Sécurité et déploiement](#sécurité-et-déploiement)
+  - [C'est quoi le MFA ?](#cest-quoi-le-mfa-)
+- [Apple / iOS](#apple--ios)
 
-### Installation locale
+### Démarrage local
 
 - [Prérequis](#prérequis)
 - [Dépendances principales](#dépendances-principales)
@@ -22,7 +25,7 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
   - [Gunicorn (3 façons équivalentes)](#gunicorn-3-façons-équivalentes)
 - [Structure](#structure)
 
-### Configuration
+### Configuration et production
 
 - [Configuration](#configuration)
   - [Trouver et configurer `DATABASE_URL`](#trouver-et-configurer-database_url)
@@ -37,19 +40,21 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
     - [Cron serveur pour le sync eToro](#cron-serveur-pour-le-sync-etoro)
     - [Debug newsletter : images non affichées](#debug-newsletter--images-non-affichées)
 
-### Contenu, trader et API
+### Données, contenu et API
 
 - [Configuration du trader](#configuration-du-trader)
 - [Avatar (header) et favicon](#avatar-header-et-favicon)
 - [Export des messages chatbot vers SQLite (DB Browser)](#export-des-messages-chatbot-vers-sqlite-db-browser)
+  - [Ouvrir les bases dans DB Browser for SQLite](#ouvrir-les-bases-dans-db-browser-for-sqlite)
 - [API eToro](#api-etoro)
+  - [Publication de posts (feed eToro)](#publication-de-posts-feed-etoro)
 - [Actualités Zonebourse](#actualités-zonebourse)
-
-### Sécurité et environnements
-
-- [Sécurité et déploiement](#sécurité-et-déploiement)
-  - [C'est quoi le MFA ?](#cest-quoi-le-mfa-)
-- [Apple / iOS](#apple--ios)
+  - [Source des données (URLs)](#source-des-données-urls)
+  - [Résumé avec OpenAI](#résumé-avec-openai)
+  - [Actualités par instrument (Mediastack)](#actualités-par-instrument-mediastack)
+  - [Quand ça marche](#quand-ça-marche)
+  - [Quand ça échoue (message par défaut)](#quand-ça-échoue-message-par-défaut)
+  - [Vérifier la source](#vérifier-la-source)
 
 ### Annexes
 
@@ -1085,7 +1090,7 @@ En production, les clés API eToro n’ont pas besoin d’être dans un `.env` d
 
 - **`env_load.py`** : charge un fichier optionnel pointé par `ETORO_ENV_FILE` ou `ENV_FILE`, puis le `.env` local s’il existe. Les variables **déjà présentes** dans l’environnement (injectées par systemd) **ne sont pas écrasées**.
 - **Gunicorn** : exemple d’unité dans `deploy/gunicorn-etoro.service.example` (même `EnvironmentFile` que le job de sync).
-- **Sync des posts trader** : script `sync_romain_posts.py` (JSON + images WebP dans `data/`). Pour l’exécuter **tous les jours** sans intervention, utiliser le timer systemd `deploy/sync-trader-posts.timer` + `deploy/sync-trader-posts.service` (adapter chemins et utilisateur). L’application **recharge** `data/trader_posts_romainroth.json` lorsque le fichier change sur disque ; **inutile de redémarrer Gunicorn** après le sync.
+- **Sync des posts trader** : script `sync_romain_posts.py` (JSON + images WebP dans `data/`). Pour l’exécuter **tous les jours** sans intervention, utiliser le timer systemd `deploy/sync-trader-posts.timer` + `deploy/sync-trader-posts.service` (adapter chemins et utilisateur). La newsletter part uniquement avec les **nouveaux posts de la date du jour (UTC)**. Le timer fourni est réglé à **06:00** (heure serveur). L’application **recharge** `data/trader_posts_romainroth.json` lorsque le fichier change sur disque ; **inutile de redémarrer Gunicorn** après le sync.
 - **Installation pas à pas** : [`deploy/README.md`](deploy/README.md).
 
 #### Cache HTTP statique (Nginx, production)
@@ -1153,6 +1158,16 @@ NEWSLETTER_UNSUBSCRIBE_SECRET=...
 #### Cron serveur pour le sync eToro
 
 Si ton cron tourne sur un serveur séparé, la configuration doit etre faite directement sur ce serveur (le `crontab` local de ton Mac ne s'applique pas en production).
+
+> Si tu utilises **systemd timer** (recommandé en prod, via `deploy/sync-trader-posts.timer`) et que tu modifies le fichier timer, appliquer sur le serveur :
+>
+> ```bash
+> sudo cp deploy/sync-trader-posts.timer /etc/systemd/system/
+> sudo systemctl daemon-reload
+> sudo systemctl restart sync-trader-posts.timer
+> sudo systemctl status sync-trader-posts.timer
+> systemctl list-timers sync-trader-posts.timer
+> ```
 
 1. Se connecter en SSH :
 

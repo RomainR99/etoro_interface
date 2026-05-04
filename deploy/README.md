@@ -16,6 +16,7 @@ Optionnel : définir `ETORO_ENV_FILE=/etc/etoro/interface.env` si tu préfères 
 
 1. Ajuster chemins et `User=` dans `sync-trader-posts.service` (l’utilisateur doit écrire dans `data/`).
 2. Installer le service + timer (voir commentaires en tête de `sync-trader-posts.service`).
+   - Le timer fourni déclenche le job à **06:00** chaque jour (heure serveur, généralement UTC).
 3. Tester : `sudo systemctl start sync-trader-posts.service` puis `journalctl -u sync-trader-posts.service -e`
 
 L’application recharge le JSON des posts quand le fichier sur disque change (mtime) ; pas besoin de redémarrer Gunicorn après le sync.

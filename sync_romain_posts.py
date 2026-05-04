@@ -393,12 +393,28 @@ def _send_newsletter_for_new_posts(new_posts: list[dict]) -> None:
     print(f"Newsletter done: sent={sent}, failed={failed}, recipients={len(recipients)}")
 
 
+def _post_created_on_utc_date(post: dict, day_utc) -> bool:
+    raw = str(post.get("created") or "").strip()
+    if not raw:
+        return False
+    try:
+        dt = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        return dt.astimezone(timezone.utc).date() == day_utc
+    except ValueError:
+        # Fallback format: "YYYY-MM-DD ..."
+        return raw[:10] == day_utc.isoformat()
+
+
 def main() -> None:
     existing_ids = _load_existing_post_ids(OUTPUT_PATH)
     posts = fetch_all_posts(TRADER_USERNAME)
     new_posts = [p for p in posts if str(p.get("id") or "") not in existing_ids]
+    today_utc = datetime.now(timezone.utc).date()
+    new_posts_today = [p for p in new_posts if _post_created_on_utc_date(p, today_utc)]
     save_posts(posts, OUTPUT_PATH)
-    _send_newsletter_for_new_posts(new_posts)
+    _send_newsletter_for_new_posts(new_posts_today)
     print(f"{len(posts)} posts saved to {OUTPUT_PATH}")
 
 
