@@ -4,15 +4,26 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
 
 ## Sommaire
 
+### Projet et fonctionnalités
+
 - [Fonctionnalités](#fonctionnalités)
   - [Limiter les requêtes (rate limit par visiteur)](#limiter-les-requêtes-rate-limit-par-visiteur)
   - [CAPTCHA (anti-bots)](#captcha-anti-bots)
   - [Récupérer les données du chatbot](#récupérer-les-données-du-chatbot)
   - [Consentements cookies (SQLite)](#consentements-cookies-sqlite)
   - [Inscriptions newsletter / messages (`contact_messages`)](#inscriptions-newsletter--messages-contact_messages)
+
+### Installation locale
+
 - [Prérequis](#prérequis)
 - [Dépendances principales](#dépendances-principales)
 - [Installation](#installation)
+- [Lancement](#lancement)
+  - [Gunicorn (3 façons équivalentes)](#gunicorn-3-façons-équivalentes)
+- [Structure](#structure)
+
+### Configuration
+
 - [Configuration](#configuration)
   - [Trouver et configurer `DATABASE_URL`](#trouver-et-configurer-database_url)
   - [Configurer `REDIS_URL` (local et production)](#configurer-redis_url-local-et-production)
@@ -22,19 +33,26 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
   - [Note performance (première visite)](#note-performance-première-visite)
   - [Checklist production (rapide)](#checklist-production-rapide)
   - [Déploiement production](#déploiement-production)
+    - [Cache HTTP statique (Nginx, production)](#cache-http-statique-nginx-production)
     - [Cron serveur pour le sync eToro](#cron-serveur-pour-le-sync-etoro)
     - [Debug newsletter : images non affichées](#debug-newsletter--images-non-affichées)
-- [Lancement](#lancement)
-  - [Gunicorn (3 façons équivalentes)](#gunicorn-3-façons-équivalentes)
-- [Structure](#structure)
+
+### Contenu, trader et API
+
 - [Configuration du trader](#configuration-du-trader)
 - [Avatar (header) et favicon](#avatar-header-et-favicon)
 - [Export des messages chatbot vers SQLite (DB Browser)](#export-des-messages-chatbot-vers-sqlite-db-browser)
 - [API eToro](#api-etoro)
 - [Actualités Zonebourse](#actualités-zonebourse)
+
+### Sécurité et environnements
+
 - [Sécurité et déploiement](#sécurité-et-déploiement)
   - [C'est quoi le MFA ?](#cest-quoi-le-mfa-)
 - [Apple / iOS](#apple--ios)
+
+### Annexes
+
 - [Corrections à apporter](#corrections-à-apporter)
 - [Notes Werkzeug](#1️⃣-à-quoi-sert-werkzeug)
 
@@ -1069,6 +1087,26 @@ En production, les clés API eToro n’ont pas besoin d’être dans un `.env` d
 - **Gunicorn** : exemple d’unité dans `deploy/gunicorn-etoro.service.example` (même `EnvironmentFile` que le job de sync).
 - **Sync des posts trader** : script `sync_romain_posts.py` (JSON + images WebP dans `data/`). Pour l’exécuter **tous les jours** sans intervention, utiliser le timer systemd `deploy/sync-trader-posts.timer` + `deploy/sync-trader-posts.service` (adapter chemins et utilisateur). L’application **recharge** `data/trader_posts_romainroth.json` lorsque le fichier change sur disque ; **inutile de redémarrer Gunicorn** après le sync.
 - **Installation pas à pas** : [`deploy/README.md`](deploy/README.md).
+
+#### Cache HTTP statique (Nginx, production)
+
+Avec **Flask + Gunicorn derrière Nginx**, le gain le plus direct sur les assets statiques est côté **Nginx sur le VPS** : ce n’est **pas** du code Python à ajouter dans le dépôt, mais une **section dans la config du site** (souvent `/etc/nginx/sites-available/…`), puis `sudo nginx -t` et `sudo systemctl reload nginx`.
+
+**Exemple** (adapter le chemin `alias` au répertoire réel du projet sur le serveur) :
+
+```nginx
+location /static/ {
+    alias /srv/etoro_interface/static/;
+    expires 30d;
+    add_header Cache-Control "public";
+}
+```
+
+**À garder en tête**
+
+- Ne pas appliquer un cache long à l’aveugle sur **`/api/`** ni sur les **pages HTML** dynamiques sans stratégie claire (risque de contenu périmé).
+- Si tu sers d’autres dossiers statiques depuis le disque (ex. `images/`), tu peux ajouter des blocs `location` équivalents avec les bons chemins.
+- Cette config **n’est pas versionnée** dans ce dépôt : à maintenir sur le serveur (ou à copier depuis un snippet local si tu préfères documenter ton fichier Nginx ailleurs).
 
 #### Variables serveur minimales (`/etc/etoro/interface.env`)
 
