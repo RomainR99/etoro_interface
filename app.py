@@ -10,6 +10,7 @@ from newsletter_i18n import (
     newsletter_lang_sync_message_body,
     newsletter_subscribe_message_body,
     normalize_newsletter_lang,
+    parse_newsletter_ui_lang_from_message,
     welcome_email_subject,
 )
 from trader_post_lang import filter_posts_by_ui_lang
@@ -556,6 +557,31 @@ def _newsletter_is_currently_subscribed(email: str) -> bool:
     finally:
         conn.close()
     return row is not None and row[0] == "Newsletter"
+
+
+def _get_latest_newsletter_message_for_email(email: str) -> str | None:
+    """Dernier corps de message pour subject=Newsletter (avant désinscription : préférence de langue)."""
+    normalized = (email or "").strip().lower()
+    if not normalized:
+        return None
+    conn = get_pg_connection()
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT message FROM contact_messages
+                WHERE LOWER(TRIM(email)) = %s AND subject = 'Newsletter'
+                ORDER BY created_at DESC
+                LIMIT 1
+                """,
+                (normalized,),
+            )
+            row = cur.fetchone()
+    finally:
+        conn.close()
+    if not row or row[0] is None:
+        return None
+    return str(row[0])
 
 
 def _get_latest_newsletter_names_for_email(email: str) -> tuple[str | None, str | None]:
@@ -1624,6 +1650,48 @@ def api_newsletter_lang():
     return jsonify({"ok": True})
 
 
+def _newsletter_unsubscribe_success_html(ui_lang: str) -> str:
+    base_url = (os.getenv("SITE_BASE_URL") or "https://romainroth.com").strip().rstrip("/")
+    resub_href = html_escape.escape(f"{base_url}/#newsletterSignupSection")
+    if normalize_newsletter_lang(ui_lang) == "fr":
+        title = "Désinscription"
+        line1 = "Vous avez bien été désinscrit(e) des messages de Romain Roth."
+        line2 = "Vous ne souhaitiez pas vous désinscrire ?"
+        btn = "Se réinscrire"
+        html_lang = "fr"
+        doc_title = "Désinscription — Romain Roth"
+    else:
+        title = "Unsubscribed"
+        line1 = "You've successfully been unsubscribed from Romain Roth messages."
+        line2 = "Didn't mean to unsubscribe?"
+        btn = "Resubscribe"
+        html_lang = "en"
+        doc_title = "Unsubscribed — Romain Roth"
+    return f"""<!DOCTYPE html>
+<html lang="{html_lang}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{html_escape.escape(doc_title)}</title>
+</head>
+<body style="margin:0;font-family:Arial,sans-serif;background:#f5f6f8;color:#111;">
+  <div style="max-width:560px;margin:0 auto;padding:32px 20px;">
+    <div style="background:#fff;border-radius:12px;padding:28px;border:1px solid #e5e7eb;">
+      <h1 style="font-size:1.35rem;margin:0 0 16px;">{html_escape.escape(title)}</h1>
+      <p style="font-size:15px;line-height:1.65;margin:0 0 10px;">{html_escape.escape(line1)}</p>
+      <p style="font-size:15px;line-height:1.65;margin:0 0 22px;">{html_escape.escape(line2)}</p>
+      <p style="text-align:center;margin:0;">
+        <a href="{resub_href}"
+           style="display:inline-block;padding:12px 22px;border-radius:6px;text-decoration:none;background:#3fb950;border:1px solid #2ea043;color:#ffffff;font-weight:700;font-size:15px;line-height:1.25;">
+          {html_escape.escape(btn)}
+        </a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>"""
+
+
 @app.route("/newsletter/unsubscribe", methods=["GET"])
 def newsletter_unsubscribe():
     email = (request.args.get("email") or "").strip().lower()
@@ -1634,6 +1702,8 @@ def newsletter_unsubscribe():
             status=400,
             mimetype="text/html",
         )
+    last_msg = _get_latest_newsletter_message_for_email(email)
+    ui_lang = parse_newsletter_ui_lang_from_message(last_msg)
     try:
         _mark_newsletter_unsubscribed(email)
     except Exception:
@@ -1644,9 +1714,9 @@ def newsletter_unsubscribe():
             mimetype="text/html",
         )
     return Response(
-        "<h1>Unsubscribed</h1><p>You have been unsubscribed from the newsletter.</p>",
+        _newsletter_unsubscribe_success_html(ui_lang),
         status=200,
-        mimetype="text/html",
+        mimetype="text/html; charset=utf-8",
     )
 
 
