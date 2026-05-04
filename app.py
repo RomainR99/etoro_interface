@@ -538,8 +538,9 @@ def _build_newsletter_welcome_html(recipient_email: str) -> str:
     one_click_url = (
         f"{base_url}/newsletter/unsubscribe?email={quote_plus(recipient_email)}&token={quote_plus(token)}"
     )
-    unsub_landing_url = f"{base_url}/unsubscribe"
     etoro_profile_url = "https://www.etoro.com/people/romainroth"
+    etoro_copy_invite_url = "https://etoro.tw/46rrJQC"
+    posts_page_url = f"{base_url}/posts"
     return f"""
 <html>
   <body style="margin:0;padding:0;background:#f5f6f8;font-family:Arial,sans-serif;color:#111;">
@@ -554,57 +555,72 @@ def _build_newsletter_welcome_html(recipient_email: str) -> str:
           <strong>tous les posts que je publie sur eToro</strong>
           — sans avoir besoin de vous connecter à la plateforme.
         </p>
-        <p style="font-size:15px;line-height:1.6;">👉 Cela vous permet de :</p>
+        <p style="font-size:15px;line-height:1.6;">Cela vous permet de :</p>
         <ul style="font-size:15px;line-height:1.6;margin:0 0 16px;padding-left:1.25rem;">
           <li>suivre mes analyses en temps réel</li>
           <li>comprendre mes décisions</li>
           <li>rester informé sans effort</li>
         </ul>
         <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
-        <p style="font-size:15px;line-height:1.6;">📊 <strong>Mon approche</strong></p>
+        <p style="font-size:15px;line-height:1.6;"><strong>Accéder au portefeuille en direct</strong></p>
+        <p style="font-size:15px;line-height:1.6;">
+          Vous pouvez consulter et suivre mon portefeuille eToro ici :
+        </p>
+        <p style="text-align:center;margin:18px 0 6px;">
+          <a
+            href="{html_escape.escape(etoro_profile_url)}"
+            target="_blank"
+            rel="noopener noreferrer"
+            style="display:inline-block;padding:8px 14px;border-radius:4px;text-decoration:none;background:#ffffff;border:1px solid #3fb950;color:#3fb950;font-weight:600;font-size:12.5px;line-height:1.25;text-align:center;box-sizing:border-box;"
+          >Mon profil sur eToro</a>
+        </p>
+        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
+        <p style="font-size:15px;line-height:1.6;">
+          Si vous souhaitez aller plus loin, eToro permet également de
+          <strong>copier automatiquement un portefeuille</strong>, afin de reproduire les positions en temps réel.
+        </p>
+        <p style="text-align:center;margin:18px 0 6px;">
+          <a
+            href="{html_escape.escape(etoro_copy_invite_url)}"
+            target="_blank"
+            rel="noopener noreferrer"
+            style="display:inline-block;padding:10px 18px;border-radius:6px;text-decoration:none;background:#3fb950;border:1px solid #2ea043;color:#ffffff;font-weight:700;font-size:14px;line-height:1.25;text-align:center;box-sizing:border-box;"
+          >Me rejoindre</a>
+        </p>
+        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
+        <p style="font-size:15px;line-height:1.6;"><strong>Mon approche</strong></p>
         <p style="font-size:15px;line-height:1.6;">
           Je partage uniquement des analyses sur des entreprises que je comprends, avec une approche simple :
         </p>
         <ul style="font-size:15px;line-height:1.6;margin:0 0 16px;padding-left:1.25rem;">
-          <li>pas de levier</li>
-          <li>vision long terme</li>
-          <li>gestion du risque prioritaire</li>
+          <li>Pas de levier</li>
+          <li>Vision long terme</li>
+          <li>Gestion du risque prioritaire</li>
+          <li>Peu d’actions</li>
+          <li>Pas de crypto</li>
         </ul>
         <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
-        <p style="font-size:15px;line-height:1.6;">👀 <strong>Accéder au portefeuille en direct</strong></p>
-        <p style="font-size:15px;line-height:1.6;">
-          Vous pouvez consulter et suivre mon portefeuille eToro ici :
-        </p>
-        <p style="font-size:15px;line-height:1.6;">
-          👉 <a href="{html_escape.escape(etoro_profile_url)}" style="color:#111;">{html_escape.escape(etoro_profile_url)}</a>
-        </p>
-        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
-        <p style="font-size:15px;line-height:1.6;">
-          💡 Si vous souhaitez aller plus loin, eToro permet également de
-          <strong>copier automatiquement un portefeuille</strong>, afin de reproduire les positions en temps réel.
+        <p style="text-align:center;margin:18px 0 6px;">
+          <a
+            href="{html_escape.escape(posts_page_url)}"
+            target="_blank"
+            rel="noopener noreferrer"
+            style="display:inline-block;background:#111;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:8px;font-weight:bold;font-size:15px;line-height:1.25;text-align:center;box-sizing:border-box;"
+          >Voir tous les posts</a>
         </p>
         <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
-        <p style="font-size:15px;line-height:1.6;">⚠️ <strong>Important</strong></p>
-        <p style="font-size:15px;line-height:1.6;">
-          Les performances passées ne garantissent pas les performances futures.
-          Ce contenu est fourni à titre informatif et ne constitue pas un conseil en investissement.
+        <p style="font-size:15px;line-height:1.6;">⚠️ <strong>Avertissement sur les risques :</strong></p>
+        <p style="font-size:15px;line-height:1.6;font-style:italic;color:#444;">
+          C’est une stratégie personnelle, non un conseil. L’appliquer ou non reste votre choix. Les performances passées ne garantissent pas les résultats futurs.
         </p>
-        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
-        <p style="font-size:13px;color:#666;line-height:1.6;">
-          🔐 Vous recevez cet email car vous vous êtes inscrit sur {html_escape.escape(base_url)}.<br>
-          Vous recevrez désormais mes publications eToro directement par email.
-        </p>
-        <p style="font-size:13px;color:#666;line-height:1.6;">
-          Vous pouvez vous désinscrire à tout moment via le lien ci-dessous.
-        </p>
-        <p style="font-size:14px;line-height:1.6;margin-top:18px;">
-          <a href="{html_escape.escape(unsub_landing_url)}" style="color:#111;text-decoration:underline;">Se désinscrire</a>
-          &nbsp;·&nbsp;
-          <a href="{html_escape.escape(one_click_url)}" style="color:#111;text-decoration:underline;">Se désinscrire (lien direct)</a>
-        </p>
-        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
-        <p style="font-size:15px;line-height:1.6;margin-bottom:0;">À bientôt,<br>Romain Roth</p>
+        <p style="font-size:15px;line-height:1.6;margin-top:22px;margin-bottom:0;">À bientôt,<br>Romain Roth</p>
       </div>
+      <p style="font-size:12px;color:#777;text-align:center;line-height:1.5;margin-top:18px;">
+        Vous recevez cet email car vous avez accepté la newsletter.<br>
+        <a href="{html_escape.escape(one_click_url)}" style="color:#555;text-decoration:underline;">
+          Se désabonner
+        </a>
+      </p>
     </div>
   </body>
 </html>
@@ -617,17 +633,22 @@ def _build_newsletter_welcome_plain(recipient_email: str) -> str:
     one_click_url = (
         f"{base_url}/newsletter/unsubscribe?email={quote_plus(recipient_email)}&token={quote_plus(token)}"
     )
-    unsub_landing_url = f"{base_url}/unsubscribe"
     etoro_profile_url = "https://www.etoro.com/people/romainroth"
+    etoro_copy_invite_url = "https://etoro.tw/46rrJQC"
+    posts_page_url = f"{base_url}/posts"
     return (
         "Bonjour,\n\n"
         "Merci encore pour votre inscription.\n\n"
         "À partir de maintenant, vous recevrez par email les posts publiés sur eToro.\n\n"
         f"Profil eToro : {etoro_profile_url}\n\n"
-        "Les performances passées ne garantissent pas les performances futures. "
-        "Contenu informatif, pas un conseil en investissement.\n\n"
-        f"Désinscription (page) : {unsub_landing_url}\n"
-        f"Désinscription (lien direct) : {one_click_url}\n\n"
+        "eToro permet aussi de copier automatiquement un portefeuille (positions en temps réel).\n"
+        f"Me rejoindre : {etoro_copy_invite_url}\n\n"
+        f"Voir tous les posts : {posts_page_url}\n\n"
+        "⚠️ Avertissement sur les risques :\n"
+        "C’est une stratégie personnelle, non un conseil. L’appliquer ou non reste votre choix. "
+        "Les performances passées ne garantissent pas les résultats futurs.\n\n"
+        "Vous recevez cet email car vous avez accepté la newsletter.\n"
+        f"Se désabonner : {one_click_url}\n\n"
         "À bientôt,\nRomain Roth"
     )
 

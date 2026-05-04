@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import html
 import io
 import json
 import os
@@ -277,6 +278,13 @@ def _build_newsletter_html(recipient_email: str, recipient_name: str, new_posts:
     unsub_link = (
         f"{base_url}/newsletter/unsubscribe?email={quote_plus(recipient_email)}&token={quote_plus(unsub_token)}"
     )
+    posts_page_url = f"{base_url}/posts"
+    etoro_profile_url = "https://www.etoro.com/people/romainroth"
+    etoro_copy_invite_url = "https://etoro.tw/46rrJQC"
+    posts_href = html.escape(posts_page_url)
+    unsub_href = html.escape(unsub_link)
+    profile_href = html.escape(etoro_profile_url)
+    copy_href = html.escape(etoro_copy_invite_url)
     posts_html = []
     for post in new_posts[:5]:
         msg = str(post.get("message") or "").strip()
@@ -321,21 +329,75 @@ def _build_newsletter_html(recipient_email: str, recipient_name: str, new_posts:
           Voici les dernières mises à jour du portefeuille.
         </p>
         {posts_block}
-        <p style="text-align:center;margin:30px 0;">
+        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
+        <p style="font-size:15px;line-height:1.6;">
+          À partir de maintenant, vous recevrez directement par email
+          <strong>tous les posts que je publie sur eToro</strong>
+          — sans avoir besoin de vous connecter à la plateforme.
+        </p>
+        <p style="font-size:15px;line-height:1.6;">Cela vous permet de :</p>
+        <ul style="font-size:15px;line-height:1.6;margin:0 0 16px;padding-left:1.25rem;">
+          <li>suivre mes analyses en temps réel</li>
+          <li>comprendre mes décisions</li>
+          <li>rester informé sans effort</li>
+        </ul>
+        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
+        <p style="font-size:15px;line-height:1.6;"><strong>Accéder au portefeuille en direct</strong></p>
+        <p style="font-size:15px;line-height:1.6;">
+          Vous pouvez consulter et suivre mon portefeuille eToro ici :
+        </p>
+        <p style="text-align:center;margin:18px 0 6px;">
           <a
-            href="{base_url}/posts"
-            style="display:inline-block;background:#111;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:8px;font-weight:bold;font-size:15px;"
-          >
-            Voir tous les posts
-          </a>
+            href="{profile_href}"
+            target="_blank"
+            rel="noopener noreferrer"
+            style="display:inline-block;padding:8px 14px;border-radius:4px;text-decoration:none;background:#ffffff;border:1px solid #3fb950;color:#3fb950;font-weight:600;font-size:12.5px;line-height:1.25;text-align:center;box-sizing:border-box;"
+          >Mon profil sur eToro</a>
         </p>
-        <p style="font-size:13px;color:#666;line-height:1.5;margin-top:24px;">
-          Merci de suivre les mises à jour du portefeuille.
+        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
+        <p style="font-size:15px;line-height:1.6;">
+          Si vous souhaitez aller plus loin, eToro permet également de
+          <strong>copier automatiquement un portefeuille</strong>, afin de reproduire les positions en temps réel.
         </p>
+        <p style="text-align:center;margin:18px 0 6px;">
+          <a
+            href="{copy_href}"
+            target="_blank"
+            rel="noopener noreferrer"
+            style="display:inline-block;padding:10px 18px;border-radius:6px;text-decoration:none;background:#3fb950;border:1px solid #2ea043;color:#ffffff;font-weight:700;font-size:14px;line-height:1.25;text-align:center;box-sizing:border-box;"
+          >Me rejoindre</a>
+        </p>
+        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
+        <p style="font-size:15px;line-height:1.6;"><strong>Mon approche</strong></p>
+        <p style="font-size:15px;line-height:1.6;">
+          Je partage uniquement des analyses sur des entreprises que je comprends, avec une approche simple :
+        </p>
+        <ul style="font-size:15px;line-height:1.6;margin:0 0 16px;padding-left:1.25rem;">
+          <li>Pas de levier</li>
+          <li>Vision long terme</li>
+          <li>Gestion du risque prioritaire</li>
+          <li>Peu d’actions</li>
+          <li>Pas de crypto</li>
+        </ul>
+        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
+        <p style="text-align:center;margin:18px 0 6px;">
+          <a
+            href="{posts_href}"
+            target="_blank"
+            rel="noopener noreferrer"
+            style="display:inline-block;background:#111;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:8px;font-weight:bold;font-size:15px;line-height:1.25;text-align:center;box-sizing:border-box;"
+          >Voir tous les posts</a>
+        </p>
+        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
+        <p style="font-size:15px;line-height:1.6;">⚠️ <strong>Avertissement sur les risques :</strong></p>
+        <p style="font-size:15px;line-height:1.6;font-style:italic;color:#444;">
+          C’est une stratégie personnelle, non un conseil. L’appliquer ou non reste votre choix. Les performances passées ne garantissent pas les résultats futurs.
+        </p>
+        <p style="font-size:15px;line-height:1.6;margin-top:24px;margin-bottom:0;">À bientôt,<br>Romain Roth</p>
       </div>
       <p style="font-size:12px;color:#777;text-align:center;line-height:1.5;margin-top:18px;">
         Vous recevez cet email car vous avez accepté la newsletter.<br>
-        <a href="{unsub_link}" style="color:#555;text-decoration:underline;">
+        <a href="{unsub_href}" style="color:#555;text-decoration:underline;">
           Se désabonner
         </a>
       </p>
@@ -359,7 +421,18 @@ def _send_html_email(to_email: str, subject: str, html_body: str) -> None:
     msg["Subject"] = subject
     msg["From"] = smtp_from
     msg["To"] = to_email
-    plain = "De nouveaux posts sont disponibles sur https://romainroth.com/posts"
+    base_plain = (os.getenv("SITE_BASE_URL") or "https://romainroth.com").strip().rstrip("/")
+    posts_plain = f"{base_plain}/posts"
+    etoro_profile_plain = "https://www.etoro.com/people/romainroth"
+    etoro_copy_plain = "https://etoro.tw/46rrJQC"
+    plain = (
+        "De nouveaux posts eToro sont disponibles.\n\n"
+        f"Voir tous les posts : {posts_plain}\n\n"
+        f"Mon profil eToro : {etoro_profile_plain}\n"
+        f"Me rejoindre : {etoro_copy_plain}\n\n"
+        "⚠️ Avertissement sur les risques : stratégie personnelle, pas un conseil. "
+        "Les performances passées ne garantissent pas les résultats futurs.\n"
+    )
     msg.attach(MIMEText(plain, "plain", "utf-8"))
     msg.attach(MIMEText(html_body, "html", "utf-8"))
 
