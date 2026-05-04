@@ -39,6 +39,7 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
     - [Cache HTTP statique (Nginx, production)](#cache-http-statique-nginx-production)
     - [Cron serveur pour le sync eToro](#cron-serveur-pour-le-sync-etoro)
     - [Debug newsletter : images non affichées](#debug-newsletter--images-non-affichées)
+  - [7) Suivre avec Google Search Console](#7-suivre-avec-google-search-console)
 
 ### Données, contenu et API
 
@@ -1244,6 +1245,15 @@ curl -I "https://romainroth.com/api/trader-post-image/<nom_fichier.webp>"
 ```
 
 Tu dois obtenir `HTTP 200`.
+
+### 7) Suivre avec Google Search Console
+
+Une fois le site en ligne et la propriété vérifiée dans [Google Search Console](https://search.google.com/search-console), s’en servir pour le référencement :
+
+- **Mots-clés où tu apparais** : repère les requêtes pour lesquelles Google affiche déjà tes URLs (position, impressions).
+- **Pages avec beaucoup d’impressions mais peu de clics** : souvent un signal de titre / meta description / contenu ou d’intention de recherche à mieux aligner avec la requête.
+
+👉 **En priorité**, optimise ces pages (titres, extraits, contenu, maillage interne) : le moteur te montre déjà une opportunité ; améliorer le CTR et la pertinence coûte moins qu’inventer du trafic from scratch.
 
 ## Lancement
 

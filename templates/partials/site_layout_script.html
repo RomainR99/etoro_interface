@@ -48,6 +48,10 @@
                 if (readingRoot) readingRoot.classList.toggle("lang-en", lang === "en");
                 var aboutRoot = document.getElementById("aboutPageRoot");
                 if (aboutRoot) aboutRoot.classList.toggle("lang-en", lang === "en");
+                var postsIndexRoot = document.getElementById("postsIndexPageRoot");
+                if (postsIndexRoot) postsIndexRoot.classList.toggle("lang-en", lang === "en");
+                var traderPostRoot = document.getElementById("traderPostPageRoot");
+                if (traderPostRoot) traderPostRoot.classList.toggle("lang-en", lang === "en");
                 if (typeof window.applyChatWidgetLang === "function") {
                     window.applyChatWidgetLang(lang);
                 }

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include 'partials/favicon.html' %}
+    <title>romainroth.com/Posts</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    {% include 'partials/site_chrome_styles.html' %}
+    <style>
+        .posts-index-main {
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .posts-index-main > h1 {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        .posts-index-lead {
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.25rem;
+        }
+        .posts-index-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .posts-index-list li {
+            border-bottom: 1px solid var(--border);
+            padding: 0.85rem 0;
+        }
+        .posts-index-list a {
+            color: var(--accent);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+        .posts-index-list a:hover { text-decoration: underline; }
+        .posts-index-date {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-top: 0.25rem;
+        }
+        .lang-en .show-fr { display: none !important; }
+        .lang-en .show-en { display: block !important; }
+        .show-en { display: none; }
+    </style>
+</head>
+<body>
+    {% include 'partials/chat_widget.html' %}
+    {% include 'partials/cookie_banner.html' %}
+    <div class="container">
+        {% include 'partials/site_header.html' %}
+        <div id="postsIndexPageRoot" class="posts-index-main">
+            <h1 class="show-fr">Publications</h1>
+            <h1 class="show-en">Posts</h1>
+            <p class="posts-index-lead show-fr">Chaque publication a sa propre adresse (slug basé sur le titre).</p>
+            <p class="posts-index-lead show-en">Each post has its own URL (slug derived from the title line).</p>
+            {% if posts %}
+            <ul class="posts-index-list">
+                {% for p in posts %}
+                <li>
+                    <a href="{{ url_for('page_trader_post', slug=p.slug) }}">{{ p.message|trader_post_title }}</a>
+                    <span class="posts-index-date">{{ p.created or "—" }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p style="color: var(--muted);">—</p>
+            {% endif %}
+        </div>
+        {% include 'partials/site_footer.html' %}
+    </div>
+    {% include 'partials/chat_widget_scripts.html' %}
+    {% include 'partials/site_layout_script.html' %}
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include 'partials/favicon.html' %}
+    <title>{{ page_title }} — romainroth.com</title>
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    {% include 'partials/site_chrome_styles.html' %}
+    <style>
+        .trader-post-page {
+            max-width: 720px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .trader-post-page h1 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            line-height: 1.35;
+            margin: 0 0 0.5rem;
+            color: var(--text);
+        }
+        .trader-post-page .meta {
+            font-size: 0.88rem;
+            color: var(--muted);
+            margin-bottom: 1.25rem;
+        }
+        .trader-post-page .meta a {
+            color: var(--accent);
+        }
+        .trader-post-page .hero-img {
+            width: 100%;
+            max-height: 360px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 1.25rem;
+            border: 1px solid var(--border);
+        }
+        .trader-post-page .body {
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text);
+        }
+        #traderPostPageRoot.lang-en .show-fr { display: none !important; }
+        #traderPostPageRoot.lang-en .show-en { display: inline !important; }
+        .show-en { display: none; }
+    </style>
+</head>
+<body>
+    {% include 'partials/chat_widget.html' %}
+    {% include 'partials/cookie_banner.html' %}
+    <div class="container">
+        {% include 'partials/site_header.html' %}
+        <div id="traderPostPageRoot">
+        <article class="trader-post-page card" style="padding: 1.25rem 1.35rem;">
+            <h1>{{ page_title }}</h1>
+            <p class="meta">
+                {{ post.created or "—" }}
+                · <a href="{{ url_for('page_posts_index') }}" class="show-fr">Toutes les publications</a><a href="{{ url_for('page_posts_index') }}" class="show-en">All posts</a>
+                · <a href="{{ url_for('index') }}#section-posts" class="show-fr">Profil</a><a href="{{ url_for('index') }}#section-posts" class="show-en">Profile</a>
+            </p>
+            {% if post.image_url %}
+            <img class="hero-img" src="{{ post.image_url }}" alt="">
+            {% endif %}
+            <div class="body">{{ post.message }}</div>
+        </article>
+        </div>
+        {% include 'partials/site_footer.html' %}
+    </div>
+    {% include 'partials/chat_widget_scripts.html' %}
+    {% include 'partials/site_layout_script.html' %}
+</body>
+</html>

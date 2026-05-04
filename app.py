@@ -14,6 +14,7 @@ from newsletter_i18n import (
     welcome_email_subject,
 )
 from trader_post_lang import filter_posts_by_ui_lang
+from trader_post_slug import assign_slugs_to_posts, post_title_line
 
 load_app_dotenv(Path(__file__).resolve().parent)
 
@@ -150,6 +151,12 @@ def inject_cookie_banner_state():
         return {"show_cookie_banner": not _request_has_cookie_consent()}
     except Exception:
         return {"show_cookie_banner": True}
+
+
+@app.template_filter("trader_post_title")
+def trader_post_title_filter(message) -> str:
+    """Première ligne du message (titre affiché du post)."""
+    return post_title_line(str(message or ""))
 
 
 @app.template_filter("username_display")
@@ -1978,6 +1985,43 @@ def page_copy_on_etoro():
     return resp
 
 
+@app.route("/posts")
+def page_posts_index():
+    """Liste des publications avec lien vers une URL par post (slug dérivé du titre)."""
+    posts = _get_all_trader_posts_cached()
+    resp = make_response(
+        render_template(
+            "posts_index.html",
+            posts=posts,
+            **_site_layout_context(),
+        )
+    )
+    _get_or_set_visitor_id(resp)
+    return resp
+
+
+@app.route("/posts/<string:slug>")
+def page_trader_post(slug: str):
+    """Une page HTML par post (slug dérivé du titre = première ligne du message)."""
+    posts = _get_all_trader_posts_cached()
+    post = next((p for p in posts if isinstance(p, dict) and p.get("slug") == slug), None)
+    if not post:
+        return ("Not Found", 404)
+    title = post_title_line(str(post.get("message") or "")) or "Post"
+    canonical = (request.url_root.rstrip("/") + url_for("page_trader_post", slug=slug))
+    resp = make_response(
+        render_template(
+            "trader_post.html",
+            post=post,
+            page_title=title,
+            canonical_url=canonical,
+            **_site_layout_context(),
+        )
+    )
+    _get_or_set_visitor_id(resp)
+    return resp
+
+
 def _compute_posts_chart_data(traders: list[str], years: int = 1) -> tuple[list[str], list[dict]]:
     """Calcule les posts par mois par trader (dernière année). Même logique que _compute_chart_data."""
     from datetime import datetime, timezone, timedelta
@@ -2299,6 +2343,7 @@ def _load_trader_posts_local(limit: int | None = None) -> list[dict]:
                 "image_url": image_url,
             })
         cleaned.sort(key=lambda x: x.get("created", ""), reverse=True)
+        assign_slugs_to_posts(cleaned)
         if limit is None:
             return cleaned
         return cleaned[: max(0, limit)]
@@ -2331,18 +2376,6 @@ def _get_all_trader_posts_cached() -> list[dict]:
         _trader_posts_cache = _load_trader_posts_local(limit=None)
         _trader_posts_loaded_mtime = mtime
     return _trader_posts_cache
-
-
-def _post_title_line(message: str) -> str:
-    if not message:
-        return ""
-    for line in message.splitlines():
-        line = line.strip()
-        if line:
-            if len(line) > 160:
-                return line[:157] + "…"
-            return line
-    return ""
 
 
 def _load_lexique_entries() -> list[dict]:
