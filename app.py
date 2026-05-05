@@ -1921,9 +1921,9 @@ def _site_layout_context() -> dict:
     }
 
 
-@app.route("/lexique")
-def page_lexique():
-    """Lexique et questions courantes."""
+@app.route("/glossary")
+def page_glossary():
+    """Glossary / lexique et questions courantes."""
     resp = make_response(
         render_template(
             "lexique.html",
@@ -1934,6 +1934,12 @@ def page_lexique():
     )
     _get_or_set_visitor_id(resp)
     return resp
+
+
+@app.route("/lexique")
+def page_lexique_redirect():
+    """Ancienne URL : redirige vers /glossary."""
+    return redirect(url_for("page_glossary"), code=301)
 
 
 @app.route("/about")
@@ -2083,7 +2089,7 @@ def sitemap_xml():
     static_paths = (
         "/",
         "/posts",
-        "/lexique",
+        "/glossary",
         "/about",
         "/mentions-legales",
         "/confidentialite",

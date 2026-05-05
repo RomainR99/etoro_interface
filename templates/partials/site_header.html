@@ -31,7 +31,7 @@
                     <a href="/copy-on-etoro" id="navCopyEtoroBtn" class="lang-btn nav-header-btn" title="Copy trading on eToro">CopyOnEtoro</a>
                     <a href="/reading" id="navReadingBtn" class="lang-btn nav-header-btn" title="Recommended reading">Reading</a>
                     <a href="/about" id="navAboutBtn" class="lang-btn nav-header-btn" title="About Romain Roth">About</a>
-                    <a href="/lexique" id="navHelpLexBtn" class="lang-btn nav-header-btn nav-help-btn" title="Glossary &amp; FAQ">?</a>
+                    <a href="{{ url_for('page_glossary') }}" id="navHelpLexBtn" class="lang-btn nav-header-btn" title="Glossary &amp; FAQ">Glossary</a>
                 </nav>
                 <div class="header-lang-flags">
                     <button type="button" id="langFrBtn" class="lang-btn" title="Français" aria-label="Français" onclick="(function(e){if(e){e.preventDefault();e.stopPropagation();}try{localStorage.setItem('page_lang','fr');}catch(_e){}window.location.reload();})(event);"><span class="lang-flag-emoji">🇫🇷</span><span class="lang-abbr"> FR</span></button>
