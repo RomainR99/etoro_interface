@@ -1096,6 +1096,7 @@ En production, les clés API eToro n’ont pas besoin d’être dans un `.env` d
 - **`env_load.py`** : charge un fichier optionnel pointé par `ETORO_ENV_FILE` ou `ENV_FILE`, puis le `.env` local s’il existe. Les variables **déjà présentes** dans l’environnement (injectées par systemd) **ne sont pas écrasées**.
 - **Gunicorn** : exemple d’unité dans `deploy/gunicorn-etoro.service.example` (même `EnvironmentFile` que le job de sync).
 - **Sync des posts trader** : script `sync_romain_posts.py` (JSON + images WebP dans `data/`). Pour l’exécuter **tous les jours** sans intervention, utiliser le timer systemd `deploy/sync-trader-posts.timer` + `deploy/sync-trader-posts.service` (adapter chemins et utilisateur). La newsletter part uniquement avec les **nouveaux posts de la date du jour (UTC)**. Le timer fourni est réglé à **06:00** (heure serveur). L’application **recharge** `data/trader_posts_romainroth.json` lorsque le fichier change sur disque ; **inutile de redémarrer Gunicorn** après le sync.
+  - **Note filtrage** : aucun filtre n’exclut les posts commençant par `Dear` ou `Chere`. Les exclusions appliquées sont les posts commençant par `@` (réponses/mentions) et les posts hors langue de l’abonné (les posts détectés `de` sont ignorés).
 - **Installation pas à pas** : [`deploy/README.md`](deploy/README.md).
 
 #### Cache HTTP statique (Nginx, production)
