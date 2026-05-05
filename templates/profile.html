@@ -1536,7 +1536,6 @@
 
             (function () {
                 const navHomeBtn = document.getElementById("navHomeBtn");
-                const navPostsBtn = document.getElementById("navPostsBtn");
                 const headerNavMenu = document.getElementById("headerNavMenu");
                 const headerNavToggle = document.getElementById("headerNavToggle");
                 function closeHeaderNavMenu() {
@@ -1554,13 +1553,6 @@
                 const headerHomeHit = document.getElementById("headerHomeHit");
                 if (headerHomeHit) {
                     headerHomeHit.addEventListener("click", goHomeLikeNav);
-                }
-                if (navPostsBtn) {
-                    navPostsBtn.addEventListener("click", function () {
-                        closeHeaderNavMenu();
-                        const section = document.getElementById("section-posts");
-                        if (section) section.scrollIntoView({ behavior: "smooth", block: "start" });
-                    });
                 }
                 if (headerNavMenu) {
                     headerNavMenu.querySelectorAll("a").forEach(function (a) {

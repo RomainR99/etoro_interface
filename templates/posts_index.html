@@ -17,13 +17,8 @@
         }
         .posts-index-main > h1 {
             font-size: 1.75rem;
-            margin-bottom: 0.5rem;
-            font-weight: 700;
-        }
-        .posts-index-lead {
-            color: var(--muted);
-            font-size: 0.95rem;
             margin-bottom: 1.25rem;
+            font-weight: 700;
         }
         .posts-index-list {
             list-style: none;
@@ -61,8 +56,6 @@
         <div id="postsIndexPageRoot" class="posts-index-main">
             <h1 class="show-fr">Publications</h1>
             <h1 class="show-en">Posts</h1>
-            <p class="posts-index-lead show-fr">Chaque publication a sa propre adresse (slug basé sur le titre).</p>
-            <p class="posts-index-lead show-en">Each post has its own URL (slug derived from the title line).</p>
             {% if posts %}
             <ul class="posts-index-list">
                 {% for p in posts %}

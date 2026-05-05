@@ -27,7 +27,7 @@
                 </button>
                 <nav id="headerNavMenu" class="header-nav-menu" role="navigation" aria-label="Main">
                     <button type="button" id="navHomeBtn" class="lang-btn nav-header-btn" title="Top of page">Home</button>
-                    <button type="button" id="navPostsBtn" class="lang-btn nav-header-btn" title="Posts section">Posts</button>
+                    <a href="{{ url_for('page_posts_index') }}" id="navPostsBtn" class="lang-btn nav-header-btn" title="All posts">Posts</a>
                     <a href="/copy-on-etoro" id="navCopyEtoroBtn" class="lang-btn nav-header-btn" title="Copy trading on eToro">CopyOnEtoro</a>
                     <a href="/reading" id="navReadingBtn" class="lang-btn nav-header-btn" title="Recommended reading">Reading</a>
                     <a href="/about" id="navAboutBtn" class="lang-btn nav-header-btn" title="About Romain Roth">About</a>

@@ -125,7 +125,6 @@
 
             (function () {
                 var navHomeBtn = document.getElementById("navHomeBtn");
-                var navPostsBtn = document.getElementById("navPostsBtn");
                 var headerNavMenu = document.getElementById("headerNavMenu");
                 var headerNavToggle = document.getElementById("headerNavToggle");
                 function closeHeaderNavMenu() {
@@ -151,18 +150,6 @@
                 var headerHomeHit = document.getElementById("headerHomeHit");
                 if (headerHomeHit) {
                     headerHomeHit.addEventListener("click", goHomeLikeNav);
-                }
-                if (navPostsBtn) {
-                    navPostsBtn.addEventListener("click", function () {
-                        closeHeaderNavMenu();
-                        if (isHomePath()) {
-                            var section = document.getElementById("section-posts");
-                            if (section) section.scrollIntoView({ behavior: "smooth", block: "start" });
-                            else window.location.href = "/#section-posts";
-                        } else {
-                            window.location.href = "/#section-posts";
-                        }
-                    });
                 }
                 if (headerNavMenu) {
                     headerNavMenu.querySelectorAll("a").forEach(function (a) {
