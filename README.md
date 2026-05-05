@@ -63,6 +63,7 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
 ### Annexes
 
 - [Corrections à apporter](#corrections-à-apporter)
+- [Idées de titres de posts eToro (SEO, copy trading)](#idées-de-titres-de-posts-etoro-seo-copy-trading)
 - [Notes Werkzeug](#1️⃣-à-quoi-sert-werkzeug)
 
 ## Fonctionnalités
@@ -1493,6 +1494,113 @@ Pour vérifier que les données viennent bien de l’API (et non des placeholder
 **http://127.0.0.1:5001/api/zonebourse-news-debug**
 
 et regarde si les champs `title` / `summary` correspondent à ce que tu vois sur la page (et qu’il n’y a pas « (exemple) » dans les titres).
+
+---
+
+## Idées de titres de posts eToro (SEO, copy trading)
+
+Liste d’**inspiration** pour des publications eToro visant des **investisseurs particuliers** (éducation, transparence, pas de promesse de rendement). Les formulations mélangent **intention de recherche** (type Google), **copy trading** et **confiance**. À adapter à ton style et à l’actualité ; une ligne = une **première ligne** de post (titre affiché sur le site).
+
+1. Copy trading eToro : ce que les débutants devraient savoir avant de copier un trader  
+2. Pourquoi je documente chaque décision sur mon feed (et ce que ça change pour vous)  
+3. Investisseur particulier : 5 questions à se poser avant d’activer le copy trading  
+4. Comment je gère le risque sur eToro sans promettre de résultat  
+5. ETF monde vs actions US : comment j’articule mon exposition (pédagogie)  
+6. « Tout miser sur une ligne » : pourquoi je déconseille cette approche aux copieurs  
+7. DCA (dollar-cost averaging) : utile ou surcoté ? Mon point de vue de trader copié  
+8. Volatilité en bourse : ce que j’explique à mes nouveaux copieurs  
+9. eToro Popular Investor : ce que l’index ne dit pas sur le quotidien du trader  
+10. Pourquoi la patience compte plus que le « bon timing » pour un particulier  
+11. Actions, ETF, crypto : comment je pense la diversification (sans liste d’achat)  
+12. Copy trading : stop-loss, taille de position — vocabulaire à maîtriser  
+13. Erreur fréquente : copier quelqu’un sans lire son historique de drawdown  
+14. Bourse et émotions : trois réflexes que j’essaie d’éviter  
+15. Inflation et portefeuille : ce que je surveille (sans prédire l’avenir)  
+16. S&P 500, Nasdaq, Europe : à quoi sert une comparaison pour un copieur  
+17. « Faut-il copier en période de crise ? » — cadre pour réfléchir calmement  
+18. Frais, spreads, overnight : pourquoi je parle de friction aux particuliers  
+19. Mon profil eToro : qui je suis, ce que je trade, ce que je ne trade pas  
+20. Journal de bord trader : pourquoi je poste même quand les marchés sont plats  
+21. Long terme vs trading actif : comment je définis mon horizon (transparence)  
+22. 7 signes qu’un trader sur eToro mérite qu’on lise son historique en entier  
+23. Pourquoi je ne donne pas de « conseil personnalisé » dans un post public  
+24. AMF et publicité financière : comment je formule mes posts pour rester clair  
+25. Rendement passé ≠ rendement futur : la phrase que je répète à l’infini  
+26. Copier un trader : faut-il arrêter après une mauvaise semaine ?  
+27. Biais du survivant : pourquoi les classements ne racontent qu’une partie de l’histoire  
+28. « Combien mettre au départ ? » — repères pour un particulier (sans montant miracle)  
+29. Réinvestir les dividendes : idée reçue vs réalité de portefeuille  
+30. Taux et obligations : pourquoi j’y consacre parfois un post (macro simple)  
+31. Marchés émergents : opportunité ou complexité pour un petit portefeuille ?  
+32. Or, matières premières : rôle possible sans en faire une baguette magique  
+33. ESG et finance : ce que je clarifie quand le sujet revient dans les commentaires  
+34. Psychologie du FOMO : comment je réagis quand une valeur « part en fusée »  
+35. « Tu as raté le meilleur point d’entrée » : pourquoi ce discours est piégeux  
+36. Suivre un trader copié : quelles attentes réalistes sur la communication  
+37. Transparence : pourquoi je montre aussi les périodes en difficulté  
+38. Backtest, courbes, belles images : ce qui compte vraiment avant de copier  
+39. Levier sur eToro : pourquoi je mets souvent un garde-fou dans mes explications  
+40. Short, vente à découvert : notions à comprendre avant de s’y exposer  
+41. Corrélation entre actifs : pourquoi « diversifier » ne veut pas dire « 20 lignes au hasard »  
+42. Fiscalité et investissement : où je renvoie vers un pro (limites du feed)  
+43. « Je veux doubler mon capital en un an » : pourquoi je refuse ce cadrage  
+44. Routine du trader copié : ce que je fais (et ne fais pas) chaque semaine  
+45. Actualité boursière : comment je trie le bruit des infos utiles à long terme  
+46. Rumeurs, réseaux sociaux et bourse : checklist anti-panique pour particuliers  
+47. Dividendes vs croissance : deux logiques, pas une guerre de chapelle  
+48. Small caps vs grandes capitalisations : risques que je rappelle souvent  
+49. Secteur tech : concentration, régulation, cycles — angles pour un post  
+50. Santé, consommation, industrie : pourquoi je varie les thèmes dans le temps  
+51. « Copier plusieurs traders » : avantages et complexité pour un débutant  
+52. Taille du portefeuille eToro : pourquoi je ne fixe pas de règle universelle  
+53. Objectif retraite et bourse : vocabulaire prudent pour un post pédagogique  
+54. Livrets, assurance-vie, bourse : complémentarité sans tableau magique  
+55. Erreurs après un premier gain : le piège de la surconfiance  
+56. Erreurs après une perte : le piège de la revanche immédiate  
+57. « Je copie depuis 3 mois » : pourquoi l’horizon court peut tromper  
+58. Indicateurs techniques : ce que j’utilise (ou pas) et pourquoi je l’explique  
+59. Fondamental vs technique : comment je résume le débat pour un non-pro  
+60. Résultats d’entreprise (earnings) : comment je les contextualise pour le feed  
+61. Tendance haussière : définition simple pour ne pas confondre avec « facile »  
+62. Drawdown : pourquoi tout investisseur devrait comprendre ce mot  
+63. Liquidité et petits ordres : détails « pros » utiles aux particuliers curieux  
+64. Ordres au marché vs limite : mini-fiche pour un post eToro  
+65. « Est-ce le bon moment pour entrer ? » : comment je reformule la question  
+66. Biais d’ancrage : exemple concret en bourse (sans jargon inutile)  
+67. Plan d’investissement : pourquoi un cadre écrit aide (même une page)  
+68. Revue de portefeuille : comment je présente une réflexion sans inciter à copier aveuglément  
+69. Scénario bear market : ce que je dis (et ce que je ne prédit pas)  
+70. Scénario bull market : les risques oubliés quand tout semble facile  
+71. « Pourquoi tu ne trades pas X ? » : comment je réponds sans promesse  
+72. Transparence sur les erreurs : un trade ou une idée que j’ai mal cadrée  
+73. Ce que j’ai appris en étant copié par des milliers de personnes  
+74. Comment je réponds aux commentaires négatifs sur eToro (cadre sain)  
+75. Éducation financière : 5 livres ou ressources que je cite souvent (hors conseil)  
+76. Mindset : discipline > inspiration pour un investisseur particulier  
+77. « Tout le monde vend, dois-je vendre ? » — déconstruire la peur collective  
+78. « Tout le monde achète, dois-je acheter ? » — déconstruire l’euphorie  
+79. Crypto au sein d’un portefeuille actions : proportion et prudence  
+80. Stablecoins, régulation : sujets pour un post « cadrage » sans hype  
+81. Intelligence artificielle et bourse : séparer innovation et spéculation  
+82. Géopolitique et marchés : comment je résume sans faire de prognostic flou  
+83. Climat, transition : comment j’aborde le sujet sans greenwashing  
+84. « Copier un Popular Investor » : attentes sur la fréquence des mises à jour  
+85. Pourquoi je préfère expliquer le « pourquoi » plutôt que donner un ticker  
+86. Tableau de bord perso : indicateurs que je suis (macro / marché)  
+87. « Performance vs S&P 500 » : comment lire une comparaison sans tricher  
+88. Période sans trade : pourquoi l’inactivité peut être une décision  
+89. Réallocation : signaux qui me font revoir les poids (processus, pas signal d’achat)  
+90. Stress-test mental : « et si le marché chutait de 30 % ? »  
+91. Héritage, transmission : ouvrir la discussion sans conseil patrimonial  
+92. Jeunes investisseurs : erreurs typiques des moins de 30 ans sur eToro  
+93. Investisseurs plus âgés : prudence, liquidité, horizon — angles de post  
+94. « Je n’y connais rien » : par où commencer à lire un profil trader  
+95. Glossaire express : 10 termes à maîtriser avant de copier qui que ce soit  
+96. FAQ copy trading : les 8 questions que je reçois le plus souvent  
+97. Pourquoi je crois à la transparence pour monter dans une logique de confiance (et de visibilité)  
+98. SEO et posts eToro : titres clairs, intentions de recherche, sans clickbait toxique  
+99. Comment j’utilise les posts pour compléter mon site (romainroth.com) sans dupliquer bêtement  
+100. Prochaine étape si tu veux me copier : lire l’historique, le risque, puis décider avec calme  
 
 ---
 
