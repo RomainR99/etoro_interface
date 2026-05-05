@@ -42,6 +42,7 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
   - Référencement (SEO)
     - [7) Suivre avec Google Search Console](#7-suivre-avec-google-search-console)
     - [Sitemap XML et indexation](#sitemap-xml-et-indexation)
+    - [Google Ads (gtag.js)](#google-ads-gtagjs)
 
 ### Données, contenu et API
 
@@ -1272,6 +1273,12 @@ Les URLs absolues utilisent la variable d’environnement **`SITE_BASE_URL`** (d
 
 **Côté Google Search Console**  
 Une fois le site vérifié, tu peux soumettre ou tester le sitemap dans la section **Sitemaps** (souvent suffit d’indiquer `sitemap.xml` si la propriété est à la racine du domaine).
+
+### Google Ads (gtag.js)
+
+Le site charge le **Google tag (gtag.js)** pour le suivi / conversions Google Ads, identifiant **`AW-18140246715`**. Le snippet est centralisé dans [`templates/partials/gtag_google_ads.html`](templates/partials/gtag_google_ads.html) et inclus dans le `<head>` des pages HTML principales (juste après le favicon). Pour changer de compte ou retirer le tag, éditer ou supprimer ce partial et les `{% include 'partials/gtag_google_ads.html' %}` dans les templates concernés.
+
+**Consent Mode (RGPD)** : un état **Consent Mode v2** est défini (`ad_storage`, `ad_user_data`, `ad_personalization`, `analytics_storage`) avec défaut **refus**. La librairie **`gtag/js`** n’est injectée qu’après **« Accepter tout »** (cookie `cookieConsent_v2=accepted`), ou dès la première réponse HTTP si le navigateur envoie déjà ce cookie (`inject_google_ads_cookie_consent` dans `app.py`). Le choix **« Refuser »** met à jour le consentement en **refus** sans charger le script si l’utilisateur n’avait pas encore accepté. Voir la bannière : [`templates/partials/cookie_banner.html`](templates/partials/cookie_banner.html) et l’appel à `applyGoogleAdsConsentFromChoice` après `POST /api/cookie-consent`.
 
 ## Lancement
 

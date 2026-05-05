@@ -93,6 +93,17 @@ def _request_has_cookie_consent() -> bool:
     return leg in ("accepted", "necessary")
 
 
+def _request_cookie_consent_choice() -> str:
+    """Valeur du choix sur la bannière : « accepted », « necessary » ou chaîne vide."""
+    v = (request.cookies.get("cookieConsent_v2") or "").strip()
+    if v in ("accepted", "necessary"):
+        return v
+    leg = (request.cookies.get("cookieConsent") or "").strip()
+    if leg in ("accepted", "necessary"):
+        return leg
+    return ""
+
+
 _PROJECT_IMAGES = Path(__file__).resolve().parent / "images"
 
 
@@ -152,6 +163,19 @@ def inject_cookie_banner_state():
         return {"show_cookie_banner": not _request_has_cookie_consent()}
     except Exception:
         return {"show_cookie_banner": True}
+
+
+@app.context_processor
+def inject_google_ads_cookie_consent():
+    """True si le visiteur a accepté les cookies optionnels (stats + marketing) — pour charger Google Ads."""
+    try:
+        from flask import has_request_context
+
+        if not has_request_context():
+            return {"cookie_consent_ads": False}
+        return {"cookie_consent_ads": _request_cookie_consent_choice() == "accepted"}
+    except Exception:
+        return {"cookie_consent_ads": False}
 
 
 @app.template_filter("trader_post_title")

@@ -531,6 +531,9 @@
             body: JSON.stringify({ choice: apiChoice, lang: lang }),
             credentials: "same-origin",
         }).catch(function () {});
+        if (typeof window.applyGoogleAdsConsentFromChoice === "function") {
+            window.applyGoogleAdsConsentFromChoice(apiChoice);
+        }
     }
     function clearConsentClientSide() {
         try {

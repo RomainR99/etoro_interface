@@ -1,0 +1,102 @@
+{# Google tag (gtag.js) + Consent Mode v2 : défaut refusé ; gtag.js chargé seulement après consentement « Accepter tout » (client ou cookie serveur). #}
+<script>
+(function () {
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  window.gtag = gtag;
+  gtag("consent", "default", {
+    ad_storage: "denied",
+    ad_user_data: "denied",
+    ad_personalization: "denied",
+    analytics_storage: "denied",
+    wait_for_update: 500
+  });
+})();
+</script>
+{% if cookie_consent_ads %}
+<script>
+  gtag("consent", "update", {
+    ad_storage: "granted",
+    ad_user_data: "granted",
+    ad_personalization: "granted",
+    analytics_storage: "granted"
+  });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18140246715"></script>
+<script>
+  gtag("js", new Date());
+  gtag("config", "AW-18140246715");
+</script>
+<script>
+(function () {
+  window.applyGoogleAdsConsentFromChoice = function (choice) {
+    if (typeof gtag !== "function") return;
+    if (choice === "accepted") {
+      gtag("consent", "update", {
+        ad_storage: "granted",
+        ad_user_data: "granted",
+        ad_personalization: "granted",
+        analytics_storage: "granted"
+      });
+      return;
+    }
+    gtag("consent", "update", {
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
+      analytics_storage: "denied"
+    });
+  };
+})();
+</script>
+{% else %}
+<script>
+(function () {
+  var AW_ID = "AW-18140246715";
+  var scriptInjected = false;
+  function injectGtagLib() {
+    if (scriptInjected) return;
+    scriptInjected = true;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(AW_ID);
+    s.onload = function () {
+      gtag("js", new Date());
+      gtag("config", AW_ID);
+    };
+    document.head.appendChild(s);
+  }
+  window.applyGoogleAdsConsentFromChoice = function (choice) {
+    if (typeof gtag !== "function") return;
+    if (choice === "accepted") {
+      gtag("consent", "update", {
+        ad_storage: "granted",
+        ad_user_data: "granted",
+        ad_personalization: "granted",
+        analytics_storage: "granted"
+      });
+      injectGtagLib();
+      return;
+    }
+    gtag("consent", "update", {
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
+      analytics_storage: "denied"
+    });
+  };
+  function tryFromCookie() {
+    try {
+      if (typeof window.getCookieConsent === "function" && window.getCookieConsent() === "accepted") {
+        window.applyGoogleAdsConsentFromChoice("accepted");
+      }
+    } catch (e) {}
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", tryFromCookie);
+  } else {
+    tryFromCookie();
+  }
+})();
+</script>
+{% endif %}
