@@ -42,8 +42,8 @@
                     var el = document.getElementById(id);
                     if (el) el.style.display = lang === "en" ? "" : "none";
                 });
-                var lexRoot = document.getElementById("lexPageRoot");
-                if (lexRoot) lexRoot.classList.toggle("lang-en", lang === "en");
+                var glossaryRoot = document.getElementById("glossaryPageRoot");
+                if (glossaryRoot) glossaryRoot.classList.toggle("lang-en", lang === "en");
                 var readingRoot = document.getElementById("readingPageRoot");
                 if (readingRoot) readingRoot.classList.toggle("lang-en", lang === "en");
                 var aboutRoot = document.getElementById("aboutPageRoot");

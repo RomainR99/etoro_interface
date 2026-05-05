@@ -1926,7 +1926,7 @@ def page_glossary():
     """Glossary / lexique et questions courantes."""
     resp = make_response(
         render_template(
-            "lexique.html",
+            "glossary.html",
             lexique_entries=_load_lexique_entries(),
             faq_entries=_load_faq_entries(),
             **_site_layout_context(),
