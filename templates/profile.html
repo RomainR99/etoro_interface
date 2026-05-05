@@ -654,7 +654,7 @@
                             <th data-i18n="mOct" class="perf-col-month" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Oct</th>
                             <th data-i18n="mNov" class="perf-col-month" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Nov</th>
                             <th data-i18n="mDec" class="perf-col-month" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Déc</th>
-                            <th data-i18n="total" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Total</th>
+                            <th data-i18n="total" class="perf-col-year" style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Total</th>
                             <th style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">S&P 500</th>
                             <th style="padding: 0.4rem 0.5rem; color: var(--muted); font-weight: 600;">Écart</th>
                         </tr>
@@ -673,8 +673,8 @@
                         {% endfor %}
                         {% if performance_total %}
                         <tr style="border-top: 2px solid var(--border); font-weight: 600;">
-                            <td data-i18n="total" class="perf-col-year" style="padding: 0.5rem 0.5rem;">Total</td>
-                            <td colspan="12" class="perf-col-months-merged" style="padding: 0.5rem 0.5rem; color: var(--muted); font-size: 0.8rem;">—</td>
+                            <td data-i18n="total" class="perf-col-year" style="padding: 0.5rem 0.5rem; color: var(--muted); font-weight: 600;">Total</td>
+                            <td colspan="12" class="perf-col-months-merged" style="padding: 0.5rem 0.5rem; color: var(--muted); font-size: 0.8rem;"></td>
                             <td style="padding: 0.5rem 0.5rem; font-family: ui-monospace, monospace;" class="stat-value {{ 'positive' if performance_total.trader_pct is not none and performance_total.trader_pct >= 0 else 'negative' }} {{ 'perf-bg-positive' if performance_total.trader_pct is not none and performance_total.trader_pct > 0 else 'perf-bg-negative' if performance_total.trader_pct is not none and performance_total.trader_pct < 0 else 'perf-bg-neutral' if performance_total.trader_pct is not none else '' }}">{{ "%.2f"|format(performance_total.trader_pct) if performance_total.trader_pct is not none else "—" }}%</td>
                             <td style="padding: 0.5rem 0.5rem; font-family: ui-monospace, monospace;" class="stat-value {{ 'positive' if performance_total.sp500_pct is not none and performance_total.sp500_pct >= 0 else 'negative' }}">{{ "%.2f"|format(performance_total.sp500_pct) if performance_total.sp500_pct is not none else "—" }}%</td>
                             <td style="padding: 0.5rem 0.5rem; font-family: ui-monospace, monospace;" class="stat-value {{ 'positive' if performance_total.ecart is not none and performance_total.ecart >= 0 else 'negative' }}">{{ "%.2f"|format(performance_total.ecart) if performance_total.ecart is not none else "—" }}%</td>
