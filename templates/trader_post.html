@@ -60,7 +60,7 @@
         <article class="trader-post-page card" style="padding: 1.25rem 1.35rem;">
             <h1>{{ page_title }}</h1>
             <p class="meta">
-                {{ post.created or "—" }}
+                {{ post.created | trader_post_date }}
                 · <a href="{{ url_for('page_posts_index') }}" class="show-fr">Toutes les publications</a><a href="{{ url_for('page_posts_index') }}" class="show-en">All posts</a>
                 · <a href="{{ url_for('index') }}#section-posts" class="show-fr">Profil</a><a href="{{ url_for('index') }}#section-posts" class="show-en">Profile</a>
             </p>

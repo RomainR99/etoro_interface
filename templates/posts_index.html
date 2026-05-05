@@ -68,7 +68,7 @@
                 {% for p in posts %}
                 <li>
                     <a href="{{ url_for('page_trader_post', slug=p.slug) }}">{{ p.message|trader_post_title }}</a>
-                    <span class="posts-index-date">{{ p.created or "—" }}</span>
+                    <span class="posts-index-date">{{ p.created | trader_post_date }}</span>
                 </li>
                 {% endfor %}
             </ul>

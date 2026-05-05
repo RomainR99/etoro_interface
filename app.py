@@ -184,6 +184,27 @@ def trader_post_title_filter(message) -> str:
     return post_title_line(str(message or ""))
 
 
+@app.template_filter("trader_post_date")
+def trader_post_date_filter(created) -> str:
+    """Date seule YYYY-MM-DD (masque l'heure des timestamps ISO eToro)."""
+    raw = str(created or "").strip()
+    if not raw:
+        return "—"
+    if len(raw) >= 10 and raw[4] == "-" and raw[7] == "-":
+        if len(raw) == 10:
+            return raw
+        if raw[10] in ("T", " ", "t"):
+            return raw[:10]
+    try:
+        s = raw.replace("Z", "+00:00")
+        dt = datetime.fromisoformat(s)
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        return dt.astimezone(timezone.utc).date().isoformat()
+    except ValueError:
+        return raw
+
+
 @app.template_filter("username_display")
 def username_display_filter(name: str) -> str:
     """Affichage du pseudo : espace avant les majuscules (ex. RomainRoth → Romain Roth)."""
