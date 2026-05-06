@@ -341,6 +341,12 @@
             object-position: center;
             background: var(--bg);
         }
+        @media (max-width: 720px) {
+            .trader-post-thumb {
+                height: auto;
+                max-height: none;
+            }
+        }
         .trader-post-head {
             display: flex;
             align-items: flex-start;
@@ -465,6 +471,19 @@
             max-width: 100%;
             object-fit: cover;
             margin: 0 auto;
+        }
+        @media (max-width: 720px) {
+            .news-item-image {
+                width: 100%;
+                height: auto;
+                overflow: visible;
+                background: transparent;
+            }
+            .news-item-image img {
+                width: 100%;
+                height: auto;
+                object-fit: contain;
+            }
         }
         .news-item-image-loading {
             min-height: 120px;
