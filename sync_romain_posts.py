@@ -31,6 +31,7 @@ from newsletter_i18n import (
     parse_newsletter_ui_lang_from_message,
 )
 from trader_post_lang import filter_posts_by_ui_lang
+from trader_post_slug import assign_slugs_to_posts
 
 load_app_dotenv(Path(__file__).resolve().parent)
 
@@ -307,10 +308,10 @@ def _build_newsletter_html(
     posts_html: list[str] = []
     for post in new_posts[:5]:
         msg = str(post.get("message") or "").strip()
-        created = str(post.get("created") or "").strip()
         preview_raw = (msg[:260] + "...") if len(msg) > 260 else msg
         preview = html.escape(preview_raw)
-        created_esc = html.escape(created)
+        slug = str(post.get("slug") or "").strip()
+        post_url = f"{base_url}/posts/{quote_plus(slug)}" if slug else ""
         image_url = str(post.get("image_url") or "").strip()
         remote_image_url = str(post.get("image_remote_url") or "").strip()
         if image_url.startswith("/"):
@@ -324,11 +325,21 @@ def _build_newsletter_html(
             if image_url
             else ""
         )
+        read_more_label = "Lire la suite" if normalize_newsletter_lang(ui_lang) == "fr" else "Read more"
+        read_more_button = (
+            "<p style='margin:12px 0 0;'>"
+            f"<a href=\"{html.escape(post_url, quote=True)}\" target=\"_blank\" rel=\"noopener noreferrer\" "
+            "style=\"display:inline-block;background:#111;color:#fff;text-decoration:none;"
+            "padding:10px 16px;border-radius:8px;font-weight:700;font-size:14px;line-height:1.2;\">"
+            f"{html.escape(read_more_label)}</a></p>"
+            if post_url
+            else ""
+        )
         posts_html.append(
             "<div style='margin-bottom:24px;padding-bottom:22px;border-bottom:1px solid #e5e7eb;'>"
-            f"<p style='margin:0 0 8px;font-size:13px;color:#777;'>{created_esc}</p>"
             f"<p style='margin:0 0 12px;font-size:15px;line-height:1.6;'>{preview}</p>"
             f"{image_block}"
+            f"{read_more_button}"
             "</div>"
         )
     posts_block = "".join(posts_html) or new_posts_empty_posts_html(ui_lang)
@@ -391,7 +402,11 @@ def _send_newsletter_for_new_posts(new_posts: list[dict]) -> None:
         if not posts_for_lang:
             skipped += 1
             continue
-        subject = new_posts_email_subject(ui_lang, len(posts_for_lang))
+        first_message = str((posts_for_lang[0] or {}).get("message") or "").strip()
+        first_title = first_message.splitlines()[0].strip() if first_message else ""
+        if len(first_title) > 140:
+            first_title = first_title[:137].rstrip() + "..."
+        subject = new_posts_email_subject(ui_lang, len(posts_for_lang), first_title)
         plain = build_new_posts_newsletter_plain(
             ui_lang,
             posts_plain,
@@ -430,6 +445,7 @@ def _post_created_on_utc_date(post: dict, day_utc) -> bool:
 def main() -> None:
     existing_ids = _load_existing_post_ids(OUTPUT_PATH)
     posts = fetch_all_posts(TRADER_USERNAME)
+    assign_slugs_to_posts(posts)
     new_posts = [p for p in posts if str(p.get("id") or "") not in existing_ids]
     today_utc = datetime.now(timezone.utc).date()
     new_posts_today = [p for p in new_posts if _post_created_on_utc_date(p, today_utc)]

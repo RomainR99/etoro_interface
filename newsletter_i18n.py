@@ -132,8 +132,11 @@ def new_posts_empty_posts_html(lang: str) -> str:
     )
 
 
-def new_posts_email_subject(lang: str, count: int) -> str:
+def new_posts_email_subject(lang: str, count: int, post_title: str | None = None) -> str:
     lang = normalize_newsletter_lang(lang)
+    title = str(post_title or "").strip()
+    if title:
+        return title
     if lang == "fr":
         return f"[RomainRoth] {count} nouveau(x) post(s) disponible(s)"
     if count == 1:
@@ -194,15 +197,6 @@ def _shared_footer_html(lang: str, profile_href: str, copy_href: str, posts_href
           <li>Pas de crypto</li>
         </ul>
         <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
-        <p style="text-align:center;margin:18px 0 6px;">
-          <a
-            href="{posts_href}"
-            target="_blank"
-            rel="noopener noreferrer"
-            style="display:inline-block;background:#111;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:8px;font-weight:bold;font-size:15px;line-height:1.25;text-align:center;box-sizing:border-box;"
-          >Voir tous les posts</a>
-        </p>
-        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
         <p style="font-size:15px;line-height:1.6;">⚠️ <strong>Avertissement sur les risques :</strong></p>
         <p style="font-size:15px;line-height:1.6;font-style:italic;color:#444;">
           C’est une stratégie personnelle, non un conseil. L’appliquer ou non reste votre choix. Les performances passées ne garantissent pas les résultats futurs.
@@ -259,15 +253,6 @@ def _shared_footer_html(lang: str, profile_href: str, copy_href: str, posts_href
           <li>Few stocks</li>
           <li>No crypto</li>
         </ul>
-        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
-        <p style="text-align:center;margin:18px 0 6px;">
-          <a
-            href="{posts_href}"
-            target="_blank"
-            rel="noopener noreferrer"
-            style="display:inline-block;background:#111;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:8px;font-weight:bold;font-size:15px;line-height:1.25;text-align:center;box-sizing:border-box;"
-          >See all posts</a>
-        </p>
         <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
         <p style="font-size:15px;line-height:1.6;">⚠️ <strong>Risk warning:</strong></p>
         <p style="font-size:15px;line-height:1.6;font-style:italic;color:#444;">
@@ -395,11 +380,6 @@ def build_new_posts_newsletter_html(
     footer_common = _shared_footer_html(lang, profile_href, copy_href, posts_href)
     legal_site = build_newsletter_site_legal_footer_html(lang, site_base_url)
     if lang == "fr":
-        title = "Nouveaux posts eToro disponibles"
-        intro = (
-            f'De nouveaux posts publiés par <strong>{trader_username}</strong> sont disponibles. '
-            "Voici les dernières mises à jour du portefeuille."
-        )
         outer_footer = f"""
       <p style="font-size:12px;color:#777;text-align:center;line-height:1.5;margin-top:18px;">
         Vous recevez cet email car vous avez accepté la newsletter.<br>
@@ -409,11 +389,6 @@ def build_new_posts_newsletter_html(
       </p>
 """.strip()
     else:
-        title = "New eToro posts available"
-        intro = (
-            f'New posts published by <strong>{trader_username}</strong> are available. '
-            "Here are the latest portfolio updates."
-        )
         outer_footer = f"""
       <p style="font-size:12px;color:#777;text-align:center;line-height:1.5;margin-top:18px;">
         You are receiving this email because you opted in to the newsletter.<br>
@@ -428,12 +403,6 @@ def build_new_posts_newsletter_html(
     <div style="max-width:640px;margin:0 auto;padding:24px;">
       <div style="background:#ffffff;border-radius:14px;padding:28px;border:1px solid #e5e7eb;">
         <p style="margin-top:0;font-size:16px;">{hello_line}</p>
-        <h2 style="margin:0 0 12px;font-size:22px;color:#111;">
-          {title}
-        </h2>
-        <p style="font-size:15px;color:#444;margin-bottom:24px;">
-          {intro}
-        </p>
         {posts_block}
         <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
         {footer_common}
