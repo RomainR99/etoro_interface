@@ -13,7 +13,7 @@ from newsletter_i18n import (
     parse_newsletter_ui_lang_from_message,
     welcome_email_subject,
 )
-from trader_post_lang import filter_posts_by_ui_lang
+from trader_post_lang import filter_posts_by_ui_lang, infer_post_lang
 from trader_post_slug import assign_slugs_to_posts, post_title_line
 
 load_app_dotenv(Path(__file__).resolve().parent)
@@ -2061,12 +2061,37 @@ def page_trader_post(slug: str):
         return ("Not Found", 404)
     title = post_title_line(str(post.get("message") or "")) or "Post"
     canonical = (request.url_root.rstrip("/") + url_for("page_trader_post", slug=slug))
+    current_lang = infer_post_lang(str(post.get("message") or ""))
+    if current_lang not in ("fr", "en"):
+        current_lang = "en"
+    posts_fr = filter_posts_by_ui_lang(posts, "fr")
+    posts_en = filter_posts_by_ui_lang(posts, "en")
+    alt_slug = None
+    if current_lang == "fr":
+        try:
+            idx = next(i for i, p in enumerate(posts_fr) if p.get("slug") == slug)
+            if idx < len(posts_en):
+                alt_slug = str(posts_en[idx].get("slug") or "").strip() or None
+        except StopIteration:
+            alt_slug = None
+    else:
+        try:
+            idx = next(i for i, p in enumerate(posts_en) if p.get("slug") == slug)
+            if idx < len(posts_fr):
+                alt_slug = str(posts_fr[idx].get("slug") or "").strip() or None
+        except StopIteration:
+            alt_slug = None
+    fr_post_url = url_for("page_trader_post", slug=slug if current_lang == "fr" else (alt_slug or slug))
+    en_post_url = url_for("page_trader_post", slug=slug if current_lang == "en" else (alt_slug or slug))
     resp = make_response(
         render_template(
             "trader_post.html",
             post=post,
             page_title=title,
             canonical_url=canonical,
+            current_post_lang=current_lang,
+            fr_post_url=fr_post_url,
+            en_post_url=en_post_url,
             **_site_layout_context(),
         )
     )

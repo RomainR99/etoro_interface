@@ -73,5 +73,33 @@
     </div>
     {% include 'partials/chat_widget_scripts.html' %}
     {% include 'partials/site_layout_script.html' %}
+    <script>
+        (function () {
+            var frBtn = document.getElementById("langFrBtn");
+            var enBtn = document.getElementById("langEnBtn");
+            var frUrl = {{ fr_post_url | tojson }};
+            var enUrl = {{ en_post_url | tojson }};
+            if (frBtn && frUrl) {
+                frBtn.onclick = function (e) {
+                    if (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                    try { localStorage.setItem("page_lang", "fr"); } catch (_e) {}
+                    window.location.href = frUrl;
+                };
+            }
+            if (enBtn && enUrl) {
+                enBtn.onclick = function (e) {
+                    if (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                    try { localStorage.setItem("page_lang", "en"); } catch (_e) {}
+                    window.location.href = enUrl;
+                };
+            }
+        })();
+    </script>
 </body>
 </html>
