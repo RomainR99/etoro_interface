@@ -22,9 +22,10 @@
     analytics_storage: "granted"
   });
 </script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18140246715"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9Q3QSKS61P"></script>
 <script>
   gtag("js", new Date());
+  gtag("config", "G-9Q3QSKS61P");
   gtag("config", "AW-18140246715");
 </script>
 <script>
@@ -52,6 +53,7 @@
 {% else %}
 <script>
 (function () {
+  var GA4_ID = "G-9Q3QSKS61P";
   var AW_ID = "AW-18140246715";
   var scriptInjected = false;
   function injectGtagLib() {
@@ -59,9 +61,10 @@
     scriptInjected = true;
     var s = document.createElement("script");
     s.async = true;
-    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(AW_ID);
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(GA4_ID);
     s.onload = function () {
       gtag("js", new Date());
+      gtag("config", GA4_ID);
       gtag("config", AW_ID);
     };
     document.head.appendChild(s);
