@@ -38,6 +38,7 @@ Interface web pour visualiser le profil d'un trader eToro, comparer les performa
   - [Déploiement production](#déploiement-production)
     - [Cache HTTP statique (Nginx, production)](#cache-http-statique-nginx-production)
     - [Cron serveur pour le sync eToro](#cron-serveur-pour-le-sync-etoro)
+    - [Checklist sync posts et newsletter (systemd)](#checklist-sync-posts-et-newsletter-systemd)
     - [Debug newsletter : images non affichées](#debug-newsletter--images-non-affichées)
   - Référencement (SEO)
     - [7) Suivre avec Google Search Console](#7-suivre-avec-google-search-console)
@@ -1213,6 +1214,39 @@ cd /chemin/vers/etoro_interface
 /chemin/vers/etoro_interface/venv/bin/python sync_romain_posts.py
 tail -n 100 /chemin/vers/etoro_interface/logs/sync.log
 ```
+
+#### Checklist sync posts et newsletter (systemd)
+
+Récapitulatif d’une mise en prod type (VPS Ubuntu, dépôt sous `/var/www/etoro_interface`) : sans ces étapes, **`journalctl -u sync-trader-posts.service` peut rester vide**, la newsletter ne part pas, ou le service échoue avant même d’exécuter Python.
+
+1. **Installer les unités** (une fois par serveur) :
+   ```bash
+   cd /var/www/etoro_interface   # adapter
+   sudo cp deploy/sync-trader-posts.service /etc/systemd/system/
+   sudo cp deploy/sync-trader-posts.timer /etc/systemd/system/
+   ```
+2. **Adapter les chemins** : l’exemple du dépôt utilise `/srv/etoro_interface`. Si ton dépôt est ailleurs (ex. `/var/www/etoro_interface`), remplacer dans le fichier service installé :
+   ```bash
+   sudo sed -i 's|/srv/etoro_interface|/var/www/etoro_interface|g' /etc/systemd/system/sync-trader-posts.service
+   ```
+3. **`User=` / `Group=`** : le compte doit pouvoir **écrire** dans `data/` (souvent le même que Gunicorn, ex. `www-data` ou `ubuntu`). Sinon le sync ou l’écriture JSON échoue.
+4. **`/etc/etoro/interface.env` obligatoire** : le service référence `EnvironmentFile=/etc/etoro/interface.env`. Si le fichier n’existe pas, systemd journalise `Failed to load environment files` et l’unité échoue avec `Result: resources` **sans** lancer le script. Créer le fichier à partir de `deploy/etoro-interface.env.example`, le remplir avec les **vraies** valeurs (pas un placeholder), `sudo chmod 600 /etc/etoro/interface.env`. Variables utiles au job : reprendre la liste **Variables serveur minimales** (`/etc/etoro/interface.env`) un peu plus haut dans cette page. Les clés type `TWELVEDATA_API_KEY`, `OPENAI_API_KEY`, reCAPTCHA, Mediastack **ne sont pas requises** pour `sync_romain_posts.py` (uniquement pour l’app Flask).
+5. **Activer le timer** : copier les fichiers dans `/etc/systemd/system/` ne planifie rien tant que le timer n’est pas activé. Après toute modification d’unité :
+   ```bash
+   sudo systemctl daemon-reload
+   sudo systemctl enable --now sync-trader-posts.timer
+   sudo systemctl status sync-trader-posts.timer
+   systemctl list-timers --all | grep sync-trader
+   ```
+   Sans `enable --now`, `systemctl list-timers sync-trader-posts.timer` peut afficher **0 timers listed**.
+6. **Test immédiat** (sans attendre l’heure du timer, ex. 06:00) :
+   ```bash
+   sudo systemctl start sync-trader-posts.service
+   sudo journalctl -u sync-trader-posts.service -n 50 --no-pager
+   ```
+   Un run réussi journalise en général le nombre de posts sauvegardés. Le message **`No new posts -> no newsletter sent.`** est **normal** s’il n’y a pas de post à la fois **nouveau** par rapport au JSON **et** daté du **jour courant en UTC** (voir la puce « Sync des posts trader » plus haut).
+
+Guide détaillé des fichiers `deploy/` : [`deploy/README.md`](deploy/README.md).
 
 #### Debug newsletter : images non affichées
 
