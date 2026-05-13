@@ -151,7 +151,30 @@ def new_posts_email_subject(lang: str, count: int, post_title: str | None = None
     return f"[RomainRoth] {count} new posts available"
 
 
-def _shared_footer_html(lang: str, profile_href: str, copy_href: str, posts_href: str) -> str:
+def _shared_footer_html(
+    lang: str,
+    profile_href: str,
+    copy_href: str,
+    posts_href: str,
+    *,
+    calendar_year_perf_pct: float | None = None,
+    calendar_year: int | None = None,
+) -> str:
+    perf_snap_fr = ""
+    perf_snap_en = ""
+    if calendar_year_perf_pct is not None and calendar_year is not None:
+        p = calendar_year_perf_pct
+        y = calendar_year
+        perf_snap_fr = (
+            f'        <p style="font-size:15px;line-height:1.6;margin:0 0 8px;">\n'
+            f"          Le portefeuille affiche actuellement une performance de {p:+.2f} % en {y}.\n"
+            f"        </p>\n"
+        )
+        perf_snap_en = (
+            f'        <p style="font-size:15px;line-height:1.6;margin:0 0 8px;">\n'
+            f"          The portfolio currently shows a performance of {p:+.2f}% in {y}.\n"
+            f"        </p>\n"
+        )
     if normalize_newsletter_lang(lang) == "fr":
         return f"""
         <p style="font-size:15px;line-height:1.6;">
@@ -165,7 +188,7 @@ def _shared_footer_html(lang: str, profile_href: str, copy_href: str, posts_href
           <li>comprendre mes décisions</li>
           <li>rester informé sans effort</li>
         </ul>
-        <p style="font-size:15px;line-height:1.6;margin:0 0 16px;">
+{perf_snap_fr}        <p style="font-size:15px;line-height:1.6;margin:0 0 16px;">
           Suivi actuellement par plus de 800 investisseurs sur eToro.
         </p>
         <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
@@ -220,12 +243,12 @@ def _shared_footer_html(lang: str, profile_href: str, copy_href: str, posts_href
           - without having to log in to the platform.
         </p>
         <p style="font-size:15px;line-height:1.6;">This lets you:</p>
-        <ul style="font-size:15px;line-height:1.6;margin:0 0 16px;padding-left:1.25rem;">
+        <ul style="font-size:15px;line-height:1.6;margin:0 0 8px;padding-left:1.25rem;">
           <li>follow my analyses in real time</li>
           <li>understand my decisions</li>
           <li>stay informed effortlessly</li>
         </ul>
-        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
+{perf_snap_en}        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
         <p style="font-size:15px;line-height:1.6;"><strong>View the portfolio live</strong></p>
         <p style="font-size:15px;line-height:1.6;">
           You can view and follow my eToro portfolio here:
@@ -279,9 +302,19 @@ def build_newsletter_welcome_html(
     posts_href: str,
     unsub_href: str,
     site_base_url: str,
+    *,
+    calendar_year_perf_pct: float | None = None,
+    calendar_year: int | None = None,
 ) -> str:
     lang = normalize_newsletter_lang(lang)
-    footer_common = _shared_footer_html(lang, profile_href, copy_href, posts_href)
+    footer_common = _shared_footer_html(
+        lang,
+        profile_href,
+        copy_href,
+        posts_href,
+        calendar_year_perf_pct=calendar_year_perf_pct,
+        calendar_year=calendar_year,
+    )
     legal_site = build_newsletter_site_legal_footer_html(lang, site_base_url)
     if lang == "fr":
         top = """
@@ -338,13 +371,24 @@ def build_newsletter_welcome_plain(
     etoro_copy_invite_url: str,
     one_click_url: str,
     site_base_url: str,
+    *,
+    calendar_year_perf_pct: float | None = None,
+    calendar_year: int | None = None,
 ) -> str:
     lang = normalize_newsletter_lang(lang)
+    perf_fr = ""
+    perf_en = ""
+    if calendar_year_perf_pct is not None and calendar_year is not None:
+        p = calendar_year_perf_pct
+        y = calendar_year
+        perf_fr = f"Le portefeuille affiche actuellement une performance de {p:+.2f} % en {y}.\n\n"
+        perf_en = f"The portfolio currently shows a performance of {p:+.2f}% in {y}.\n\n"
     if lang == "fr":
         return (
             "Bonjour,\n\n"
             "Merci encore pour votre inscription.\n\n"
             "À partir de maintenant, vous recevrez par email les posts publiés sur eToro.\n\n"
+            f"{perf_fr}"
             "Suivi actuellement par plus de 800 investisseurs sur eToro.\n\n"
             f"Profil eToro : {etoro_profile_url}\n\n"
             "eToro permet aussi de copier automatiquement un portefeuille (positions en temps réel).\n"
@@ -362,6 +406,7 @@ def build_newsletter_welcome_plain(
         "Hello,\n\n"
         "Thank you again for subscribing.\n\n"
         "From now on, you will receive my eToro posts by email.\n\n"
+        f"{perf_en}"
         f"eToro profile: {etoro_profile_url}\n\n"
         "eToro also lets you automatically copy a portfolio (positions in real time).\n"
         f"Join me: {etoro_copy_invite_url}\n\n"
@@ -386,9 +431,19 @@ def build_new_posts_newsletter_html(
     posts_href: str,
     unsub_href: str,
     site_base_url: str,
+    *,
+    calendar_year_perf_pct: float | None = None,
+    calendar_year: int | None = None,
 ) -> str:
     lang = normalize_newsletter_lang(lang)
-    footer_common = _shared_footer_html(lang, profile_href, copy_href, posts_href)
+    footer_common = _shared_footer_html(
+        lang,
+        profile_href,
+        copy_href,
+        posts_href,
+        calendar_year_perf_pct=calendar_year_perf_pct,
+        calendar_year=calendar_year,
+    )
     legal_site = build_newsletter_site_legal_footer_html(lang, site_base_url)
     if lang == "fr":
         outer_footer = f"""
@@ -433,16 +488,27 @@ def build_new_posts_newsletter_plain(
     etoro_copy_plain: str,
     count: int,
     site_base_url: str,
+    *,
+    calendar_year_perf_pct: float | None = None,
+    calendar_year: int | None = None,
 ) -> str:
     lang = normalize_newsletter_lang(lang)
+    perf_line = ""
+    if calendar_year_perf_pct is not None and calendar_year is not None:
+        p = calendar_year_perf_pct
+        y = calendar_year
+        if lang == "fr":
+            perf_line = f"Le portefeuille affiche actuellement une performance de {p:+.2f} % en {y}.\n\n"
+        else:
+            perf_line = f"The portfolio currently shows a performance of {p:+.2f}% in {y}.\n\n"
     if lang == "fr":
-        head = f"De nouveaux posts eToro sont disponibles ({count}).\n\n"
+        head = f"De nouveaux posts eToro sont disponibles ({count}).\n\n{perf_line}"
         risk = (
             "⚠️ Avertissement sur les risques : stratégie personnelle, pas un conseil. "
             "Les performances passées ne garantissent pas les résultats futurs.\n"
         )
     else:
-        head = f"New eToro posts are available ({count}).\n\n"
+        head = f"New eToro posts are available ({count}).\n\n{perf_line}"
         risk = (
             "⚠️ Risk warning: personal strategy, not advice. "
             "Past performance does not guarantee future results.\n"

@@ -13,6 +13,13 @@ from newsletter_i18n import (
     parse_newsletter_ui_lang_from_message,
     welcome_email_subject,
 )
+from trader_performance_metrics import (
+    DATE_FROM,
+    filter_gain_from_date as _filter_gain_from_date,
+    gain_to_by_month as _gain_to_by_month,
+    monthly_to_yearly_returns as _monthly_to_yearly_returns,
+    get_trader_calendar_year_return_pct,
+)
 from trader_post_lang import filter_posts_by_ui_lang, infer_post_lang
 from trader_post_slug import assign_slugs_to_posts, post_title_line
 
@@ -214,7 +221,6 @@ def username_display_filter(name: str) -> str:
 
 
 TRADER_USERNAME = "RomainRoth"
-DATE_FROM = "2022-09"  # Données à partir de septembre 2022
 COPIERS_VS_PERF_CACHE = os.path.join(os.path.dirname(__file__), "data", "copiers_vs_performance.json")
 ETORO_PUBLISHED_POSTS_PATH = os.path.join(os.path.dirname(__file__), "data", "etoro_published_posts.json")
 TRADER_POSTS_PATH = os.path.join(os.path.dirname(__file__), "data", "trader_posts_romainroth.json")
@@ -692,6 +698,12 @@ def _build_newsletter_welcome_html(recipient_email: str, ui_lang: str) -> str:
     etoro_copy_invite_url = "https://etoro.tw/46rrJQC"
     posts_page_url = f"{base_url}/posts"
     lang = normalize_newsletter_lang(ui_lang)
+    y = datetime.now(timezone.utc).year
+    try:
+        cal_pct = get_trader_calendar_year_return_pct(TRADER_USERNAME, y)
+    except Exception:
+        cal_pct = None
+    cal_year = y if cal_pct is not None else None
     return build_newsletter_welcome_html(
         lang,
         html_escape.escape(etoro_profile_url),
@@ -699,6 +711,8 @@ def _build_newsletter_welcome_html(recipient_email: str, ui_lang: str) -> str:
         html_escape.escape(posts_page_url),
         html_escape.escape(one_click_url),
         base_url,
+        calendar_year_perf_pct=cal_pct,
+        calendar_year=cal_year,
     )
 
 
@@ -711,6 +725,12 @@ def _build_newsletter_welcome_plain(recipient_email: str, ui_lang: str) -> str:
     etoro_profile_url = "https://www.etoro.com/people/romainroth"
     etoro_copy_invite_url = "https://etoro.tw/46rrJQC"
     posts_page_url = f"{base_url}/posts"
+    y = datetime.now(timezone.utc).year
+    try:
+        cal_pct = get_trader_calendar_year_return_pct(TRADER_USERNAME, y)
+    except Exception:
+        cal_pct = None
+    cal_year = y if cal_pct is not None else None
     return build_newsletter_welcome_plain(
         normalize_newsletter_lang(ui_lang),
         posts_page_url,
@@ -718,6 +738,8 @@ def _build_newsletter_welcome_plain(recipient_email: str, ui_lang: str) -> str:
         etoro_copy_invite_url,
         one_click_url,
         base_url,
+        calendar_year_perf_pct=cal_pct,
+        calendar_year=cal_year,
     )
 
 
@@ -857,34 +879,6 @@ def _get_index_monthly_returns(ticker_symbol: str) -> dict[str, float]:
 
 def _get_sp500_monthly_returns() -> dict[str, float]:
     return _get_index_monthly_returns("^GSPC")
-
-
-def _gain_to_by_month(gain: dict | None) -> dict[str, float]:
-    """Convertit les gains API en dict {mois: gain_pct}."""
-    out: dict[str, float] = {}
-    if gain and gain.get("monthly"):
-        for e in gain["monthly"]:
-            ts = e.get("timestamp")
-            g = e.get("gain")
-            if ts and ts[:7] >= DATE_FROM:
-                out[ts[:7]] = float(g) if g is not None else 0.0
-    return out
-
-
-def _monthly_to_yearly_returns(by_month: dict[str, float]) -> dict[str, float]:
-    """Calcule le rendement annuel composé à partir des rendements mensuels. Retourne {année: pct}."""
-    years: dict[str, list[float]] = {}
-    for month, pct in by_month.items():
-        if len(month) >= 4:
-            y = month[:4]
-            years.setdefault(y, []).append(pct)
-    out: dict[str, float] = {}
-    for y, pcts in years.items():
-        cum = 1.0
-        for p in pcts:
-            cum *= 1.0 + p / 100.0
-        out[y] = (cum - 1.0) * 100.0
-    return out
 
 
 def _total_cumulative_return(by_month: dict[str, float]) -> float | None:
@@ -1175,24 +1169,6 @@ def _load_copiers_vs_performance_cached(refresh: bool = False) -> list[dict]:
         except Exception:
             pass
     return _build_copiers_vs_performance_real(limit=100)
-
-
-def _filter_gain_from_date(gain_data: dict | None) -> dict | None:
-    """Filtre les gains pour ne garder que les entrées à partir de septembre 2022."""
-    if not gain_data:
-        return gain_data
-    filtered = {}
-    if gain_data.get("monthly"):
-        filtered["monthly"] = [
-            e for e in gain_data["monthly"]
-            if e.get("timestamp") and e["timestamp"][:7] >= DATE_FROM
-        ]
-    if gain_data.get("yearly"):
-        filtered["yearly"] = [
-            e for e in gain_data["yearly"]
-            if e.get("timestamp") and e["timestamp"][:4] >= DATE_FROM[:4]
-        ]
-    return filtered if filtered else gain_data
 
 
 def _prime_homepage_cache(max_duration_sec: float = STARTUP_WARMUP_MAX_SECONDS) -> dict:

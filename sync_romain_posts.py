@@ -34,6 +34,7 @@ from newsletter_i18n import (
 )
 from trader_post_lang import filter_posts_by_ui_lang
 from trader_post_slug import assign_slugs_to_posts
+from trader_performance_metrics import get_trader_calendar_year_return_pct
 
 load_app_dotenv(Path(__file__).resolve().parent)
 
@@ -292,6 +293,9 @@ def _build_newsletter_html(
     recipient_name: str,
     new_posts: list[dict],
     ui_lang: str,
+    *,
+    calendar_year_perf_pct: float | None = None,
+    calendar_year: int | None = None,
 ) -> str:
     """new_posts : déjà filtrés par langue d’interface du destinataire."""
     base_url = (os.getenv("SITE_BASE_URL") or "https://romainroth.com").strip().rstrip("/")
@@ -356,6 +360,8 @@ def _build_newsletter_html(
         posts_href,
         unsub_href,
         base_url,
+        calendar_year_perf_pct=calendar_year_perf_pct,
+        calendar_year=calendar_year,
     )
 
 
@@ -396,6 +402,12 @@ def _send_newsletter_for_new_posts(new_posts: list[dict], *, subject_prefix: str
     posts_plain = f"{base_plain}/posts"
     etoro_profile_plain = "https://www.etoro.com/people/romainroth"
     etoro_copy_plain = "https://etoro.tw/46rrJQC"
+    y = datetime.now(timezone.utc).year
+    try:
+        cal_pct = get_trader_calendar_year_return_pct(TRADER_USERNAME, y)
+    except Exception:
+        cal_pct = None
+    cal_year = y if cal_pct is not None else None
     sent = 0
     failed = 0
     skipped = 0
@@ -416,9 +428,18 @@ def _send_newsletter_for_new_posts(new_posts: list[dict], *, subject_prefix: str
             etoro_copy_plain,
             len(posts_for_lang),
             base_plain,
+            calendar_year_perf_pct=cal_pct,
+            calendar_year=cal_year,
         )
         try:
-            html = _build_newsletter_html(email, name, posts_for_lang, ui_lang)
+            html = _build_newsletter_html(
+                email,
+                name,
+                posts_for_lang,
+                ui_lang,
+                calendar_year_perf_pct=cal_pct,
+                calendar_year=cal_year,
+            )
             _send_html_email(email, subject, html, plain)
             sent += 1
         except Exception as exc:
