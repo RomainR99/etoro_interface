@@ -327,7 +327,7 @@ def _build_newsletter_html(
             if image_url
             else ""
         )
-        read_more_label = "Lire la suite" if normalize_newsletter_lang(ui_lang) == "fr" else "Read more"
+        read_more_label = "Accéder au post" if normalize_newsletter_lang(ui_lang) == "fr" else "Read more"
         read_more_button = (
             "<p style='margin:12px 0 0;'>"
             f"<a href=\"{html.escape(post_url, quote=True)}\" target=\"_blank\" rel=\"noopener noreferrer\" "
