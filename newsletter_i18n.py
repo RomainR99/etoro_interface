@@ -25,10 +25,14 @@ def build_newsletter_site_legal_footer_html(lang: str, site_base_url: str) -> st
     href_ck = html.escape(f"{root}/cookies")
     year = datetime.now(timezone.utc).year
     copy_txt = f"© Romain Roth {year}"
-    # Même esprit que .site-footer-legal / .site-footer-copy (site_chrome_styles) : texte centré, liens discrets.
-    nav_p = (
-        "text-align:center;margin:0 0 8px;padding:0;line-height:1.6;"
-        "font-size:11.5px;color:#8b949e;"
+    # Clients mail : <nav> + blocs multi-lignes peuvent rester alignés à gauche ; align="center" + <p> centré aide.
+    outer_wrap = (
+        "margin-top:20px;padding-top:18px;border-top:1px solid #e5e7eb;"
+        "width:100%;max-width:100%;text-align:center;"
+    )
+    legal_line = (
+        "margin:0 0 8px;padding:0;line-height:1.6;"
+        "font-size:11.5px;color:#8b949e;text-align:center;"
     )
     link_a = "color:#8b949e;text-decoration:none;"
     sep = '<span style="margin:0 5px;color:#8b949e;opacity:0.55;" aria-hidden="true">·</span>'
@@ -40,15 +44,18 @@ def build_newsletter_site_legal_footer_html(lang: str, site_base_url: str) -> st
         l1, l2, l3 = "Legal notice", "Privacy policy", "Cookie policy"
         nav_aria = "Legal"
     nav_aria_esc = html.escape(nav_aria)
+    links_row = (
+        f'<a href="{href_ml}" target="_blank" rel="noopener noreferrer" style="{link_a}">{html.escape(l1)}</a>'
+        f"{sep}"
+        f'<a href="{href_pr}" target="_blank" rel="noopener noreferrer" style="{link_a}">{html.escape(l2)}</a>'
+        f"{sep}"
+        f'<a href="{href_ck}" target="_blank" rel="noopener noreferrer" style="{link_a}">{html.escape(l3)}</a>'
+    )
     return (
-        '      <div style="margin-top:20px;padding-top:18px;border-top:1px solid #e5e7eb;">\n'
-        f'        <nav style="{nav_p}" aria-label="{nav_aria_esc}">\n'
-        f'          <a href="{href_ml}" target="_blank" rel="noopener noreferrer" style="{link_a}">{html.escape(l1)}</a>'
-        f"{sep}\n"
-        f'          <a href="{href_pr}" target="_blank" rel="noopener noreferrer" style="{link_a}">{html.escape(l2)}</a>'
-        f"{sep}\n"
-        f'          <a href="{href_ck}" target="_blank" rel="noopener noreferrer" style="{link_a}">{html.escape(l3)}</a>\n'
-        "        </nav>\n"
+        f'      <div align="center" style="{outer_wrap}">\n'
+        f'        <div role="navigation" aria-label="{nav_aria_esc}" style="text-align:center;width:100%;">\n'
+        f'          <p style="{legal_line}">{links_row}</p>\n'
+        f'        </div>\n'
         f'        <p style="{copy_p}">{html.escape(copy_txt)}</p>\n'
         "      </div>"
     )
