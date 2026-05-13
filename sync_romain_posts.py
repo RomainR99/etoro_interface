@@ -29,6 +29,7 @@ from newsletter_i18n import (
     new_posts_email_subject,
     new_posts_empty_posts_html,
     new_posts_image_alt,
+    normalize_newsletter_lang,
     parse_newsletter_ui_lang_from_message,
 )
 from trader_post_lang import filter_posts_by_ui_lang
