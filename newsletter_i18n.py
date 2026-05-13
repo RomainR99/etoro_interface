@@ -160,11 +160,14 @@ def _shared_footer_html(lang: str, profile_href: str, copy_href: str, posts_href
           - sans avoir besoin de vous connecter à la plateforme.
         </p>
         <p style="font-size:15px;line-height:1.6;">Cela vous permet de :</p>
-        <ul style="font-size:15px;line-height:1.6;margin:0 0 16px;padding-left:1.25rem;">
+        <ul style="font-size:15px;line-height:1.6;margin:0 0 8px;padding-left:1.25rem;">
           <li>suivre mes analyses en temps réel</li>
           <li>comprendre mes décisions</li>
           <li>rester informé sans effort</li>
         </ul>
+        <p style="font-size:15px;line-height:1.6;margin:0 0 16px;">
+          Suivi actuellement par plus de 800 investisseurs sur eToro.
+        </p>
         <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
         <p style="font-size:15px;line-height:1.6;"><strong>Accéder au portefeuille en direct</strong></p>
         <p style="font-size:15px;line-height:1.6;">
@@ -342,6 +345,7 @@ def build_newsletter_welcome_plain(
             "Bonjour,\n\n"
             "Merci encore pour votre inscription.\n\n"
             "À partir de maintenant, vous recevrez par email les posts publiés sur eToro.\n\n"
+            "Suivi actuellement par plus de 800 investisseurs sur eToro.\n\n"
             f"Profil eToro : {etoro_profile_url}\n\n"
             "eToro permet aussi de copier automatiquement un portefeuille (positions en temps réel).\n"
             f"Me rejoindre : {etoro_copy_invite_url}\n\n"
