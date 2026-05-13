@@ -388,14 +388,26 @@ def _send_html_email(to_email: str, subject: str, html_body: str, plain_body: st
         server.sendmail(smtp_from, [to_email], msg.as_string())
 
 
-def _send_newsletter_for_new_posts(new_posts: list[dict], *, subject_prefix: str = "") -> None:
+def _send_newsletter_for_new_posts(
+    new_posts: list[dict],
+    *,
+    subject_prefix: str = "",
+    recipients_override: list[tuple[str, str, str]] | None = None,
+) -> None:
     if not new_posts:
         print("No new posts -> no newsletter sent.")
         return
-    recipients = _get_newsletter_recipients()
+    recipients = (
+        list(recipients_override)
+        if recipients_override is not None
+        else _get_newsletter_recipients()
+    )
     if not recipients:
         print("No active newsletter recipients found.")
         return
+    if subject_prefix or recipients_override is not None:
+        dest = ", ".join(email for email, _name, _lang in recipients)
+        print(f"Newsletter destination(s): {dest}")
     base_plain = (os.getenv("SITE_BASE_URL") or "https://romainroth.com").strip().rstrip("/")
     posts_plain = f"{base_plain}/posts"
     etoro_profile_plain = "https://www.etoro.com/people/romainroth"
@@ -437,6 +449,7 @@ def _send_newsletter_for_new_posts(new_posts: list[dict], *, subject_prefix: str
             )
             _send_html_email(email, subject, html, plain)
             sent += 1
+            print(f"Newsletter sent OK to {email}")
         except Exception as exc:
             failed += 1
             print(f"Newsletter send failed for {email}: {exc}")
@@ -478,18 +491,30 @@ def _load_latest_posts_from_disk(limit: int = 5) -> list[dict]:
     return out
 
 
-def run_newsletter_test() -> None:
+def run_newsletter_test(*, test_to_email: str | None = None, test_ui_lang: str = "fr") -> None:
     """Envoie un mail réel aux abonnés actifs (même logique que la prod), contenu = derniers posts sur disque."""
     sample = _load_latest_posts_from_disk(5)
     if not sample:
         raise SystemExit(f"No posts in {OUTPUT_PATH}; run a normal sync first.")
     assign_slugs_to_posts(sample)
     prefix = "[TEST] "
-    print(
-        f"Newsletter test: sending email(s) with subject prefix {prefix!r} "
-        f"({len(sample)} post(s) from disk) to active subscribers."
-    )
-    _send_newsletter_for_new_posts(sample, subject_prefix=prefix)
+    override: list[tuple[str, str, str]] | None = None
+    if test_to_email:
+        addr = test_to_email.strip().lower()
+        if "@" not in addr or not addr.split("@", 1)[0] or not addr.split("@", 1)[1]:
+            raise SystemExit(f"Invalid --newsletter-test-to address: {test_to_email!r}")
+        lang = normalize_newsletter_lang(test_ui_lang)
+        override = [(addr, "", lang)]
+        print(
+            f"Newsletter test: single recipient {addr!r} (lang={lang}), subject prefix {prefix!r}, "
+            f"{len(sample)} post(s) from disk."
+        )
+    else:
+        print(
+            f"Newsletter test: sending email(s) with subject prefix {prefix!r} "
+            f"({len(sample)} post(s) from disk) to active subscribers from the database."
+        )
+    _send_newsletter_for_new_posts(sample, subject_prefix=prefix, recipients_override=override)
 
 
 def main() -> None:
@@ -512,8 +537,25 @@ if __name__ == "__main__":
         help="Send one newsletter per active subscriber using the 5 latest posts already in data JSON "
         "(real SMTP); subject is prefixed with [TEST]. Does not change the sync schedule logic.",
     )
+    parser.add_argument(
+        "--newsletter-test-to",
+        metavar="EMAIL",
+        default=None,
+        help="With --newsletter-test: send only to this address (ignores DB subscriber list).",
+    )
+    parser.add_argument(
+        "--newsletter-test-lang",
+        choices=["fr", "en"],
+        default="fr",
+        help="With --newsletter-test-to: newsletter UI language (default: fr).",
+    )
     args = parser.parse_args()
+    if args.newsletter_test_to and not args.newsletter_test:
+        parser.error("--newsletter-test-to requires --newsletter-test")
     if args.newsletter_test:
-        run_newsletter_test()
+        run_newsletter_test(
+            test_to_email=args.newsletter_test_to,
+            test_ui_lang=args.newsletter_test_lang,
+        )
     else:
         main()
