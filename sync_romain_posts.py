@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import html
 import io
 import json
@@ -382,7 +383,7 @@ def _send_html_email(to_email: str, subject: str, html_body: str, plain_body: st
         server.sendmail(smtp_from, [to_email], msg.as_string())
 
 
-def _send_newsletter_for_new_posts(new_posts: list[dict]) -> None:
+def _send_newsletter_for_new_posts(new_posts: list[dict], *, subject_prefix: str = "") -> None:
     if not new_posts:
         print("No new posts -> no newsletter sent.")
         return
@@ -406,7 +407,7 @@ def _send_newsletter_for_new_posts(new_posts: list[dict]) -> None:
         first_title = first_message.splitlines()[0].strip() if first_message else ""
         if len(first_title) > 140:
             first_title = first_title[:137].rstrip() + "..."
-        subject = new_posts_email_subject(ui_lang, len(posts_for_lang), first_title)
+        subject = subject_prefix + new_posts_email_subject(ui_lang, len(posts_for_lang), first_title)
         plain = build_new_posts_newsletter_plain(
             ui_lang,
             posts_plain,
@@ -442,6 +443,38 @@ def _post_created_on_utc_date(post: dict, day_utc) -> bool:
         return raw[:10] == day_utc.isoformat()
 
 
+def _load_latest_posts_from_disk(limit: int = 5) -> list[dict]:
+    """Posts les plus récents déjà présents dans le JSON (sans refetch eToro)."""
+    if not OUTPUT_PATH.is_file():
+        raise RuntimeError(f"Missing posts file: {OUTPUT_PATH}")
+    try:
+        data = json.loads(OUTPUT_PATH.read_text(encoding="utf-8"))
+    except Exception as exc:
+        raise RuntimeError(f"Invalid JSON in {OUTPUT_PATH}: {exc}") from exc
+    rows = data.get("posts") if isinstance(data, dict) else None
+    if not isinstance(rows, list) or not rows:
+        return []
+    out: list[dict] = []
+    for p in rows[:limit]:
+        if isinstance(p, dict):
+            out.append(dict(p))
+    return out
+
+
+def run_newsletter_test() -> None:
+    """Envoie un mail réel aux abonnés actifs (même logique que la prod), contenu = derniers posts sur disque."""
+    sample = _load_latest_posts_from_disk(5)
+    if not sample:
+        raise SystemExit(f"No posts in {OUTPUT_PATH}; run a normal sync first.")
+    assign_slugs_to_posts(sample)
+    prefix = "[TEST] "
+    print(
+        f"Newsletter test: sending email(s) with subject prefix {prefix!r} "
+        f"({len(sample)} post(s) from disk) to active subscribers."
+    )
+    _send_newsletter_for_new_posts(sample, subject_prefix=prefix)
+
+
 def main() -> None:
     existing_ids = _load_existing_post_ids(OUTPUT_PATH)
     posts = fetch_all_posts(TRADER_USERNAME)
@@ -455,4 +488,15 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Sync eToro trader posts + optional newsletter test.")
+    parser.add_argument(
+        "--newsletter-test",
+        action="store_true",
+        help="Send one newsletter per active subscriber using the 5 latest posts already in data JSON "
+        "(real SMTP); subject is prefixed with [TEST]. Does not change the sync schedule logic.",
+    )
+    args = parser.parse_args()
+    if args.newsletter_test:
+        run_newsletter_test()
+    else:
+        main()
