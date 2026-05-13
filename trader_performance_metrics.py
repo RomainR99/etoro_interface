@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 
-from etoro_client import get_user_gain
+from etoro_client import get_current_copiers, get_user_gain, get_user_profile
 
 # Aligné sur app.DATE_FROM — à garder synchronisé si la date de départ des séries change.
 DATE_FROM = "2022-09"
@@ -72,3 +72,57 @@ def get_trader_calendar_year_return_pct(username: str, year: int | None = None) 
     if raw is None:
         return None
     return round(float(raw), 2)
+
+
+def profile_followers_count(profile: dict | None) -> int | None:
+    """Nombre de followers eToro si présent dans la réponse profil (clés variables selon l’API)."""
+    if not profile or not isinstance(profile, dict):
+        return None
+    for key in (
+        "followers",
+        "Followers",
+        "followerCount",
+        "FollowerCount",
+        "subscribers",
+        "Subscribers",
+        "subscriberCount",
+        "SubscriberCount",
+        "numberOfFollowers",
+        "NumberOfFollowers",
+        "followersCount",
+        "FollowersCount",
+    ):
+        v = profile.get(key)
+        if v is None:
+            continue
+        try:
+            n = int(v)
+            if n >= 0:
+                return n
+        except (TypeError, ValueError):
+            continue
+    return None
+
+
+def get_newsletter_etoro_stats_snapshot(username: str, year: int | None = None) -> dict:
+    """
+    Chiffres pour le bloc « Quelques chiffres » de la newsletter :
+    performance YTD (même logique que la ligne année du tableau), followers (profil), copieurs (CurrMonth).
+    """
+    y = year if year is not None else datetime.now(timezone.utc).year
+    perf: float | None = None
+    followers: int | None = None
+    copiers: int | None = None
+    try:
+        perf = get_trader_calendar_year_return_pct(username, y)
+    except Exception:
+        perf = None
+    try:
+        followers = profile_followers_count(get_user_profile(username))
+    except Exception:
+        followers = None
+    try:
+        copiers = get_current_copiers(username)
+    except Exception:
+        copiers = None
+    return {"year": y, "year_perf_pct": perf, "followers": followers, "copiers": copiers}

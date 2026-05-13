@@ -18,7 +18,7 @@ from trader_performance_metrics import (
     filter_gain_from_date as _filter_gain_from_date,
     gain_to_by_month as _gain_to_by_month,
     monthly_to_yearly_returns as _monthly_to_yearly_returns,
-    get_trader_calendar_year_return_pct,
+    get_newsletter_etoro_stats_snapshot,
 )
 from trader_post_lang import filter_posts_by_ui_lang, infer_post_lang
 from trader_post_slug import assign_slugs_to_posts, post_title_line
@@ -700,10 +700,9 @@ def _build_newsletter_welcome_html(recipient_email: str, ui_lang: str) -> str:
     lang = normalize_newsletter_lang(ui_lang)
     y = datetime.now(timezone.utc).year
     try:
-        cal_pct = get_trader_calendar_year_return_pct(TRADER_USERNAME, y)
+        etoro_stats = get_newsletter_etoro_stats_snapshot(TRADER_USERNAME, y)
     except Exception:
-        cal_pct = None
-    cal_year = y if cal_pct is not None else None
+        etoro_stats = None
     return build_newsletter_welcome_html(
         lang,
         html_escape.escape(etoro_profile_url),
@@ -711,8 +710,7 @@ def _build_newsletter_welcome_html(recipient_email: str, ui_lang: str) -> str:
         html_escape.escape(posts_page_url),
         html_escape.escape(one_click_url),
         base_url,
-        calendar_year_perf_pct=cal_pct,
-        calendar_year=cal_year,
+        etoro_newsletter_stats=etoro_stats,
     )
 
 
@@ -727,10 +725,9 @@ def _build_newsletter_welcome_plain(recipient_email: str, ui_lang: str) -> str:
     posts_page_url = f"{base_url}/posts"
     y = datetime.now(timezone.utc).year
     try:
-        cal_pct = get_trader_calendar_year_return_pct(TRADER_USERNAME, y)
+        etoro_stats = get_newsletter_etoro_stats_snapshot(TRADER_USERNAME, y)
     except Exception:
-        cal_pct = None
-    cal_year = y if cal_pct is not None else None
+        etoro_stats = None
     return build_newsletter_welcome_plain(
         normalize_newsletter_lang(ui_lang),
         posts_page_url,
@@ -738,8 +735,7 @@ def _build_newsletter_welcome_plain(recipient_email: str, ui_lang: str) -> str:
         etoro_copy_invite_url,
         one_click_url,
         base_url,
-        calendar_year_perf_pct=cal_pct,
-        calendar_year=cal_year,
+        etoro_newsletter_stats=etoro_stats,
     )
 
 

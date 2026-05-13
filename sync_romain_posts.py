@@ -34,7 +34,7 @@ from newsletter_i18n import (
 )
 from trader_post_lang import filter_posts_by_ui_lang
 from trader_post_slug import assign_slugs_to_posts
-from trader_performance_metrics import get_trader_calendar_year_return_pct
+from trader_performance_metrics import get_newsletter_etoro_stats_snapshot
 
 load_app_dotenv(Path(__file__).resolve().parent)
 
@@ -294,8 +294,7 @@ def _build_newsletter_html(
     new_posts: list[dict],
     ui_lang: str,
     *,
-    calendar_year_perf_pct: float | None = None,
-    calendar_year: int | None = None,
+    etoro_newsletter_stats: dict | None = None,
 ) -> str:
     """new_posts : déjà filtrés par langue d’interface du destinataire."""
     base_url = (os.getenv("SITE_BASE_URL") or "https://romainroth.com").strip().rstrip("/")
@@ -360,8 +359,7 @@ def _build_newsletter_html(
         posts_href,
         unsub_href,
         base_url,
-        calendar_year_perf_pct=calendar_year_perf_pct,
-        calendar_year=calendar_year,
+        etoro_newsletter_stats=etoro_newsletter_stats,
     )
 
 
@@ -404,10 +402,9 @@ def _send_newsletter_for_new_posts(new_posts: list[dict], *, subject_prefix: str
     etoro_copy_plain = "https://etoro.tw/46rrJQC"
     y = datetime.now(timezone.utc).year
     try:
-        cal_pct = get_trader_calendar_year_return_pct(TRADER_USERNAME, y)
+        etoro_stats = get_newsletter_etoro_stats_snapshot(TRADER_USERNAME, y)
     except Exception:
-        cal_pct = None
-    cal_year = y if cal_pct is not None else None
+        etoro_stats = None
     sent = 0
     failed = 0
     skipped = 0
@@ -428,8 +425,7 @@ def _send_newsletter_for_new_posts(new_posts: list[dict], *, subject_prefix: str
             etoro_copy_plain,
             len(posts_for_lang),
             base_plain,
-            calendar_year_perf_pct=cal_pct,
-            calendar_year=cal_year,
+            etoro_newsletter_stats=etoro_stats,
         )
         try:
             html = _build_newsletter_html(
@@ -437,8 +433,7 @@ def _send_newsletter_for_new_posts(new_posts: list[dict], *, subject_prefix: str
                 name,
                 posts_for_lang,
                 ui_lang,
-                calendar_year_perf_pct=cal_pct,
-                calendar_year=cal_year,
+                etoro_newsletter_stats=etoro_stats,
             )
             _send_html_email(email, subject, html, plain)
             sent += 1

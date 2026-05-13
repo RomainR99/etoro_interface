@@ -151,33 +151,116 @@ def new_posts_email_subject(lang: str, count: int, post_title: str | None = None
     return f"[RomainRoth] {count} new posts available"
 
 
+def _footer_stats_has_content(stats: dict | None) -> bool:
+    if not stats:
+        return False
+    y = stats.get("year")
+    if stats.get("year_perf_pct") is not None and y is not None:
+        return True
+    if stats.get("followers") is not None:
+        return True
+    if stats.get("copiers") is not None:
+        return True
+    return False
+
+
+def _footer_stats_html_block(lang: str, stats: dict | None) -> str:
+    if not _footer_stats_has_content(stats):
+        return ""
+    lang = normalize_newsletter_lang(lang)
+    assert stats is not None
+    y = int(stats["year"])
+    perf = stats.get("year_perf_pct")
+    fol = stats.get("followers")
+    cop = stats.get("copiers")
+    lis: list[str] = []
+    if lang == "fr":
+        if perf is not None:
+            lis.append(f"<li>{perf:+.2f} % de performance en {y} à date</li>")
+        if fol is not None:
+            lis.append(f"<li>{int(fol)} followers sur eToro</li>")
+        if cop is not None:
+            c = int(cop)
+            if c == 1:
+                lis.append("<li>1 investisseur copie actuellement le portefeuille</li>")
+            else:
+                lis.append(f"<li>{c} investisseurs copient actuellement le portefeuille</li>")
+        title = "Quelques chiffres :"
+    else:
+        if perf is not None:
+            lis.append(f"<li>{perf:+.2f}% performance year-to-date in {y}</li>")
+        if fol is not None:
+            lis.append(f"<li>{int(fol)} followers on eToro</li>")
+        if cop is not None:
+            c = int(cop)
+            if c == 1:
+                lis.append("<li>1 investor currently copies the portfolio</li>")
+            else:
+                lis.append(f"<li>{c} investors currently copy the portfolio</li>")
+        title = "Some key figures:"
+    inner = "\n          ".join(lis)
+    title_esc = html.escape(title)
+    return (
+        f'        <p style="font-size:15px;line-height:1.6;margin:0 0 6px;font-weight:600;">{title_esc}</p>\n'
+        f'        <ul style="font-size:15px;line-height:1.65;margin:0 0 20px;padding-left:1.2rem;">\n'
+        f"          {inner}\n"
+        f"        </ul>\n"
+    )
+
+
+def _footer_stats_plain_block(lang: str, stats: dict | None) -> str:
+    if not _footer_stats_has_content(stats):
+        return ""
+    lang = normalize_newsletter_lang(lang)
+    assert stats is not None
+    y = int(stats["year"])
+    perf = stats.get("year_perf_pct")
+    fol = stats.get("followers")
+    cop = stats.get("copiers")
+    lines: list[str] = []
+    if lang == "fr":
+        if perf is not None:
+            lines.append(f"{perf:+.2f} % de performance en {y} à date")
+        if fol is not None:
+            lines.append(f"{int(fol)} followers sur eToro")
+        if cop is not None:
+            c = int(cop)
+            lines.append(
+                "1 investisseur copie actuellement le portefeuille"
+                if c == 1
+                else f"{c} investisseurs copient actuellement le portefeuille"
+            )
+        head = "Quelques chiffres :"
+    else:
+        if perf is not None:
+            lines.append(f"{perf:+.2f}% performance year-to-date in {y}")
+        if fol is not None:
+            lines.append(f"{int(fol)} followers on eToro")
+        if cop is not None:
+            c = int(cop)
+            lines.append(
+                "1 investor currently copies the portfolio"
+                if c == 1
+                else f"{c} investors currently copy the portfolio"
+            )
+        head = "Some key figures:"
+    body = "\n".join(f"• {ln}" for ln in lines)
+    return f"{head}\n\n{body}\n\n"
+
+
 def _shared_footer_html(
     lang: str,
     profile_href: str,
     copy_href: str,
     posts_href: str,
     *,
-    calendar_year_perf_pct: float | None = None,
-    calendar_year: int | None = None,
+    etoro_newsletter_stats: dict | None = None,
 ) -> str:
-    perf_snap_fr = ""
-    perf_snap_en = ""
-    if calendar_year_perf_pct is not None and calendar_year is not None:
-        p = calendar_year_perf_pct
-        y = calendar_year
-        perf_snap_fr = (
-            f'        <p style="font-size:15px;line-height:1.6;margin:0 0 8px;">\n'
-            f"          Le portefeuille affiche actuellement une performance de {p:+.2f} % en {y}.\n"
-            f"        </p>\n"
-        )
-        perf_snap_en = (
-            f'        <p style="font-size:15px;line-height:1.6;margin:0 0 8px;">\n'
-            f"          The portfolio currently shows a performance of {p:+.2f}% in {y}.\n"
-            f"        </p>\n"
-        )
-    if normalize_newsletter_lang(lang) == "fr":
-        return f"""
-        <p style="font-size:15px;line-height:1.6;">
+    loc = normalize_newsletter_lang(lang)
+    stats_html_block = _footer_stats_html_block(loc, etoro_newsletter_stats)
+    leader = f"{stats_html_block}\n" if stats_html_block else ""
+    if loc == "fr":
+        return f"""{leader}        <p style="font-size:15px;line-height:1.6;">
           À partir de maintenant, vous recevrez directement par email
           <strong>tous les posts que je publie sur eToro</strong>
           - sans avoir besoin de vous connecter à la plateforme.
@@ -189,9 +272,6 @@ def _shared_footer_html(
           <li>Suivre une approche long terme centrée sur le risque</li>
           <li>Accéder aux publications et mouvements du portefeuille</li>
         </ul>
-{perf_snap_fr}        <p style="font-size:15px;line-height:1.6;margin:0 0 16px;">
-          Suivi actuellement par plus de 800 investisseurs sur eToro.
-        </p>
         <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
         <p style="font-size:15px;line-height:1.6;"><strong>Accéder au portefeuille en direct</strong></p>
         <p style="font-size:15px;line-height:1.6;">
@@ -237,8 +317,7 @@ def _shared_footer_html(
         </p>
         <p style="font-size:15px;line-height:1.6;margin-top:22px;margin-bottom:0;">À bientôt,<br>Romain Roth</p>
 """.strip()
-    return f"""
-        <p style="font-size:15px;line-height:1.6;">
+    return f"""{leader}        <p style="font-size:15px;line-height:1.6;">
           From now on, you will receive by email
           <strong>every post I publish on eToro</strong>
           - without having to log in to the platform.
@@ -249,7 +328,7 @@ def _shared_footer_html(
           <li>understand my decisions</li>
           <li>stay informed effortlessly</li>
         </ul>
-{perf_snap_en}        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
+        <hr style="border:none;border-top:1px solid #e5e7eb;margin:22px 0;" />
         <p style="font-size:15px;line-height:1.6;"><strong>View the portfolio live</strong></p>
         <p style="font-size:15px;line-height:1.6;">
           You can view and follow my eToro portfolio here:
@@ -304,8 +383,7 @@ def build_newsletter_welcome_html(
     unsub_href: str,
     site_base_url: str,
     *,
-    calendar_year_perf_pct: float | None = None,
-    calendar_year: int | None = None,
+    etoro_newsletter_stats: dict | None = None,
 ) -> str:
     lang = normalize_newsletter_lang(lang)
     footer_common = _shared_footer_html(
@@ -313,8 +391,7 @@ def build_newsletter_welcome_html(
         profile_href,
         copy_href,
         posts_href,
-        calendar_year_perf_pct=calendar_year_perf_pct,
-        calendar_year=calendar_year,
+        etoro_newsletter_stats=etoro_newsletter_stats,
     )
     legal_site = build_newsletter_site_legal_footer_html(lang, site_base_url)
     if lang == "fr":
@@ -373,24 +450,16 @@ def build_newsletter_welcome_plain(
     one_click_url: str,
     site_base_url: str,
     *,
-    calendar_year_perf_pct: float | None = None,
-    calendar_year: int | None = None,
+    etoro_newsletter_stats: dict | None = None,
 ) -> str:
     lang = normalize_newsletter_lang(lang)
-    perf_fr = ""
-    perf_en = ""
-    if calendar_year_perf_pct is not None and calendar_year is not None:
-        p = calendar_year_perf_pct
-        y = calendar_year
-        perf_fr = f"Le portefeuille affiche actuellement une performance de {p:+.2f} % en {y}.\n\n"
-        perf_en = f"The portfolio currently shows a performance of {p:+.2f}% in {y}.\n\n"
+    stats_plain = _footer_stats_plain_block(lang, etoro_newsletter_stats)
     if lang == "fr":
         return (
             "Bonjour,\n\n"
             "Merci encore pour votre inscription.\n\n"
+            f"{stats_plain}"
             "À partir de maintenant, vous recevrez par email les posts publiés sur eToro.\n\n"
-            f"{perf_fr}"
-            "Suivi actuellement par plus de 800 investisseurs sur eToro.\n\n"
             f"Profil eToro : {etoro_profile_url}\n\n"
             "eToro permet aussi de copier automatiquement un portefeuille (positions en temps réel).\n"
             f"Me rejoindre : {etoro_copy_invite_url}\n\n"
@@ -406,8 +475,8 @@ def build_newsletter_welcome_plain(
     return (
         "Hello,\n\n"
         "Thank you again for subscribing.\n\n"
+        f"{stats_plain}"
         "From now on, you will receive my eToro posts by email.\n\n"
-        f"{perf_en}"
         f"eToro profile: {etoro_profile_url}\n\n"
         "eToro also lets you automatically copy a portfolio (positions in real time).\n"
         f"Join me: {etoro_copy_invite_url}\n\n"
@@ -433,8 +502,7 @@ def build_new_posts_newsletter_html(
     unsub_href: str,
     site_base_url: str,
     *,
-    calendar_year_perf_pct: float | None = None,
-    calendar_year: int | None = None,
+    etoro_newsletter_stats: dict | None = None,
 ) -> str:
     lang = normalize_newsletter_lang(lang)
     footer_common = _shared_footer_html(
@@ -442,8 +510,7 @@ def build_new_posts_newsletter_html(
         profile_href,
         copy_href,
         posts_href,
-        calendar_year_perf_pct=calendar_year_perf_pct,
-        calendar_year=calendar_year,
+        etoro_newsletter_stats=etoro_newsletter_stats,
     )
     legal_site = build_newsletter_site_legal_footer_html(lang, site_base_url)
     if lang == "fr":
@@ -490,26 +557,18 @@ def build_new_posts_newsletter_plain(
     count: int,
     site_base_url: str,
     *,
-    calendar_year_perf_pct: float | None = None,
-    calendar_year: int | None = None,
+    etoro_newsletter_stats: dict | None = None,
 ) -> str:
     lang = normalize_newsletter_lang(lang)
-    perf_line = ""
-    if calendar_year_perf_pct is not None and calendar_year is not None:
-        p = calendar_year_perf_pct
-        y = calendar_year
-        if lang == "fr":
-            perf_line = f"Le portefeuille affiche actuellement une performance de {p:+.2f} % en {y}.\n\n"
-        else:
-            perf_line = f"The portfolio currently shows a performance of {p:+.2f}% in {y}.\n\n"
+    stats_plain = _footer_stats_plain_block(lang, etoro_newsletter_stats)
     if lang == "fr":
-        head = f"De nouveaux posts eToro sont disponibles ({count}).\n\n{perf_line}"
+        head = f"De nouveaux posts eToro sont disponibles ({count}).\n\n{stats_plain}"
         risk = (
             "⚠️ Avertissement sur les risques : stratégie personnelle, pas un conseil. "
             "Les performances passées ne garantissent pas les résultats futurs.\n"
         )
     else:
-        head = f"New eToro posts are available ({count}).\n\n{perf_line}"
+        head = f"New eToro posts are available ({count}).\n\n{stats_plain}"
         risk = (
             "⚠️ Risk warning: personal strategy, not advice. "
             "Past performance does not guarantee future results.\n"
