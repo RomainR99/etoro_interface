@@ -182,11 +182,12 @@ def _shared_footer_html(
           <strong>tous les posts que je publie sur eToro</strong>
           - sans avoir besoin de vous connecter à la plateforme.
         </p>
-        <p style="font-size:15px;line-height:1.6;">Cela vous permet de :</p>
+        <p style="font-size:15px;line-height:1.6;">Cette newsletter vous permet de :</p>
         <ul style="font-size:15px;line-height:1.6;margin:0 0 8px;padding-left:1.25rem;">
-          <li>suivre mes analyses en temps réel</li>
-          <li>comprendre mes décisions</li>
-          <li>rester informé sans effort</li>
+          <li>Recevoir mes analyses de marché en temps réel</li>
+          <li>Comprendre les décisions derrière chaque position</li>
+          <li>Suivre une approche long terme centrée sur le risque</li>
+          <li>Accéder aux publications et mouvements du portefeuille</li>
         </ul>
 {perf_snap_fr}        <p style="font-size:15px;line-height:1.6;margin:0 0 16px;">
           Suivi actuellement par plus de 800 investisseurs sur eToro.
