@@ -297,7 +297,7 @@ def build_newsletter_welcome_html(
     if lang == "fr":
         outer_footer = f"""
       <p style="font-size:12px;color:#777;text-align:center;line-height:1.5;margin-top:18px;">
-        Vous recevez cet email car vous avez accepté la newsletter.<br>
+        Vous recevez cet email car vous vous êtes inscrit aux analyses de Romain Roth.<br>
         <a href="{unsub_href}" style="color:#555;text-decoration:underline;">
           Se désabonner
         </a>
@@ -349,7 +349,7 @@ def build_newsletter_welcome_plain(
             "⚠️ Avertissement sur les risques :\n"
             "C’est une stratégie personnelle, non un conseil. L’appliquer ou non reste votre choix. "
             "Les performances passées ne garantissent pas les résultats futurs.\n\n"
-            "Vous recevez cet email car vous avez accepté la newsletter.\n"
+            "Vous recevez cet email car vous vous êtes inscrit aux analyses de Romain Roth.\n"
             f"Se désabonner : {one_click_url}\n\n"
             "À bientôt,\nRomain Roth\n\n"
             f"{build_newsletter_site_legal_footer_plain('fr', site_base_url)}"
@@ -389,7 +389,7 @@ def build_new_posts_newsletter_html(
     if lang == "fr":
         outer_footer = f"""
       <p style="font-size:12px;color:#777;text-align:center;line-height:1.5;margin-top:18px;">
-        Vous recevez cet email car vous avez accepté la newsletter.<br>
+        Vous recevez cet email car vous vous êtes inscrit aux analyses de Romain Roth.<br>
         <a href="{unsub_href}" style="color:#555;text-decoration:underline;">
           Se désabonner
         </a>
