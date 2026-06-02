@@ -3,6 +3,7 @@
 from pathlib import Path
 
 import os
+import sys
 import time
 import uuid
 import requests
@@ -96,8 +97,48 @@ def get_instrument_feed_posts(
         return None
 
 
+def _coerce_user_feed_response(data: dict | None) -> dict | None:
+    """Normalise une réponse feed utilisateur vers {discussions, paging}."""
+    if not isinstance(data, dict):
+        return None
+    discussions = data.get("discussions")
+    if discussions is None:
+        discussions = data.get("Discussions")
+    if not isinstance(discussions, list):
+        discussions = []
+    if not discussions:
+        for p in data.get("posts") or data.get("Posts") or []:
+            if isinstance(p, dict):
+                discussions.append({"post": p})
+    paging = data.get("paging") if isinstance(data.get("paging"), dict) else data.get("Paging")
+    return {"discussions": discussions, "paging": paging or {}}
+
+
+def user_feed_ref_candidates(username: str, profile: dict | None) -> list[str]:
+    """Identifiants possibles pour GET feeds (username, gcid, realCID, …)."""
+    out: list[str] = []
+    seen: set[str] = set()
+    for v in [
+        username,
+        (profile or {}).get("gcid"),
+        (profile or {}).get("UserID"),
+        (profile or {}).get("userID"),
+        (profile or {}).get("id"),
+        (profile or {}).get("realCID"),
+        (profile or {}).get("demoCID"),
+    ]:
+        if v is None:
+            continue
+        s = str(v).strip()
+        if s and s not in seen:
+            seen.add(s)
+            out.append(s)
+    return out
+
+
 def _extract_posts_from_feed_response(data: dict) -> list[dict]:
     """Extrait les posts d'une réponse feed (discussions ou posts)."""
+    data = _coerce_user_feed_response(data) or data
     posts = []
     # Format discussions (user feed, parfois instrument feed)
     for d in data.get("discussions") or []:
@@ -224,18 +265,42 @@ def get_user_feed_posts(
     user_id : ID numérique (gcid) ou username eToro.
     requester_user_id : optionnel, ID du demandeur (pour personnalisation).
     Retourne {"discussions": [...], "paging": {...}} ou None."""
-    # eToro a retiré GET /feeds/user/{id} (404 RouteNotFound) ; utiliser /feeds/users/{id}.
-    url = f"{BASE_URL}/feeds/users/{user_id}"
-    params = {"take": min(take, 100), "offset": offset}
+    user_ref = str(user_id).strip()
+    if not user_ref:
+        return None
+    params: dict[str, str | int] = {"take": min(take, 100), "offset": offset}
     if requester_user_id is not None:
         params["requesterUserId"] = str(requester_user_id)
-    try:
-        resp = requests.get(url, headers=_get_headers(), params=params, timeout=30)
+    path_templates = (
+        "feeds/users/{ref}",
+        "feeds/user/{ref}",
+    )
+    errors: list[str] = []
+    for tmpl in path_templates:
+        url = f"{BASE_URL}/{tmpl.format(ref=user_ref)}"
+        try:
+            resp = requests.get(url, headers=_get_headers(), params=params, timeout=30)
+        except Exception as exc:
+            errors.append(f"{tmpl.format(ref=user_ref)}: {exc}")
+            continue
+        if resp.status_code == 404:
+            errors.append(f"{url}: HTTP 404 RouteNotFound")
+            continue
         if resp.status_code != 200:
-            return None
-        return resp.json()
-    except Exception:
-        return None
+            body = (resp.text or "")[:240].replace("\n", " ")
+            errors.append(f"{url}: HTTP {resp.status_code} {body}")
+            continue
+        try:
+            return _coerce_user_feed_response(resp.json())
+        except Exception as exc:
+            errors.append(f"{url}: invalid JSON ({exc})")
+            continue
+    if errors:
+        print(
+            f"get_user_feed_posts({user_ref!r}): " + " | ".join(errors),
+            file=sys.stderr,
+        )
+    return None
 
 
 def create_post(

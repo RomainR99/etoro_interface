@@ -22,7 +22,7 @@ import psycopg2
 import requests
 from PIL import Image
 from env_load import load_app_dotenv
-from etoro_client import get_user_feed_posts, get_user_profile
+from etoro_client import get_user_feed_posts, get_user_profile, user_feed_ref_candidates
 from newsletter_i18n import (
     build_new_posts_newsletter_html,
     build_new_posts_newsletter_plain,
@@ -158,14 +158,12 @@ def _download_post_image(url: str, post_id: str) -> str | None:
         return None
 
 
-def fetch_all_posts(username: str, take: int = 100, max_pages: int = 200) -> list[dict]:
-    profile = get_user_profile(username)
-    if not profile:
-        raise RuntimeError(f"Trader introuvable: {username}")
-    user_id = _extract_user_id(profile)
-    if not user_id:
-        raise RuntimeError(f"Impossible de trouver user_id pour: {username}")
-
+def _fetch_all_posts_for_ref(
+    user_ref: str,
+    requester_user_id: str,
+    take: int = 100,
+    max_pages: int = 200,
+) -> list[dict]:
     posts: list[dict] = []
     seen_ids: set[str] = set()
     page_size = min(max(take, 1), 100)
@@ -174,10 +172,10 @@ def fetch_all_posts(username: str, take: int = 100, max_pages: int = 200) -> lis
 
     while pages < max_pages:
         data = get_user_feed_posts(
-            user_id=user_id,
+            user_id=user_ref,
             take=page_size,
             offset=offset,
-            requester_user_id=user_id,
+            requester_user_id=requester_user_id,
         )
         if not data:
             break
@@ -202,6 +200,30 @@ def fetch_all_posts(username: str, take: int = 100, max_pages: int = 200) -> lis
 
     posts.sort(key=lambda x: x.get("created", ""), reverse=True)
     return posts
+
+
+def fetch_all_posts(username: str, take: int = 100, max_pages: int = 200) -> list[dict]:
+    profile = get_user_profile(username)
+    if not profile:
+        raise RuntimeError(f"Trader introuvable: {username}")
+    requester_id = _extract_user_id(profile)
+    if not requester_id:
+        raise RuntimeError(f"Impossible de trouver user_id pour: {username}")
+
+    refs = user_feed_ref_candidates(username, profile)
+    for user_ref in refs:
+        posts = _fetch_all_posts_for_ref(
+            user_ref, requester_id, take=take, max_pages=max_pages
+        )
+        if posts:
+            print(f"fetch_all_posts: {len(posts)} post(s) via feed ref {user_ref!r}")
+            return posts
+
+    print(
+        f"fetch_all_posts: aucun post via refs {refs!r} (voir stderr get_user_feed_posts)",
+        file=sys.stderr,
+    )
+    return []
 
 
 def save_posts(posts: list[dict], output_path: Path = OUTPUT_PATH) -> None:
