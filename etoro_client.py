@@ -264,7 +264,12 @@ def get_user_feed_posts(
     """Récupère les posts du feed d'un utilisateur (API Feeds).
     user_id : ID numérique (gcid) ou username eToro.
     requester_user_id : optionnel, ID du demandeur (pour personnalisation).
-    Retourne {"discussions": [...], "paging": {...}} ou None."""
+    Retourne {"discussions": [...], "paging": {...}} ou None.
+
+    OpenAPI officiel : GET /feeds/user/{userId}. En prod (2026-06) cette route peut
+    répondre 404 RouteNotFound ; /feeds/users/ répond parfois 403 (hors spec).
+    On tente d'abord la route documentée, puis le fallback non officiel.
+    """
     user_ref = str(user_id).strip()
     if not user_ref:
         return None
@@ -276,8 +281,8 @@ def get_user_feed_posts(
         param_attempts.append(("with requesterUserId", with_req))
     param_attempts.append(("without requesterUserId", dict(base_params)))
     path_templates = (
-        "feeds/users/{ref}",
         "feeds/user/{ref}",
+        "feeds/users/{ref}",
     )
     errors: list[str] = []
     for _param_label, params in param_attempts:
