@@ -459,20 +459,6 @@ def _send_newsletter_for_new_posts(
     )
 
 
-def _post_created_on_utc_date(post: dict, day_utc) -> bool:
-    raw = str(post.get("created") or "").strip()
-    if not raw:
-        return False
-    try:
-        dt = datetime.fromisoformat(raw.replace("Z", "+00:00"))
-        if dt.tzinfo is None:
-            dt = dt.replace(tzinfo=timezone.utc)
-        return dt.astimezone(timezone.utc).date() == day_utc
-    except ValueError:
-        # Fallback format: "YYYY-MM-DD ..."
-        return raw[:10] == day_utc.isoformat()
-
-
 def _load_latest_posts_from_disk(limit: int = 5) -> list[dict]:
     """Posts les plus récents déjà présents dans le JSON (sans refetch eToro)."""
     if not OUTPUT_PATH.is_file():
@@ -522,10 +508,10 @@ def main() -> None:
     posts = fetch_all_posts(TRADER_USERNAME)
     assign_slugs_to_posts(posts)
     new_posts = [p for p in posts if str(p.get("id") or "") not in existing_ids]
-    today_utc = datetime.now(timezone.utc).date()
-    new_posts_today = [p for p in new_posts if _post_created_on_utc_date(p, today_utc)]
+    if new_posts:
+        print(f"Newsletter: {len(new_posts)} new post id(s) since last sync.")
     save_posts(posts, OUTPUT_PATH)
-    _send_newsletter_for_new_posts(new_posts_today)
+    _send_newsletter_for_new_posts(new_posts)
     print(f"{len(posts)} posts saved to {OUTPUT_PATH}")
 
 
