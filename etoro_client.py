@@ -268,33 +268,38 @@ def get_user_feed_posts(
     user_ref = str(user_id).strip()
     if not user_ref:
         return None
-    params: dict[str, str | int] = {"take": min(take, 100), "offset": offset}
+    base_params: dict[str, str | int] = {"take": min(take, 100), "offset": offset}
+    param_attempts: list[tuple[str, dict[str, str | int]]] = []
     if requester_user_id is not None:
-        params["requesterUserId"] = str(requester_user_id)
+        with_req = dict(base_params)
+        with_req["requesterUserId"] = str(requester_user_id)
+        param_attempts.append(("with requesterUserId", with_req))
+    param_attempts.append(("without requesterUserId", dict(base_params)))
     path_templates = (
         "feeds/users/{ref}",
         "feeds/user/{ref}",
     )
     errors: list[str] = []
-    for tmpl in path_templates:
-        url = f"{BASE_URL}/{tmpl.format(ref=user_ref)}"
-        try:
-            resp = requests.get(url, headers=_get_headers(), params=params, timeout=30)
-        except Exception as exc:
-            errors.append(f"{tmpl.format(ref=user_ref)}: {exc}")
-            continue
-        if resp.status_code == 404:
-            errors.append(f"{url}: HTTP 404 RouteNotFound")
-            continue
-        if resp.status_code != 200:
-            body = (resp.text or "")[:240].replace("\n", " ")
-            errors.append(f"{url}: HTTP {resp.status_code} {body}")
-            continue
-        try:
-            return _coerce_user_feed_response(resp.json())
-        except Exception as exc:
-            errors.append(f"{url}: invalid JSON ({exc})")
-            continue
+    for _param_label, params in param_attempts:
+        for tmpl in path_templates:
+            url = f"{BASE_URL}/{tmpl.format(ref=user_ref)}"
+            try:
+                resp = requests.get(url, headers=_get_headers(), params=params, timeout=30)
+            except Exception as exc:
+                errors.append(f"{tmpl.format(ref=user_ref)}: {exc}")
+                continue
+            if resp.status_code == 404:
+                errors.append(f"{url}: HTTP 404 RouteNotFound")
+                continue
+            if resp.status_code != 200:
+                body = (resp.text or "")[:240].replace("\n", " ")
+                errors.append(f"{url}: HTTP {resp.status_code} {body}")
+                continue
+            try:
+                return _coerce_user_feed_response(resp.json())
+            except Exception as exc:
+                errors.append(f"{url}: invalid JSON ({exc})")
+                continue
     if errors:
         print(
             f"get_user_feed_posts({user_ref!r}): " + " | ".join(errors),
