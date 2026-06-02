@@ -221,10 +221,11 @@ def get_user_feed_posts(
     user_id: str | int, take: int = 100, offset: int = 0, requester_user_id: str | int | None = None
 ) -> dict | None:
     """Récupère les posts du feed d'un utilisateur (API Feeds).
-    user_id : ID numérique du user (pas le username).
+    user_id : ID numérique (gcid) ou username eToro.
     requester_user_id : optionnel, ID du demandeur (pour personnalisation).
     Retourne {"discussions": [...], "paging": {...}} ou None."""
-    url = f"{BASE_URL}/feeds/user/{user_id}"
+    # eToro a retiré GET /feeds/user/{id} (404 RouteNotFound) ; utiliser /feeds/users/{id}.
+    url = f"{BASE_URL}/feeds/users/{user_id}"
     params = {"take": min(take, 100), "offset": offset}
     if requester_user_id is not None:
         params["requesterUserId"] = str(requester_user_id)
