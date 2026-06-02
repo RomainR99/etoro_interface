@@ -259,58 +259,52 @@ def get_posts_per_month_from_instruments(username: str, years: int = 1) -> dict[
 
 
 def get_user_feed_posts(
-    user_id: str | int, take: int = 100, offset: int = 0, requester_user_id: str | int | None = None
+    user_id: str | int,
+    take: int = 100,
+    offset: int = 0,
+    requester_user_id: str | int | None = None,
 ) -> dict | None:
-    """Récupère les posts du feed d'un utilisateur (API Feeds).
-    user_id : ID numérique (gcid) ou username eToro.
-    requester_user_id : optionnel, ID du demandeur (pour personnalisation).
-    Retourne {"discussions": [...], "paging": {...}} ou None.
-
-    OpenAPI officiel : GET /feeds/user/{userId}. En prod (2026-06) cette route peut
-    répondre 404 RouteNotFound ; /feeds/users/ répond parfois 403 (hors spec).
-    On tente d'abord la route documentée, puis le fallback non officiel.
-    """
+    """Récupère les posts du feed d'un utilisateur (GET /feeds/users/{userId})."""
     user_ref = str(user_id).strip()
     if not user_ref:
         return None
-    base_params: dict[str, str | int] = {"take": min(take, 100), "offset": offset}
-    param_attempts: list[tuple[str, dict[str, str | int]]] = []
-    if requester_user_id is not None:
-        with_req = dict(base_params)
-        with_req["requesterUserId"] = str(requester_user_id)
-        param_attempts.append(("with requesterUserId", with_req))
-    param_attempts.append(("without requesterUserId", dict(base_params)))
-    path_templates = (
-        "feeds/user/{ref}",
-        "feeds/users/{ref}",
-    )
-    errors: list[str] = []
-    for _param_label, params in param_attempts:
-        for tmpl in path_templates:
-            url = f"{BASE_URL}/{tmpl.format(ref=user_ref)}"
-            try:
-                resp = requests.get(url, headers=_get_headers(), params=params, timeout=30)
-            except Exception as exc:
-                errors.append(f"{tmpl.format(ref=user_ref)}: {exc}")
-                continue
-            if resp.status_code == 404:
-                errors.append(f"{url}: HTTP 404 RouteNotFound")
-                continue
-            if resp.status_code != 200:
-                body = (resp.text or "")[:240].replace("\n", " ")
-                errors.append(f"{url}: HTTP {resp.status_code} {body}")
-                continue
-            try:
-                return _coerce_user_feed_response(resp.json())
-            except Exception as exc:
-                errors.append(f"{url}: invalid JSON ({exc})")
-                continue
-    if errors:
+
+    params: dict[str, str | int] = {
+        "take": min(max(take, 1), 100),
+        "offset": max(offset, 0),
+    }
+    if requester_user_id:
+        params["requesterUserId"] = str(requester_user_id)
+
+    url = f"{BASE_URL}/feeds/users/{user_ref}"
+
+    try:
+        resp = requests.get(url, headers=_get_headers(), params=params, timeout=30)
+    except Exception as exc:
+        print(f"get_user_feed_posts({user_ref!r}): requête échouée ({exc})", file=sys.stderr)
+        return None
+
+    if resp.status_code == 403:
+        print("Feeds utilisateur non autorisés pour cette clé API eToro.", file=sys.stderr)
+        return None
+
+    if resp.status_code == 404:
+        print("Endpoint feeds utilisateur introuvable sur cette API eToro.", file=sys.stderr)
+        return None
+
+    if resp.status_code != 200:
+        body = (resp.text or "")[:240].replace("\n", " ")
         print(
-            f"get_user_feed_posts({user_ref!r}): " + " | ".join(errors),
+            f"get_user_feed_posts({user_ref!r}): HTTP {resp.status_code} {body}",
             file=sys.stderr,
         )
-    return None
+        return None
+
+    try:
+        return _coerce_user_feed_response(resp.json())
+    except Exception as exc:
+        print(f"get_user_feed_posts({user_ref!r}): JSON invalide ({exc})", file=sys.stderr)
+        return None
 
 
 def create_post(

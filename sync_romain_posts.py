@@ -220,7 +220,7 @@ def fetch_all_posts(username: str, take: int = 100, max_pages: int = 200) -> lis
             return posts
 
     print(
-        f"fetch_all_posts: aucun post via refs {refs!r} (voir stderr get_user_feed_posts)",
+        f"fetch_all_posts: aucun post via refs {refs!r} (voir messages get_user_feed_posts)",
         file=sys.stderr,
     )
     return []
