@@ -6,6 +6,7 @@ import argparse
 import html
 import io
 import json
+import sys
 import os
 import hashlib
 import hmac
@@ -506,6 +507,13 @@ def run_newsletter_test(*, test_to_email: str | None = None, test_ui_lang: str =
 def main() -> None:
     existing_ids = _load_existing_post_ids(OUTPUT_PATH)
     posts = fetch_all_posts(TRADER_USERNAME)
+    if not posts and existing_ids:
+        print(
+            f"ERROR: eToro API returned 0 posts but {len(existing_ids)} id(s) exist locally — "
+            f"refusing to overwrite {OUTPUT_PATH}.",
+            file=sys.stderr,
+        )
+        raise SystemExit(1)
     assign_slugs_to_posts(posts)
     new_posts = [p for p in posts if str(p.get("id") or "") not in existing_ids]
     if new_posts:
