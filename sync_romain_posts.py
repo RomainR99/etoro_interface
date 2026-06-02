@@ -482,22 +482,39 @@ def _send_newsletter_for_new_posts(
     )
 
 
-def _load_latest_posts_from_disk(limit: int = 5) -> list[dict]:
-    """Posts les plus récents déjà présents dans le JSON (sans refetch eToro)."""
-    if not OUTPUT_PATH.is_file():
-        raise RuntimeError(f"Missing posts file: {OUTPUT_PATH}")
+def load_local_posts(path: Path | str = OUTPUT_PATH, *, limit: int | None = None) -> list[dict]:
+    """Charge les posts depuis le JSON local (cache), sans appel API eToro."""
+    json_path = Path(path)
+    if not json_path.is_file():
+        return []
     try:
-        data = json.loads(OUTPUT_PATH.read_text(encoding="utf-8"))
+        data = json.loads(json_path.read_text(encoding="utf-8"))
     except Exception as exc:
-        raise RuntimeError(f"Invalid JSON in {OUTPUT_PATH}: {exc}") from exc
+        print(f"load_local_posts: JSON invalide ({json_path}): {exc}", file=sys.stderr)
+        return []
     rows = data.get("posts") if isinstance(data, dict) else None
-    if not isinstance(rows, list) or not rows:
+    if not isinstance(rows, list):
         return []
     out: list[dict] = []
-    for p in rows[:limit]:
-        if isinstance(p, dict):
-            out.append(dict(p))
+    for p in rows:
+        if not isinstance(p, dict):
+            continue
+        message = str(p.get("message") or "").strip()
+        if not message:
+            continue
+        out.append(dict(p))
+    out.sort(key=lambda x: x.get("created", ""), reverse=True)
+    if limit is not None:
+        return out[: max(0, limit)]
     return out
+
+
+def _load_latest_posts_from_disk(limit: int = 5) -> list[dict]:
+    """Posts les plus récents déjà présents dans le JSON (sans refetch eToro)."""
+    posts = load_local_posts(OUTPUT_PATH, limit=limit)
+    if not posts and not OUTPUT_PATH.is_file():
+        raise RuntimeError(f"Missing posts file: {OUTPUT_PATH}")
+    return posts
 
 
 def run_newsletter_test(*, test_to_email: str | None = None, test_ui_lang: str = "fr") -> None:
@@ -529,6 +546,11 @@ def run_newsletter_test(*, test_to_email: str | None = None, test_ui_lang: str =
 def main() -> None:
     existing_ids = _load_existing_post_ids(OUTPUT_PATH)
     posts = fetch_all_posts(TRADER_USERNAME)
+    if not posts:
+        print("Aucun post récupéré depuis eToro API. Utilisation du cache local.")
+        posts = load_local_posts(OUTPUT_PATH)
+        if posts:
+            print(f"Cache local: {len(posts)} post(s) chargé(s) depuis {OUTPUT_PATH}.")
     if not posts and existing_ids:
         print(
             f"ERROR: eToro API returned 0 posts but {len(existing_ids)} id(s) exist locally — "
