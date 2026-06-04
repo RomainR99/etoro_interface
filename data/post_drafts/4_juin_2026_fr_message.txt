@@ -1,0 +1,97 @@
+𝗔𝗜 : 𝗧𝗜𝗡𝗔, 𝗙𝗢𝗠𝗢 𝗼𝘂 𝗙𝗘𝗠𝗢 ?
+𝟰 𝗷𝘂𝗶𝗻 𝟮𝟬𝟮𝟲
+
+L’intelligence artificielle reste l’un des thèmes les plus puissants des marchés financiers. Malgré la hausse déjà spectaculaire de nombreuses valeurs technologiques, une question revient sans cesse : sommes-nous face à une bulle ou au début d’un cycle de croissance durable ?
+
+Pour répondre à cette question, il est utile de distinguer trois forces qui alimentent actuellement les investissements dans l’IA.
+
+𝟭-- 𝗟’𝗲𝗳𝗳𝗲𝘁 𝗧𝗜𝗡𝗔 : 𝗧𝗵𝗲𝗿𝗲 𝗜𝘀 𝗡𝗼 𝗔𝗹𝘁𝗲𝗿𝗻𝗮𝘁𝗶𝘃𝗲
+
+Dans un environnement marqué par les incertitudes géopolitiques, les interrogations sur la croissance mondiale et les politiques monétaires, de nombreux investisseurs se tournent vers l’IA faute d’alternatives offrant une visibilité comparable.
+
+Les entreprises liées aux semi-conducteurs, aux centres de données et aux infrastructures numériques affichent souvent :
+- des carnets de commandes remplis sur plusieurs années
+- une forte visibilité sur leurs revenus futurs
+- des marges élevées
+
+Dans ce contexte, il est logique que les capitaux se concentrent sur ces acteurs.
+
+Cependant, si le contexte économique mondial s’améliore et que d’autres secteurs retrouvent de l’attractivité, une partie des flux pourrait se rediriger vers des marchés aujourd’hui délaissés.
+
+𝟮 -- 𝗟’𝗲𝗳𝗳𝗲𝘁 𝗙𝗢𝗠𝗢 : 𝗙𝗲𝗮𝗿 𝗢𝗳 𝗠𝗶𝘀𝘀𝗶𝗻𝗴 𝗢𝘂𝘁
+
+La peur de rater la prochaine révolution technologique est bien réelle.
+
+Mais contrairement à certaines bulles du passé, l’excès ne semble pas provenir principalement des investisseurs particuliers.
+
+Le véritable FOMO se situe surtout chez les hyperscalers et les géants du cloud.
+
+Pour eux, l’IA n’est plus simplement une opportunité : c’est une question de compétitivité.
+
+Ne pas investir aujourd’hui pourrait signifier perdre sa position demain.
+
+Résultat :
+investissements massifs dans les data centers,
+achats accélérés de GPU,
+développement de modèles propriétaires,
+construction d’infrastructures énergétiques dédiées.
+
+Même si certains projets s’avèrent moins rentables que prévu, ces entreprises considèrent souvent que le risque de ne pas investir est encore plus important.
+
+𝟯 -- 𝗟’𝗲𝗳𝗳𝗲𝘁 𝗙𝗘𝗠𝗢 : 𝗙𝗮𝗯𝘂𝗹𝗼𝘂𝘀 𝗘𝗮𝗿𝗻𝗶𝗻𝗴𝘀 𝗠𝗼𝗺𝗲𝗻𝘁𝘂𝗺
+
+C’est probablement l’argument le plus solide actuellement.
+
+De nombreuses entreprises exposées à l’IA publient encore des résultats supérieurs aux attentes :
+
+croissance rapide du chiffre d’affaires,
+amélioration des marges,
+hausse des bénéfices,
+perspectives relevées trimestre après trimestre.
+
+Autrement dit, une partie importante de la hausse boursière s’explique par une progression réelle des profits.
+
+C’est ce qui différencie une simple spéculation d’une tendance soutenue par les fondamentaux.
+
+𝗟𝗲𝘀 𝘁𝗼𝗸𝗲𝗻𝘀 : 𝗹𝗮 𝗱𝗼𝗻𝗻𝗲́𝗲 𝗰𝗹𝗲́
+
+À mon sens, la donnée la plus importante aujourd’hui n’est ni le cours des actions ni le nombre d’annonces autour de l’IA.
+
+C’est la consommation de tokens.
+
+Les tokens représentent l’unité de base utilisée par les modèles d’intelligence artificielle.
+
+Plus leur consommation augmente, plus cela signifie que :
+
+les entreprises utilisent réellement l’IA,
+les infrastructures sont sollicitées,
+les investissements réalisés trouvent une utilité économique.
+
+À l’inverse, un ralentissement durable de la croissance des tokens pourrait signaler que les capacités installées deviennent excessives par rapport à la demande réelle.
+
+𝗣𝗼𝘂𝗿𝗾𝘂𝗼𝗶 𝗰𝗲 𝗽𝗼𝗶𝗻𝘁 𝗲𝘀𝘁 𝗰𝗿𝘂𝗰𝗶𝗮𝗹 ?
+
+L’ensemble de la chaîne de valeur dépend de cette croissance :
+fabricants d’équipements de lithographie,
+fondeurs,
+producteurs de mémoire,
+concepteurs de puces,
+fournisseurs de cloud.
+
+Aujourd’hui, certains segments, notamment la mémoire HBM utilisée dans les systèmes IA, restent fortement contraints par l’offre. Cette situation soutient les prix et les marges.
+
+Mais à long terme, seule une utilisation croissante des modèles IA permettra de justifier les investissements massifs actuellement engagés.
+
+À court terme, la dynamique reste favorable.
+Les bénéfices progressent, les investissements continuent et la demande demeure robuste.
+Mais l’un des risques sous-estimés réside dans le coût du calcul.
+Si le prix de l’utilisation de l’IA augmente plus vite que les gains de productivité qu’elle procure, certaines entreprises pourraient rationaliser leurs usages.
+
+C’est pourquoi je continue de surveiller avant tout l’évolution de la consommation réelle de tokens.
+
+La question n’est donc pas seulement de savoir combien les entreprises investissent dans l’IA, mais surtout combien l’IA est réellement utilisée.
+
+$NSDQ100 $SPX500 $MU 
+
+⚠️ Avertissement sur les risques :
+𝘊’𝘦𝘴𝘵 𝘶𝘯𝘦 𝘴𝘵𝘳𝘢𝘵é𝘨𝘪𝘦 𝘱𝘦𝘳𝘴𝘰𝘯𝘯𝘦𝘭𝘭𝘦, 𝘯𝘰𝘯 𝘶𝘯 𝘤𝘰𝘯𝘴𝘦𝘪𝘭. 𝘓’𝘢𝘱𝘱𝘭𝘪𝘲𝘶𝘦𝘳 𝘰𝘶 𝘯𝘰𝘯 𝘳𝘦𝘴𝘵𝘦 𝘷𝘰𝘵𝘳𝘦 𝘤𝘩𝘰𝘪𝘹. 𝘓𝘦𝘴 𝘱𝘦𝘳𝘧𝘰𝘳𝘮𝘢𝘯𝘤𝘦𝘴 𝘱𝘢𝘴𝘴é𝘦𝘴 𝘯𝘦 𝘨𝘢𝘳𝘢𝘯𝘵𝘪𝘴𝘴𝘦𝘯𝘵 𝘱𝘢𝘴 𝘭𝘦𝘴 𝘳é𝘴𝘶𝘹𝘵𝘢𝘵𝘴 𝘧𝘶𝘵𝘶𝘳𝘴
