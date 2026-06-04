@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 import json
+import logging
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+
+_log = logging.getLogger(__name__)
 
 from etoro_client import get_user_gain
 
@@ -90,7 +93,13 @@ def save_cached_gain(
         payload["perf_since_sep2022"] = ps
     elif isinstance(existing.get("perf_since_sep2022"), dict):
         payload["perf_since_sep2022"] = existing["perf_since_sep2022"]
-    json_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    try:
+        json_path.write_text(
+            json.dumps(payload, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+    except OSError as exc:
+        _log.warning("save_cached_gain: impossible d'écrire %s (%s)", json_path, exc)
 
 
 def fetch_trader_gain_with_cache(

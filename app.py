@@ -932,24 +932,51 @@ def _resolve_home_gain(gain: dict | None) -> dict | None:
     return _trader_gain_for_display()
 
 
+def _sanitize_perf_since_summary(summary: dict | None) -> dict | None:
+    """Valeurs JSON-safe pour le template (évite 500 si NaN/Inf)."""
+    if not summary or not isinstance(summary, dict):
+        return None
+    out: dict = {}
+    for key, val in summary.items():
+        if isinstance(val, float) and not math.isfinite(val):
+            out[key] = None
+        else:
+            out[key] = val
+    return out
+
+
 def _finalize_perf_since_sep2022(gain: dict | None) -> dict | None:
     """Calcule ou restaure le bloc perf globale depuis sept. 2022."""
-    resolved = _build_since_sep2022_summary(gain)
-    if resolved and resolved.get("trader_pct") is not None:
-        to_store = load_cached_gain(TRADER_GAIN_CACHE_PATH, username=TRADER_USERNAME) or gain
-        if gain_has_monthly_data(to_store):
-            save_cached_gain(
-                to_store,
-                TRADER_GAIN_CACHE_PATH,
+    try:
+        resolved = _sanitize_perf_since_summary(_build_since_sep2022_summary(gain))
+        if resolved and resolved.get("trader_pct") is not None:
+            to_store = load_cached_gain(TRADER_GAIN_CACHE_PATH, username=TRADER_USERNAME) or gain
+            if gain_has_monthly_data(to_store):
+                save_cached_gain(
+                    to_store,
+                    TRADER_GAIN_CACHE_PATH,
+                    username=TRADER_USERNAME,
+                    perf_since_sep2022=resolved,
+                )
+            return resolved
+        cached = _sanitize_perf_since_summary(
+            load_cached_perf_since_sep2022(
+                path=TRADER_GAIN_CACHE_PATH,
                 username=TRADER_USERNAME,
-                perf_since_sep2022=resolved,
             )
-        return resolved
-    cached = load_cached_perf_since_sep2022(
-        path=TRADER_GAIN_CACHE_PATH,
-        username=TRADER_USERNAME,
-    )
-    return cached or resolved
+        )
+        return cached or resolved
+    except Exception:
+        try:
+            app.logger.exception("_finalize_perf_since_sep2022 failed")
+        except Exception:
+            pass
+        return _sanitize_perf_since_summary(
+            load_cached_perf_since_sep2022(
+                path=TRADER_GAIN_CACHE_PATH,
+                username=TRADER_USERNAME,
+            )
+        )
 
 
 def _build_performance_table(gain: dict | None) -> tuple[list[dict], dict | None]:
@@ -1421,8 +1448,6 @@ def _build_home_payload() -> dict:
         lambda: _finalize_perf_since_sep2022(gain),
         None,
     )
-    if perf_since_sep2022 is None or perf_since_sep2022.get("trader_pct") is None:
-        perf_since_sep2022 = _finalize_perf_since_sep2022(gain)
     _dca_init, _dca_mo = 1000.0, 100.0
     dca_labels, dca_romainroth, dca_sp500 = _cached_call(
         "index_dca_default",
