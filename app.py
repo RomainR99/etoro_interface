@@ -2498,12 +2498,16 @@ def _load_trader_posts_local(limit: int | None = None) -> list[dict]:
                     image_url = f"/api/trader-post-image/{webp_name}"
             if not message:
                 continue
-            cleaned.append({
+            entry: dict = {
                 "id": str(p.get("id") or ""),
                 "created": created,
                 "message": message,
                 "image_url": image_url,
-            })
+            }
+            slug = str(p.get("slug") or "").strip()
+            if slug:
+                entry["slug"] = slug
+            cleaned.append(entry)
         cleaned.sort(key=lambda x: x.get("created", ""), reverse=True)
         assign_slugs_to_posts(cleaned)
         if limit is None:

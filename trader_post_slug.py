@@ -57,7 +57,10 @@ def assign_slugs_to_posts(posts: list[dict]) -> None:
     used: set[str] = set()
     for p, base in zip(posts, bases):
         pid = str(p.get("id") or "")
-        if counts[base] > 1:
+        existing = str(p.get("slug") or "").strip()
+        if existing:
+            slug = existing
+        elif counts[base] > 1:
             suf = hashlib.sha256(pid.encode("utf-8")).hexdigest()[:6]
             slug = f"{base}-{suf}"
         else:
