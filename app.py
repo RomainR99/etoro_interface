@@ -13,7 +13,13 @@ from newsletter_i18n import (
     parse_newsletter_ui_lang_from_message,
     welcome_email_subject,
 )
-from trader_gain_cache import fetch_trader_gain_with_cache
+from trader_gain_cache import (
+    fetch_trader_gain_with_cache,
+    gain_has_monthly_data,
+    load_cached_gain,
+    load_cached_perf_since_sep2022,
+    save_cached_gain,
+)
 from trader_performance_metrics import (
     DATE_FROM,
     filter_gain_from_date as _filter_gain_from_date,
@@ -919,6 +925,33 @@ def _trader_gain_for_display() -> dict | None:
     )
 
 
+def _resolve_home_gain(gain: dict | None) -> dict | None:
+    """Gain pour la home : évite un gain vide si le fetch parallèle a expiré (timeout 4 s)."""
+    if gain_has_monthly_data(gain):
+        return gain
+    return _trader_gain_for_display()
+
+
+def _finalize_perf_since_sep2022(gain: dict | None) -> dict | None:
+    """Calcule ou restaure le bloc perf globale depuis sept. 2022."""
+    resolved = _build_since_sep2022_summary(gain)
+    if resolved and resolved.get("trader_pct") is not None:
+        to_store = load_cached_gain(TRADER_GAIN_CACHE_PATH, username=TRADER_USERNAME) or gain
+        if gain_has_monthly_data(to_store):
+            save_cached_gain(
+                to_store,
+                TRADER_GAIN_CACHE_PATH,
+                username=TRADER_USERNAME,
+                perf_since_sep2022=resolved,
+            )
+        return resolved
+    cached = load_cached_perf_since_sep2022(
+        path=TRADER_GAIN_CACHE_PATH,
+        username=TRADER_USERNAME,
+    )
+    return cached or resolved
+
+
 def _build_performance_table(gain: dict | None) -> tuple[list[dict], dict | None]:
     """
     Construit les données pour le tableau performance par année.
@@ -1238,7 +1271,7 @@ def _prime_homepage_cache(max_duration_sec: float = STARTUP_WARMUP_MAX_SECONDS) 
     finally:
         executor.shutdown(wait=False, cancel_futures=True)
 
-    gain = results.get("gain")
+    gain = _resolve_home_gain(results.get("gain"))
     if _remaining() > 0:
         _cached_call(
             "index_chart_data",
@@ -1369,7 +1402,7 @@ def _build_home_payload() -> dict:
     finally:
         executor.shutdown(wait=False, cancel_futures=True)
 
-    gain = results["gain"]
+    gain = _resolve_home_gain(results["gain"])
     chart_labels, chart_datasets = _cached_call(
         "index_chart_data",
         300.0,
@@ -1385,9 +1418,11 @@ def _build_home_payload() -> dict:
     perf_since_sep2022 = _cached_call(
         "index_perf_since_sep2022",
         300.0,
-        lambda: _build_since_sep2022_summary(gain),
+        lambda: _finalize_perf_since_sep2022(gain),
         None,
     )
+    if perf_since_sep2022 is None or perf_since_sep2022.get("trader_pct") is None:
+        perf_since_sep2022 = _finalize_perf_since_sep2022(gain)
     _dca_init, _dca_mo = 1000.0, 100.0
     dca_labels, dca_romainroth, dca_sp500 = _cached_call(
         "index_dca_default",
