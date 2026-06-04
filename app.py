@@ -13,6 +13,7 @@ from newsletter_i18n import (
     parse_newsletter_ui_lang_from_message,
     welcome_email_subject,
 )
+from trader_gain_cache import fetch_trader_gain_with_cache
 from trader_performance_metrics import (
     DATE_FROM,
     filter_gain_from_date as _filter_gain_from_date,
@@ -224,6 +225,7 @@ TRADER_USERNAME = "RomainRoth"
 COPIERS_VS_PERF_CACHE = os.path.join(os.path.dirname(__file__), "data", "copiers_vs_performance.json")
 ETORO_PUBLISHED_POSTS_PATH = os.path.join(os.path.dirname(__file__), "data", "etoro_published_posts.json")
 TRADER_POSTS_PATH = os.path.join(os.path.dirname(__file__), "data", "trader_posts_romainroth.json")
+TRADER_GAIN_CACHE_PATH = os.path.join(os.path.dirname(__file__), "data", "trader_gain_romainroth.json")
 TRADER_POST_IMAGES_DIR = os.path.join(os.path.dirname(__file__), "data", "trader_post_images")
 LEXIQUE_PATH = os.path.join(os.path.dirname(__file__), "data", "lexique.json")
 FAQ_PATH = os.path.join(os.path.dirname(__file__), "data", "faq.json")
@@ -910,6 +912,13 @@ def _annualized_return_from_monthly(by_month: dict[str, float]) -> float | None:
     return ann
 
 
+def _trader_gain_for_display() -> dict | None:
+    """Gains RomainRoth (API eToro, ou cache disque si l'API est indisponible)."""
+    return _filter_gain_from_date(
+        fetch_trader_gain_with_cache(TRADER_USERNAME, path=TRADER_GAIN_CACHE_PATH)
+    )
+
+
 def _build_performance_table(gain: dict | None) -> tuple[list[dict], dict | None]:
     """
     Construit les données pour le tableau performance par année.
@@ -1189,7 +1198,7 @@ def _prime_homepage_cache(max_duration_sec: float = STARTUP_WARMUP_MAX_SECONDS) 
                 _cached_call,
                 "index_gain",
                 180.0,
-                lambda: _filter_gain_from_date(get_user_gain(TRADER_USERNAME)),
+                _trader_gain_for_display,
                 None,
             ): "gain",
             executor.submit(
@@ -1317,7 +1326,7 @@ def _build_home_payload() -> dict:
                 _cached_call,
                 "index_gain",
                 180.0,
-                lambda: _filter_gain_from_date(get_user_gain(TRADER_USERNAME)),
+                _trader_gain_for_display,
                 None,
             ): "gain",
             executor.submit(
@@ -1497,8 +1506,7 @@ def api_dca_simulation():
     initial = max(0.0, min(initial, 50_000_000.0))
     monthly = max(0.0, min(monthly, 5_000_000.0))
     try:
-        gain = get_user_gain(TRADER_USERNAME)
-        gain = _filter_gain_from_date(gain)
+        gain = _trader_gain_for_display()
     except Exception:
         gain = None
     try:
@@ -2173,8 +2181,8 @@ def _ensure_romainroth_in_points(points: list[dict]) -> list[dict]:
     try:
         from etoro_client import get_current_copiers
         copiers = get_current_copiers(TRADER_USERNAME) or 0
-        gain = get_user_gain(TRADER_USERNAME)
-        by_month = _gain_to_by_month(_filter_gain_from_date(gain))
+        gain = _trader_gain_for_display()
+        by_month = _gain_to_by_month(gain)
         perf = _compute_cumulative_index(by_month)
         if perf is not None and copiers is not None:
             return [{"userName": TRADER_USERNAME, "copiers": copiers, "gain": perf}] + points
@@ -2213,8 +2221,7 @@ def api_chart_data():
     indices = request.args.get("indices", "").strip().split(",")
     indices = [i.strip() for i in indices if i.strip()]
     try:
-        gain = get_user_gain(TRADER_USERNAME)
-        gain = _filter_gain_from_date(gain)
+        gain = _trader_gain_for_display()
         labels, datasets = _compute_chart_data(
             gain, traders, include_sp500=include_sp500, extra_indices=indices
         )

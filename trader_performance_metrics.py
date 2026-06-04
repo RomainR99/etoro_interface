@@ -5,6 +5,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 
 from etoro_client import get_current_copiers, get_user_gain, get_user_profile
+from trader_gain_cache import fetch_trader_gain_with_cache
 
 # Aligné sur app.DATE_FROM — à garder synchronisé si la date de départ des séries change.
 DATE_FROM = "2022-09"
@@ -64,7 +65,10 @@ def get_trader_calendar_year_return_pct(username: str, year: int | None = None) 
     (performance cumulée sur les mois de cette année civile dans les données eToro).
     """
     y = year if year is not None else datetime.now(timezone.utc).year
-    gain = get_user_gain(username)
+    if username == "RomainRoth":
+        gain = fetch_trader_gain_with_cache(username)
+    else:
+        gain = get_user_gain(username)
     filtered = filter_gain_from_date(gain)
     by_month = gain_to_by_month(filtered)
     yearly = monthly_to_yearly_returns(by_month)
