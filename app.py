@@ -13,6 +13,11 @@ from newsletter_i18n import (
     parse_newsletter_ui_lang_from_message,
     welcome_email_subject,
 )
+from chat_moderation import (
+    ethical_refusal_reply,
+    is_ethics_refusal_reply,
+    message_needs_ethical_refusal,
+)
 from trader_gain_cache import (
     fetch_trader_gain_with_cache,
     gain_has_monthly_data,
@@ -2656,6 +2661,11 @@ def _is_out_of_scope_finance_refusal(text: str) -> bool:
     return normalized.startswith("je peux seulement répondre à des questions de finance")
 
 
+def _skip_chat_resource_tail(text: str) -> bool:
+    """Pas de vidéo/citation après un refus hors finance ou éthique."""
+    return _is_out_of_scope_finance_refusal(text) or is_ethics_refusal_reply(text)
+
+
 def _ensure_risk_reminder(text: str) -> str:
     """Ajoute un rappel risque si absent dans une réponse finance."""
     cleaned = (text or "").strip()
@@ -2686,7 +2696,7 @@ def _append_alternating_chat_tail(reply: str, messages: list[dict]) -> str:
     - 2e réponse assistant: citation Buffett
     - puis alternance stricte.
     """
-    if not reply.strip() or _is_out_of_scope_finance_refusal(reply):
+    if not reply.strip() or _skip_chat_resource_tail(reply):
         return reply
 
     reply = _ensure_risk_reminder(reply)
@@ -2784,6 +2794,15 @@ def api_chat():
         r = jsonify({"error": "Trop de requêtes. Limites : 5/min, 30/h, 100/j par visiteur."})
         _get_or_set_visitor_id(r)
         return r, 429
+
+    if message_needs_ethical_refusal(current_message):
+        reply = ethical_refusal_reply(ui_lang)
+        if user_msgs:
+            _append_chat_question(user_msgs[-1], reply)
+        resp = jsonify({"reply": reply})
+        _get_or_set_visitor_id(resp)
+        return resp
+
     from openai import APITimeoutError, OpenAI
     key = os.getenv("OPENAI_API_KEY")
     if not key:
