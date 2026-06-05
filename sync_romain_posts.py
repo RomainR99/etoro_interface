@@ -226,13 +226,38 @@ def fetch_all_posts(username: str, take: int = 100, max_pages: int = 200) -> lis
     return []
 
 
+def _resolve_post_image_file(item: dict) -> str | None:
+    """Fichier WebP local : télécharge si URL distante, sinon conserve l'image déjà sur disque."""
+    post_id = str(item.get("id") or "")
+    remote = str(item.get("image_remote_url") or "").strip()
+    if remote:
+        downloaded = _download_post_image(remote, post_id)
+        if downloaded:
+            return downloaded
+
+    existing_file = str(item.get("image_file") or "").strip()
+    if existing_file and (IMAGES_DIR / existing_file).is_file():
+        return existing_file
+
+    image_url = str(item.get("image_url") or "").strip()
+    if image_url.startswith("/api/trader-post-image/"):
+        name = Path(image_url).name
+        if name and (IMAGES_DIR / name).is_file():
+            return name
+
+    if post_id:
+        default_name = f"{post_id}.webp"
+        if (IMAGES_DIR / default_name).is_file():
+            return default_name
+    return None
+
+
 def save_posts(posts: list[dict], output_path: Path = OUTPUT_PATH) -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     enriched: list[dict] = []
     for p in posts:
         item = dict(p)
-        remote = str(item.get("image_remote_url") or "").strip()
-        local_file = _download_post_image(remote, str(item.get("id") or ""))
+        local_file = _resolve_post_image_file(item)
         item["image_file"] = local_file
         item["image_url"] = f"/api/trader-post-image/{local_file}" if local_file else None
         enriched.append(item)
