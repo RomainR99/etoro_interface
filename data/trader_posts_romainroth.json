@@ -1,7 +1,7 @@
 {
   "username": "RomainRoth",
-  "updated": "2026-07-02T14:40:21.145754Z",
-  "count": 338,
+  "updated": "2026-07-02T14:41:50.993853Z",
+  "count": 339,
   "posts": [
     {
       "id": "c003290b-34ca-4441-a7e2-f1c1989aadcf",
@@ -12,6 +12,16 @@
       "image_file": "c003290b-34ca-4441-a7e2-f1c1989aadcf.webp",
       "image_url": "/api/trader-post-image/c003290b-34ca-4441-a7e2-f1c1989aadcf.webp",
       "slug": "2crsi-portzamparc-grizzly-research-june-2026"
+    },
+    {
+      "id": "7833ad74-6ada-4785-84a3-4d9dd69b56da",
+      "created": "2026-06-19T09:55:00.000Z",
+      "message": "𝟮𝗖𝗥𝗦𝗶 : 𝗣𝗼𝗿𝘁𝘇𝗮𝗺𝗽𝗮𝗿𝗰 𝗮𝗽𝗽𝗲𝗹𝗹𝗲 𝗮̀ 𝗿𝗲𝗹𝗮𝘁𝗶𝘃𝗶𝘀𝗲𝗿 𝗹’𝗮𝘁𝘁𝗮𝗾𝘂𝗲 𝗱𝗲 𝗚𝗿𝗶𝘇𝘇𝗹𝘆 𝗥𝗲𝘀𝗲𝗮𝗿𝗰𝗵\n𝟭𝟵 𝗷𝘂𝗶𝗻 𝟮𝟬𝟮𝟲\n\nAlors que le titre 2CRSi est suspendu de cotation après la publication d’un rapport très critique de Grizzly Research, les analystes de Portzamparc estiment qu’il convient de prendre du recul avant de tirer des conclusions définitives.\n\nSelon Portzamparc, le rapport du vendeur à découvert est « bien ficelé », mais certaines conclusions apparaissent excessives. Les analystes reconnaissent des interrogations légitimes concernant la solidité financière d’Atlas Cloud et sa capacité à honorer son partenariat annoncé avec New York Green Cloud (NYGC). Toutefois, ils jugent aberrante l’affirmation selon laquelle 2CRSi aurait « fabriqué la quasi-totalité de ses revenus ».\n\nPortzamparc rappelle notamment que :\n• La contribution historique de NYGC au chiffre d’affaires de 2CRSi reste limitée.\n• L’activité industrielle du groupe a pu être vérifiée au fil des années auprès de fournisseurs, partenaires et clients.\n• Les relations de longue date avec des acteurs majeurs comme Nvidia sont facilement vérifiables.\n\nAutre élément intéressant : sur les 20 dernières sociétés attaquées par Grizzly Research, 10 actions cotent aujourd’hui au-dessus de leur niveau pré-attaque et 10 en dessous.\n\nLes analystes attendent désormais une réponse détaillée de 2CRSi, annoncée pour les prochains jours. Malgré les incertitudes actuelles, Portzamparc maintient sa recommandation Acheter avec un objectif de cours de 60,10 €.\n\nLa situation reste néanmoins à haut risque tant que la société n’a pas apporté de réponse complète aux accusations et que la cotation n’a pas repris.",
+      "owner": "RomainRoth",
+      "image_remote_url": null,
+      "image_file": "7833ad74-6ada-4785-84a3-4d9dd69b56da.webp",
+      "image_url": "/api/trader-post-image/7833ad74-6ada-4785-84a3-4d9dd69b56da.webp",
+      "slug": "2crsi-portzamparc-grizzly-research-juin-2026"
     },
     {
       "id": "950a18fb-0dca-49d3-abde-83731b75ec00",
