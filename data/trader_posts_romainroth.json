@@ -1,7 +1,7 @@
 {
   "username": "RomainRoth",
-  "updated": "2026-07-02T14:37:31.900751Z",
-  "count": 336,
+  "updated": "2026-07-02T14:38:23.947359Z",
+  "count": 337,
   "posts": [
     {
       "id": "950a18fb-0dca-49d3-abde-83731b75ec00",
@@ -12,6 +12,16 @@
       "image_file": "950a18fb-0dca-49d3-abde-83731b75ec00.webp",
       "image_url": "/api/trader-post-image/950a18fb-0dca-49d3-abde-83731b75ec00.webp",
       "slug": "micron-impresses-wall-street-2crsi-reassures-june-2026"
+    },
+    {
+      "id": "c702595d-a5a2-4460-9582-4c96ca9ef90d",
+      "created": "2026-06-26T09:55:00.000Z",
+      "message": "𝗠𝗶𝗰𝗿𝗼𝗻 𝗶𝗺𝗽𝗿𝗲𝘀𝘀𝗶𝗼𝗻𝗻𝗲 𝗪𝗮𝗹𝗹 𝗦𝘁𝗿𝗲𝗲𝘁, 𝟮𝗖𝗥𝗦𝗶 𝘁𝗲𝗻𝘁𝗲 𝗱𝗲 𝗿𝗮𝘀𝘀𝘂𝗿𝗲𝗿 𝗹𝗲𝘀 𝗶𝗻𝘃𝗲𝘀𝘁𝗶𝘀𝘀𝗲𝘂𝗿𝘀\n𝟮𝟲 𝗷𝘂𝗶𝗻 𝟮𝟬𝟮𝟲\n\nLes résultats trimestriels de Micron Technology ont largement dépassé les attentes et propulsent le titre de près de +11 %. La forte demande en mémoires DRAM, NAND et HBM, essentielles aux infrastructures d'intelligence artificielle, continue de soutenir une croissance exceptionnelle.\n\nLes analystes de UBS, Bank of America, Wedbush et AlphaValue restent confiants. Ils estiment que les besoins liés à l'IA demeurent très supérieurs aux capacités de production, avec des contrats stratégiques qui renforcent la visibilité des revenus et des marges. Micron prévoit également une nouvelle accélération de son activité au trimestre en cours.\n\n𝟮𝗖𝗥𝗦𝗶 : 𝗹𝗮 𝗱𝗶𝗿𝗲𝗰𝘁𝗶𝗼𝗻 𝗿𝗲́𝗽𝗼𝗻𝗱 𝗮𝘂𝘅 𝗮𝗰𝗰𝘂𝘀𝗮𝘁𝗶𝗼𝗻𝘀 𝗱𝗲 𝗚𝗿𝗶𝘇𝘇𝗹𝘆 𝗥𝗲𝘀𝗲𝗮𝗿𝗰𝗵\n\nLe PDG de 2CRSi, Alain Villmout, a rejeté les accusations de Grizzly Research, affirmant que les comptes de la société sont régulièrement audités et que les activités commerciales se poursuivent normalement. Il maintient également l'ambition de dépasser 1 milliard d'euros de chiffre d'affaires à moyen terme. Les investisseurs devront désormais attendre les prochaines publications financières pour juger des éléments apportés par l'entreprise.\n\nInterview complète du PDG de 2CRSi :\nhttps://www.youtube.com/watch?v=edAkVAbmmF8",
+      "owner": "RomainRoth",
+      "image_remote_url": null,
+      "image_file": "c702595d-a5a2-4460-9582-4c96ca9ef90d.webp",
+      "image_url": "/api/trader-post-image/c702595d-a5a2-4460-9582-4c96ca9ef90d.webp",
+      "slug": "micron-impressionne-wall-street-2crsi-rassure-juin-2026"
     },
     {
       "id": "1be230db-c726-4ccc-bfc2-794c68ffb020",
