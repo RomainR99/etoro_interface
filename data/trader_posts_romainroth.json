@@ -1,7 +1,7 @@
 {
   "username": "RomainRoth",
-  "updated": "2026-07-02T14:32:41.743582Z",
-  "count": 334,
+  "updated": "2026-07-02T14:34:53.147054Z",
+  "count": 335,
   "posts": [
     {
       "id": "1be230db-c726-4ccc-bfc2-794c68ffb020",
@@ -12,6 +12,16 @@
       "image_file": "1be230db-c726-4ccc-bfc2-794c68ffb020.webp",
       "image_url": "/api/trader-post-image/1be230db-c726-4ccc-bfc2-794c68ffb020.webp",
       "slug": "2crsi-launches-independent-audit-july-2026"
+    },
+    {
+      "id": "b5489ef2-2582-495b-90b7-0962950ec043",
+      "created": "2026-07-02T09:55:00.000Z",
+      "message": "𝟮𝗖𝗥𝗦𝗶 𝗹𝗮𝗻𝗰𝗲 𝘂𝗻 𝗮𝘂𝗱𝗶𝘁 𝗶𝗻𝗱𝗲́𝗽𝗲𝗻𝗱𝗮𝗻𝘁 : 𝘂𝗻 𝘀𝗶𝗴𝗻𝗮𝗹 𝗱𝗲 𝘁𝗿𝗮𝗻𝘀𝗽𝗮𝗿𝗲𝗻𝗰𝗲 ?\n𝟮 𝗷𝘂𝗶𝗹𝗹𝗲𝘁 𝟮𝟬𝟮𝟲\n\nAprès plusieurs semaines marquées par une forte volatilité, 2CRSi annonce avoir engagé une procédure de vérification indépendante concernant la vente de 194 serveurs à un client allemand, un contrat initialement annoncé le 9 juin 2026.\n\nCette mission, décidée par le Conseil d'administration sur recommandation du Comité d'audit et des risques, vise à confirmer l'existence et la bonne exécution de cette vente. Pour cela, des confirmations seront directement demandées à des tiers indépendants, notamment :\n- les établissements bancaires,\n- le client,\n- les transporteurs.\n\nL'objectif est de vérifier de manière croisée la commande, les livraisons ainsi que le règlement financier. La société précise qu'il s'agit d'une mission de constats factuels, distincte de l'audit légal réalisé par les commissaires aux comptes.\n\nLe marché semble accueillir favorablement cette démarche. En seulement cinq séances, l'action 2CRSi a rebondi de près de :\n48 % pour atteindre 37,70 €.\n\nLes investisseurs attendent désormais les conclusions de cette vérification indépendante, qui pourraient contribuer à clarifier définitivement ce dossier. En parallèle, la société indique poursuivre le traitement des autres points soulevés et communiquera sur l'avancement de ses travaux.",
+      "owner": "RomainRoth",
+      "image_remote_url": null,
+      "image_file": "b5489ef2-2582-495b-90b7-0962950ec043.webp",
+      "image_url": "/api/trader-post-image/b5489ef2-2582-495b-90b7-0962950ec043.webp",
+      "slug": "2crsi-lance-audit-independant-juillet-2026"
     },
     {
       "id": "f0a6ce4b-5f03-4f0b-a269-b8e90bb6b8c9",
